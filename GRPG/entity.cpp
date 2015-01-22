@@ -77,6 +77,8 @@ void Entity::update(float frameTime)
 		float distanceToDest = D3DXVec2Length(&direction);
 		if(distanceToDest < speed * frameTime)
 		{
+			setX(destination->getX());
+			setY(destination->getY());
 			delete destination;
 			destination = 0;
 		}
