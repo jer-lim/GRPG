@@ -10,6 +10,7 @@
 #include "image.h"
 #include "input.h"
 #include "game.h"
+#include "destination.h"
 
 namespace entityNS
 {
@@ -32,17 +33,16 @@ class Entity : public Image
     VECTOR2 corners[4];     // for ROTATED_BOX collision detection
     VECTOR2 edge01,edge03;  // edges used for projection
     float   edge01Min, edge01Max, edge03Min, edge03Max; // min and max projections
-    VECTOR2 velocity;       // velocity
-    VECTOR2 deltaV;         // added to velocity during next call to update()
     float   mass;           // Mass of entity
     float   health;         // health 0 to 100
     float   rr;             // Radius squared variable
     float   force;          // Force of gravity
-    float   gravity;        // gravitational constant of the game universe
+	float	speed;			// The speed
     Input   *input;         // pointer to the input system
     HRESULT hr;             // standard return type
     bool    active;         // only active entities may collide
     bool    rotatedBoxReady;    // true when rotated collision box is ready
+	Destination* destination;			//The destination of movement
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
@@ -84,6 +84,11 @@ class Entity : public Image
         return &center;
     }
 
+	virtual D3DXVECTOR2 getVector()
+	{
+		return VECTOR2(getX(), getY());
+	}
+
     // Return radius of collision circle.
     virtual float getRadius() const     {return radius;}
 
@@ -98,17 +103,11 @@ class Entity : public Image
         return &corners[c]; 
     }
 
-    // Return velocity vector.
-    virtual const VECTOR2 getVelocity() const {return velocity;}
-
     // Return active.
     virtual bool  getActive()         const {return active;}
 
     // Return mass.
     virtual float getMass()           const {return mass;}
-
-    // Return gravitational constant.
-    virtual float getGravity()        const {return gravity;}
 
     // Return health;
     virtual float getHealth()         const {return health;}
@@ -120,12 +119,6 @@ class Entity : public Image
     //           Set functions            //
     ////////////////////////////////////////
 
-    // Set velocity.
-    virtual void  setVelocity(VECTOR2 v)    {velocity = v;}
-
-    // Set delta velocity. Added to velocity in update().
-    virtual void  setDeltaV(VECTOR2 dv)     {deltaV = dv;}
-
     // Set active.
     virtual void  setActive(bool a)         {active = a;}
 
@@ -134,9 +127,6 @@ class Entity : public Image
 
     // Set mass.
     virtual void  setMass(float m)          {mass = m;}
-
-    // Set gravitational constant. Default is 6.67428e-11
-    virtual void  setGravity(float g)       {gravity = g;}
 
     // Set radius of collision circle.
     virtual void setCollisionRadius(float r)    {radius = r;}
@@ -173,11 +163,8 @@ class Entity : public Image
     // Damage this Entity with weapon.
     virtual void damage(int weapon);
 
-    // Entity bounces after collision with other Entity
-    void bounce(VECTOR2 &collisionVector, Entity &ent);
-
-    // Adds the gravitational force to the velocity vector of this entity
-    void gravityForce(Entity *other, float frameTime);
+	// Move towards a specific destination (Can be a Point or an Entity)
+	void move(Destination* d);
 };
 
 #endif

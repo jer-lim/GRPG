@@ -25,7 +25,7 @@ void Grpg::initialize(HWND hwnd)
 	if(!playerTexture.initialize(graphics, TEXTURES_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing player texture"));
 
-	if(!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS, &playerTexture, true))
+	if(!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS, &playerTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 	
 	player.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
@@ -44,25 +44,8 @@ void Grpg::update()
 {
 	if(input->getMouseLButton())
 	{
-		int xVelocity, yVelocity;
-		if(input->getMouseX() < player.getX())
-		{
-			xVelocity = playerNS::SPEED * -1;
-		}
-		else if(input->getMouseX() > player.getX())
-		{
-			xVelocity = playerNS::SPEED;
-		}
-
-		if(input->getMouseY() < player.getY())
-		{
-			yVelocity = playerNS::SPEED * -1;
-		}
-		else if(input->getMouseY() > player.getY())
-		{
-			yVelocity = playerNS::SPEED;
-		}
-		player.setVelocity(VECTOR2(xVelocity, yVelocity));
+		Point* p =  new Point(input->getMouseX(), input->getMouseY());
+		player.move(p);
 	}
 
 	player.update(frameTime);

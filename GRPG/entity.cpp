@@ -16,15 +16,10 @@ Entity::Entity() : Image()
     edge.right = 1;
     edge.bottom = 1;
     mass = 1.0;
-    velocity.x = 0.0;
-    velocity.y = 0.0;
-    deltaV.x = 0.0;
-    deltaV.y = 0.0;
     active = true;                  // the entity is active
     rotatedBoxReady = false;
     collisionType = entityNS::CIRCLE;
     health = 100;
-    gravity = entityNS::GRAVITY;
 }
 
 //=============================================================================
@@ -58,9 +53,14 @@ void Entity::activate()
 //=============================================================================
 void Entity::update(float frameTime)
 {
-    velocity += deltaV;
-    deltaV.x = 0;
-    deltaV.y = 0;
+	if(destination != 0)
+	{
+		VECTOR2 direction = destination->getVector() - getVector();
+		VECTOR2 *normalizedDirection = &VECTOR2();
+		D3DXVec2Normalize(normalizedDirection, &direction);
+		setX(getX() + normalizedDirection->x * 100 * frameTime);
+		setY(getY() + normalizedDirection->y * 100 * frameTime);
+	}
     Image::update(frameTime);
     rotatedBoxReady = false;    // for rotatedBox collision detection
 }
@@ -393,6 +393,17 @@ void Entity::damage(int weapon)
 {}
 
 //=============================================================================
+// Move
+// Move this entity to another location.
+// Location can be a single spot (Entity will move there then stop) or another entity (Entity will follow)
+//=============================================================================
+void Entity::move(Destination* d)
+{
+	destination = d;
+}
+
+/*
+//=============================================================================
 // Entity bounces after collision with another entity
 //=============================================================================
 void Entity::bounce(VECTOR2 &collisionVector, Entity &ent)
@@ -415,8 +426,9 @@ void Entity::bounce(VECTOR2 &collisionVector, Entity &ent)
     }
     else 
         deltaV += ((massRatio * cUVdotVdiff) * cUV);
-}
+}*/
 
+/*
 //=============================================================================
 // Force of gravity on this entity from other entity
 // Adds the gravitational force to the velocity vector of this entity
@@ -445,3 +457,4 @@ void Entity::gravityForce(Entity *ent, float frameTime)
     // Add gravity vector to moving velocity vector to change direction
     velocity += gravityV;
 }
+*/

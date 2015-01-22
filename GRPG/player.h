@@ -37,7 +37,7 @@ public:
     // inherited member functions
     virtual void draw();
     virtual bool initialize(Game *gamePtr, int width, int height, int ncols,
-                            TextureManager *textureM, bool r);
+                            TextureManager *textureM);
     void update(float frameTime);
     void damage(WEAPON);
 };
