@@ -42,10 +42,10 @@
     <ClInclude Include="ship.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="spacewar.h">
+    <ClInclude Include="textureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="textureManager.h">
+    <ClInclude Include="grpg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,13 +71,13 @@
     <ClCompile Include="ship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="spacewar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="textureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="winmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grpg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
