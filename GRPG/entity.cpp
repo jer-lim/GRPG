@@ -21,6 +21,7 @@ Entity::Entity() : Image()
     rotatedBoxReady = false;
     collisionType = entityNS::CIRCLE;
     health = 100;
+	speed = 100;
 }
 
 //=============================================================================
@@ -59,8 +60,8 @@ void Entity::update(float frameTime)
 		VECTOR2 direction = destination->getVector() - getVector();
 		VECTOR2 *normalizedDirection = &VECTOR2();
 		D3DXVec2Normalize(normalizedDirection, &direction);
-		setX(getX() + normalizedDirection->x * 100 * frameTime);
-		setY(getY() + normalizedDirection->y * 100 * frameTime);
+		setX(getX() + normalizedDirection->x * speed * frameTime);
+		setY(getY() + normalizedDirection->y * speed * frameTime);
 		/*
 			Dot Product of 2 unit vectors gives the cosine between the vectors.
 			This can be used to determine angles for trajectory and light reflection.
@@ -74,7 +75,7 @@ void Entity::update(float frameTime)
 
 		//Is it close enough?
 		float distanceToDest = D3DXVec2Length(&direction);
-		if(distanceToDest < 100 * frameTime)
+		if(distanceToDest < speed * frameTime)
 		{
 			delete destination;
 			destination = 0;

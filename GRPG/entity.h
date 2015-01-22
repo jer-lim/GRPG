@@ -112,6 +112,9 @@ class Entity : public Image
     // Return health;
     virtual float getHealth()         const {return health;}
 
+	// Return speed
+	virtual float getSpeed()		  const {return speed;}
+
     // Return collision type (NONE, CIRCLE, BOX, ROTATED_BOX)
     virtual entityNS::COLLISION_TYPE getCollisionType() {return collisionType;}
 
@@ -127,6 +130,9 @@ class Entity : public Image
 
     // Set mass.
     virtual void  setMass(float m)          {mass = m;}
+
+	// Set speed
+	virtual void  setSpeed(float s)			{speed = s;}
 
     // Set radius of collision circle.
     virtual void setCollisionRadius(float r)    {radius = r;}
