@@ -4,6 +4,7 @@
 // Chapter 6 entity.cpp v1.3
 
 #include "entity.h"
+#include <cmath>
 
 //=============================================================================
 // constructor
@@ -60,6 +61,24 @@ void Entity::update(float frameTime)
 		D3DXVec2Normalize(normalizedDirection, &direction);
 		setX(getX() + normalizedDirection->x * 100 * frameTime);
 		setY(getY() + normalizedDirection->y * 100 * frameTime);
+		/*
+			Dot Product of 2 unit vectors gives the cosine between the vectors.
+			This can be used to determine angles for trajectory and light reflection.
+		*/
+		float angle = acos(normalizedDirection->x/D3DXVec2Length(normalizedDirection));
+		if(normalizedDirection->y < 0)
+		{
+			angle = 270 - angle;
+		}
+		setRadians(angle);
+
+		//Is it close enough?
+		float distanceToDest = D3DXVec2Length(&direction);
+		if(distanceToDest < 100 * frameTime)
+		{
+			delete destination;
+			destination = 0;
+		}
 	}
     Image::update(frameTime);
     rotatedBoxReady = false;    // for rotatedBox collision detection
