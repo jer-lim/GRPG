@@ -5,8 +5,6 @@
 #include "game.h"
 #include "textureManager.h"
 #include "image.h"
-#include "planet.h"
-#include "ship.h"
 
 //=============================================================================
 // This class is the core of the game
@@ -15,11 +13,6 @@ class Grpg : public Game
 {
 private:
     // game items
-    TextureManager nebulaTexture;   // nebula texture
-    TextureManager gameTextures;    // game texture
-    Ship    ship1, ship2, ship3, ship4;           // spaceships
-    Planet  planet;         // the planet
-    Image   nebula;         // backdrop image
 
 public:
     // Constructor
