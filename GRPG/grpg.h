@@ -4,6 +4,7 @@
 
 #include "game.h"
 #include "textureManager.h"
+#include "player.h"
 #include "image.h"
 
 //=============================================================================
@@ -13,6 +14,8 @@ class Grpg : public Game
 {
 private:
     // game items
+	Player player;
+	TextureManager playerTexture;
 
 public:
     // Constructor
