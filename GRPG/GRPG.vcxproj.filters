@@ -36,12 +36,6 @@
     <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="planet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="textureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,12 +57,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="planet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="textureManager.cpp">
