@@ -1,4 +1,5 @@
 #include "grpg.h"
+#include "mapLoader.h"
 
 //=============================================================================
 // Constructor
@@ -20,6 +21,9 @@ Grpg::~Grpg()
 //=============================================================================
 void Grpg::initialize(HWND hwnd)
 {
+
+	MapLoader mapLoader;
+	mapLoader.load();
     Game::initialize(hwnd); // throws GameError
 
 	if(!playerTexture.initialize(graphics, TEXTURES_IMAGE))
