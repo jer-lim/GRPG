@@ -19,6 +19,7 @@
     <ClInclude Include="grpg.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="mapLoader.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +29,7 @@
     <ClCompile Include="grpg.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="mapLoader.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
@@ -39,13 +41,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
