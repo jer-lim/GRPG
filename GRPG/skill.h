@@ -2,10 +2,7 @@
 #define _SKILL_H                 // file is included in more than one place
 
 #include "constants.h"
-#include <fstream>
-#include <iostream>
 #include <string>
-#include <unordered_map>
 
 namespace skillNS
 {
@@ -18,7 +15,7 @@ namespace skillNS
 	const int ID_SKILL_MINING = 6;
 	const int skillInterval = 100;// The intervals between skills in terms of EXP
 	const int maxLevel = 99;//maximum level
-	const std::string skillLocation = "assets/skills/skills.gdef";
+	const std::string skillDataLocation = "assets/skills/skills.gdef";
 }
 
 class Skill

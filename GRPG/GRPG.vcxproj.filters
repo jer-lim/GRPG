@@ -31,5 +31,6 @@
     <ClInclude Include="skill.h" />
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="skillLoader.h" />
+    <ClInclude Include="item.h" />
   </ItemGroup>
 </Project>

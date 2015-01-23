@@ -20,6 +20,7 @@
     <ClInclude Include="grpg.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="item.h" />
     <ClInclude Include="mapLoader.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />

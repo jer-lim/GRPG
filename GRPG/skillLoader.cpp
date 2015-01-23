@@ -4,7 +4,7 @@
 void SkillLoader::loadAllSkills()
 {
 	ifstream skillstream;
-	skillstream.open(skillNS::skillLocation);
+	skillstream.open(skillNS::skillDataLocation);
 	if (skillstream.is_open()){
 		string name, descript;
 		int id, exp_gain;
