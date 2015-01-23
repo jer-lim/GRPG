@@ -4,6 +4,7 @@
 
 #include "game.h"
 #include "textureManager.h"
+#include "mapLoader.h"
 #include "player.h"
 #include "image.h"
 
