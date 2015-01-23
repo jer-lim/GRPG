@@ -12,6 +12,7 @@
 #include "graphics.h"
 #include "input.h"
 #include "constants.h"
+#include "globals.h"
 #include "gameError.h"
 
 class Game

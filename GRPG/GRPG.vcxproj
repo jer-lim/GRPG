@@ -16,6 +16,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="grpg.h" />
     <ClInclude Include="image.h" />

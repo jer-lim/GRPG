@@ -8,10 +8,6 @@ MapLoader::MapLoader(){
 
 void MapLoader::load(){
 
-	ofstream log;
-	log.open("log.txt");
-
-
 	// Load tileset
 	ifstream tilestream;
 	tilestream.open(mapFolder + "tiles.gdef");
@@ -25,14 +21,14 @@ void MapLoader::load(){
 
 			//Insert into a map
 			tileset[tileId] = tileFileName;
-			log << "Loaded tile " << tileId << endl;
+			runtimeLog << "Loaded tile " << tileId << endl;
 		}
 
 		tilestream.close();
 	}
 	else
 	{
-		log << "Failed to open tiles" << endl;
+		runtimeLog << "Failed to open tiles" << endl;
 	}
 
 	// Load chunks
@@ -57,7 +53,7 @@ void MapLoader::load(){
 			}
 
 
-			log << "Loaded chunk " << chunkId << endl;
+			runtimeLog << "Loaded chunk " << chunkId << endl;
 
 			//Insert into a map
 			chunks[chunkId] = tempChunk;
@@ -67,7 +63,7 @@ void MapLoader::load(){
 	}
 	else
 	{
-		log << "Failed to open chunks" << endl;
+		runtimeLog << "Failed to open chunks" << endl;
 	}
 
 	// Load world map
@@ -87,14 +83,12 @@ void MapLoader::load(){
 			}
 		}
 
-		log << "Loaded world map" << endl;
+		runtimeLog << "Loaded world map" << endl;
 		mapstream.close();
 	}
 	else
 	{
-		log << "Failed to open worldmap" << endl;
+		runtimeLog << "Failed to open worldmap" << endl;
 	}
-
-	log.close();
 
 }

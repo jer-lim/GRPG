@@ -9,7 +9,9 @@
 #include <Windows.h>
 #include <stdlib.h>             // for detecting memory leaks
 #include <crtdbg.h>             // for detecting memory leaks
+#include "globals.h"
 #include "grpg.h"
+
 
 // Function prototypes
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int); 
@@ -19,6 +21,8 @@ LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM);
 // Game pointer
 Grpg *game = NULL;
 HWND hwnd = NULL;
+
+std::ofstream runtimeLog;
 
 //=============================================================================
 // Starting point for a Windows application
@@ -30,6 +34,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
     #if defined(DEBUG) | defined(_DEBUG)
         _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
     #endif
+
+		runtimeLog.open("log.txt");
 
     MSG msg;
 
@@ -76,6 +82,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
     }
 
     SAFE_DELETE (game);     // free memory before exit
+
+	runtimeLog.close();
     return 0;
 }
 

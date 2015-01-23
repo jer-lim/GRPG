@@ -27,5 +27,6 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="skill.h" />
+    <ClInclude Include="globals.h" />
   </ItemGroup>
 </Project>
