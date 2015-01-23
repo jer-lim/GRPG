@@ -3,7 +3,7 @@
 using namespace std;
 
 MapLoader::MapLoader(){
-	mapFolder = "map/";
+	mapFolder = "assets/map/";
 }
 
 void MapLoader::load(){

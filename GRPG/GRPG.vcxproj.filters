@@ -11,7 +11,9 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
+    <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="skill.cpp" />
+    <ClCompile Include="skillLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -27,6 +29,12 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="skill.h" />
+<<<<<<< HEAD
     <ClInclude Include="globals.h" />
+=======
+    <ClInclude Include="playerSkill.h" />
+    <ClInclude Include="skillLoader.h" />
+    <ClInclude Include="item.h" />
+>>>>>>> 3f297a7908bbb74c552634d7d470a9ec17df2178
   </ItemGroup>
 </Project>

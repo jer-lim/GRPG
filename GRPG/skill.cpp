@@ -1,19 +1,8 @@
 #include "skill.h"
 
-//=============================================================================
-// default constructor
-//=============================================================================
-Skill::Skill()
-{
-	experience = 0;
-}
-
-int Skill::getSkillLevel()
-{
-	return 1;
-}
-
-void Skill::gainXP(long XP)
-{
-	experience += XP;
+Skill::Skill(){}
+Skill::Skill(std::string n, std::string d, int exp_g){
+	name = n;
+	description = d;
+	exp_gain = exp_g;
 }
