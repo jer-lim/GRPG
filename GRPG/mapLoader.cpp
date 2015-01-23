@@ -48,10 +48,10 @@ void MapLoader::load(){
 			// Clear endline from stream
 			getline(chunkstream, trash);
 			chunkId = (int)chunkId;
-			chunk tempChunk;
+			chunk *tempChunk = new chunk;
 			for (int y = 0; y < 16; ++y){
 				for (int x = 0; x < 16; ++x){
-					tempChunk.tile[x][y] = chunkstream.get();
+					tempChunk->tile[x][y] = chunkstream.get();
 				}
 				getline(chunkstream, trash);
 			}
@@ -73,7 +73,7 @@ void MapLoader::load(){
 	// Load world map
 
 	ifstream mapstream;
-	mapstream.open(mapFolder + "world.gmap");
+	mapstream.open(mapFolder + "worldmap.gdef");
 	if (mapstream.is_open()){
 		string trash;
 		char tempChar;
