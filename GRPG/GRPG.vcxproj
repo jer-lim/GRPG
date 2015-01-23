@@ -22,7 +22,9 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="mapLoader.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="playerSkill.h" />
     <ClInclude Include="skill.h" />
+    <ClInclude Include="skillLoader.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -34,7 +36,9 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="mapLoader.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="skill.cpp" />
+    <ClCompile Include="skillLoader.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
