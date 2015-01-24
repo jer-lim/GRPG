@@ -187,10 +187,10 @@ bool Entity::collideBox(Entity &ent, VECTOR2 &collisionVector)
         return false;
 
     // Check for collision using Axis Aligned Bounding Box.
-	if ((image.getCenterX() + edge.right*image.getScale() >= ent.image.getCenterX() + ent.getEdge().left*ent.image.getScale()) &&
-		(image.getCenterX() + edge.left*image.getScale() <= ent.image.getCenterX() + ent.getEdge().right*ent.image.getScale()) &&
-		(image.getCenterY() + edge.bottom*image.getScale() >= ent.image.getCenterY() + ent.getEdge().top*ent.image.getScale()) &&
-		(image.getCenterY() + edge.top*image.getScale() <= ent.image.getCenterY() + ent.getEdge().bottom*ent.image.getScale()))
+	if ((getX() + edge.right*image.getScale() >= ent.getX() + ent.getEdge().left*ent.image.getScale()) &&
+		(getX() + edge.left*image.getScale() <= ent.getX() + ent.getEdge().right*ent.image.getScale()) &&
+		(getY() + edge.bottom*image.getScale() >= ent.getY() + ent.getEdge().top*ent.image.getScale()) &&
+		(getY() + edge.top*image.getScale() <= ent.getY() + ent.getEdge().bottom*ent.image.getScale()))
     {
         // set collision vector
         collisionVector = *ent.getCenter() - *getCenter();
