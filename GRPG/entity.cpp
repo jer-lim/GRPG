@@ -9,7 +9,7 @@
 //=============================================================================
 // constructor
 //=============================================================================
-Entity::Entity() : Image()
+Entity::Entity()
 {
     radius = 1.0;
     edge.left = -1;
@@ -22,6 +22,7 @@ Entity::Entity() : Image()
     collisionType = entityNS::CIRCLE;
     health = 100;
 	speed = 100;
+	image = Image();
 }
 
 //=============================================================================
@@ -37,7 +38,8 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols,
                             TextureManager *textureM)
 {
     input = gamePtr->getInput();                // the input system
-    return(Image::initialize(gamePtr->getGraphics(), width, height, ncols, textureM));
+	graphics = gamePtr->getGraphics();
+    return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
 }
 
 //=============================================================================
@@ -46,6 +48,16 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols,
 void Entity::activate()
 {
     active = true;
+}
+
+//=============================================================================
+// Draws the entity onto the screen based on it's x and y position
+//=============================================================================
+void Entity::draw()
+{
+	image.setX(x);
+	image.setY(y);
+	image.draw();
 }
 
 //=============================================================================
@@ -71,7 +83,7 @@ void Entity::update(float frameTime)
 		{
 			angle = 270 - angle;
 		}
-		setRadians(angle);
+		image.setRadians(angle);
 
 		//Is it close enough?
 		float distanceToDest = D3DXVec2Length(&direction);
@@ -79,11 +91,11 @@ void Entity::update(float frameTime)
 		{
 			setX(destination->getX());
 			setY(destination->getY());
-			delete destination;
+			// delete destination; // Sometimes a destination might be re-used or be an actual entity
 			destination = 0;
 		}
 	}
-    Image::update(frameTime);
+    image.update(frameTime);
     rotatedBoxReady = false;    // for rotatedBox collision detection
 }
 
@@ -149,7 +161,7 @@ bool Entity::collideCircle(Entity &ent, VECTOR2 &collisionVector)
     distSquared.y = distSquared.y * distSquared.y;
 
     // Calculate the sum of the radii (adjusted for scale)
-    sumRadiiSquared = (radius*getScale()) + (ent.radius*ent.getScale());
+	sumRadiiSquared = (radius*image.getScale()) + (ent.radius*ent.image.getScale());
     sumRadiiSquared *= sumRadiiSquared;                 // square it
 
     // if entities are colliding
@@ -175,10 +187,10 @@ bool Entity::collideBox(Entity &ent, VECTOR2 &collisionVector)
         return false;
 
     // Check for collision using Axis Aligned Bounding Box.
-    if( (getCenterX() + edge.right*getScale() >= ent.getCenterX() + ent.getEdge().left*ent.getScale()) && 
-        (getCenterX() + edge.left*getScale() <= ent.getCenterX() + ent.getEdge().right*ent.getScale()) &&
-        (getCenterY() + edge.bottom*getScale() >= ent.getCenterY() + ent.getEdge().top*ent.getScale()) && 
-        (getCenterY() + edge.top*getScale() <= ent.getCenterY() + ent.getEdge().bottom*ent.getScale()) )
+	if ((getX() + edge.right*image.getScale() >= ent.getX() + ent.getEdge().left*ent.image.getScale()) &&
+		(getX() + edge.left*image.getScale() <= ent.getX() + ent.getEdge().right*ent.image.getScale()) &&
+		(getY() + edge.bottom*image.getScale() >= ent.getY() + ent.getEdge().top*ent.image.getScale()) &&
+		(getY() + edge.top*image.getScale() <= ent.getY() + ent.getEdge().bottom*ent.image.getScale()))
     {
         // set collision vector
         collisionVector = *ent.getCenter() - *getCenter();
@@ -219,7 +231,7 @@ bool Entity::projectionsOverlap(Entity &ent)
     float projection, min01, max01, min03, max03;
 
     // project other box onto edge01
-    projection = graphics->Vector2Dot(&edge01, ent.getCorner(0)); // project corner 0
+	projection = graphics->Vector2Dot(&edge01, ent.getCorner(0)); // project corner 0
     min01 = projection;
     max01 = projection;
     // for each remaining corner
@@ -282,15 +294,15 @@ bool Entity::collideRotatedBoxCircle(Entity &ent, VECTOR2 &collisionVector)
 
     // project circle center onto edge01
     center01 = graphics->Vector2Dot(&edge01, ent.getCenter());
-    min01 = center01 - ent.getRadius()*ent.getScale(); // min and max are Radius from center
-    max01 = center01 + ent.getRadius()*ent.getScale();
+	min01 = center01 - ent.getRadius()*ent.image.getScale(); // min and max are Radius from center
+	max01 = center01 + ent.getRadius()*ent.image.getScale();
     if (min01 > edge01Max || max01 < edge01Min) // if projections do not overlap
         return false;                       // no collision is possible
         
     // project circle center onto edge03
     center03 = graphics->Vector2Dot(&edge03, ent.getCenter());
-    min03 = center03 - ent.getRadius()*ent.getScale(); // min and max are Radius from center
-    max03 = center03 + ent.getRadius()*ent.getScale();
+	min03 = center03 - ent.getRadius()*ent.image.getScale(); // min and max are Radius from center
+	max03 = center03 + ent.getRadius()*ent.image.getScale();
     if (min03 > edge03Max || max03 < edge03Min) // if projections do not overlap
         return false;                       // no collision is possible
 
@@ -324,7 +336,7 @@ bool Entity::collideCornerCircle(VECTOR2 corner, Entity &ent, VECTOR2 &collision
     distSquared.y = distSquared.y * distSquared.y;
 
     // Calculate the sum of the radii, then square it
-    sumRadiiSquared = ent.getRadius()*ent.getScale();   // (0 + circleR)
+	sumRadiiSquared = ent.getRadius()*ent.image.getScale();   // (0 + circleR)
     sumRadiiSquared *= sumRadiiSquared;                 // square it
 
     // if corner and circle are colliding
@@ -349,18 +361,18 @@ void Entity::computeRotatedBox()
         return;
     float projection;
 
-    VECTOR2 rotatedX(cos(spriteData.angle), sin(spriteData.angle));
-    VECTOR2 rotatedY(-sin(spriteData.angle), cos(spriteData.angle));
+	VECTOR2 rotatedX(cos(image.spriteData.angle), sin(image.spriteData.angle));
+	VECTOR2 rotatedY(-sin(image.spriteData.angle), cos(image.spriteData.angle));
 
     const VECTOR2 *center = getCenter();
-    corners[0] = *center + rotatedX * ((float)edge.left*getScale())  +
-                           rotatedY * ((float)edge.top*getScale());
-    corners[1] = *center + rotatedX * ((float)edge.right*getScale()) + 
-                           rotatedY * ((float)edge.top*getScale());
-    corners[2] = *center + rotatedX * ((float)edge.right*getScale()) + 
-                           rotatedY * ((float)edge.bottom*getScale());
-    corners[3] = *center + rotatedX * ((float)edge.left*getScale())  +
-                           rotatedY * ((float)edge.bottom*getScale());
+	corners[0] = *center + rotatedX * ((float)edge.left*image.getScale()) +
+		rotatedY * ((float)edge.top*image.getScale());
+	corners[1] = *center + rotatedX * ((float)edge.right*image.getScale()) +
+		rotatedY * ((float)edge.top*image.getScale());
+	corners[2] = *center + rotatedX * ((float)edge.right*image.getScale()) +
+		rotatedY * ((float)edge.bottom*image.getScale());
+	corners[3] = *center + rotatedX * ((float)edge.left*image.getScale()) +
+		rotatedY * ((float)edge.bottom*image.getScale());
 
     // corners[0] is used as origin
     // The two edges connected to corners[0] are used as the projection lines
@@ -398,10 +410,10 @@ void Entity::computeRotatedBox()
 //=============================================================================
 bool Entity::outsideRect(RECT rect)
 {
-    if( spriteData.x + spriteData.width*getScale() < rect.left || 
-        spriteData.x > rect.right ||
-        spriteData.y + spriteData.height*getScale() < rect.top || 
-        spriteData.y > rect.bottom)
+	if (image.spriteData.x + image.spriteData.width*image.getScale() < rect.left ||
+		image.spriteData.x > rect.right ||
+		image.spriteData.y + image.spriteData.height*image.getScale() < rect.top ||
+		image.spriteData.y > rect.bottom)
         return true;
     return false;
 }

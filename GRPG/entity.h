@@ -18,7 +18,7 @@ namespace entityNS
     const float GRAVITY = 6.67428e-11f;         // gravitational constant
 }
 
-class Entity : public Image
+class Entity : public Destination
 {
     // Entity properties
   protected:
@@ -43,6 +43,10 @@ class Entity : public Image
     bool    active;         // only active entities may collide
     bool    rotatedBoxReady;    // true when rotated collision box is ready
 	Destination* destination;			//The destination of movement
+	float	x;				// The x location
+	float	y;				// The y location
+	Image	image;			// The image that is drawn on the screen
+	Graphics* graphics;		// A pointer to the graphics object
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
@@ -80,7 +84,7 @@ class Entity : public Image
     // Return center of scaled Entity as screen x,y.
     virtual const VECTOR2* getCenter()   
     {
-        center = VECTOR2(getCenterX(),getCenterY());
+        center = VECTOR2(getX(), getY());
         return &center;
     }
 
@@ -115,6 +119,12 @@ class Entity : public Image
 	// Return speed
 	virtual float getSpeed()		  const {return speed;}
 
+	// Return x location
+	virtual float getX()			  { return x; }
+
+	// Return x location
+	virtual float getY()			  { return y; }
+
     // Return collision type (NONE, CIRCLE, BOX, ROTATED_BOX)
     virtual entityNS::COLLISION_TYPE getCollisionType() {return collisionType;}
 
@@ -133,6 +143,12 @@ class Entity : public Image
 
 	// Set speed
 	virtual void  setSpeed(float s)			{speed = s;}
+
+	// Set x location
+	virtual void setX(float xL)				{ x = xL; }
+
+	// Set y location
+	virtual void setY(float yL)				{ y = yL; }
 
     // Set radius of collision circle.
     virtual void setCollisionRadius(float r)    {radius = r;}
@@ -156,6 +172,9 @@ class Entity : public Image
                             TextureManager *textureM);
     // Activate Entity.
     virtual void activate();
+
+	// Draws the Entity onto the screen
+	virtual void draw();
 
     // Empty ai function to allow Entity objects to be instantiated.
     virtual void ai(float frameTime, Entity &ent);

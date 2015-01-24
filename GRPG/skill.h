@@ -24,17 +24,10 @@ private:
 	std::string name;//name of skill
 	std::string description;//description of skill
 	int exp_gain;//skill gain per action done
-
-	//long experience;//amt of experience
 public:
     // constructor
     Skill();
 	Skill(std::string,std::string,int);
-	//int getSkillLevel();
-
-
-    // inherited member functions
-    //void gainXP(long xp);
 };
 #endif
 

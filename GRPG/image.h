@@ -17,7 +17,7 @@ class Image
     Graphics *graphics;     // pointer to graphics
     TextureManager *textureManager; // pointer to texture manager
     // spriteData contains the data required to draw the image by Graphics::drawSprite()
-    SpriteData spriteData;  // SpriteData is defined in "graphics.h"
+    //SpriteData spriteData;  // SpriteData is defined in "graphics.h"
     COLOR_ARGB colorFilter; // applied as a color filter (use WHITE for no change)
     int     cols;           // number of cols (1 to n) in multi-frame sprite
     int     startFrame;     // first frame of current animation
@@ -32,6 +32,7 @@ class Image
     bool    animComplete;   // true when loop is false and endFrame has finished displaying
 
   public:
+	  SpriteData spriteData;
     // Constructor
     Image();
     // Destructor
@@ -61,12 +62,6 @@ class Image
 
     // Return height.
     virtual int   getHeight()   {return spriteData.height;}
-
-    // Return center X.
-    virtual float getCenterX()      {return spriteData.x + spriteData.width/2*getScale();}
-
-    // Return center Y.
-    virtual float getCenterY()      {return spriteData.y + spriteData.height/2*getScale();}
 
     // Return rotation angle in degrees.
     virtual float getDegrees()      {return spriteData.angle*(180.0f/(float)PI);}
@@ -100,10 +95,10 @@ class Image
     ////////////////////////////////////////
 
     // Set X location.
-    virtual void setX(float newX)   {spriteData.x = newX;}
+    virtual void setX(float newX)   {spriteData.x = newX - spriteData.width/2;}
 
     // Set Y location.
-    virtual void setY(float newY)   {spriteData.y = newY;}
+    virtual void setY(float newY)   {spriteData.y = newY - spriteData.height/2;}
 
     // Set scale.
     virtual void setScale(float s)  {spriteData.scale = s;}
