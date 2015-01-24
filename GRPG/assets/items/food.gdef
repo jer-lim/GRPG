@@ -1,0 +1,6 @@
+01 Pile_of_Moss pile_of_moss 101_of_Heroism:_“Tastes_terrible,_but_heroes_don’t_bother_about_the_small_details.” 1 0 50
+02 Goblin_Meat goblin_meat This_probably_needs_hours_of_cooking_to_get_rid_of_the_smell. 2 1 25
+03 Rotten Meat rotten_meat This_looks_disgusting. 3 7 25
+04 Ogre Meat ogre_meat I_heard_ogres_are_chewier_than_they_look._Needs_cooking. 5 8 12.5
+05 Fish fish Anything that isn’t scraped off dead monsters looks appetizing at this point in time. 4 1 25
+06 Dragon Meat dragon_meat Just_looking_at_it_makes_your_mouth_water._Needs_cooking. 8 15 10

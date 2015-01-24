@@ -11,6 +11,7 @@
 class SkillLoader
 {
 private:
+	const std::string skillDataLocation = "assets/skills/skills.gdef";
 	unordered_map<int, Skill> map_skills;
 public:
 	void loadAllSkills();
