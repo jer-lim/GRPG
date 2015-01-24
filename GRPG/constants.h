@@ -34,7 +34,7 @@ using namespace std;
 const char CLASS_NAME[] = "GRPG";
 const char GAME_TITLE[] = "GRPG";
 const bool FULLSCREEN = false;              // windowed or fullscreen
-const UINT GAME_WIDTH =  840;               // width of game in pixels
+const UINT GAME_WIDTH =  1200;               // width of game in pixels
 const UINT GAME_HEIGHT = 600;               // height of game in pixels
 
 // game
