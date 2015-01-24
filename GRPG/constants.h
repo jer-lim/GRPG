@@ -53,7 +53,7 @@ const UCHAR SHIP_DOWN_KEY = VK_DOWN;
 
 // graphic images
 const char NEBULA_IMAGE[] =   "pictures\\orion.jpg";     // photo source NASA/courtesy of nasaimages.org 
-const char TEXTURES_IMAGE[] = "assets\\npcs\\player.png";  // game textures
+const char TEXTURES_IMAGE[] = "assets\\npcs\\sprites\\player.png";  // game textures
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
