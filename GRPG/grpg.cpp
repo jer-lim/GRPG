@@ -31,8 +31,8 @@ void Grpg::initialize(HWND hwnd)
 	if(!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS, &playerTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 	
-	player.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
-	player.setCurrentFrame(playerNS::SHIP1_START_FRAME);
+	//player.image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
+	//player.setCurrentFrame(playerNS::SHIP1_START_FRAME);
 	player.setX(GAME_WIDTH/2);
 	player.setY(GAME_HEIGHT/2);
 	

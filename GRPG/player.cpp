@@ -5,16 +5,15 @@
 //=============================================================================
 Player::Player() : Entity()
 {
-    spriteData.width = playerNS::WIDTH;           // size of Ship1
-    spriteData.height = playerNS::HEIGHT;
-    spriteData.x = playerNS::X;                   // location on screen
-    spriteData.y = playerNS::Y;
-    spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
-    spriteData.rect.right = playerNS::WIDTH;
-    frameDelay = playerNS::SHIP_ANIMATION_DELAY;
-    startFrame = playerNS::SHIP1_START_FRAME;     // first frame of ship animation
-    endFrame     = playerNS::SHIP1_END_FRAME;     // last frame of ship animation
-    currentFrame = startFrame;
+    image.spriteData.width = playerNS::WIDTH;           // size of Ship1
+	image.spriteData.height = playerNS::HEIGHT;
+	image.spriteData.x = playerNS::X;                   // location on screen
+	image.spriteData.y = playerNS::Y;
+	image.spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
+	image.spriteData.rect.right = playerNS::WIDTH;
+	image.setFrameDelay(playerNS::SHIP_ANIMATION_DELAY);
+	image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);     // set animation frames
+	image.setCurrentFrame(playerNS::SHIP1_START_FRAME);
     radius = playerNS::WIDTH/2.0;
     mass = playerNS::MASS;
     collisionType = entityNS::CIRCLE;
@@ -35,7 +34,7 @@ bool Player::initialize(Game *gamePtr, int width, int height, int ncols,
 //=============================================================================
 void Player::draw()
 {
-    Image::draw();              // draw player
+	Entity::draw();
 }
 
 //=============================================================================
