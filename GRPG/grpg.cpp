@@ -21,10 +21,13 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
 
+	// Load map
 	MapLoader mapLoader;
 	mapLoader.load();
+
     Game::initialize(hwnd); // throws GameError
 
+	// Initialise entities
 	player = new Player();
 	player2 = new Player();
 
