@@ -14,6 +14,7 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="destination.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="entityManager.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="globals.h" />
@@ -31,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="entityManager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="grpg.cpp" />

@@ -17,7 +17,6 @@ private:
     // game items
 	Player player;
 	Player player2;
-	TextureManager playerTexture;
 
 public:
     // Constructor

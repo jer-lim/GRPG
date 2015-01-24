@@ -48,6 +48,8 @@ class Entity : public Destination
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
 
+	TextureManager textureManager;
+
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
     // Circular collision detection 
@@ -128,6 +130,8 @@ class Entity : public Destination
     // Return collision type (NONE, CIRCLE, BOX, ROTATED_BOX)
     virtual entityNS::COLLISION_TYPE getCollisionType() {return collisionType;}
 
+	virtual TextureManager* getTextureManager() { return &textureManager; }
+
     ////////////////////////////////////////
     //           Set functions            //
     ////////////////////////////////////////
@@ -168,8 +172,7 @@ class Entity : public Destination
     //      height = height of Image in pixels (0 = use full texture height)
     //      ncols = number of columns in texture (1 to n) (0 same as 1)
     //      *textureM = pointer to TextureManager object
-    virtual bool initialize(Game *gamePtr, int width, int height, int ncols,
-                            TextureManager *textureM);
+    virtual bool initialize(Game *gamePtr, int width, int height, int ncols);
     // Activate Entity.
     virtual void activate();
 
@@ -190,6 +193,8 @@ class Entity : public Destination
 
 	// Move towards a specific destination (Can be a Point or an Entity)
 	void move(Destination* d);
+
+
 };
 
 #endif

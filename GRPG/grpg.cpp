@@ -25,13 +25,10 @@ void Grpg::initialize(HWND hwnd)
 	mapLoader.load();
     Game::initialize(hwnd); // throws GameError
 
-	if(!playerTexture.initialize(graphics, TEXTURES_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing player texture"));
-
-	if(!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS, &playerTexture))
+	if(!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
-	if (!player2.initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, &playerTexture))
+	if (!player2.initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 	
 	//player.image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
@@ -96,7 +93,7 @@ void Grpg::render()
 void Grpg::releaseAll()
 {
     //gameTextures.onLostDevice();
-	playerTexture.onLostDevice();
+	player.getTextureManager()->onLostDevice();
     Game::releaseAll();
     return;
 }
@@ -108,7 +105,7 @@ void Grpg::releaseAll()
 void Grpg::resetAll()
 {
     //gameTextures.onResetDevice();
-	playerTexture.onResetDevice();
+	player.getTextureManager()->onResetDevice();
     Game::resetAll();
     return;
 }
