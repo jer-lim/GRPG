@@ -7,6 +7,8 @@
 #include "mapLoader.h"
 #include "player.h"
 #include "image.h"
+#include "entityManager.h"
+
 
 //=============================================================================
 // This class is the core of the game
@@ -17,6 +19,7 @@ private:
     // game items
 	Player player;
 	Player player2;
+	EntityManager entityManager;
 
 public:
     // Constructor

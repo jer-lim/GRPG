@@ -25,6 +25,7 @@ void Grpg::initialize(HWND hwnd)
 	mapLoader.load();
     Game::initialize(hwnd); // throws GameError
 
+	entityManager = EntityManager();
 	if(!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
@@ -34,12 +35,15 @@ void Grpg::initialize(HWND hwnd)
 	//player.image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
 	//player.setCurrentFrame(playerNS::SHIP1_START_FRAME);
 	player.setX(GAME_WIDTH/2);
-	player.setY(GAME_HEIGHT/2);
+	player.setY(GAME_HEIGHT / 2);
 	player2.setX(10);
 	player2.setY(10);
 
 	player2.setSpeed(50);
 	player2.move(&player);
+
+	entityManager.addEntity(&player);
+	entityManager.addEntity(&player2);
 	
     return;
 }
@@ -55,8 +59,9 @@ void Grpg::update()
 		player.move(p);
 	}
 
-	player.update(frameTime);
-	player2.update(frameTime);
+	//player.update(frameTime);
+	//player2.update(frameTime);
+	entityManager.updateAll(frameTime);
 }
 
 //=============================================================================
@@ -80,8 +85,10 @@ void Grpg::render()
 {
     graphics->spriteBegin();                // begin drawing sprites
 
-	player.draw();
-	player2.draw();
+	//player.draw();
+	//player2.draw();
+
+	entityManager.renderAll();
 
     graphics->spriteEnd();                  // end drawing sprites
 }
@@ -93,7 +100,7 @@ void Grpg::render()
 void Grpg::releaseAll()
 {
     //gameTextures.onLostDevice();
-	player.getTextureManager()->onLostDevice();
+	entityManager.releaseAll();
     Game::releaseAll();
     return;
 }
@@ -105,7 +112,7 @@ void Grpg::releaseAll()
 void Grpg::resetAll()
 {
     //gameTextures.onResetDevice();
-	player.getTextureManager()->onResetDevice();
+	entityManager.resetAll();
     Game::resetAll();
     return;
 }
