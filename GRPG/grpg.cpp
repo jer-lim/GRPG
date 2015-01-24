@@ -25,25 +25,28 @@ void Grpg::initialize(HWND hwnd)
 	mapLoader.load();
     Game::initialize(hwnd); // throws GameError
 
+	player = new Player();
+	player2 = new Player();
+
 	entityManager = EntityManager();
-	if(!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS))
+	if(!player->initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
-	if (!player2.initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS))
+	if (!player2->initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 	
 	//player.image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
 	//player.setCurrentFrame(playerNS::SHIP1_START_FRAME);
-	player.setX(GAME_WIDTH/2);
-	player.setY(GAME_HEIGHT / 2);
-	player2.setX(10);
-	player2.setY(10);
+	player->setX(GAME_WIDTH/2);
+	player->setY(GAME_HEIGHT / 2);
+	player2->setX(10);
+	player2->setY(10);
 
-	player2.setSpeed(50);
-	player2.move(&player);
+	player2->setSpeed(50);
+	player2->move(player);
 
-	entityManager.addEntity(&player);
-	entityManager.addEntity(&player2);
+	entityManager.addEntity(player);
+	entityManager.addEntity(player2);
 	
     return;
 }
@@ -56,7 +59,7 @@ void Grpg::update()
 	if(input->getMouseLButton())
 	{
 		Point* p =  new Point(input->getMouseX(), input->getMouseY());
-		player.move(p);
+		player->move(p);
 	}
 
 	//player.update(frameTime);

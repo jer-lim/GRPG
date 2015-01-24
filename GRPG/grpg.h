@@ -17,8 +17,8 @@ class Grpg : public Game
 {
 private:
     // game items
-	Player player;
-	Player player2;
+	Player* player;
+	Player* player2;
 	EntityManager entityManager;
 
 public:
