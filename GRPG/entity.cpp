@@ -91,7 +91,7 @@ void Entity::update(float frameTime)
 		{
 			setX(destination->getX());
 			setY(destination->getY());
-			delete destination;
+			// delete destination; // Sometimes a destination might be re-used or be an actual entity
 			destination = 0;
 		}
 	}

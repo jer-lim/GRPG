@@ -30,13 +30,20 @@ void Grpg::initialize(HWND hwnd)
 
 	if(!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS, &playerTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
+
+	if (!player2.initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, &playerTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 	
 	//player.image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
 	//player.setCurrentFrame(playerNS::SHIP1_START_FRAME);
 	player.setX(GAME_WIDTH/2);
 	player.setY(GAME_HEIGHT/2);
-	
+	player2.setX(10);
+	player2.setY(10);
 
+	player2.setSpeed(50);
+	player2.move(&player);
+	
     return;
 }
 
@@ -52,6 +59,7 @@ void Grpg::update()
 	}
 
 	player.update(frameTime);
+	player2.update(frameTime);
 }
 
 //=============================================================================
@@ -76,6 +84,7 @@ void Grpg::render()
     graphics->spriteBegin();                // begin drawing sprites
 
 	player.draw();
+	player2.draw();
 
     graphics->spriteEnd();                  // end drawing sprites
 }
