@@ -4,7 +4,6 @@
 
 #include "entity.h"
 #include "constants.h"
-#include "player.h"
 #include "playerSkill.h"
 
 namespace playerNS
@@ -20,13 +19,14 @@ namespace playerNS
     const float ANIMATION_DELAY = 0.2f;    // time between frames
 }
 
-// inherits from Entity class
+// The main player of the game. The hero that will kill Aidleliuen or however you spell that fking name
 class Player : public Entity
 {
 private:
 	PlayerSkill attack;
 	PlayerSkill strength;
-	PlayerSkill defence;
+	PlayerSkill defense;
+	PlayerSkill toughness;
 	PlayerSkill fishing;
 	PlayerSkill cooking;
 	PlayerSkill mining;

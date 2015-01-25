@@ -16,6 +16,14 @@ Player::Player() : Entity()
 	image.setCurrentFrame(playerNS::START_FRAME);
     radius = playerNS::WIDTH/2.0;
     collisionType = entityNS::CIRCLE;
+
+	attack = PlayerSkill(this, Skill::ATTACK);
+	strength = PlayerSkill(this, Skill::STRENGTH);
+	defense = PlayerSkill(this, Skill::DEFENSE);
+	toughness = PlayerSkill(this, Skill::TOUGHNESS);
+	fishing = PlayerSkill(this, Skill::FISHING);
+	cooking = PlayerSkill(this, Skill::COOKING);
+	mining = PlayerSkill(this, Skill::MINING);
 }
 
 //=============================================================================
