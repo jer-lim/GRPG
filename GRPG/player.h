@@ -6,6 +6,9 @@
 #include "constants.h"
 #include "playerSkill.h"
 #include "List.h"
+#include <map>
+
+using namespace std;
 
 namespace playerNS
 {
@@ -24,19 +27,16 @@ namespace playerNS
 class Player : public Entity
 {
 private:
-	//List<PlayerSkill> skills;
-
-	PlayerSkill attack;
-	PlayerSkill strength;
-	PlayerSkill defense;
-	PlayerSkill toughness;
-	PlayerSkill fishing;
-	PlayerSkill cooking;
-	PlayerSkill mining;
-	PlayerSkill smithing;
+	map <string, PlayerSkill> skills;
+	
 public:
     // constructor
     Player();
+
+	// Get functions
+
+	// Get the player's skills, which is a map of <string, PlayerSkill> All strings are in full lowercase
+	map<string, PlayerSkill> getSkills() { return skills; }
 
     // inherited member functions
     virtual void draw();

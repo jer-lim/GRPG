@@ -17,23 +17,14 @@ Player::Player() : Entity()
     radius = playerNS::WIDTH/2.0;
     collisionType = entityNS::CIRCLE;
 
-	attack = PlayerSkill(this, Skill::ATTACK);
-	strength = PlayerSkill(this, Skill::STRENGTH);
-	defense = PlayerSkill(this, Skill::DEFENSE);
-	toughness = PlayerSkill(this, Skill::TOUGHNESS);
-	fishing = PlayerSkill(this, Skill::FISHING);
-	cooking = PlayerSkill(this, Skill::COOKING);
-	mining = PlayerSkill(this, Skill::MINING);
-
-	//skills = List<PlayerSkill>();
-	/*
-	skills.add(attack);
-	skills.add(strength);
-	skills.add(defense);
-	skills.add(toughness);
-	skills.add(fishing);
-	skills.add(cooking);
-	skills.add(mining);*/
+	//skills
+	skills["Attack"] = PlayerSkill(this, Skill::ATTACK);
+	skills["Strength"] = PlayerSkill(this, Skill::STRENGTH);
+	skills["Defense"] = PlayerSkill(this, Skill::DEFENSE);
+	skills["Toughness"] = PlayerSkill(this, Skill::TOUGHNESS);
+	skills["Fishing"] = PlayerSkill(this, Skill::FISHING);
+	skills["Cooking"] = PlayerSkill(this, Skill::COOKING);
+	skills["Mining"] = PlayerSkill(this, Skill::MINING);
 }
 
 //=============================================================================

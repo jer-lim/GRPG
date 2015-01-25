@@ -4,6 +4,7 @@
 #include "entity.h"
 #include "constants.h"
 #include "textDX.h"
+#include "player.h"
 
 namespace uiNS
 {
@@ -12,9 +13,6 @@ namespace uiNS
 	const int X = GAME_WIDTH - WIDTH / 2;   // location on screen
 	const int Y = GAME_HEIGHT - HEIGHT / 2;
 }
-
-//See playerSkill.h for explanation of this line of code
-class Player;
 
 // inherits from Entity class
 class UI : public Entity
