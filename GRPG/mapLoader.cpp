@@ -4,11 +4,13 @@ using namespace std;
 
 MapLoader::MapLoader(){
 	mapFolder = "assets/map/";
+	tileImageFolder = "assets/map/img/";
 }
 
-void MapLoader::initialize(Game* game, Graphics* g){
+void MapLoader::initialize(Game* game, Graphics* g, EntityManager* em){
 	gamePtr = game;
 	graphics = g;
+	entityManager = em;
 }
 
 void MapLoader::load(){
@@ -29,7 +31,7 @@ void MapLoader::load(){
 			//Insert into a map
 			if (tileCollidable == 1) tileset[tileId].collidable = TRUE;
 			else tileset[tileId].collidable = FALSE;
-			tileset[tileId].imageName = tileFileName.c_str();
+			tileset[tileId].imageName = tileFileName;
 			runtimeLog << "Loaded tile " << tileId << endl;
 		}
 
@@ -86,8 +88,10 @@ void MapLoader::load(){
 		while (!mapstream.eof()){
 
 			tempChar = mapstream.get();
-			if (tempChar == '\n') y++;
-			else if (tempChar != EOF){ // not EOF character
+			if (tempChar == '\n'){
+				y++;
+				x = 0;
+			}else if (tempChar != EOF){ // not EOF character
 				worldMap[x++][y] = tempChar;
 			}
 		}
@@ -100,7 +104,35 @@ void MapLoader::load(){
 		runtimeLog << "Failed to open worldmap" << endl;
 	}
 
-	//Tile t = Tile();
-	//t.initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, tileNS::TEXTURE_COLS);
+	// Display world map
+	// Load each chunk
+
+	int startX = 16;
+	int startY = 16;
+	for (int x = 0; x < worldMap.size(); ++x){
+		for (int y = 0; y < worldMap[x].size(); ++y){
+
+			// Load tiles in chunk
+			char chunkId = worldMap[x][y];
+			for (int cx = 0; cx < 16; ++cx){
+				for (int cy = 0; cy < 16; ++cy){
+
+					// Load tiles
+					char tileId = chunks[chunkId]->tile[cx][cy];
+
+					Tile* t = new Tile();
+					stringstream ss;
+					ss << tileImageFolder << tileset[tileId].imageName;
+					t->initialize(gamePtr, ss.str().c_str());
+					t->setX(startX + (x * 16 + cx) * tileNS::WIDTH);
+					t->setY(startY + (y * 16 + cy) * tileNS::HEIGHT);
+					//runtimeLog << "Loading tile into " << t->getX() << ", " << t->getY() << endl;
+
+					runtimeLog << x << " " << y << " " << cx << " " << cy << endl;
+					entityManager->addEntity(t);
+				}
+			}
+		}
+	}
 
 }

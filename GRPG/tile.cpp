@@ -7,16 +7,14 @@ Tile::Tile() : Entity()
 {
     image.spriteData.width = tileNS::WIDTH;           // size of tile
 	image.spriteData.height = tileNS::HEIGHT;
-	image.spriteData.x = tileNS::X;                   // location on screen
-	image.spriteData.y = tileNS::Y;
 	image.spriteData.rect.bottom = tileNS::HEIGHT;    // rectangle to select parts of an image
 	image.spriteData.rect.right = tileNS::WIDTH;
-	image.setFrameDelay(tileNS::ANIMATION_DELAY);
-	image.setFrames(tileNS::START_FRAME, tileNS::END_FRAME);     // set animation frames
-	image.setCurrentFrame(tileNS::START_FRAME);
-	radius = tileNS::WIDTH / 2.0;
-	mass = tileNS::MASS;
-    collisionType = entityNS::NONE;
+	image.spriteData.x = tileNS::X;
+	image.spriteData.y = tileNS::Y;
+	image.setCurrentFrame(0);
+	image.setFrames(0, 0);
+	collisionType = entityNS::NONE;
+	image.setFrameDelay(0.2);
 }
 
 //=============================================================================
@@ -25,7 +23,7 @@ Tile::Tile() : Entity()
 //=============================================================================
 bool Tile::initialize(Game *gamePtr, const char image[])
 {
-	return(Entity::initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, tileNS::TEXTURE_COLS, image));
+	return(Entity::initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, 1, image));
 }
 
 //=============================================================================

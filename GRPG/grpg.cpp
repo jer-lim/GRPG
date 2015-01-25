@@ -24,12 +24,13 @@ Grpg::~Grpg()
 //=============================================================================
 void Grpg::initialize(HWND hwnd)
 {
+    Game::initialize(hwnd); // throws GameError
+	entityManager = EntityManager();
+
 	// Load map
 	MapLoader mapLoader;
-	mapLoader.initialize(this, graphics);
+	mapLoader.initialize(this, graphics, &entityManager);
 	mapLoader.load();
-
-    Game::initialize(hwnd); // throws GameError
 
 	// initialize DirectX fonts
 	// 15 pixel high Arial
@@ -41,7 +42,6 @@ void Grpg::initialize(HWND hwnd)
 	player2 = new Player();
 	ui = new UI();
 
-	entityManager = EntityManager();
 	if(!player->initialize(this))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 

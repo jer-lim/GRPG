@@ -5,8 +5,10 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <sstream>
 #include "globals.h"
 #include "tile.h"
+#include "entityManager.h"
 
 using namespace std;
 
@@ -16,7 +18,7 @@ struct chunk {
 
 struct tileStruct {
 	bool collidable;
-	const char* imageName;
+	string imageName;
 };
 
 class MapLoader {
@@ -25,15 +27,19 @@ protected:
 
 	Game* gamePtr;
 	Graphics* graphics;
+	EntityManager* entityManager;
 
 	string mapFolder;
+	string tileImageFolder;
+
+	// Raw text-only data
 	unordered_map<char, tileStruct> tileset;
 	unordered_map<char, chunk*> chunks;
 	unordered_map<int, unordered_map<int, char>> worldMap;
 
 public:
 	MapLoader();
-	void initialize(Game* game, Graphics* g);
+	void initialize(Game* game, Graphics* g, EntityManager* em);
 	void load();
 };
 
