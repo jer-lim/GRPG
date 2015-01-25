@@ -13,14 +13,30 @@ UI::UI() : Entity()
 	image.setFrames(0, 0);
 	collisionType = entityNS::NONE;
 	image.setFrameDelay(0.2);
+	uiText = new TextDX();
 }
 
 //=============================================================================
-// Initialize the Ship.
+// default destructor
+//=============================================================================
+UI::~UI()
+{
+	SAFE_DELETE(uiText);
+}
+
+//=============================================================================
+// Initialize the User interface.
 // Post: returns true if successful, false if failed
 //=============================================================================
 bool UI::initialize(Game *gamePtr)
 {
+	// 15 pixel high Arial
+	if (uiText->initialize(gamePtr->getGraphics(), 15, true, false, "Arial") == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
+
+	//Also white cause background black
+	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
+
 	//UI only have one image
 	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE));
 }
@@ -31,6 +47,9 @@ bool UI::initialize(Game *gamePtr)
 void UI::draw()
 {
 	Entity::draw();
+
+	//Draw all text here so that the image properly appears below them
+
 }
 
 //=============================================================================
@@ -41,4 +60,20 @@ void UI::draw()
 void UI::update(float frameTime)
 {
 	Entity::update(frameTime);
+}
+
+//=============================================================================
+// called when graphics device is lost
+//=============================================================================
+void UI::onLostDevice()
+{
+	uiText->onLostDevice();
+}
+
+//=============================================================================
+// called when graphics device is reset
+//=============================================================================
+void UI::onResetDevice()
+{
+	uiText->onResetDevice();
 }

@@ -3,6 +3,7 @@
 
 #include "entity.h"
 #include "constants.h"
+#include "textDX.h"
 
 namespace uiNS
 {
@@ -16,15 +17,23 @@ namespace uiNS
 class UI : public Entity
 {
 private:
-
+	TextDX* uiText;
 public:
 	// constructor
 	UI();
 
+	// Destructor
+	~UI();
+
 	// inherited member functions
 	virtual void draw();
 	virtual bool initialize(Game *gamePtr);
+	// Release resources
+	virtual void onLostDevice();
+
+	// Restore resources
+	virtual void onResetDevice();
+
 	void update(float frameTime);
 };
 #endif
-

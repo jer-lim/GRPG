@@ -27,7 +27,7 @@ Player::Player() : Entity()
 }
 
 //=============================================================================
-// Initialize the Ship.
+// Initialize the Player.
 // Post: returns true if successful, false if failed
 //=============================================================================
 bool Player::initialize(Game *gamePtr)
