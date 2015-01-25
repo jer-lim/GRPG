@@ -1,6 +1,7 @@
 #include "UI.h"
 #include <map>
 #include "playerSkill.h"
+#include <sstream>
 
 //=============================================================================
 // default constructor
@@ -55,13 +56,29 @@ void UI::draw()
 	//Draw all text here so that the image properly appears below them
 	float heightAllowed = uiNS::HEIGHT / 7; //We have 7 skills
 	float yLocation = getY() - uiNS::HEIGHT/2;
-	map<int, PlayerSkill> playerSkills = player->getSkills();
+	map<int, PlayerSkill>* playerSkills = player->getSkills();
 	map<int, PlayerSkill>::iterator it;
-	for (it = playerSkills.begin(); it != playerSkills.end(); it++)
+	stringstream skillLevel;
+	for (it = playerSkills->begin(); it != playerSkills->end(); it++)
 	{
 		//Print the skill text at the center of each location, with 5 px margin: left;
 		uiText->print(it->second.getSkill().getName(),
 			getX() + 5 - uiNS::WIDTH/2, yLocation + heightAllowed/2 - (uiNS::textSize/2));
+		//Check skill level and append a 0 in front if needed
+		if (it->second.getSkillLevel() < 10)
+		{
+			skillLevel << "0" << it->second.getSkillLevel();
+		}
+		else
+		{
+			skillLevel << it->second.getSkillLevel();
+		}
+		//Print level
+		uiText->print(skillLevel.str() + "/99",
+			getX() + 40, yLocation + heightAllowed / 2 - (uiNS::textSize / 2));
+		
+		skillLevel.str("");
+
 		yLocation += heightAllowed;
 	}
 }

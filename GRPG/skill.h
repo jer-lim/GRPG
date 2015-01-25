@@ -49,7 +49,7 @@ public:
 	static int calculateXPRequired(float level)
 	{
 		float points = 0;
-		for (float lvl = 1; lvl <= level; lvl++)
+		for (float lvl = 1; lvl < level; lvl++)
 		{
 			points += floor(lvl + 300 * pow(2, lvl / 7));
 		}

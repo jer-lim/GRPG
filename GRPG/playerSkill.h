@@ -40,6 +40,9 @@ public:
 	// Get the skill that this referes to
 	Skill getSkill() { return skill; }
 
+	// Get the total number of XP the player has gained in this skill
+	long getXP() { return experience; }
+
 	//Makes use of Runescape's experience formula to calculate the level
 	int getSkillLevel();
 

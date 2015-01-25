@@ -36,7 +36,7 @@ public:
 	// Get functions
 
 	// Get the player's skills, which is a map of <string, PlayerSkill> All strings are in full lowercase
-	map<int, PlayerSkill> getSkills() { return skills; }
+	map<int, PlayerSkill>* getSkills() { return &skills; }
 
     // inherited member functions
     virtual void draw();
