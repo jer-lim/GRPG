@@ -81,14 +81,11 @@ void Grpg::update()
 	}
 
 	map<int, PlayerSkill>::iterator it;
-	map<int, PlayerSkill> playerSkills = player->getSkills();
-	for (it = playerSkills.begin(); it != playerSkills.end(); it++)
+	map<int, PlayerSkill>* playerSkills = player->getSkills();
+	for (it = playerSkills->begin(); it != playerSkills->end(); it++)
 	{
-		it->second.gainXP(1000);
+		it->second.gainXP(rand()%10);
 	}
-
-	PlayerSkill mySkill = player->getSkills()[skillNS::ID_SKILL_ATTACK];
-	mySkill.gainXP(10);
 
 	entityManager.updateAll(frameTime);
 }
@@ -116,7 +113,8 @@ void Grpg::render()
 
 	entityManager.renderAll();
 	stringstream ss;
-	ss << player->getSkills()[skillNS::ID_SKILL_ATTACK].getXP();
+	//ss << player->getSkills()->at(skillNS::ID_SKILL_ATTACK).getXP();
+	ss << "Move to location";
 	uiFont->print(ss.str(), 5, 0); //Feel free to use this text for any debugging thing
 	ss.str("");
 
