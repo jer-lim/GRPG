@@ -29,6 +29,7 @@
     <ClInclude Include="skill.h" />
     <ClInclude Include="skillLoader.h" />
     <ClInclude Include="textureManager.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
@@ -44,6 +45,7 @@
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="skillLoader.cpp" />
     <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
