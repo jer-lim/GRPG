@@ -119,25 +119,32 @@ void MapLoader::load(){
 
 					// Load tiles
 					char tileId = chunks[chunkId]->tile[cx][cy];
-					TextureManager* textureManager;
 
-					Tile* t = new Tile();
-					stringstream ss;
-					ss << tileImageFolder << tileset[tileId].imageName;
+					int xPos = startX + (x * 16 + cx) * tileNS::WIDTH;
+					int yPos = startY + (y * 16 + cy) * tileNS::HEIGHT;
 
-					if (tileTms.count(tileId) > 0){
-						textureManager = tileTms[tileId];
+					if (xPos < GAME_WIDTH + 16 && yPos < GAME_HEIGHT + 16){
+
+						TextureManager* textureManager;
+
+						Tile* t = new Tile();
+						stringstream ss;
+						ss << tileImageFolder << tileset[tileId].imageName;
+
+						if (tileTms.count(tileId) > 0){
+							textureManager = tileTms[tileId];
+						}
+						else{
+							textureManager = new TextureManager();
+							textureManager->initialize(graphics, ss.str().c_str());
+						}
+
+						t->initialize(gamePtr, textureManager);
+						//t->initialize(gamePtr, ss.str().c_str());
+						t->setX(xPos);
+						t->setY(yPos);
+						entityManager->addEntity(t);
 					}
-					else{
-						textureManager = new TextureManager();
-						textureManager->initialize(graphics, ss.str().c_str());
-					}
-					
-					t->initialize(gamePtr, textureManager);
-					//t->initialize(gamePtr, ss.str().c_str());
-					t->setX(startX + (x * 16 + cx) * tileNS::WIDTH);
-					t->setY(startY + (y * 16 + cy) * tileNS::HEIGHT);
-					entityManager->addEntity(t);
 				}
 			}
 		}
