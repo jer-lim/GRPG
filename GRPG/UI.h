@@ -12,6 +12,7 @@ namespace uiNS
 	const int HEIGHT = 264;                  // image height
 	const int X = GAME_WIDTH - WIDTH / 2;   // location on screen
 	const int Y = GAME_HEIGHT - HEIGHT / 2;
+	const int textSize = 20;
 }
 
 // inherits from Entity class

@@ -32,6 +32,14 @@ public:
 	// constructor
 	PlayerSkill(Player* referencedPlayer, Skill s);
 
+	//Get functions
+
+	// Get the player that has this skill
+	Player* getPlayer() { return thePlayer; }
+
+	// Get the skill that this referes to
+	Skill getSkill() { return skill; }
+
 	//Makes use of Runescape's experience formula to calculate the level
 	int getSkillLevel();
 

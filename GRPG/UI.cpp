@@ -14,7 +14,7 @@ UI::UI() : Entity()
 	image.setCurrentFrame(0);
 	image.setFrames(0, 0);
 	collisionType = entityNS::NONE;
-	image.setFrameDelay(0.2);
+	image.setFrameDelay(1);
 	uiText = new TextDX();
 }
 
@@ -35,7 +35,7 @@ bool UI::initialize(Game* gamePtr, Player* p)
 	player = p;
 
 	// 15 pixel high Arial
-	if (uiText->initialize(gamePtr->getGraphics(), 15, true, false, "Arial") == false)
+	if (uiText->initialize(gamePtr->getGraphics(), uiNS::textSize, true, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
 
 	//Also white cause background black
@@ -60,7 +60,8 @@ void UI::draw()
 	for (it = playerSkills.begin(); it != playerSkills.end(); it++)
 	{
 		//Print the skill text at the center of each location, with 5 px margin: left;
-		uiText->print(it->first, getX() + 5 - uiNS::WIDTH/2, yLocation + heightAllowed/2 - (15.0/2)); // text is 15 pixels tall
+		uiText->print(it->second.getSkill().getName(),
+			getX() + 5 - uiNS::WIDTH/2, yLocation + heightAllowed/2 - (uiNS::textSize/2));
 		yLocation += heightAllowed;
 	}
 }

@@ -33,6 +33,11 @@ public:
     Skill();
 	Skill(std::string,std::string,int);
 
+	//Get functions
+
+	std::string getName(){ return name; }
+	std::string getDescription() { return description; }
+
 	//Uses runescape's xp formula currently
 	static int calculateXPRequired(float level)
 	{
