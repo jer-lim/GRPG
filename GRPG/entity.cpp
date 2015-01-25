@@ -5,6 +5,7 @@
 
 #include "entity.h"
 #include <cmath>
+#include <sstream>
 
 //=============================================================================
 // constructor
@@ -59,8 +60,8 @@ void Entity::activate()
 //=============================================================================
 void Entity::draw()
 {
-	image.setX(x);
-	image.setY(y);
+	image.setX(getX());
+	image.setY(getY());
 	image.draw();
 }
 
@@ -83,11 +84,7 @@ void Entity::update(float frameTime)
 			This can be used to determine angles for trajectory and light reflection.
 		*/
 		float angle = acos(normalizedDirection->x/D3DXVec2Length(normalizedDirection));
-		if(normalizedDirection->y < 0)
-		{
-			angle = 270 - angle;
-		}
-		image.setRadians(angle);
+		image.flipHorizontal(angle > PI / 2);
 
 		//Is it close enough?
 		float distanceToDest = D3DXVec2Length(&direction);
