@@ -5,27 +5,44 @@
 //=============================================================================
 Player::Player() : Entity()
 {
-    image.spriteData.width = playerNS::WIDTH;           // size of Ship1
+    image.spriteData.width = playerNS::WIDTH;           // size of player
 	image.spriteData.height = playerNS::HEIGHT;
-	image.spriteData.x = playerNS::X;                   // location on screen
-	image.spriteData.y = playerNS::Y;
+	//image.spriteData.x = playerNS::X;                   // location on screen
+	//image.spriteData.y = playerNS::Y;
 	image.spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
 	image.spriteData.rect.right = playerNS::WIDTH;
-	image.setFrameDelay(playerNS::SHIP_ANIMATION_DELAY);
-	image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);     // set animation frames
-	image.setCurrentFrame(playerNS::SHIP1_START_FRAME);
+	image.setFrameDelay(playerNS::ANIMATION_DELAY);
+	image.setFrames(playerNS::START_FRAME, playerNS::END_FRAME);     // set animation frames
+	image.setCurrentFrame(playerNS::START_FRAME);
     radius = playerNS::WIDTH/2.0;
-    mass = playerNS::MASS;
     collisionType = entityNS::CIRCLE;
+
+	attack = PlayerSkill(this, Skill::ATTACK);
+	strength = PlayerSkill(this, Skill::STRENGTH);
+	defense = PlayerSkill(this, Skill::DEFENSE);
+	toughness = PlayerSkill(this, Skill::TOUGHNESS);
+	fishing = PlayerSkill(this, Skill::FISHING);
+	cooking = PlayerSkill(this, Skill::COOKING);
+	mining = PlayerSkill(this, Skill::MINING);
+
+	//skills = List<PlayerSkill>();
+	/*
+	skills.add(attack);
+	skills.add(strength);
+	skills.add(defense);
+	skills.add(toughness);
+	skills.add(fishing);
+	skills.add(cooking);
+	skills.add(mining);*/
 }
 
 //=============================================================================
-// Initialize the Ship.
+// Initialize the Player.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Player::initialize(Game *gamePtr, int width, int height, int ncols)
+bool Player::initialize(Game *gamePtr)
 {
-    return(Entity::initialize(gamePtr, width, height, ncols));
+    return(Entity::initialize(gamePtr, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, TEXTURES_IMAGE));
 }
 
 //=============================================================================

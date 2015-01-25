@@ -23,12 +23,16 @@
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="mapLoader.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="skillLoader.h" />
+    <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
+    <ClInclude Include="tile.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
@@ -38,12 +42,16 @@
     <ClCompile Include="grpg.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="List.cpp" />
     <ClCompile Include="mapLoader.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="skillLoader.cpp" />
+    <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="tile.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

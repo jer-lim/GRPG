@@ -4,7 +4,9 @@
 // Constructor
 //=============================================================================
 Grpg::Grpg()
-{}
+{
+	uiFont = new TextDX();
+}
 
 //=============================================================================
 // Destructor
@@ -12,6 +14,7 @@ Grpg::Grpg()
 Grpg::~Grpg()
 {
     releaseAll();           // call onLostDevice() for every graphics item
+	SAFE_DELETE(uiFont);
 }
 
 //=============================================================================
@@ -20,36 +23,47 @@ Grpg::~Grpg()
 //=============================================================================
 void Grpg::initialize(HWND hwnd)
 {
-
 	// Load map
 	MapLoader mapLoader;
+	mapLoader.initialize(this, graphics);
 	mapLoader.load();
 
     Game::initialize(hwnd); // throws GameError
 
+	// initialize DirectX fonts
+	// 15 pixel high Arial
+	if (uiFont->initialize(graphics, 15, true, false, "Arial") == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
+
 	// Initialise entities
 	player = new Player();
 	player2 = new Player();
+	ui = new UI();
 
 	entityManager = EntityManager();
-	if(!player->initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS))
+	if(!player->initialize(this))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
-	if (!player2->initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS))
+	if (!player2->initialize(this))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
+
+	if (!ui->initialize(this, player))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the user interface"));
+
+	ui->setX(uiNS::X);
+	ui->setY(uiNS::Y);
 	
-	//player.image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
-	//player.setCurrentFrame(playerNS::SHIP1_START_FRAME);
 	player->setX(GAME_WIDTH/2);
 	player->setY(GAME_HEIGHT / 2);
 	player2->setX(10);
 	player2->setY(10);
 
-	player2->setSpeed(50);
+	player2->setSpeed(90);
 	player2->move(player);
 
 	entityManager.addEntity(player);
 	entityManager.addEntity(player2);
+	entityManager.addEntity(ui);
 	
     return;
 }
@@ -65,8 +79,6 @@ void Grpg::update()
 		player->move(p);
 	}
 
-	//player.update(frameTime);
-	//player2.update(frameTime);
 	entityManager.updateAll(frameTime);
 }
 
@@ -91,10 +103,8 @@ void Grpg::render()
 {
     graphics->spriteBegin();                // begin drawing sprites
 
-	//player.draw();
-	//player2.draw();
-
 	entityManager.renderAll();
+	uiFont->print("Move to location", 5, 0); //Feel free to use this text for any debugging thing
 
     graphics->spriteEnd();                  // end drawing sprites
 }
@@ -105,8 +115,12 @@ void Grpg::render()
 //=============================================================================
 void Grpg::releaseAll()
 {
-    //gameTextures.onLostDevice();
 	entityManager.releaseAll();
+	uiFont->onLostDevice();
+	//UI is their own class as well, and needs to be told to release their inner children's
+	//textures and text (The entity manager only does it for the texture)
+	ui->onLostDevice();
+
     Game::releaseAll();
     return;
 }
@@ -117,8 +131,12 @@ void Grpg::releaseAll()
 //=============================================================================
 void Grpg::resetAll()
 {
-    //gameTextures.onResetDevice();
 	entityManager.resetAll();
+	uiFont->onResetDevice();
+	//UI is their own class as well, and needs to be told to release their inner children's
+	//textures and text (The entity manager only does it for the texture)
+	ui->onResetDevice();
+
     Game::resetAll();
     return;
 }
