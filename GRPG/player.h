@@ -5,6 +5,7 @@
 #include "entity.h"
 #include "constants.h"
 #include "playerSkill.h"
+#include "List.h"
 
 namespace playerNS
 {
@@ -23,6 +24,8 @@ namespace playerNS
 class Player : public Entity
 {
 private:
+	//List<PlayerSkill> skills;
+
 	PlayerSkill attack;
 	PlayerSkill strength;
 	PlayerSkill defense;

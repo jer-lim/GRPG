@@ -24,6 +24,16 @@ Player::Player() : Entity()
 	fishing = PlayerSkill(this, Skill::FISHING);
 	cooking = PlayerSkill(this, Skill::COOKING);
 	mining = PlayerSkill(this, Skill::MINING);
+
+	//skills = List<PlayerSkill>();
+	/*
+	skills.add(attack);
+	skills.add(strength);
+	skills.add(defense);
+	skills.add(toughness);
+	skills.add(fishing);
+	skills.add(cooking);
+	skills.add(mining);*/
 }
 
 //=============================================================================
