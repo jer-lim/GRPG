@@ -55,6 +55,10 @@ public:
 	// inherited member functions
 	virtual void draw();
 	virtual bool initialize(Game* gamePtr, Player* player);
+
+	// Checks if the mouse is currently over any part of the UI. Returns true if so
+	bool mouseOverUI();
+
 	// Release resources
 	virtual void onLostDevice();
 

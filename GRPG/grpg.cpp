@@ -74,7 +74,7 @@ void Grpg::initialize(HWND hwnd)
 //=============================================================================
 void Grpg::update()
 {
-	if(input->getMouseLButton())
+	if(input->getMouseLButton() && !ui->mouseOverUI())
 	{
 		Point* p =  new Point(input->getMouseX(), input->getMouseY());
 		player->move(p);
