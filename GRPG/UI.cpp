@@ -135,6 +135,33 @@ void UI::drawTabContents(int tabNumber)
 void UI::update(float frameTime)
 {
 	Entity::update(frameTime);
+
+	if (input->getMouseLButton())
+	{
+		//Check if mouse is over any tab
+		float tabTopLeftY = getY() - uiNS::HEIGHT / 2 - uiNS::tabHEIGHT * 3 / 4;
+		float tabBottomLeftY = getY() - uiNS::HEIGHT / 2;
+
+		if (input->getMouseY() > tabTopLeftY && input->getMouseY() < tabBottomLeftY)
+		{
+			float tabTopLeftX = getX() - uiNS::WIDTH / 2 + uiNS::tabLMargin;
+			// Increase in tab: (tabNumber - 1)*(uiNS::tabWIDTH + uiNS::tabMargin) + uiNS::tabWIDTH / 2);
+			if (input->getMouseX() > tabTopLeftX && input->getMouseX() < tabTopLeftX + uiNS::tabWIDTH)
+			{
+				activeTab = uiNS::COMBATSTYLE;
+			}
+			tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
+			if (input->getMouseX() > tabTopLeftX && input->getMouseX() < tabTopLeftX + uiNS::tabWIDTH)
+			{
+				activeTab = uiNS::SKILLS;
+			}
+			tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
+			if (input->getMouseX() > tabTopLeftX && input->getMouseX() < tabTopLeftX + uiNS::tabWIDTH)
+			{
+				activeTab = uiNS::INVENTORY;
+			}
+		}
+	}
 }
 
 //=============================================================================
