@@ -47,7 +47,7 @@ void Grpg::initialize(HWND hwnd)
 	if (!player2->initialize(this))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
-	if (!ui->initialize(this))
+	if (!ui->initialize(this, player))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the user interface"));
 
 	ui->setX(uiNS::X);
@@ -117,6 +117,10 @@ void Grpg::releaseAll()
 {
 	entityManager.releaseAll();
 	uiFont->onLostDevice();
+	//UI is their own class as well, and needs to be told to release their inner children's
+	//textures and text (The entity manager only does it for the texture)
+	ui->onLostDevice();
+
     Game::releaseAll();
     return;
 }
@@ -129,6 +133,10 @@ void Grpg::resetAll()
 {
 	entityManager.resetAll();
 	uiFont->onResetDevice();
+	//UI is their own class as well, and needs to be told to release their inner children's
+	//textures and text (The entity manager only does it for the texture)
+	ui->onResetDevice();
+
     Game::resetAll();
     return;
 }

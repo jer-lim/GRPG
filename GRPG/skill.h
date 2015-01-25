@@ -6,6 +6,13 @@
 
 namespace skillNS
 {
+	const int ID_SKILL_ATTACK = 0;
+	const int ID_SKILL_STRENGTH = 1;
+	const int ID_SKILL_DEFENSE = 2;
+	const int ID_SKILL_TOUGHNESS = 3;
+	const int ID_SKILL_FISHING = 4;
+	const int ID_SKILL_COOKING = 5;
+	const int ID_SKILL_MINING = 6;
 	const int skillInterval = 100;// The intervals between skills in terms of EXP
 	const int maxLevel = 99;//maximum level
 }
@@ -32,6 +39,11 @@ public:
     // constructor
     Skill();
 	Skill(std::string,std::string,int);
+
+	//Get functions
+
+	std::string getName(){ return name; }
+	std::string getDescription() { return description; }
 
 	//Uses runescape's xp formula currently
 	static int calculateXPRequired(float level)

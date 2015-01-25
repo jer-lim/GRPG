@@ -18,6 +18,7 @@
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="textDX.cpp" />
+    <ClCompile Include="List.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -41,5 +42,6 @@
     <ClInclude Include="tile.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="textDX.h" />
+    <ClInclude Include="List.h" />
   </ItemGroup>
 </Project>

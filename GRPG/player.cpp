@@ -17,17 +17,18 @@ Player::Player() : Entity()
     radius = playerNS::WIDTH/2.0;
     collisionType = entityNS::CIRCLE;
 
-	attack = PlayerSkill(this, Skill::ATTACK);
-	strength = PlayerSkill(this, Skill::STRENGTH);
-	defense = PlayerSkill(this, Skill::DEFENSE);
-	toughness = PlayerSkill(this, Skill::TOUGHNESS);
-	fishing = PlayerSkill(this, Skill::FISHING);
-	cooking = PlayerSkill(this, Skill::COOKING);
-	mining = PlayerSkill(this, Skill::MINING);
+	//skills
+	skills[skillNS::ID_SKILL_ATTACK] = PlayerSkill(this, Skill::ATTACK);
+	skills[skillNS::ID_SKILL_STRENGTH] = PlayerSkill(this, Skill::STRENGTH);
+	skills[skillNS::ID_SKILL_DEFENSE] = PlayerSkill(this, Skill::DEFENSE);
+	skills[skillNS::ID_SKILL_TOUGHNESS] = PlayerSkill(this, Skill::TOUGHNESS);
+	skills[skillNS::ID_SKILL_FISHING] = PlayerSkill(this, Skill::FISHING);
+	skills[skillNS::ID_SKILL_COOKING] = PlayerSkill(this, Skill::COOKING);
+	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
 }
 
 //=============================================================================
-// Initialize the Ship.
+// Initialize the Player.
 // Post: returns true if successful, false if failed
 //=============================================================================
 bool Player::initialize(Game *gamePtr)
