@@ -23,9 +23,9 @@ Player::Player() : Entity()
 // Initialize the Ship.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Player::initialize(Game *gamePtr, int width, int height, int ncols)
+bool Player::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm)
 {
-    return(Entity::initialize(gamePtr, width, height, ncols));
+    return(Entity::initialize(gamePtr, width, height, ncols, tm));
 }
 
 //=============================================================================

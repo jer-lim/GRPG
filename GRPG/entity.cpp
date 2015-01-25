@@ -34,16 +34,14 @@ Entity::Entity()
 //      *textureM = pointer to TextureManager object
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Entity::initialize(Game *gamePtr, int width, int height, int ncols)
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm)
 {
     input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 
-	//init texture
-	if (!textureManager.initialize(graphics, TEXTURES_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing player texture"));
+	textureManager = tm;
 
-    return image.initialize(gamePtr->getGraphics(), width, height, ncols, &textureManager);
+    return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureManager);
 }
 
 //=============================================================================

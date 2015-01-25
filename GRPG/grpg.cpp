@@ -23,6 +23,7 @@ void Grpg::initialize(HWND hwnd)
 
 	// Load map
 	MapLoader mapLoader;
+	mapLoader.initialize(this, graphics);
 	mapLoader.load();
 
     Game::initialize(hwnd); // throws GameError
@@ -32,10 +33,15 @@ void Grpg::initialize(HWND hwnd)
 	player2 = new Player();
 
 	entityManager = EntityManager();
-	if(!player->initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS))
+
+	TextureManager* playerTextureManager = new TextureManager();
+	if (!playerTextureManager->initialize(graphics, TEXTURES_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing player texture"));
+
+	if(!player->initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS, playerTextureManager))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
-	if (!player2->initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS))
+	if (!player2->initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, playerTextureManager))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 	
 	//player.image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
