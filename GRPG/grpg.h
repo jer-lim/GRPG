@@ -9,7 +9,7 @@
 #include "image.h"
 #include "entityManager.h"
 #include "UI.h"
-
+#include "textDX.h"
 
 //=============================================================================
 // This class is the core of the game
@@ -22,6 +22,7 @@ private:
 	Player* player2;
 	UI* ui;
 	EntityManager entityManager;
+	TextDX* uiFont;
 
 public:
     // Constructor

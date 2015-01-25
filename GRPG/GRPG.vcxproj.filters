@@ -17,6 +17,7 @@
     <ClCompile Include="entityManager.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="textDX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -39,5 +40,6 @@
     <ClInclude Include="entityManager.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="textDX.h" />
   </ItemGroup>
 </Project>

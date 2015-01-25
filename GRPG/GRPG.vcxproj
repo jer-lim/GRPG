@@ -28,6 +28,7 @@
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="skillLoader.h" />
+    <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="UI.h" />
@@ -45,6 +46,7 @@
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="skillLoader.cpp" />
+    <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="UI.cpp" />

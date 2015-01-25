@@ -5,8 +5,17 @@
 //=============================================================================
 // default constructor
 //=============================================================================
-PlayerSkill::PlayerSkill()
+PlayerSkill::PlayerSkill() {}
+
+//=============================================================================
+// Parameterized constructor.
+// p: The player that has this skill
+// s: The skill that you are referring to
+//=============================================================================
+PlayerSkill::PlayerSkill(Player* p, Skill s)
 {
+	thePlayer = p;
+	skill = s;
 	experience = 0;
 }
 
