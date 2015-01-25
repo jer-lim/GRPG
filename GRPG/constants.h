@@ -52,9 +52,9 @@ const UCHAR SHIP_UP_KEY = VK_UP;
 const UCHAR SHIP_DOWN_KEY = VK_DOWN;
 
 // graphic images
-const char NEBULA_IMAGE[] =   "pictures/orion.jpg";     // photo source NASA/courtesy of nasaimages.org 
 const char TEXTURES_IMAGE[] = "assets/npcs/sprites/player.png";  // game textures
-const char UI_IMAGE[] =       "assets/ui/bottomrightbackground.png"; //UI texture
+const char UI_IMAGE[] = "assets/ui/bottomrightbackground.png"; //UI texture
+const char TAB_IMAGE[] = "assets/ui/tabs.png"; //UI tabs texture
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
