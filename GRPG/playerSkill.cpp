@@ -1,4 +1,6 @@
 #include "playerSkill.h"
+#include <cmath>
+#include <sstream>
 
 //=============================================================================
 // default constructor
@@ -8,9 +10,19 @@ PlayerSkill::PlayerSkill()
 	experience = 0;
 }
 
+//Makes use of Runescape's experience formula to calculate the level
 int PlayerSkill::getSkillLevel()
 {
-	return 1;
+	float points = 0;
+	for (float lvl = 1; lvl <= 99; lvl++)
+	{
+		points += floor(lvl + 300 * pow(2, lvl / 7.));
+		if (points / 4 > experience)
+		{
+			return lvl - 1;
+		}
+	}
+	return 99;
 }
 
 void PlayerSkill::gainXP(long XP)

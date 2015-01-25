@@ -4,6 +4,8 @@
 
 #include "entity.h"
 #include "constants.h"
+#include "player.h"
+#include "playerSkill.h"
 
 namespace playerNS
 {
