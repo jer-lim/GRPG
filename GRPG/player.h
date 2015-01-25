@@ -24,7 +24,13 @@ namespace playerNS
 class Player : public Entity
 {
 private:
-
+	PlayerSkill attack;
+	PlayerSkill strength;
+	PlayerSkill defence;
+	PlayerSkill fishing;
+	PlayerSkill cooking;
+	PlayerSkill mining;
+	PlayerSkill smithing;
 public:
     // constructor
     Player();

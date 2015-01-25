@@ -16,9 +16,6 @@ Player::Player() : Entity()
 	image.setCurrentFrame(playerNS::START_FRAME);
     radius = playerNS::WIDTH/2.0;
     collisionType = entityNS::CIRCLE;
-
-	PlayerSkill ps;
-	ps.getSkillLevel();
 }
 
 //=============================================================================
