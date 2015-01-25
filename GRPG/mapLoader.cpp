@@ -6,6 +6,11 @@ MapLoader::MapLoader(){
 	mapFolder = "assets/map/";
 }
 
+void MapLoader::initialize(Game* game, Graphics* g){
+	gamePtr = game;
+	graphics = g;
+}
+
 void MapLoader::load(){
 
 	// Load tileset
@@ -13,14 +18,18 @@ void MapLoader::load(){
 	tilestream.open(mapFolder + "tiles.gdef");
 	if (tilestream.is_open()){
 		char tileId;
+		int tileCollidable;
 		string tileFileName;
 		while (!tilestream.eof()){
 
 			tilestream >> tileId;
+			tilestream >> tileCollidable;
 			tilestream >> tileFileName;
 
 			//Insert into a map
-			tileset[tileId] = tileFileName;
+			if (tileCollidable == 1) tileset[tileId].collidable = TRUE;
+			else tileset[tileId].collidable = FALSE;
+			tileset[tileId].imageName = tileFileName.c_str();
 			runtimeLog << "Loaded tile " << tileId << endl;
 		}
 
@@ -90,5 +99,11 @@ void MapLoader::load(){
 	{
 		runtimeLog << "Failed to open worldmap" << endl;
 	}
+
+	//TextureManager* tileTm = new TextureManager();
+	//tileTm->initialize(graphics, tileset['0'].imageName);
+
+	//Tile t = Tile();
+	//t.initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, tileNS::TEXTURE_COLS);
 
 }
