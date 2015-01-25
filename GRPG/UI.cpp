@@ -60,11 +60,16 @@ bool UI::initialize(Game* gamePtr, Player* p)
 //=============================================================================
 void UI::draw()
 {
-	drawTab(uiNS::COMBATSTYLE);
-	drawTab(uiNS::SKILLS);
-	drawTab(uiNS::INVENTORY);
+	if (uiNS::COMBATSTYLE != activeTab)
+		drawTab(uiNS::COMBATSTYLE);
+	if (uiNS::SKILLS != activeTab)
+		drawTab(uiNS::SKILLS);
+	if (uiNS::INVENTORY != activeTab)
+		drawTab(uiNS::INVENTORY);
 
 	Entity::draw();
+
+	drawTab(activeTab);
 
 	//Draw all text here so that the image properly appears below them
 	drawTabContents(activeTab);
