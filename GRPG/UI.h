@@ -13,11 +13,16 @@ namespace uiNS
 	const int Y = GAME_HEIGHT - HEIGHT / 2;
 }
 
+//See playerSkill.h for explanation of this line of code
+class Player;
+
 // inherits from Entity class
 class UI : public Entity
 {
 private:
 	TextDX* uiText;
+	Player* player; //Pointer to player to retrieve information about them
+
 public:
 	// constructor
 	UI();
@@ -27,7 +32,7 @@ public:
 
 	// inherited member functions
 	virtual void draw();
-	virtual bool initialize(Game *gamePtr);
+	virtual bool initialize(Game* gamePtr, Player* player);
 	// Release resources
 	virtual void onLostDevice();
 
