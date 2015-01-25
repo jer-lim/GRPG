@@ -27,7 +27,7 @@ namespace playerNS
 class Player : public Entity
 {
 private:
-	map <string, PlayerSkill> skills;
+	map <int, PlayerSkill> skills;
 	
 public:
     // constructor
@@ -36,7 +36,7 @@ public:
 	// Get functions
 
 	// Get the player's skills, which is a map of <string, PlayerSkill> All strings are in full lowercase
-	map<string, PlayerSkill> getSkills() { return skills; }
+	map<int, PlayerSkill> getSkills() { return skills; }
 
     // inherited member functions
     virtual void draw();

@@ -55,8 +55,8 @@ void UI::draw()
 	//Draw all text here so that the image properly appears below them
 	float heightAllowed = uiNS::HEIGHT / 7; //We have 7 skills
 	float yLocation = getY() - uiNS::HEIGHT/2;
-	map<std::string, PlayerSkill> playerSkills = player->getSkills();
-	map<std::string, PlayerSkill>::iterator it;
+	map<int, PlayerSkill> playerSkills = player->getSkills();
+	map<int, PlayerSkill>::iterator it;
 	for (it = playerSkills.begin(); it != playerSkills.end(); it++)
 	{
 		//Print the skill text at the center of each location, with 5 px margin: left;

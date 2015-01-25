@@ -6,6 +6,13 @@
 
 namespace skillNS
 {
+	const int ID_SKILL_ATTACK = 0;
+	const int ID_SKILL_STRENGTH = 1;
+	const int ID_SKILL_DEFENSE = 2;
+	const int ID_SKILL_TOUGHNESS = 3;
+	const int ID_SKILL_FISHING = 4;
+	const int ID_SKILL_COOKING = 5;
+	const int ID_SKILL_MINING = 6;
 	const int skillInterval = 100;// The intervals between skills in terms of EXP
 	const int maxLevel = 99;//maximum level
 }

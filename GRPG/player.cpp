@@ -18,13 +18,13 @@ Player::Player() : Entity()
     collisionType = entityNS::CIRCLE;
 
 	//skills
-	skills["Attack"] = PlayerSkill(this, Skill::ATTACK);
-	skills["Strength"] = PlayerSkill(this, Skill::STRENGTH);
-	skills["Defense"] = PlayerSkill(this, Skill::DEFENSE);
-	skills["Toughness"] = PlayerSkill(this, Skill::TOUGHNESS);
-	skills["Fishing"] = PlayerSkill(this, Skill::FISHING);
-	skills["Cooking"] = PlayerSkill(this, Skill::COOKING);
-	skills["Mining"] = PlayerSkill(this, Skill::MINING);
+	skills[skillNS::ID_SKILL_ATTACK] = PlayerSkill(this, Skill::ATTACK);
+	skills[skillNS::ID_SKILL_STRENGTH] = PlayerSkill(this, Skill::STRENGTH);
+	skills[skillNS::ID_SKILL_DEFENSE] = PlayerSkill(this, Skill::DEFENSE);
+	skills[skillNS::ID_SKILL_TOUGHNESS] = PlayerSkill(this, Skill::TOUGHNESS);
+	skills[skillNS::ID_SKILL_FISHING] = PlayerSkill(this, Skill::FISHING);
+	skills[skillNS::ID_SKILL_COOKING] = PlayerSkill(this, Skill::COOKING);
+	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
 }
 
 //=============================================================================
