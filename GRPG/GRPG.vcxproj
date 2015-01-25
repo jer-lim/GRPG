@@ -31,6 +31,7 @@
     <ClInclude Include="skillLoader.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
+    <ClInclude Include="tile.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +50,7 @@
     <ClCompile Include="skillLoader.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="tile.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>

@@ -25,6 +25,7 @@ void Grpg::initialize(HWND hwnd)
 {
 	// Load map
 	MapLoader mapLoader;
+	mapLoader.initialize(this, graphics);
 	mapLoader.load();
 
     Game::initialize(hwnd); // throws GameError
