@@ -1,4 +1,5 @@
 #include "grpg.h"
+#include <sstream>
 
 //=============================================================================
 // Constructor
@@ -79,6 +80,16 @@ void Grpg::update()
 		player->move(p);
 	}
 
+	map<int, PlayerSkill>::iterator it;
+	map<int, PlayerSkill> playerSkills = player->getSkills();
+	for (it = playerSkills.begin(); it != playerSkills.end(); it++)
+	{
+		it->second.gainXP(1000);
+	}
+
+	PlayerSkill mySkill = player->getSkills()[skillNS::ID_SKILL_ATTACK];
+	mySkill.gainXP(10);
+
 	entityManager.updateAll(frameTime);
 }
 
@@ -104,7 +115,10 @@ void Grpg::render()
     graphics->spriteBegin();                // begin drawing sprites
 
 	entityManager.renderAll();
-	uiFont->print("Move to location", 5, 0); //Feel free to use this text for any debugging thing
+	stringstream ss;
+	ss << player->getSkills()[skillNS::ID_SKILL_ATTACK].getXP();
+	uiFont->print(ss.str(), 5, 0); //Feel free to use this text for any debugging thing
+	ss.str("");
 
     graphics->spriteEnd();                  // end drawing sprites
 }
