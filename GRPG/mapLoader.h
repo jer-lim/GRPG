@@ -37,6 +37,9 @@ protected:
 	unordered_map<char, chunk*> chunks;
 	unordered_map<int, unordered_map<int, char>> worldMap;
 
+	// Loaded objects
+	unordered_map<int, TextureManager*> tileTms;
+
 public:
 	MapLoader();
 	void initialize(Game* game, Graphics* g, EntityManager* em);

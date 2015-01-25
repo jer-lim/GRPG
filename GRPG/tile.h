@@ -24,6 +24,7 @@ public:
     // inherited member functions
     virtual void draw();
 	virtual bool initialize(Game *gamePtr, const char image[]);
+	virtual bool initialize(Game *gamePtr, TextureManager* tm);
     void update(float frameTime);
 };
 #endif

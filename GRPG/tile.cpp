@@ -26,6 +26,11 @@ bool Tile::initialize(Game *gamePtr, const char image[])
 	return(Entity::initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, 1, image));
 }
 
+bool Tile::initialize(Game *gamePtr, TextureManager* tm)
+{
+	return(Entity::initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, 1, tm));
+}
+
 //=============================================================================
 // draw the player
 //=============================================================================

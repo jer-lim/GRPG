@@ -93,10 +93,15 @@ bool Image::initialize(Graphics *g, int width, int height, int ncols,
 //=============================================================================
 void Image::draw(COLOR_ARGB color)
 {
-    if (!visible || graphics == NULL)
-        return;
-    // get fresh texture incase onReset() was called
-    spriteData.texture = textureManager->getTexture();
+	if (!visible || graphics == NULL)
+		return;
+	// get fresh texture incase onReset() was called
+	/*
+	* MAJOR IMPROVEMENT MADE HERE
+	*/
+	if (textureManager->getReset()){
+		spriteData.texture = textureManager->getTexture();
+	}
     if(color == graphicsNS::FILTER)                     // if draw with filter
         graphics->drawSprite(spriteData, colorFilter);  // use colorFilter
     else

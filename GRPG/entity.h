@@ -173,6 +173,9 @@ class Entity : public Destination
     //      ncols = number of columns in texture (1 to n) (0 same as 1)
 	//		whichTexture = The texture that should be used
     virtual bool initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[]);
+
+	// Initialize entity using a pre-initialized TextureManager
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm);
     // Activate Entity.
     virtual void activate();
 

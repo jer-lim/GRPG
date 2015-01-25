@@ -49,6 +49,15 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
     return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
 }
 
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm)
+{
+	input = gamePtr->getInput();                // the input system
+	graphics = gamePtr->getGraphics();
+	textureM = tm;
+
+	return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
+}
+
 //=============================================================================
 // activate the entity
 //=============================================================================

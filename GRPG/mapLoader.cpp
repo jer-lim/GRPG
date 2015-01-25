@@ -119,16 +119,24 @@ void MapLoader::load(){
 
 					// Load tiles
 					char tileId = chunks[chunkId]->tile[cx][cy];
+					TextureManager* textureManager;
 
 					Tile* t = new Tile();
 					stringstream ss;
 					ss << tileImageFolder << tileset[tileId].imageName;
-					t->initialize(gamePtr, ss.str().c_str());
+
+					if (tileTms.count(tileId) > 0){
+						textureManager = tileTms[tileId];
+					}
+					else{
+						textureManager = new TextureManager();
+						textureManager->initialize(graphics, ss.str().c_str());
+					}
+					
+					t->initialize(gamePtr, textureManager);
+					//t->initialize(gamePtr, ss.str().c_str());
 					t->setX(startX + (x * 16 + cx) * tileNS::WIDTH);
 					t->setY(startY + (y * 16 + cy) * tileNS::HEIGHT);
-					//runtimeLog << "Loading tile into " << t->getX() << ", " << t->getY() << endl;
-
-					runtimeLog << x << " " << y << " " << cx << " " << cy << endl;
 					entityManager->addEntity(t);
 				}
 			}
