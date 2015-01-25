@@ -17,6 +17,7 @@ Game::Game()
     paused = false;             // game is not paused
     graphics = NULL;
     initialized = false;
+	fps = 30; //Initalize fps to a good number, let it roll from there
 }
 
 //=============================================================================
@@ -198,7 +199,7 @@ void Game::run(HWND hwnd)
     }
 
     if (frameTime > 0.0)
-        fps = (fps*0.99f) + (0.01f/frameTime);  // average fps
+        fps = (fps*0.7f) + (0.3f/frameTime);  // average fps
     if (frameTime > MAX_FRAME_TIME) // if frame rate is very slow
         frameTime = MAX_FRAME_TIME; // limit maximum frameTime
     timeStart = timeEnd;

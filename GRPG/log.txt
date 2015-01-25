@@ -1,0 +1,5 @@
+Loaded tile 0
+Loaded tile 1
+Loaded chunk 0
+Loaded chunk 1
+Loaded world map

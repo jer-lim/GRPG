@@ -114,7 +114,7 @@ void Grpg::render()
 	entityManager.renderAll();
 	stringstream ss;
 	//ss << player->getSkills()->at(skillNS::ID_SKILL_ATTACK).getXP();
-	ss << "Move to location";
+	ss << "FPS: " << fps;
 	uiFont->print(ss.str(), 5, 0); //Feel free to use this text for any debugging thing
 	ss.str("");
 
