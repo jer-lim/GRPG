@@ -30,6 +30,7 @@
     <ClInclude Include="skillLoader.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="tile.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="skillLoader.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tile.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

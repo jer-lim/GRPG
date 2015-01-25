@@ -5,27 +5,29 @@
 //=============================================================================
 Player::Player() : Entity()
 {
-    image.spriteData.width = playerNS::WIDTH;           // size of Ship1
+    image.spriteData.width = playerNS::WIDTH;           // size of player
 	image.spriteData.height = playerNS::HEIGHT;
-	image.spriteData.x = playerNS::X;                   // location on screen
-	image.spriteData.y = playerNS::Y;
+	//image.spriteData.x = playerNS::X;                   // location on screen
+	//image.spriteData.y = playerNS::Y;
 	image.spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
 	image.spriteData.rect.right = playerNS::WIDTH;
-	image.setFrameDelay(playerNS::SHIP_ANIMATION_DELAY);
-	image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);     // set animation frames
-	image.setCurrentFrame(playerNS::SHIP1_START_FRAME);
+	image.setFrameDelay(playerNS::ANIMATION_DELAY);
+	image.setFrames(playerNS::START_FRAME, playerNS::END_FRAME);     // set animation frames
+	image.setCurrentFrame(playerNS::START_FRAME);
     radius = playerNS::WIDTH/2.0;
-    mass = playerNS::MASS;
     collisionType = entityNS::CIRCLE;
+
+	PlayerSkill ps;
+	ps.getSkillLevel();
 }
 
 //=============================================================================
 // Initialize the Ship.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Player::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm)
+bool Player::initialize(Game *gamePtr)
 {
-    return(Entity::initialize(gamePtr, width, height, ncols, tm));
+    return(Entity::initialize(gamePtr, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, TEXTURES_IMAGE));
 }
 
 //=============================================================================

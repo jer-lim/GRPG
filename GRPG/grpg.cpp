@@ -31,21 +31,21 @@ void Grpg::initialize(HWND hwnd)
 	// Initialise entities
 	player = new Player();
 	player2 = new Player();
+	ui = new UI();
 
 	entityManager = EntityManager();
-
-	TextureManager* playerTextureManager = new TextureManager();
-	if (!playerTextureManager->initialize(graphics, TEXTURES_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing player texture"));
-
-	if(!player->initialize(this, playerNS::WIDTH, playerNS::HEIGHT,	playerNS::TEXTURE_COLS, playerTextureManager))
+	if(!player->initialize(this))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
-	if (!player2->initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, playerTextureManager))
+	if (!player2->initialize(this))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
+
+	if (!ui->initialize(this))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the user interface"));
+
+	ui->setX(uiNS::X);
+	ui->setY(uiNS::Y);
 	
-	//player.image.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
-	//player.setCurrentFrame(playerNS::SHIP1_START_FRAME);
 	player->setX(GAME_WIDTH/2);
 	player->setY(GAME_HEIGHT / 2);
 	player2->setX(10);
@@ -56,6 +56,7 @@ void Grpg::initialize(HWND hwnd)
 
 	entityManager.addEntity(player);
 	entityManager.addEntity(player2);
+	entityManager.addEntity(ui);
 	
     return;
 }
@@ -71,8 +72,6 @@ void Grpg::update()
 		player->move(p);
 	}
 
-	//player.update(frameTime);
-	//player2.update(frameTime);
 	entityManager.updateAll(frameTime);
 }
 
@@ -97,9 +96,6 @@ void Grpg::render()
 {
     graphics->spriteBegin();                // begin drawing sprites
 
-	//player.draw();
-	//player2.draw();
-
 	entityManager.renderAll();
 
     graphics->spriteEnd();                  // end drawing sprites
@@ -111,7 +107,6 @@ void Grpg::render()
 //=============================================================================
 void Grpg::releaseAll()
 {
-    //gameTextures.onLostDevice();
 	entityManager.releaseAll();
     Game::releaseAll();
     return;
@@ -123,7 +118,6 @@ void Grpg::releaseAll()
 //=============================================================================
 void Grpg::resetAll()
 {
-    //gameTextures.onResetDevice();
 	entityManager.resetAll();
     Game::resetAll();
     return;

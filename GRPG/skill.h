@@ -28,6 +28,17 @@ public:
     // constructor
     Skill();
 	Skill(std::string,std::string,int);
+
+	//Uses runescape's xp formula currently
+	static int calculateXPRequired(float level)
+	{
+		float points = 0;
+		for (float lvl = 1; lvl <= level; lvl++)
+		{
+			points += floor(lvl + 300 * pow(2, lvl / 7.));
+		}
+		return floor(points / 4);
+	}
 };
 #endif
 

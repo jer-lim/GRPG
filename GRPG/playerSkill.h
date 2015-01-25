@@ -4,6 +4,7 @@
 #include "constants.h"
 #include <string>
 #include <vector>
+#include "skill.h"
 
 class PlayerSkill
 {
@@ -18,8 +19,8 @@ public:
 	// constructor
 	PlayerSkill();
 
+	//Makes use of Runescape's experience formula to calculate the level
 	int getSkillLevel();
-
 
 	// inherited member functions
 	void gainXP(long xp);

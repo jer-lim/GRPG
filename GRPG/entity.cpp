@@ -5,6 +5,7 @@
 
 #include "entity.h"
 #include <cmath>
+#include <sstream>
 
 //=============================================================================
 // constructor
@@ -31,17 +32,21 @@ Entity::Entity()
 //      width = width of Image in pixels  (0 = use full texture width)
 //      height = height of Image in pixels (0 = use full texture height)
 //      ncols = number of columns in texture (1 to n) (0 same as 1)
-//      *textureM = pointer to TextureManager object
+//      whichTexture[] = the texture to use
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm)
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[])
 {
     input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 
-	textureManager = tm;
+	textureM = new TextureManager();
 
-    return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureManager);
+	//init texture
+	if (!textureM->initialize(graphics, whichTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *whichTexture));
+
+    return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
 }
 
 //=============================================================================
@@ -57,8 +62,8 @@ void Entity::activate()
 //=============================================================================
 void Entity::draw()
 {
-	image.setX(x);
-	image.setY(y);
+	image.setX(getX());
+	image.setY(getY());
 	image.draw();
 }
 
@@ -81,11 +86,7 @@ void Entity::update(float frameTime)
 			This can be used to determine angles for trajectory and light reflection.
 		*/
 		float angle = acos(normalizedDirection->x/D3DXVec2Length(normalizedDirection));
-		if(normalizedDirection->y < 0)
-		{
-			angle = 270 - angle;
-		}
-		image.setRadians(angle);
+		image.flipHorizontal(angle > PI / 2);
 
 		//Is it close enough?
 		float distanceToDest = D3DXVec2Length(&direction);

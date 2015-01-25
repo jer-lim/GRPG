@@ -48,7 +48,7 @@ class Entity : public Destination
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
 
-	TextureManager* textureManager;
+	TextureManager* textureM; //This needs to be set on the entity's creation by any entity inheriting from this
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
@@ -130,7 +130,7 @@ class Entity : public Destination
     // Return collision type (NONE, CIRCLE, BOX, ROTATED_BOX)
     virtual entityNS::COLLISION_TYPE getCollisionType() {return collisionType;}
 
-	virtual TextureManager* getTextureManager() { return textureManager; }
+	virtual TextureManager* getTextureManager() { return textureM; }
 
     ////////////////////////////////////////
     //           Set functions            //
@@ -171,8 +171,8 @@ class Entity : public Destination
     //      width = width of Image in pixels  (0 = use full texture width)
     //      height = height of Image in pixels (0 = use full texture height)
     //      ncols = number of columns in texture (1 to n) (0 same as 1)
-    //      *textureM = pointer to TextureManager object
-    virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm);
+	//		whichTexture = The texture that should be used
+    virtual bool initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[]);
     // Activate Entity.
     virtual void activate();
 

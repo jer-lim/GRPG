@@ -100,9 +100,6 @@ void MapLoader::load(){
 		runtimeLog << "Failed to open worldmap" << endl;
 	}
 
-	//TextureManager* tileTm = new TextureManager();
-	//tileTm->initialize(graphics, tileset['0'].imageName);
-
 	//Tile t = Tile();
 	//t.initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, tileNS::TEXTURE_COLS);
 

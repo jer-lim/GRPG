@@ -1,37 +1,34 @@
-#include "tile.h"
+#include "UI.h"
 
 //=============================================================================
 // default constructor
 //=============================================================================
-Tile::Tile() : Entity()
+UI::UI() : Entity()
 {
-    image.spriteData.width = tileNS::WIDTH;           // size of tile
-	image.spriteData.height = tileNS::HEIGHT;
-	image.spriteData.x = tileNS::X;                   // location on screen
-	image.spriteData.y = tileNS::Y;
-	image.spriteData.rect.bottom = tileNS::HEIGHT;    // rectangle to select parts of an image
-	image.spriteData.rect.right = tileNS::WIDTH;
-	image.setFrameDelay(tileNS::ANIMATION_DELAY);
-	image.setFrames(tileNS::START_FRAME, tileNS::END_FRAME);     // set animation frames
-	image.setCurrentFrame(tileNS::START_FRAME);
-	radius = tileNS::WIDTH / 2.0;
-	mass = tileNS::MASS;
-    collisionType = entityNS::NONE;
+	image.spriteData.width = uiNS::WIDTH;           // size of Ship1
+	image.spriteData.height = uiNS::HEIGHT;
+	image.spriteData.rect.bottom = uiNS::HEIGHT;    // rectangle to select parts of an image
+	image.spriteData.rect.right = uiNS::WIDTH;
+	image.setCurrentFrame(0);
+	image.setFrames(0, 0);
+	collisionType = entityNS::NONE;
+	image.setFrameDelay(0.2);
 }
 
 //=============================================================================
 // Initialize the Ship.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Tile::initialize(Game *gamePtr, const char image[])
+bool UI::initialize(Game *gamePtr)
 {
-	return(Entity::initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, tileNS::TEXTURE_COLS, image));
+	//UI only have one image
+	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE));
 }
 
 //=============================================================================
 // draw the player
 //=============================================================================
-void Tile::draw()
+void UI::draw()
 {
 	Entity::draw();
 }
@@ -41,7 +38,7 @@ void Tile::draw()
 // typically called once per frame
 // frameTime is used to regulate the speed of movement and animation
 //=============================================================================
-void Tile::update(float frameTime)
+void UI::update(float frameTime)
 {
 	Entity::update(frameTime);
 }

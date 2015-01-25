@@ -8,6 +8,7 @@
 #include "player.h"
 #include "image.h"
 #include "entityManager.h"
+#include "UI.h"
 
 
 //=============================================================================
@@ -19,6 +20,7 @@ private:
     // game items
 	Player* player;
 	Player* player2;
+	UI* ui;
 	EntityManager entityManager;
 
 public:
