@@ -18,7 +18,7 @@ private:
 	std::string description;//description of skill
 	int exp_gain;//skill gain per action done
 public:
-	//Skill names and what they do
+	//Skill names and what they do. These skills are defined in the cpp file
 	static const Skill ATTACK;
 	static const Skill STRENGTH;
 	static const Skill DEFENSE;

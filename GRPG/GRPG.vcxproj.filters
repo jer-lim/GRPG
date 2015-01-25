@@ -16,6 +16,7 @@
     <ClCompile Include="winmain.cpp" />
     <ClCompile Include="entityManager.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="textDX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -37,5 +38,6 @@
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="entityManager.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="textDX.h" />
   </ItemGroup>
 </Project>

@@ -19,7 +19,7 @@ namespace playerNS
     const float ANIMATION_DELAY = 0.2f;    // time between frames
 }
 
-// The main player of the game. The hero that will kill Aidleliuen or however you spell that fking name
+// The main player of the game. The hero that will kill Aidleliun or however you spell that fking name
 class Player : public Entity
 {
 private:

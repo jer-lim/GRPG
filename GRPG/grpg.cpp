@@ -4,7 +4,9 @@
 // Constructor
 //=============================================================================
 Grpg::Grpg()
-{}
+{
+	uiFont = new TextDX();
+}
 
 //=============================================================================
 // Destructor
@@ -12,6 +14,7 @@ Grpg::Grpg()
 Grpg::~Grpg()
 {
     releaseAll();           // call onLostDevice() for every graphics item
+	SAFE_DELETE(uiFont);
 }
 
 //=============================================================================
@@ -20,12 +23,16 @@ Grpg::~Grpg()
 //=============================================================================
 void Grpg::initialize(HWND hwnd)
 {
-
 	// Load map
 	MapLoader mapLoader;
 	mapLoader.load();
 
     Game::initialize(hwnd); // throws GameError
+
+	// initialize DirectX fonts
+	// 15 pixel high Arial
+	if (uiFont->initialize(graphics, 15, true, false, "Arial") == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
 
 	// Initialise entities
 	player = new Player();
@@ -50,7 +57,7 @@ void Grpg::initialize(HWND hwnd)
 	player2->setX(10);
 	player2->setY(10);
 
-	player2->setSpeed(50);
+	player2->setSpeed(90);
 	player2->move(player);
 
 	entityManager.addEntity(player);
@@ -96,6 +103,7 @@ void Grpg::render()
     graphics->spriteBegin();                // begin drawing sprites
 
 	entityManager.renderAll();
+	uiFont->print("Move to location", 5, 0); //Feel free to use this text for any debugging thing
 
     graphics->spriteEnd();                  // end drawing sprites
 }
@@ -107,6 +115,7 @@ void Grpg::render()
 void Grpg::releaseAll()
 {
 	entityManager.releaseAll();
+	uiFont->onLostDevice();
     Game::releaseAll();
     return;
 }
@@ -118,6 +127,7 @@ void Grpg::releaseAll()
 void Grpg::resetAll()
 {
 	entityManager.resetAll();
+	uiFont->onResetDevice();
     Game::resetAll();
     return;
 }
