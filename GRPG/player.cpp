@@ -5,10 +5,10 @@
 //=============================================================================
 Player::Player() : Entity()
 {
-    image.spriteData.width = playerNS::WIDTH;           // size of Ship1
+    image.spriteData.width = playerNS::WIDTH;           // size of player
 	image.spriteData.height = playerNS::HEIGHT;
-	image.spriteData.x = playerNS::X;                   // location on screen
-	image.spriteData.y = playerNS::Y;
+	//image.spriteData.x = playerNS::X;                   // location on screen
+	//image.spriteData.y = playerNS::Y;
 	image.spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
 	image.spriteData.rect.right = playerNS::WIDTH;
 	image.setFrameDelay(playerNS::ANIMATION_DELAY);
@@ -24,7 +24,7 @@ Player::Player() : Entity()
 //=============================================================================
 bool Player::initialize(Game *gamePtr)
 {
-    return(Entity::initialize(gamePtr, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS));
+    return(Entity::initialize(gamePtr, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, TEXTURES_IMAGE));
 }
 
 //=============================================================================

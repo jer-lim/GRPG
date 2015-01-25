@@ -32,19 +32,21 @@ Entity::Entity()
 //      width = width of Image in pixels  (0 = use full texture width)
 //      height = height of Image in pixels (0 = use full texture height)
 //      ncols = number of columns in texture (1 to n) (0 same as 1)
-//      *textureM = pointer to TextureManager object
+//      whichTexture[] = the texture to use
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Entity::initialize(Game *gamePtr, int width, int height, int ncols)
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[])
 {
     input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 
-	//init texture
-	if (!textureManager.initialize(graphics, TEXTURES_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing player texture"));
+	textureM = new TextureManager();
 
-    return image.initialize(gamePtr->getGraphics(), width, height, ncols, &textureManager);
+	//init texture
+	if (!textureM->initialize(graphics, whichTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *whichTexture));
+
+    return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
 }
 
 //=============================================================================
