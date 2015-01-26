@@ -69,7 +69,8 @@ void Grpg::update()
 {
 	if(input->getMouseLButton() && !ui->mouseInside())
 	{
-		Point* p =  new Point(input->getMouseX(), input->getMouseY());
+		Coordinates vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
+		Point* p =  new Point(vpCoords.x, vpCoords.y);
 		player->move(p);
 	}
 

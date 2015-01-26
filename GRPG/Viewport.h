@@ -45,6 +45,10 @@ public:
 	Coordinates translate(float x, float y){
 		return Coordinates(x - getTopLeft().x, y - getTopLeft().y);
 	}
+
+	Coordinates reverseTranslate(float x, float y){
+		return Coordinates(x + getTopLeft().x, y + getTopLeft().y);
+	}
 	
 };
 
