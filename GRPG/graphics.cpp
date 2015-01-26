@@ -95,6 +95,34 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
 }
 
 //=============================================================================
+// Create a vertex buffer.
+// Pre: verts[] contains vertex data.
+//      size = size of verts[]
+// Post: &vertexBuffer points to buffer if successful.
+//=============================================================================
+HRESULT Graphics::createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER &vertexBuffer)
+{
+	// Standard Windows return value
+	HRESULT result = E_FAIL;
+
+	// Create a vertex buffer
+	result = device3d->CreateVertexBuffer(size, D3DUSAGE_WRITEONLY, D3DFVF_VERTEX,
+		D3DPOOL_DEFAULT, &vertexBuffer, NULL);
+	if (FAILED(result))
+		return result;
+
+	void *ptr;
+	// must lock buffer before data can be transferred in
+	result = vertexBuffer->Lock(0, size, (void**)&ptr, 0);
+	if (FAILED(result))
+		return result;
+	memcpy(ptr, verts, size);   // copy vertex data into buffer
+	vertexBuffer->Unlock();     // unlock buffer
+
+	return result;
+}
+
+//=============================================================================
 // Initialize D3D presentation parameters
 //=============================================================================
 void Graphics::initD3Dpp()

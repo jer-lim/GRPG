@@ -22,6 +22,10 @@ namespace uiNS
 	const int tabHEIGHT = 40;
 	const int tabLMargin = 15;
 	const int tabMargin = 5;
+
+	const int chatHeight = 100;
+	const int chatWidth = 300;
+	const COLOR_ARGB chatColour = SETCOLOR_ARGB(192, 128, 128, 128);
 }
 
 // inherits from Entity class
@@ -30,11 +34,14 @@ class UI : public Entity
 private:
 	TextDX* uiText;
 	Player* player; //Pointer to player to retrieve information about them
+	Input* input; //The input system
 	//The images that will draw the tab background onto the screen
 	Image tabImage;
 	TextureManager* tabTexture; // The texture of the tabs
 	//The current active tab. From uiNS, either COMBATSTYLE, SKILLS or INVENTORY
 	int activeTab;
+	VertexC vtx[4];			//Vertex data for background
+	LP_VERTEXBUFFER vertexBuffer;       // buffer to hold vertex data
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -54,7 +61,7 @@ public:
 
 	// inherited member functions
 	virtual void draw();
-	virtual bool initialize(Game* gamePtr, Player* player);
+	virtual bool initialize(Game* gamePtr, Player* player, Input *in);
 
 	// Checks if the mouse is currently over any part of the UI. Returns true if so
 	virtual bool mouseInside();

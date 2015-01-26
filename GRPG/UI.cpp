@@ -27,29 +27,68 @@ UI::UI() : Entity()
 UI::~UI()
 {
 	SAFE_DELETE(uiText);
+	onLostDevice();
 }
 
 //=============================================================================
 // Initialize the User interface.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool UI::initialize(Game* gamePtr, Player* p)
+bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 {
 	player = p;
+	input = in;
+	graphics = gamePtr->getGraphics();
 
 	// 15 pixel high Arial
-	if (uiText->initialize(gamePtr->getGraphics(), uiNS::textSize, true, false, "Arial") == false)
+	if (uiText->initialize(graphics, uiNS::textSize, true, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
 
 	//init texture
-	if (!tabTexture->initialize(gamePtr->getGraphics(), TAB_IMAGE))
+	if (!tabTexture->initialize(graphics, TAB_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing tabs texture"));
 
-	if (!tabImage.initialize(gamePtr->getGraphics(), 0, 0, 1, tabTexture))
+	if (!tabImage.initialize(graphics, 0, 0, 1, tabTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Tabs image could not be initalized"));
 
 	//Also white cause background black
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
+
+	//Build the chat system
+	try {
+		// top left
+		vtx[0].x = x;
+		vtx[0].y = y;
+		vtx[0].z = 0.0f;
+		vtx[0].rhw = 1.0f;
+		vtx[0].color = uiNS::chatColour;
+
+		// top right
+		vtx[1].x = x + uiNS::chatWidth;
+		vtx[1].y = y;
+		vtx[1].z = 0.0f;
+		vtx[1].rhw = 1.0f;
+		vtx[1].color = uiNS::chatColour;
+
+		// bottom right
+		vtx[2].x = x + uiNS::chatWidth;
+		vtx[2].y = y + uiNS::chatHeight;
+		vtx[2].z = 0.0f;
+		vtx[2].rhw = 1.0f;
+		vtx[2].color = uiNS::chatColour;
+
+		// bottom left
+		vtx[3].x = x;
+		vtx[3].y = y + uiNS::chatHeight;
+		vtx[3].z = 0.0f;
+		vtx[3].rhw = 1.0f;
+		vtx[3].color = uiNS::chatColour;
+
+		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+	}
+	catch (...) {
+		return false;
+	}
 
 	//UI only have one image
 	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE));
