@@ -26,7 +26,7 @@ namespace uiNS
 
 	const UINT chatHeight = 200;
 	const UINT chatWidth = 500;
-	const COLOR_ARGB chatColour = SETCOLOR_ARGB(192, 0, 0, 0);
+	const COLOR_ARGB chatColour = SETCOLOR_ARGB(50, 0, 0, 0);
 }
 
 // inherits from Entity class

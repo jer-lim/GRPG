@@ -57,29 +57,29 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	//Build the chat system
 	try {
 		// top left
-		vtx[0].x = x;
-		vtx[0].y = y;
+		vtx[0].x = 0;
+		vtx[0].y = GAME_HEIGHT - uiNS::chatHeight;
 		vtx[0].z = 0.0f;
 		vtx[0].rhw = 1.0f;
 		vtx[0].color = uiNS::chatColour;
 
 		// top right
-		vtx[1].x = x + uiNS::chatWidth;
-		vtx[1].y = y;
+		vtx[1].x = uiNS::chatWidth;
+		vtx[1].y = GAME_HEIGHT - uiNS::chatHeight;
 		vtx[1].z = 0.0f;
 		vtx[1].rhw = 1.0f;
 		vtx[1].color = uiNS::chatColour;
 
 		// bottom right
-		vtx[2].x = x + uiNS::chatWidth;
-		vtx[2].y = y + uiNS::chatHeight;
+		vtx[2].x = uiNS::chatWidth;
+		vtx[2].y = GAME_HEIGHT;
 		vtx[2].z = 0.0f;
 		vtx[2].rhw = 1.0f;
 		vtx[2].color = uiNS::chatColour;
 
 		// bottom left
-		vtx[3].x = x;
-		vtx[3].y = y + uiNS::chatHeight;
+		vtx[3].x = 0;
+		vtx[3].y = GAME_HEIGHT;
 		vtx[3].z = 0.0f;
 		vtx[3].rhw = 1.0f;
 		vtx[3].color = uiNS::chatColour;
