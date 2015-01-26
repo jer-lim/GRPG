@@ -136,6 +136,7 @@ void UI::draw()
 	rows -= 2;                              // room for input prompt at bottom
 	if (rows <= 0)                          // this should never be true
 		rows = 5;                           // force a workable result
+	maximumRows = rows;
 
 	// set text display rect for one row
 	// Defines the text rectangle left and right locations
@@ -167,6 +168,10 @@ void UI::draw()
 
 	std::string prompt = ">";                   // build prompt string
 	prompt += input->getTextIn();
+
+	if (prompt.at(prompt.length() - 1) == '\r')   // if 'Enter' key is pressed
+		getCommand();						//Execute the command
+
 	uiText->print(prompt, textRect, DT_LEFT);      // display prompt and command
 	
 	if (uiNS::COMBATSTYLE != activeTab)
@@ -245,6 +250,41 @@ void UI::drawTabContents(int tabNumber)
 		//Temporary text
 		uiText->print("Inventory", topLeftX + 5, topLeftY + 5);
 	}
+}
+
+//=============================================================================
+// Return console command
+// Handles console single key commands.
+// Returns all other commands to game.
+//=============================================================================
+std::string UI::getCommand()
+{
+	//check for Esc key
+	if (input->wasKeyPressed(ESC_KEY))
+		return "";
+
+	std::string commandStr = input->getTextIn();            // get user entered text
+
+	if (commandStr.length() == 0)               // if no command entered
+		return "";
+	if (commandStr.at(commandStr.length() - 1) != '\r')   // if 'Enter' key not pressed
+		return "";                              // return, can't be command
+
+	commandStr.erase(commandStr.length() - 1);    // erase '\r' from end of command string
+	input->clearTextIn();                       // clear input line
+	addChatText(commandStr);
+	return commandStr;                          // return command
+}
+
+//=============================================================================
+// Add text to console
+// Only the first line of text in str will be displayed.
+//=============================================================================
+void UI::addChatText(const std::string &str)     // add text to console
+{
+	text.push_front(str);                       // add str to deque of text
+	if (text.size() > maximumRows)
+		text.pop_back();                        // delete oldest line
 }
 
 //=============================================================================
