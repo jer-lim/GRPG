@@ -145,7 +145,7 @@ void MapLoader::load(){
 							t->initialize(gamePtr, textureManager);
 							t->setX(xPos);
 							t->setY(yPos);
-							entityManager->addEntity(t);
+							entityManager->addEntity(t, 0);
 						} else {
 							Image* t = new Image();
 							if (tileTms.count(tileId) > 0){
@@ -160,7 +160,7 @@ void MapLoader::load(){
 							t->initialize(graphics, tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
 							t->setX(xPos);
 							t->setY(yPos);
-							entityManager->addImage(t);
+							entityManager->addImage(t, 0);
 						}
 					}
 				}

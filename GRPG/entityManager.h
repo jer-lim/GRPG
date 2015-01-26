@@ -4,10 +4,18 @@
 #include "entity.h"
 #include <map>
 
+struct ManagedObject {
+	int zindex = 1;
+	Entity* entity = nullptr;
+	Image* image = nullptr;
+};
+
 class EntityManager {
 private:
-	map<int, Entity*> entities;
-	map<int, Image*> images;
+	map<int, ManagedObject*> objects;
+
+	void addManagedObject(ManagedObject* mo);
+
 public:
 
 	EntityManager();
@@ -19,9 +27,9 @@ public:
 	void resetAll();
 
 	// Add an entity to be managed by the manager
-	void addEntity(Entity* ent);
+	void addEntity(Entity* ent, int zi = 1);
 
-	void addImage(Image* img);
+	void addImage(Image* img, int zi = 1);
 };
 
 #endif
