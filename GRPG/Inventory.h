@@ -14,7 +14,10 @@ private:
 
 public:
 	// constructor
-	Inventory(){}//If you don't have a .cpp, don't put ';', put '{}'
-
+	Inventory();//If you don't have a .cpp, don't put ';', put '{}'
+	bool addInventoryItem(int i, InventoryItem ii);
+	bool removeInventoryItem(int i);
+	bool hasInventoryItem(int i);
+	InventoryItem getInventoryItem(int i);
 };
 #endif
