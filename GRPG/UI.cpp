@@ -133,7 +133,7 @@ void UI::draw()
 
 	// Find the number of rows that will fit into the height of the chat
 	int rows = (uiNS::chatHeight) / rowHeight;
-	rows -= 2;                              // room for input prompt at bottom
+	rows -= 1;                              // room for input prompt at bottom
 	if (rows <= 0)                          // this should never be true
 		rows = 5;                           // force a workable result
 	maximumRows = rows;
@@ -145,9 +145,9 @@ void UI::draw()
 
 	// Now set the drawing parts top and bottom.
 	//textRect.top = ; // Top doesn't actually need to be set because it will be later set in the for loop
-	// -2*rowHeight is room for input prompt
+	// -rowHeight is room for input prompt
 	// Chat is fixated at the bottom
-	textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin - 2 * rowHeight);
+	textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin - rowHeight);
 
 	// for all rows (max text.size()) from bottom to top
 	for (int r = 0; r<rows && r<(int)(text.size()); r++)
@@ -277,7 +277,7 @@ bool UI::processCommand(const std::string commandStr)
 
 	addChatText(commandStr);
 	input->clearTextIn();                       // clear input line
-	return true;								// return command
+	return false;								// return command
 }
 
 //=============================================================================
@@ -287,7 +287,7 @@ bool UI::processCommand(const std::string commandStr)
 void UI::addChatText(const std::string &str)     // add text to console
 {
 	text.push_front(str);                       // add str to deque of text
-	if (text.size() > maximumRows)
+	while (text.size() > maximumRows)
 		text.pop_back();                        // delete oldest line
 }
 
