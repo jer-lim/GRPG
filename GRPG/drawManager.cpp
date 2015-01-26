@@ -52,38 +52,42 @@ void DrawManager::addObject(Image* img, int zi){
 
 void DrawManager::addManagedObject(ManagedObject* mo){
 	bool added = false;
-	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->zindex > mo->zindex){
-			for (int j = objects.size() - 1; j >= i; --j){
-				objects[j + 1] = objects[j];
+
+	// Compare z-index with existing elements, insert into appropriate position
+	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		if (it->second->zindex > mo->zindex){
+			map<int, ManagedObject*>::iterator it2 = objects.end();
+			it2--;
+			for (it2; distance(it, it2) >= 0; --it2){
+				objects[it2->first + 1] = objects[it2->first];
+				if (distance(it, it2) == 0) break;
 			}
-			objects[i] = mo;
+			objects[it->first] = mo;
 			added = true;
 			break;
 		}
 	}
 
-
-	/*for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
-		if (it->second->zindex > mo->zindex){
-			for (map<int, ManagedObject*>::reverse_iterator it2 = objects.rend()++; it2 > distance(it, objects.begin()); --j){
-				objects[j + 1] = objects[j];
-			}
-			objects[i] = mo;
-			added = true;
-			break;
-		}
-	}*/
-
+	// Insert to back of map if not inserted anywhere else
 	if (!added){
-		objects[objects.size()] = mo;
+		if (objects.size() == 0){
+			objects[0] = mo;
+		}
+		else{
+			map<int, ManagedObject*>::iterator lastIt = objects.end();
+			lastIt--;
+			int key = lastIt->first;
+			objects[++key] = mo;
+		}
 	}
 }
 
 void DrawManager::removeObject(Entity* ent){
-	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->entity == ent){
-			objects.erase(i);
+
+	// Iterate to element to delete and delete it
+	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		if (it->second->entity == ent){
+			objects.erase(it);
 		}
 	}
 }
