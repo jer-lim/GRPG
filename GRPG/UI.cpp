@@ -90,6 +90,19 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		return false;
 	}
 
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+
 	//UI only have one image
 	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE));
 }
@@ -103,7 +116,9 @@ void UI::draw()
 
 	// display text on console
 	textRect.left = 0;
-	textRect.top = 500;
+	textRect.top = 0;
+	textRect.bottom = uiNS::HEIGHT - uiNS::tabMargin;
+	textRect.right = uiNS::WIDTH - uiNS::tabMargin;
 
 	// sets textRect bottom to height of 1 row
 	uiText->print("|", textRect, DT_CALCRECT);
@@ -118,10 +133,10 @@ void UI::draw()
 		rows = 5;                           // force a workable result
 
 	// set text display rect for one row
-	textRect.left = (long)(x + uiNS::tabMargin);
+	textRect.left = (long)(uiNS::tabMargin);
 	textRect.right = (long)(textRect.right + uiNS::chatWidth - uiNS::tabMargin);
 	// -2*rowHeight is room for input prompt
-	textRect.bottom = (long)(y + uiNS::chatHeight - 2 * uiNS::tabMargin - 2 * rowHeight);
+	textRect.bottom = (long)(uiNS::chatHeight - 2 * uiNS::tabMargin - 2 * rowHeight);
 	// for all rows (max text.size()) from bottom to top
 	for (int r = 0; r<rows && r<(int)(text.size()); r++)
 	{
@@ -140,7 +155,7 @@ void UI::draw()
 	std::string prompt = ">";                   // build prompt string
 	prompt += input->getTextIn();
 	uiText->print(prompt, textRect, DT_LEFT);      // display prompt and command
-
+	
 	if (uiNS::COMBATSTYLE != activeTab)
 		drawTab(uiNS::COMBATSTYLE);
 	if (uiNS::SKILLS != activeTab)
@@ -293,7 +308,7 @@ bool UI::mouseInside()
 void UI::onLostDevice()
 {
 	uiText->onLostDevice();
-	safeRelease(vertexBuffer);
+	SAFE_RELEASE(vertexBuffer);
 }
 
 //=============================================================================
