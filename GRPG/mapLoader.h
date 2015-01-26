@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <queue>
 #include <sstream>
 #include <cmath>
 #include "globals.h"
@@ -41,6 +42,7 @@ protected:
 
 	string mapFolder;
 	string tileImageFolder;
+	int bufferSize; // width of tiles beyond the border to load
 
 	// Calculated variables
 	int tileWidth; // Width of the game in number of tiles
@@ -59,6 +61,7 @@ public:
 	MapLoader();
 	void initialize(Game* game, DrawManager* dm, Viewport* vp);
 	void load();
+	ManagedTile* loadTile(int tileX, int tileY);
 	void update();
 };
 

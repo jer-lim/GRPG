@@ -35,6 +35,7 @@ public:
 	void addObject(Image* img, int zi = 1);
 
 	void removeObject(Entity* ent);
+	void removeObject(Image* img);
 };
 
 #endif

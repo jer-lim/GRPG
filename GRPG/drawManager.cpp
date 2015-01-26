@@ -103,3 +103,14 @@ void DrawManager::removeObject(Entity* ent){
 		}
 	}
 }
+
+void DrawManager::removeObject(Image* img){
+
+	// Iterate to element to delete and delete it
+	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		if (it->second->image == img){
+			it = objects.erase(it);
+			break;
+		}
+	}
+}
