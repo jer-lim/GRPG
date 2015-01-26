@@ -13,7 +13,7 @@ Tile::Tile() : Entity()
 	image.spriteData.y = tileNS::Y;
 	image.setCurrentFrame(0);
 	image.setFrames(0, 0);
-	collisionType = entityNS::NONE;
+	collisionType = entityNS::BOX;
 	image.setFrameDelay(0.2f);
 }
 

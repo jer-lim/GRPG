@@ -31,6 +31,9 @@ class Image
     bool    initialized;    // true when successfully initialized
     bool    animComplete;   // true when loop is false and endFrame has finished displaying
 
+	float viewportX;
+	float viewportY;
+
   public:
 	  SpriteData spriteData;
     // Constructor

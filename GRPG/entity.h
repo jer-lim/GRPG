@@ -43,6 +43,8 @@ class Entity : public Destination
 	Destination* destination;			//The destination of movement
 	float	x;				// The x location
 	float	y;				// The y location
+	float viewportX;
+	float viewportY;
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
 	Character* character;	// Reference to the character that this entity refers to (NPC? Enemy? etc.)

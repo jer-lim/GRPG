@@ -123,15 +123,18 @@ void MapLoader::load(){
 					// Load tiles
 					char tileId = chunks[chunkId]->tile[cx][cy];
 
-					float xPos = startX + (x * 16 + cx) * tileNS::WIDTH;
-					float yPos = startY + (y * 16 + cy) * tileNS::HEIGHT;
+					float xPos = startX + (x * tileNS::CHUNK_WIDTH + cx) * tileNS::WIDTH;
+					float yPos = startY + (y * tileNS::CHUNK_HEIGHT + cy) * tileNS::HEIGHT;
 
-					if (xPos > vpTopLeft.x - tileNS::WIDTH / 2 && yPos > vpTopLeft.y - tileNS::WIDTH / 2 &&
-						xPos < vpBottomRight.x + tileNS::WIDTH / 2 && yPos < vpBottomRight.y + tileNS::WIDTH / 2){
+					Coordinates vpCoords = viewport->translate(xPos, yPos);
+					float vpXPos = vpCoords.x;
+					float vpYPos = vpCoords.y;
 
-						Coordinates vpCoords = viewport->translate(xPos, yPos);
-						float vpXPos = vpCoords.x;
-						float vpYPos = vpCoords.y;
+					// Is in viewport range
+					if (vpXPos > 0 - tileNS::WIDTH / 2
+						&& vpYPos > 0 - tileNS::HEIGHT / 2
+						&& vpXPos < GAME_WIDTH + tileNS::WIDTH / 2
+						&& vpYPos < GAME_HEIGHT + tileNS::HEIGHT / 2){
 
 						TextureManager* textureManager;
 						stringstream ss;
@@ -154,6 +157,7 @@ void MapLoader::load(){
 							t->setX(vpXPos);
 							t->setY(vpYPos);
 							drawManager->addObject(t, 0);
+							loadedTiles[x * tileNS::CHUNK_WIDTH + cx][y * tileNS::CHUNK_HEIGHT + cy] = new ManagedTile(t);
 						} else {
 							Image* t = new Image();
 							if (tileTms.count(tileId) > 0){
@@ -169,6 +173,7 @@ void MapLoader::load(){
 							t->setX(vpXPos);
 							t->setY(vpYPos);
 							drawManager->addObject(t, 0);
+							loadedTiles[x * tileNS::CHUNK_WIDTH + cx][y * tileNS::CHUNK_HEIGHT + cy] = new ManagedTile(t);
 						}
 					}
 				}
@@ -181,5 +186,9 @@ void MapLoader::load(){
 }
 
 void MapLoader::update(){
-
+	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
+		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
+			
+		}
+	}
 }

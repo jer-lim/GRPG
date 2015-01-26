@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <sstream>
 #include <cmath>
 #include "globals.h"
@@ -22,6 +21,14 @@ struct chunk {
 struct tileStruct {
 	bool collidable;
 	string imageName;
+};
+
+struct ManagedTile {
+	Tile* tile = nullptr;
+	Image* image = nullptr;
+
+	ManagedTile(Tile* t){ tile = t; }
+	ManagedTile(Image* i){ image = i; }
 };
 
 class MapLoader {
@@ -42,8 +49,7 @@ protected:
 
 	// Loaded objects
 	unordered_map<int, TextureManager*> tileTms;
-	unordered_map<int, Tile*> loadedTileEntities;
-	unordered_map<int, Image*> loadedTileImages;
+	unordered_map<int, unordered_map<int, ManagedTile*>> loadedTiles;
 
 public:
 	MapLoader();
