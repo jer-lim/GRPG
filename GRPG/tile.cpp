@@ -34,9 +34,9 @@ bool Tile::initialize(Game *gamePtr, TextureManager* tm)
 //=============================================================================
 // draw the player
 //=============================================================================
-void Tile::draw()
+void Tile::draw(Viewport* viewport)
 {
-	Entity::draw();
+	Entity::draw(viewport);
 }
 
 //=============================================================================

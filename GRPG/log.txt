@@ -3,4 +3,4 @@ Loaded tile 1
 Loaded chunk 0
 Loaded chunk 1
 Loaded world map
-16, 16
+250, 250

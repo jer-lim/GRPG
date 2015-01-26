@@ -54,7 +54,7 @@ public:
 	virtual void sayMessage(std::string message, TextDX* font);
 
     // inherited member functions
-    virtual void draw();
+	virtual void draw(Viewport* viewport);
     virtual bool initialize(Game *gamePtr);
     void update(float frameTime);
     void damage(WEAPON);

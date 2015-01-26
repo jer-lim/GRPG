@@ -78,7 +78,7 @@ public:
 	~UI();
 
 	// inherited member functions
-	virtual void draw();
+	virtual void draw(Viewport* viewport);
 	virtual bool initialize(Game* gamePtr, Player* player, Input *in);
 
 	// Process console command

@@ -34,8 +34,10 @@ Entity::Entity()
 //      whichTexture = the texture that this entity will load to act as it's image
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const char* whichTexture)
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const char* whichTexture, bool anc)
 {
+	anchored = anc;
+
 	input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 
@@ -45,7 +47,7 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
 	if (!textureM->initialize(graphics, whichTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *whichTexture));
 
-	return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
+	return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM, anc);
 }
 
 //=============================================================================
@@ -57,8 +59,10 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
 //      whichCharacter = the character that this Entity is made by
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Character* whichCharacter)
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Character* whichCharacter, bool anc)
 {
+	anchored = anc;
+
     input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 
@@ -69,16 +73,18 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Charact
 	if (!textureM->initialize(graphics, character->getImgFileName()))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *character->getImgFileName()));
 
-    return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
+    return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM, anc);
 }
 
-bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm)
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm, bool anc)
 {
+	anchored = anc;
+
 	input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 	textureM = tm;
 
-	return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
+	return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM, anc);
 }
 
 //=============================================================================
@@ -92,11 +98,12 @@ void Entity::activate()
 //=============================================================================
 // Draws the entity onto the screen based on it's x and y position
 //=============================================================================
-void Entity::draw()
+void Entity::draw(Viewport* viewport)
 {
 	image.setX(getX());
 	image.setY(getY());
-	image.draw();
+	if (anchored) image.draw();
+	else image.draw(viewport);
 }
 
 //=============================================================================

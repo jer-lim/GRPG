@@ -54,9 +54,10 @@ Image::~Image()
 // pointer to TextureManager
 //=============================================================================
 bool Image::initialize(Graphics *g, int width, int height, int ncols,
-                       TextureManager *textureM)
+                       TextureManager *textureM, bool anc)
 {
     try{
+		anchored = anc;
         graphics = g;                               // the graphics object
         textureManager = textureM;                  // pointer to texture object
 
@@ -91,7 +92,7 @@ bool Image::initialize(Graphics *g, int width, int height, int ncols,
 // Pre : spriteBegin() is called
 // Post: spriteEnd() is called
 //=============================================================================
-void Image::draw(COLOR_ARGB color)
+void Image::draw(Viewport* viewport, COLOR_ARGB color)
 {
 	if (!visible || graphics == NULL)
 		return;
@@ -102,10 +103,16 @@ void Image::draw(COLOR_ARGB color)
 	//}
 	//else
 	//{
+	SpriteData drawnSpriteData = spriteData;
+	if (viewport != nullptr && !anchored){
+		Coordinates vpCoords = viewport->translate(getX(), getY());
+		drawnSpriteData.x = vpCoords.x;
+		drawnSpriteData.y = vpCoords.y;
+	}
 	if (color == graphicsNS::FILTER)                     // if draw with filter
-		graphics->drawSprite(spriteData, colorFilter);  // use colorFilter
+		graphics->drawSprite(drawnSpriteData, colorFilter);  // use colorFilter
 	else
-		graphics->drawSprite(spriteData, color);        // use color as filter
+		graphics->drawSprite(drawnSpriteData, color);        // use color as filter
 	//}
 }
 
@@ -115,7 +122,7 @@ void Image::draw(COLOR_ARGB color)
 // Pre : spriteBegin() is called
 // Post: spriteEnd() is called
 //=============================================================================
-void Image::draw(SpriteData sd, COLOR_ARGB color)
+void Image::draw(SpriteData sd, Viewport* viewport, COLOR_ARGB color)
 {
     if (!visible || graphics == NULL)
         return;

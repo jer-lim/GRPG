@@ -12,6 +12,7 @@
 #include "game.h"
 #include "destination.h"
 #include "Character.h"
+#include "Viewport.h"
 
 namespace entityNS
 {
@@ -43,6 +44,7 @@ class Entity : public Destination
 	Destination* destination;			//The destination of movement
 	float	x;				// logical X location
 	float	y;				// logical Y location
+	bool anchored;			// Anchored entities don't move when the viewport moves
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
 	Character* character;	// Reference to the character that this entity refers to (NPC? Enemy? etc.)
@@ -169,7 +171,7 @@ class Entity : public Destination
 	//      height = height of Image in pixels (0 = use full texture height)
 	//      ncols = number of columns in texture (1 to n) (0 same as 1)
 	//		whichTexture = the texture that this entity reads from
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[]);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[], bool anc = false);
 
     // Initialize Entity
     // Pre: *gamePtr = pointer to Game object
@@ -177,16 +179,16 @@ class Entity : public Destination
     //      height = height of Image in pixels (0 = use full texture height)
     //      ncols = number of columns in texture (1 to n) (0 same as 1)
 	//		whichCharacter = the character that this entity refers to
-    virtual bool initialize(Game *gamePtr, int width, int height, int ncols, Character* character);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, Character* character, bool anc = false);
 
 	// Initialize entity using a pre-initialized TextureManager
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm, bool anc = false);
 
     // Activate Entity.
     virtual void activate();
 
 	// Draws the Entity onto the screen
-	virtual void draw();
+	virtual void draw(Viewport* viewport);
 
     // Empty ai function to allow Entity objects to be instantiated.
     virtual void ai(float frameTime, Entity &ent);

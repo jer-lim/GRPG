@@ -154,8 +154,8 @@ void MapLoader::load(){
 							}
 
 							t->initialize(gamePtr, textureManager);
-							t->setX(vpXPos);
-							t->setY(vpYPos);
+							t->setX(xPos);
+							t->setY(yPos);
 							drawManager->addObject(t, 0);
 							loadedTiles[x * tileNS::CHUNK_WIDTH + cx][y * tileNS::CHUNK_HEIGHT + cy] = new ManagedTile(t);
 						} else {
@@ -170,8 +170,8 @@ void MapLoader::load(){
 							}
 
 							t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
-							t->setX(vpXPos);
-							t->setY(vpYPos);
+							t->setX(xPos);
+							t->setY(yPos);
 							drawManager->addObject(t, 0);
 							loadedTiles[x * tileNS::CHUNK_WIDTH + cx][y * tileNS::CHUNK_HEIGHT + cy] = new ManagedTile(t);
 						}

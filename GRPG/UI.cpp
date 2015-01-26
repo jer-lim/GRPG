@@ -115,13 +115,13 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		rows = 5;                           // force a workable result
 
 	//UI only have one image
-	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE));
+	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE, true));
 }
 
 //=============================================================================
 // draw the player
 //=============================================================================
-void UI::draw()
+void UI::draw(Viewport* viewport)
 {
 	graphics->drawQuad(vertexBuffer);       // draw backdrop
 
@@ -177,7 +177,7 @@ void UI::draw()
 	if (uiNS::INVENTORY != activeTab)
 		drawTab(uiNS::INVENTORY);
 
-	Entity::draw();
+	Entity::draw(viewport);
 
 	drawTab(activeTab);
 

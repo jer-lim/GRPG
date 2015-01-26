@@ -9,6 +9,7 @@
 
 #include "textureManager.h"
 #include "constants.h"
+#include "Viewport.h"
 
 class Image
 {
@@ -30,6 +31,8 @@ class Image
     bool    visible;        // true when visible
     bool    initialized;    // true when successfully initialized
     bool    animComplete;   // true when loop is false and endFrame has finished displaying
+
+	bool anchored;
 
   public:
 	  SpriteData spriteData;
@@ -155,7 +158,7 @@ class Image
     //      ncols = number of columns in texture (1 to n) (0 same as 1)
     //      *textureM = pointer to TextureManager object
     virtual bool Image::initialize(Graphics *g, int width, int height, 
-                                    int ncols, TextureManager *textureM);
+                                    int ncols, TextureManager *textureM, bool anc = false);
 
     // Flip image horizontally (mirror)
     virtual void flipHorizontal(bool flip)  {spriteData.flipHorizontal = flip;}
@@ -164,11 +167,11 @@ class Image
     virtual void flipVertical(bool flip)    {spriteData.flipVertical = flip;}
 
     // Draw Image using color as filter. Default color is WHITE.
-    virtual void draw(COLOR_ARGB color = graphicsNS::WHITE);
+    virtual void draw(Viewport* viewport = nullptr, COLOR_ARGB color = graphicsNS::WHITE);
 
     // Draw this image using the specified SpriteData.
     //   The current SpriteData.rect is used to select the texture.
-    virtual void draw(SpriteData sd, COLOR_ARGB color = graphicsNS::WHITE); // draw with SpriteData using color as filter
+	virtual void draw(SpriteData sd, Viewport* viewport = nullptr, COLOR_ARGB color = graphicsNS::WHITE); // draw with SpriteData using color as filter
 
     // Update the animation. frameTime is used to regulate the speed.
     virtual void update(float frameTime);

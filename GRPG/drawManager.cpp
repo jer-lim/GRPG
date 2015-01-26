@@ -6,6 +6,10 @@ DrawManager::DrawManager(){
 
 }
 
+void DrawManager::initialize(Viewport* vp){
+	viewport = vp;
+}
+
 void DrawManager::updateAll(float frameTime){
 	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
 		if (it->second->entity != nullptr) it->second->entity->update(frameTime);
@@ -15,8 +19,8 @@ void DrawManager::updateAll(float frameTime){
 
 void DrawManager::renderAll(){
 	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
-		if (it->second->entity != nullptr) it->second->entity->draw();
-		else it->second->image->draw();
+		if (it->second->entity != nullptr) it->second->entity->draw(viewport);
+		else it->second->image->draw(viewport);
 	}
 }
 

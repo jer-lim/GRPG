@@ -58,9 +58,9 @@ bool Player::initialize(Game *gamePtr)
 //=============================================================================
 // draw the player
 //=============================================================================
-void Player::draw()
+void Player::draw(Viewport* viewport)
 {
-	Entity::draw();
+	Entity::draw(viewport);
 
 	//Draw the text right above it
 	if (timeLeft > 0)

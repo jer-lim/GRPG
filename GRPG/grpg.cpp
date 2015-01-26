@@ -25,8 +25,10 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
+	viewport = new Viewport(this, GAME_WIDTH/2 + 250, GAME_HEIGHT/2 + 250, GAME_WIDTH, GAME_HEIGHT);
+
 	drawManager = DrawManager();
-	viewport = new Viewport(this, GAME_WIDTH/2 + 16, GAME_HEIGHT/2 + 16, GAME_WIDTH, GAME_HEIGHT);
+	drawManager.initialize(viewport);
 
 	// Load map
 	MapLoader mapLoader;
@@ -51,7 +53,7 @@ void Grpg::initialize(HWND hwnd)
 	ui->setX(uiNS::X);
 	ui->setY(uiNS::Y);
 	
-	player->setX(GAME_WIDTH/2);
+	player->setX(GAME_WIDTH / 2);
 	player->setY(GAME_HEIGHT / 2);
 
 	drawManager.addObject(player);

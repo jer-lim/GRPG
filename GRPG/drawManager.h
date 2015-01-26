@@ -1,8 +1,10 @@
 #ifndef DRAWMANAGER_H
 #define DRAWMANAGER_H
 
-#include "entity.h"
 #include <map>
+#include "entity.h"
+#include "image.h"
+#include "viewport.h"
 
 struct ManagedObject {
 	int zindex = 1;
@@ -13,12 +15,14 @@ struct ManagedObject {
 class DrawManager {
 private:
 	map<int, ManagedObject*> objects;
+	Viewport* viewport;
 
 	void addManagedObject(ManagedObject* mo);
 
 public:
 
 	DrawManager();
+	void initialize(Viewport* vp);
 
 	// Functions to handle the menial tasks
 	void updateAll(float frameTime);
