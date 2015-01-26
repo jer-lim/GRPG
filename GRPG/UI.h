@@ -57,7 +57,7 @@ public:
 	virtual bool initialize(Game* gamePtr, Player* player);
 
 	// Checks if the mouse is currently over any part of the UI. Returns true if so
-	bool mouseOverUI();
+	virtual bool mouseInside();
 
 	// Release resources
 	virtual void onLostDevice();

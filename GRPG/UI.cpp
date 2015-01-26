@@ -95,10 +95,16 @@ void UI::drawTab(int tabNumber)
 //=============================================================================
 void UI::drawTabContents(int tabNumber)
 {
-	if (tabNumber == uiNS::SKILLS)
+	float topLeftX = getX() - uiNS::WIDTH / 2;
+	float topLeftY = getY() - uiNS::HEIGHT / 2;
+
+	if (tabNumber == uiNS::COMBATSTYLE)
+	{
+		uiText->print("Combat styles", topLeftX + 5, topLeftY + 5);
+	}
+	else if (tabNumber == uiNS::SKILLS)
 	{
 		float heightAllowed = uiNS::HEIGHT / 7; //We have 7 skills
-		float yLocation = getY() - uiNS::HEIGHT / 2;
 		map<int, PlayerSkill>* playerSkills = player->getSkills();
 		map<int, PlayerSkill>::iterator it;
 		stringstream skillLevel;
@@ -106,7 +112,7 @@ void UI::drawTabContents(int tabNumber)
 		{
 			//Print the skill text at the center of each location, with 5 px margin: left;
 			uiText->print(it->second.getSkill().getName(),
-				getX() + 5 - uiNS::WIDTH / 2, yLocation + heightAllowed / 2 - (uiNS::textSize / 2));
+				topLeftX + 5, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
 			//Check skill level and append a 0 in front if needed
 			if (it->second.getSkillLevel() < 10)
 			{
@@ -118,12 +124,17 @@ void UI::drawTabContents(int tabNumber)
 			}
 			//Print level
 			uiText->print(skillLevel.str() + "/99",
-				getX() + 40, yLocation + heightAllowed / 2 - (uiNS::textSize / 2));
+				getX() + 40, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
 
 			skillLevel.str("");
 
-			yLocation += heightAllowed;
+			topLeftY += heightAllowed;
 		}
+	}
+	else if (tabNumber == uiNS::INVENTORY)
+	{
+		//Temporary text
+		uiText->print("Inventory", topLeftX + 5, topLeftY + 5);
 	}
 }
 
@@ -168,22 +179,20 @@ void UI::update(float frameTime)
 // Checks if the mouse is currently over any part of the UI.
 // Returns true if mouse is over, false if not
 //=============================================================================
-bool UI::mouseOverUI()
+bool UI::mouseInside()
 {
-	float imageTopLeftX = getX() - uiNS::WIDTH / 2;
-	float imageTopLeftY = getY() - uiNS::HEIGHT / 2;
-
-	if (input->getMouseX() >= imageTopLeftX && input->getMouseX() <= imageTopLeftX + uiNS::WIDTH &&
-		input->getMouseY() >= imageTopLeftY && input->getMouseY() <= imageTopLeftY + uiNS::HEIGHT)
+	if (Entity::mouseInside())
+	{
 		return true;
+	}
 
 	//Check if mouse is over any tab
-	float tabTopLeftY = imageTopLeftY - uiNS::tabHEIGHT * 3 / 4;
-	float tabBottomLeftY = imageTopLeftY;
+	float tabTopLeftY = getY() - image.getHeight() / 2 - uiNS::tabHEIGHT * 3 / 4;
+	float tabBottomLeftY = getY() - image.getHeight() / 2;
 
 	if (input->getMouseY() > tabTopLeftY && input->getMouseY() < tabBottomLeftY)
 	{
-		float tabTopLeftX = imageTopLeftX + uiNS::tabLMargin;
+		float tabTopLeftX = getX() - uiNS::WIDTH / 2 + uiNS::tabLMargin;
 		for (int i = 0; i < 3; i++)
 		{
 			// Increase in tab: (tabNumber - 1)*(uiNS::tabWIDTH + uiNS::tabMargin) + uiNS::tabWIDTH / 2);
