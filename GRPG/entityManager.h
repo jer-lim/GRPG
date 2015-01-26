@@ -24,9 +24,9 @@ public:
 	void resetAll();
 
 	// Add an entity to be managed by the manager
-	void addEntity(Entity* ent);
+	void addEntity(Entity* ent, int zi = 1);
 
-	void addImage(Image* img);
+	void addImage(Image* img, int zi = 1);
 };
 
 #endif
