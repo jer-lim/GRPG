@@ -7,6 +7,7 @@
 class EntityManager {
 private:
 	map<int, Entity*> entities;
+	map<int, Image*> images;
 public:
 
 	EntityManager();
@@ -19,6 +20,8 @@ public:
 
 	// Add an entity to be managed by the manager
 	void addEntity(Entity* ent);
+
+	void addImage(Image* img);
 };
 
 #endif
