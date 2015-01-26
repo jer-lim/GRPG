@@ -448,6 +448,25 @@ void Entity::move(Destination* d)
 	destination = d;
 }
 
+//=============================================================================
+// MouseInside
+// Check if the mouse is inside this entity's sprite
+// Returns true if it is inside, false if it is outside
+// Uses input->getMouseX() and input->getMouseY()
+//=============================================================================
+bool Entity::mouseInside()
+{
+	float imageTopLeftX = getX() - image.getWidth() / 2;
+	float imageTopLeftY = getY() - image.getHeight() / 2;
+
+	if (input->getMouseX() >= imageTopLeftX && input->getMouseX() <= imageTopLeftX + image.getWidth() &&
+		input->getMouseY() >= imageTopLeftY && input->getMouseY() <= imageTopLeftY + image.getHeight())
+		return true;
+
+	return false;
+}
+
+
 /*
 //=============================================================================
 // Entity bounces after collision with another entity

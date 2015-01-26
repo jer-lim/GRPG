@@ -168,22 +168,20 @@ void UI::update(float frameTime)
 // Checks if the mouse is currently over any part of the UI.
 // Returns true if mouse is over, false if not
 //=============================================================================
-bool UI::mouseOverUI()
+bool UI::mouseInside()
 {
-	float imageTopLeftX = getX() - uiNS::WIDTH / 2;
-	float imageTopLeftY = getY() - uiNS::HEIGHT / 2;
-
-	if (input->getMouseX() >= imageTopLeftX && input->getMouseX() <= imageTopLeftX + uiNS::WIDTH &&
-		input->getMouseY() >= imageTopLeftY && input->getMouseY() <= imageTopLeftY + uiNS::HEIGHT)
+	if (Entity::mouseInside())
+	{
 		return true;
+	}
 
 	//Check if mouse is over any tab
-	float tabTopLeftY = imageTopLeftY - uiNS::tabHEIGHT * 3 / 4;
-	float tabBottomLeftY = imageTopLeftY;
+	float tabTopLeftY = getY() - image.getHeight() / 2 - uiNS::tabHEIGHT * 3 / 4;
+	float tabBottomLeftY = getY() - image.getHeight() / 2;
 
 	if (input->getMouseY() > tabTopLeftY && input->getMouseY() < tabBottomLeftY)
 	{
-		float tabTopLeftX = imageTopLeftX + uiNS::tabLMargin;
+		float tabTopLeftX = getX() - uiNS::WIDTH / 2 + uiNS::tabLMargin;
 		for (int i = 0; i < 3; i++)
 		{
 			// Increase in tab: (tabNumber - 1)*(uiNS::tabWIDTH + uiNS::tabMargin) + uiNS::tabWIDTH / 2);
