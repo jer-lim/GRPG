@@ -7,8 +7,12 @@ class Enemy : public Character
 {
 private:
 	int damage, attackLv, defenseLv, strengthLv;
+	float damageReduction;
 public:
 	Enemy(){ Character(); }
+
+	//Getters and setters
+
 	int getDamage(){ return damage; }
 	void setDamage(int i){ damage = i; }
 	int getattackLv(){ return attackLv; }

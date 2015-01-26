@@ -7,9 +7,8 @@ MapLoader::MapLoader(){
 	tileImageFolder = "assets/map/img/";
 }
 
-void MapLoader::initialize(Game* game, Graphics* g, DrawManager* dm){
+void MapLoader::initialize(Game* game, DrawManager* dm){
 	gamePtr = game;
-	graphics = g;
 	drawManager = dm;
 }
 
@@ -138,7 +137,11 @@ void MapLoader::load(){
 							}
 							else{
 								textureManager = new TextureManager();
-								textureManager->initialize(graphics, ss.str().c_str());
+								string filestring = ss.str();
+								char* filename = new char[filestring.size() + 1];
+								filestring.copy(filename, filestring.size(), 0);
+								filename[filestring.size()] = '\0';
+								textureManager->initialize(gamePtr->getGraphics(), filename);
 								tileTms[tileId] = textureManager;
 							}
 
@@ -153,11 +156,15 @@ void MapLoader::load(){
 							}
 							else{
 								textureManager = new TextureManager();
-								textureManager->initialize(graphics, ss.str().c_str());
+								string filestring = ss.str();
+								char* filename = new char[filestring.size() + 1];
+								filestring.copy(filename, filestring.size(), 0);
+								filename[filestring.size()] = '\0';
+								textureManager->initialize(gamePtr->getGraphics(), filename);
 								tileTms[tileId] = textureManager;
 							}
 
-							t->initialize(graphics, tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
+							t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
 							t->setX(xPos);
 							t->setY(yPos);
 							drawManager->addObject(t, 0);

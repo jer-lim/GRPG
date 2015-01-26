@@ -2,44 +2,29 @@
 #define _CHARACTER_H				// file is included in more than one place
 
 #include "constants.h"
-#include <string>
 
 class Character
 {
 private:
-	//Not up to date with class diagram
-	string imgFileName,
-		name,
-		description;
-	int maxHealth;
-	float movementSpeed,
-		attackCooldown,
-		base_dmgReduction;
-	DWORD player_actions = 0x000;
-	/*
-		0000
-		ABCD, where:
-		A: Attackable
-		??
-	*/
+	const char* imgFileName;
+	float movementSpeed;
+	float attackCooldown;
+
 public:
+	//Static characters used to refer to them (Similar to skills
+	static Character* thePlayer;
+
 	Character(){}
-	Character(string i, string n, string d, int hp, float mov, float atk, float red){
+	Character(const char* i, float mov, float atk)
+	{
 		imgFileName = i;
-		name = n;
-		description = d;
-		maxHealth = hp;
 		movementSpeed = mov;
 		attackCooldown = atk;
-		base_dmgReduction = red;
 	}
-	bool attack(Character otherChar){
-	}
-	bool takeDamage(Character otherChar){
-	}
-	void destroy(){
 
-	}
+	const char* getImgFileName() { return imgFileName; }
+	const float getMovementSpeed() { return movementSpeed; }
+	const float getAttackCooldown() { return attackCooldown; }
 };
 
 #endif

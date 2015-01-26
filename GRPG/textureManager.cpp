@@ -18,7 +18,6 @@ TextureManager::TextureManager()
     height = 0;
     file = NULL;
     graphics = NULL;
-	reset = false;
     initialized = false;            // set true when successfully initialized
 }
 
@@ -48,7 +47,6 @@ bool TextureManager::initialize(Graphics *g, const char *f)
         }
     }
     catch(...) {return false;}
-	reset = true;
     initialized = true;                    // set true when successfully initialized
     return true;
 }
@@ -71,7 +69,6 @@ void TextureManager::onResetDevice()
     if (!initialized)
         return;
     graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
-	reset = true;
 }
 
 

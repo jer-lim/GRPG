@@ -24,6 +24,7 @@
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
