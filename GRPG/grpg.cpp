@@ -39,13 +39,9 @@ void Grpg::initialize(HWND hwnd)
 
 	// Initialise entities
 	player = new Player();
-	player2 = new Player();
 	ui = new UI();
 
 	if(!player->initialize(this))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
-
-	if (!player2->initialize(this))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
 	if (!ui->initialize(this, player, input))
@@ -56,14 +52,8 @@ void Grpg::initialize(HWND hwnd)
 	
 	player->setX(GAME_WIDTH/2);
 	player->setY(GAME_HEIGHT / 2);
-	player2->setX(10);
-	player2->setY(10);
-
-	player2->setSpeed(90);
-	player2->move(player);
 
 	drawManager.addObject(player);
-	drawManager.addObject(player2);
 	drawManager.addObject(ui);
 	
     return;
