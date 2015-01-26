@@ -7,30 +7,30 @@ DrawManager::DrawManager(){
 }
 
 void DrawManager::updateAll(float frameTime){
-	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->entity != nullptr) objects[i]->entity->update(frameTime);
-		else objects[i]->image->update(frameTime);
+	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		if (it->second->entity != nullptr) it->second->entity->update(frameTime);
+		else it->second->image->update(frameTime);
 	}
 }
 
 void DrawManager::renderAll(){
-	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->entity != nullptr) objects[i]->entity->draw();
-		else objects[i]->image->draw();
+	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		if (it->second->entity != nullptr) it->second->entity->draw();
+		else it->second->image->draw();
 	}
 }
 
 void DrawManager::releaseAll(){
-	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->entity != nullptr) objects[i]->entity->getTextureManager()->onLostDevice();
-		else objects[i]->image->getTextureManager()->onLostDevice();
+	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		if (it->second->entity != nullptr) it->second->entity->getTextureManager()->onLostDevice();
+		else it->second->image->getTextureManager()->onLostDevice();
 	}
 }
 
 void DrawManager::resetAll(){
-	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->entity != nullptr) objects[i]->entity->getTextureManager()->onResetDevice();
-		else objects[i]->image->getTextureManager()->onResetDevice();
+	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		if (it->second->entity != nullptr) it->second->entity->getTextureManager()->onResetDevice();
+		else it->second->image->getTextureManager()->onResetDevice();
 	}
 }
 
@@ -63,7 +63,27 @@ void DrawManager::addManagedObject(ManagedObject* mo){
 		}
 	}
 
+
+	/*for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		if (it->second->zindex > mo->zindex){
+			for (map<int, ManagedObject*>::reverse_iterator it2 = objects.rend()++; it2 > distance(it, objects.begin()); --j){
+				objects[j + 1] = objects[j];
+			}
+			objects[i] = mo;
+			added = true;
+			break;
+		}
+	}*/
+
 	if (!added){
 		objects[objects.size()] = mo;
+	}
+}
+
+void DrawManager::removeObject(Entity* ent){
+	for (int i = 0; i < objects.size(); ++i){
+		if (objects[i]->entity == ent){
+			objects.erase(i);
+		}
 	}
 }

@@ -29,6 +29,8 @@ public:
 	// Add an entity to be managed by the manager
 	void addObject(Entity* ent, int zi = 1);
 	void addObject(Image* img, int zi = 1);
+
+	void removeObject(Entity* ent);
 };
 
 #endif
