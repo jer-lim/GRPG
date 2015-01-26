@@ -1,5 +1,5 @@
-#ifndef ENTITYMANAGER_H
-#define ENTITYMANAGER_H
+#ifndef DRAWMANAGER_H
+#define DRAWMANAGER_H
 
 #include "entity.h"
 #include <map>
@@ -10,7 +10,7 @@ struct ManagedObject {
 	Image* image = nullptr;
 };
 
-class EntityManager {
+class DrawManager {
 private:
 	map<int, ManagedObject*> objects;
 
@@ -18,7 +18,7 @@ private:
 
 public:
 
-	EntityManager();
+	DrawManager();
 
 	// Functions to handle the menial tasks
 	void updateAll(float frameTime);
@@ -27,9 +27,8 @@ public:
 	void resetAll();
 
 	// Add an entity to be managed by the manager
-	void addEntity(Entity* ent, int zi = 1);
-
-	void addImage(Image* img, int zi = 1);
+	void addObject(Entity* ent, int zi = 1);
+	void addObject(Image* img, int zi = 1);
 };
 
 #endif

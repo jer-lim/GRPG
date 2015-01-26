@@ -1,40 +1,40 @@
-#include "entityManager.h"
+#include "drawManager.h"
 
 using namespace std;
 
-EntityManager::EntityManager(){
+DrawManager::DrawManager(){
 
 }
 
-void EntityManager::updateAll(float frameTime){
+void DrawManager::updateAll(float frameTime){
 	for (int i = 0; i < objects.size(); ++i){
 		if (objects[i]->entity != nullptr) objects[i]->entity->update(frameTime);
 		else objects[i]->image->update(frameTime);
 	}
 }
 
-void EntityManager::renderAll(){
+void DrawManager::renderAll(){
 	for (int i = 0; i < objects.size(); ++i){
 		if (objects[i]->entity != nullptr) objects[i]->entity->draw();
 		else objects[i]->image->draw();
 	}
 }
 
-void EntityManager::releaseAll(){
+void DrawManager::releaseAll(){
 	for (int i = 0; i < objects.size(); ++i){
 		if (objects[i]->entity != nullptr) objects[i]->entity->getTextureManager()->onLostDevice();
 		else objects[i]->image->getTextureManager()->onLostDevice();
 	}
 }
 
-void EntityManager::resetAll(){
+void DrawManager::resetAll(){
 	for (int i = 0; i < objects.size(); ++i){
 		if (objects[i]->entity != nullptr) objects[i]->entity->getTextureManager()->onResetDevice();
 		else objects[i]->image->getTextureManager()->onResetDevice();
 	}
 }
 
-void EntityManager::addEntity(Entity* ent, int zi){
+void DrawManager::addObject(Entity* ent, int zi){
 	ManagedObject* mo = new ManagedObject();
 	mo->entity = ent;
 	mo->zindex = zi;
@@ -42,7 +42,7 @@ void EntityManager::addEntity(Entity* ent, int zi){
 	addManagedObject(mo);
 }
 
-void EntityManager::addImage(Image* img, int zi){
+void DrawManager::addObject(Image* img, int zi){
 	ManagedObject* mo = new ManagedObject();
 	mo->image = img;
 	mo->zindex = zi;
@@ -50,7 +50,7 @@ void EntityManager::addImage(Image* img, int zi){
 	addManagedObject(mo);
 }
 
-void EntityManager::addManagedObject(ManagedObject* mo){
+void DrawManager::addManagedObject(ManagedObject* mo){
 	bool added = false;
 	for (int i = 0; i < objects.size(); ++i){
 		if (objects[i]->zindex > mo->zindex){

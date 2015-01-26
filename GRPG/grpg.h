@@ -7,7 +7,7 @@
 #include "mapLoader.h"
 #include "player.h"
 #include "image.h"
-#include "entityManager.h"
+#include "drawManager.h"
 #include "UI.h"
 #include "textDX.h"
 
@@ -21,7 +21,7 @@ private:
 	Player* player;
 	Player* player2;
 	UI* ui;
-	EntityManager entityManager;
+	DrawManager drawManager;
 	TextDX* uiFont;
 
 public:

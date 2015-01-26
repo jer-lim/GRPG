@@ -14,11 +14,11 @@
     <ClCompile Include="skillLoader.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
-    <ClCompile Include="entityManager.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="List.cpp" />
+    <ClCompile Include="drawManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -38,10 +38,10 @@
     <ClInclude Include="skill.h" />
     <ClInclude Include="skillLoader.h" />
     <ClInclude Include="textureManager.h" />
-    <ClInclude Include="entityManager.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="drawManager.h" />
   </ItemGroup>
 </Project>

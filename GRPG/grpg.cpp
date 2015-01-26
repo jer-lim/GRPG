@@ -25,11 +25,11 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-	entityManager = EntityManager();
+	drawManager = DrawManager();
 
 	// Load map
 	MapLoader mapLoader;
-	mapLoader.initialize(this, graphics, &entityManager);
+	mapLoader.initialize(this, graphics, &drawManager);
 	mapLoader.load();
 
 	// initialize DirectX fonts
@@ -62,9 +62,9 @@ void Grpg::initialize(HWND hwnd)
 	player2->setSpeed(90);
 	player2->move(player);
 
-	entityManager.addEntity(player);
-	entityManager.addEntity(player2);
-	entityManager.addEntity(ui);
+	drawManager.addObject(player);
+	drawManager.addObject(player2);
+	drawManager.addObject(ui);
 	
     return;
 }
@@ -87,7 +87,7 @@ void Grpg::update()
 		it->second.gainXP(rand()%10);
 	}
 
-	entityManager.updateAll(frameTime);
+	drawManager.updateAll(frameTime);
 }
 
 //=============================================================================
@@ -111,7 +111,7 @@ void Grpg::render()
 {
     graphics->spriteBegin();                // begin drawing sprites
 
-	entityManager.renderAll();
+	drawManager.renderAll();
 	stringstream ss;
 	//ss << player->getSkills()->at(skillNS::ID_SKILL_ATTACK).getXP();
 	ss << "FPS: " << fps;
@@ -127,7 +127,7 @@ void Grpg::render()
 //=============================================================================
 void Grpg::releaseAll()
 {
-	entityManager.releaseAll();
+	drawManager.releaseAll();
 	uiFont->onLostDevice();
 	//UI is their own class as well, and needs to be told to release their inner children's
 	//textures and text (The entity manager only does it for the texture)
@@ -143,7 +143,7 @@ void Grpg::releaseAll()
 //=============================================================================
 void Grpg::resetAll()
 {
-	entityManager.resetAll();
+	drawManager.resetAll();
 	uiFont->onResetDevice();
 	//UI is their own class as well, and needs to be told to release their inner children's
 	//textures and text (The entity manager only does it for the texture)
