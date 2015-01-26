@@ -32,12 +32,12 @@ Entity::Entity()
 //      width = width of Image in pixels  (0 = use full texture width)
 //      height = height of Image in pixels (0 = use full texture height)
 //      ncols = number of columns in texture (1 to n) (0 same as 1)
-//      whichTexture[] = the texture to use
+//      whichTexture = the texture that this entity will load to act as it's image
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[])
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const char* whichTexture)
 {
-    input = gamePtr->getInput();                // the input system
+	input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 
 	textureM = new TextureManager();
@@ -45,6 +45,30 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
 	//init texture
 	if (!textureM->initialize(graphics, whichTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *whichTexture));
+
+	return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
+}
+
+//=============================================================================
+// Initialize the Entity.
+// Pre: *gamePtr = pointer to Game object
+//      width = width of Image in pixels  (0 = use full texture width)
+//      height = height of Image in pixels (0 = use full texture height)
+//      ncols = number of columns in texture (1 to n) (0 same as 1)
+//      whichCharacter = the character that this Entity is made by
+// Post: returns true if successful, false if failed
+//=============================================================================
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Character* whichCharacter)
+{
+    input = gamePtr->getInput();                // the input system
+	graphics = gamePtr->getGraphics();
+
+	textureM = new TextureManager();
+	character = whichCharacter;
+
+	//init texture
+	if (!textureM->initialize(graphics, character->getImgFileName()))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *character->getImgFileName()));
 
     return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM);
 }

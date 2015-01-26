@@ -11,6 +11,7 @@
 #include "input.h"
 #include "game.h"
 #include "destination.h"
+#include "Character.h"
 
 namespace entityNS
 {
@@ -34,7 +35,7 @@ class Entity : public Destination
     VECTOR2 edge01,edge03;  // edges used for projection
     float   edge01Min, edge01Max, edge03Min, edge03Max; // min and max projections
     float   mass;           // Mass of entity
-    float   health;         // health 0 to 100
+    float   health;         // current health from 0 to Character's max health
     float   rr;             // Radius squared variable
     float   force;          // Force of gravity
 	float	speed;			// The speed
@@ -47,6 +48,7 @@ class Entity : public Destination
 	float	y;				// The y location
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
+	Character* character;	// Reference to the character that this entity refers to (NPC? Enemy? etc.)
 
 	TextureManager* textureM; //This needs to be set on the entity's creation by any entity inheriting from this
 
@@ -130,7 +132,11 @@ class Entity : public Destination
     // Return collision type (NONE, CIRCLE, BOX, ROTATED_BOX)
     virtual entityNS::COLLISION_TYPE getCollisionType() {return collisionType;}
 
+	// Returns the texture manager that this entity uses
 	virtual TextureManager* getTextureManager() { return textureM; }
+
+	// Returns the character that this entity refers to
+	virtual Character* getCharacter() { return character; }
 
     ////////////////////////////////////////
     //           Set functions            //
@@ -169,13 +175,21 @@ class Entity : public Destination
     // frameTime is used to regulate the speed of movement and animation
     virtual void update(float frameTime);
 
+	// Initialize Entity
+	// Pre: *gamePtr = pointer to Game object
+	//      width = width of Image in pixels  (0 = use full texture width)
+	//      height = height of Image in pixels (0 = use full texture height)
+	//      ncols = number of columns in texture (1 to n) (0 same as 1)
+	//		whichTexture = the texture that this entity reads from
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[]);
+
     // Initialize Entity
     // Pre: *gamePtr = pointer to Game object
     //      width = width of Image in pixels  (0 = use full texture width)
     //      height = height of Image in pixels (0 = use full texture height)
     //      ncols = number of columns in texture (1 to n) (0 same as 1)
-	//		whichTexture = The texture that should be used
-    virtual bool initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[]);
+	//		whichCharacter = the character that this entity refers to
+    virtual bool initialize(Game *gamePtr, int width, int height, int ncols, Character* character);
 
 	// Initialize entity using a pre-initialized TextureManager
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm);

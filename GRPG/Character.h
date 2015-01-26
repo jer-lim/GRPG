@@ -6,18 +6,22 @@
 class Character
 {
 private:
-	char* imgFileName;
+	const char* imgFileName;
 	float movementSpeed;
 	float attackCooldown;
 
 public:
 	Character(){}
-	Character(char* i, float mov, float atk)
+	Character(const char* i, float mov, float atk)
 	{
 		imgFileName = i;
 		movementSpeed = mov;
 		attackCooldown = atk;
 	}
+
+	const char* getImgFileName() { return imgFileName; }
+	const float getMovementSpeed() { return movementSpeed; }
+	const float getAttackCooldown() { return attackCooldown; }
 };
 
 #endif
