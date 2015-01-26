@@ -95,10 +95,16 @@ void UI::drawTab(int tabNumber)
 //=============================================================================
 void UI::drawTabContents(int tabNumber)
 {
-	if (tabNumber == uiNS::SKILLS)
+	float topLeftX = getX() - uiNS::WIDTH / 2;
+	float topLeftY = getY() - uiNS::HEIGHT / 2;
+
+	if (tabNumber == uiNS::COMBATSTYLE)
+	{
+		uiText->print("Combat styles", topLeftX + 5, topLeftY + 5);
+	}
+	else if (tabNumber == uiNS::SKILLS)
 	{
 		float heightAllowed = uiNS::HEIGHT / 7; //We have 7 skills
-		float yLocation = getY() - uiNS::HEIGHT / 2;
 		map<int, PlayerSkill>* playerSkills = player->getSkills();
 		map<int, PlayerSkill>::iterator it;
 		stringstream skillLevel;
@@ -106,7 +112,7 @@ void UI::drawTabContents(int tabNumber)
 		{
 			//Print the skill text at the center of each location, with 5 px margin: left;
 			uiText->print(it->second.getSkill().getName(),
-				getX() + 5 - uiNS::WIDTH / 2, yLocation + heightAllowed / 2 - (uiNS::textSize / 2));
+				topLeftX + 5, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
 			//Check skill level and append a 0 in front if needed
 			if (it->second.getSkillLevel() < 10)
 			{
@@ -118,12 +124,17 @@ void UI::drawTabContents(int tabNumber)
 			}
 			//Print level
 			uiText->print(skillLevel.str() + "/99",
-				getX() + 40, yLocation + heightAllowed / 2 - (uiNS::textSize / 2));
+				getX() + 40, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
 
 			skillLevel.str("");
 
-			yLocation += heightAllowed;
+			topLeftY += heightAllowed;
 		}
+	}
+	else if (tabNumber == uiNS::INVENTORY)
+	{
+		//Temporary text
+		uiText->print("Inventory", topLeftX + 5, topLeftY + 5);
 	}
 }
 
