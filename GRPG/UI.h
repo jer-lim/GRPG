@@ -80,10 +80,9 @@ public:
 	virtual void draw();
 	virtual bool initialize(Game* gamePtr, Player* player, Input *in);
 
-	// Return console command
-	// Handles console single key commands.
-	// Returns all other commands to game.
-	virtual std::string UI::getCommand();
+	// Process console command
+	// Returns true if processing was done, false otherwise
+	virtual bool UI::processCommand(const std::string commandStr);
 
 	// Checks if the mouse is currently over any part of the UI. Returns true if so
 	virtual bool mouseInside();

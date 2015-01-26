@@ -167,12 +167,19 @@ void UI::draw()
 	textRect.top = textRect.bottom - rowHeight;
 
 	std::string prompt = ">";                   // build prompt string
-	prompt += input->getTextIn();
+	std::string playerText = input->getTextIn();
 
-	if (prompt.at(prompt.length() - 1) == '\r')   // if 'Enter' key is pressed
-		getCommand();						//Execute the command
+	//If something was entered into the game
+	if (playerText.length() > 0)
+	{
+		if (playerText.at(playerText.length() - 1) == '\r')   // if 'Enter' key is pressed
+		{
+			playerText.erase(playerText.length() - 1);		// erase '\r' from end of command string
+			processCommand(playerText);						//Execute the command
+		}
+	}
 
-	uiText->print(prompt, textRect, DT_LEFT);      // display prompt and command
+	uiText->print(prompt + playerText, textRect, DT_LEFT);      // display prompt and command
 	
 	if (uiNS::COMBATSTYLE != activeTab)
 		drawTab(uiNS::COMBATSTYLE);
@@ -253,27 +260,24 @@ void UI::drawTabContents(int tabNumber)
 }
 
 //=============================================================================
-// Return console command
-// Handles console single key commands.
-// Returns all other commands to game.
+// Process console command
+// Returns true if processing was done, false otherwise
 //=============================================================================
-std::string UI::getCommand()
+bool UI::processCommand(const std::string commandStr)
 {
 	//check for Esc key
 	if (input->wasKeyPressed(ESC_KEY))
-		return "";
-
-	std::string commandStr = input->getTextIn();            // get user entered text
+	{
+		input->clearTextIn();                       // clear input line
+		return false;
+	}
 
 	if (commandStr.length() == 0)               // if no command entered
-		return "";
-	if (commandStr.at(commandStr.length() - 1) != '\r')   // if 'Enter' key not pressed
-		return "";                              // return, can't be command
+		return true;
 
-	commandStr.erase(commandStr.length() - 1);    // erase '\r' from end of command string
-	input->clearTextIn();                       // clear input line
 	addChatText(commandStr);
-	return commandStr;                          // return command
+	input->clearTextIn();                       // clear input line
+	return true;								// return command
 }
 
 //=============================================================================
