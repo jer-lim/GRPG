@@ -20,7 +20,7 @@ TextureManager::TextureManager()
 	file_string;
     graphics = NULL;
     initialized = false;            // set true when successfully initialized
-	//reset = false;
+	resetting = false;
 }
 
 //=============================================================================
@@ -61,7 +61,11 @@ void TextureManager::onLostDevice()
 {
     if (!initialized)
         return;
-    SAFE_RELEASE(texture);
+	else if (!resetting)
+	{
+		SAFE_RELEASE(texture);
+		resetting = true;
+	}
 }
 
 //=============================================================================
@@ -71,10 +75,14 @@ void TextureManager::onResetDevice()
 {
     if (!initialized)
         return;
-	//if (file && file[0] == '\0') {//if file is empty
+	else if (resetting)
+	{
+		//if (file && file[0] == '\0') {//if file is empty
 		//file = file_string.c_str();
-	//}
-	graphics->loadTexture(file_string.c_str(), TRANSCOLOR, width, height, texture);
+		//}
+		graphics->loadTexture(file_string.c_str(), TRANSCOLOR, width, height, texture);
+		resetting = false;
+	}
 }
 
 

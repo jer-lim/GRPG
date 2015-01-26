@@ -21,7 +21,7 @@ class TextureManager
 	string file_string;		// name of file in string format
     Graphics *graphics;     // save pointer to graphics
     bool    initialized;    // true when successfully initialized
-	bool	reset;
+	bool	resetting;
     HRESULT hr;             // standard return type
 
   public:
@@ -52,7 +52,8 @@ class TextureManager
     // Restore resourses
     virtual void onResetDevice();
 
-	bool getReset() { return reset; }
+	bool getresetting() { return resetting; }
+	void setresetting(bool b) { resetting = b; }
 };
 
 #endif

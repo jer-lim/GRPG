@@ -29,8 +29,16 @@ void DrawManager::releaseAll(){
 
 void DrawManager::resetAll(){
 	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
-		if (it->second->entity != nullptr) it->second->entity->getTextureManager()->onResetDevice();
-		else it->second->image->getTextureManager()->onResetDevice();
+		if (it->second->entity != nullptr)
+		{
+			it->second->entity->getTextureManager()->onResetDevice();
+			it->second->entity->getImage()->spriteData.texture = it->second->entity->getTextureManager()->getTexture();
+		}
+		else
+		{
+			it->second->image->getTextureManager()->onResetDevice();
+			it->second->image->spriteData.texture = it->second->image->getTextureManager()->getTexture();
+		}
 	}
 }
 
