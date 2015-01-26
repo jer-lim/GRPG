@@ -17,12 +17,10 @@ Entity::Entity()
     edge.top = -1;
     edge.right = 1;
     edge.bottom = 1;
-    mass = 1.0;
     active = true;                  // the entity is active
     rotatedBoxReady = false;
     collisionType = entityNS::CIRCLE;
     health = 100;
-	speed = 100;
 	image = Image();
 }
 
@@ -109,6 +107,8 @@ void Entity::update(float frameTime)
 {
 	if(destination != 0)
 	{
+		float speed = character->getMovementSpeed();
+
 		VECTOR2 direction = destination->getVector() - getVector();
 		VECTOR2 *normalizedDirection = &VECTOR2();
 		D3DXVec2Normalize(normalizedDirection, &direction);

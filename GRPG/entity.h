@@ -34,11 +34,8 @@ class Entity : public Destination
     VECTOR2 corners[4];     // for ROTATED_BOX collision detection
     VECTOR2 edge01,edge03;  // edges used for projection
     float   edge01Min, edge01Max, edge03Min, edge03Max; // min and max projections
-    float   mass;           // Mass of entity
     float   health;         // current health from 0 to Character's max health
     float   rr;             // Radius squared variable
-    float   force;          // Force of gravity
-	float	speed;			// The speed
     Input   *input;         // pointer to the input system
     HRESULT hr;             // standard return type
     bool    active;         // only active entities may collide
@@ -114,14 +111,8 @@ class Entity : public Destination
     // Return active.
     virtual bool  getActive()         const {return active;}
 
-    // Return mass.
-    virtual float getMass()           const {return mass;}
-
     // Return health;
     virtual float getHealth()         const {return health;}
-
-	// Return speed
-	virtual float getSpeed()		  const {return speed;}
 
 	// Return x location
 	virtual float getX()			  { return x; }
@@ -147,12 +138,6 @@ class Entity : public Destination
 
     // Set health.
     virtual void setHealth(float h)         {health = h;}
-
-    // Set mass.
-    virtual void  setMass(float m)          {mass = m;}
-
-	// Set speed
-	virtual void  setSpeed(float s)			{speed = s;}
 
 	// Set x location
 	virtual void setX(float xL)				{ x = xL; }
@@ -193,6 +178,7 @@ class Entity : public Destination
 
 	// Initialize entity using a pre-initialized TextureManager
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager* tm);
+
     // Activate Entity.
     virtual void activate();
 
