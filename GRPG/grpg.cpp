@@ -57,7 +57,7 @@ void Grpg::initialize(HWND hwnd)
 	player->setY(GAME_HEIGHT / 2);
 
 	drawManager.addObject(player);
-	drawManager.addObject(ui);
+	drawManager.addObject(ui, 999);
 	
     return;
 }

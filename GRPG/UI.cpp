@@ -123,6 +123,11 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 //=============================================================================
 void UI::draw(Viewport* viewport)
 {
+	//UI completely ignores viewport =)
+
+	graphics->spriteEnd();
+	graphics->spriteBegin();
+
 	graphics->drawQuad(vertexBuffer);       // draw backdrop
 
 	// Display the chat screen
