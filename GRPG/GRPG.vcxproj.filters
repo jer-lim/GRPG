@@ -18,6 +18,10 @@
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="drawManager.cpp" />
+    <ClCompile Include="itemLoader.cpp" />
+    <ClCompile Include="Food.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="Armor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -41,5 +45,14 @@
     <ClInclude Include="textDX.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="drawManager.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="Smithing_Material.h" />
+    <ClInclude Include="itemLoader.h" />
+    <ClInclude Include="Armor.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Equipment.h" />
+    <ClInclude Include="InventoryItem.h" />
+    <ClInclude Include="InventoryFood.h" />
+    <ClInclude Include="Inventory.h" />
   </ItemGroup>
 </Project>
