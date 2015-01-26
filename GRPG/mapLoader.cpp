@@ -5,9 +5,10 @@ using namespace std;
 MapLoader::MapLoader(){
 	mapFolder = "assets/map/";
 	tileImageFolder = "assets/map/img/";
+	bufferSize = 2;
 
-	tileWidth = ceil(GAME_WIDTH / tileNS::WIDTH);
-	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT);
+	tileWidth = ceil(GAME_WIDTH / tileNS::WIDTH) + 2 * bufferSize + 1;
+	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT) + 2 * bufferSize + 1;
 }
 
 void MapLoader::initialize(Game* game, DrawManager* dm, Viewport* vp){
@@ -134,51 +135,12 @@ void MapLoader::load(){
 					float vpYPos = vpCoords.y;
 
 					// Is in viewport range
-					if (vpXPos > 0 - tileNS::WIDTH / 2
-						&& vpYPos > 0 - tileNS::HEIGHT / 2
-						&& vpXPos < GAME_WIDTH + tileNS::WIDTH / 2
-						&& vpYPos < GAME_HEIGHT + tileNS::HEIGHT / 2){
+					if (vpXPos > 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2
+						&& vpYPos > 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2
+						&& vpXPos < GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2
+						&& vpYPos < GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
 
-						TextureManager* textureManager;
-						stringstream ss;
-						ss << tileImageFolder << tileset[tileId].imageName;
-
-						if (tileset[tileId].collidable){
-
-							Tile* t = new Tile();
-
-							if (tileTms.count(tileId) > 0){
-								textureManager = tileTms[tileId];
-							}
-							else{
-								textureManager = new TextureManager();
-								textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
-								tileTms[tileId] = textureManager;
-							}
-
-							t->initialize(gamePtr, textureManager);
-							t->setX(xPos);
-							t->setY(yPos);
-							drawManager->addObject(t, 0);
-							loadedTiles[tileX][tileY] = new ManagedTile(t);
-						}
-						else {
-							Image* t = new Image();
-							if (tileTms.count(tileId) > 0){
-								textureManager = tileTms[tileId];
-							}
-							else{
-								textureManager = new TextureManager();
-								textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
-								tileTms[tileId] = textureManager;
-							}
-
-							t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
-							t->setX(xPos);
-							t->setY(yPos);
-							drawManager->addObject(t, 0);
-							loadedTiles[tileX][tileY] = new ManagedTile(t);
-						}
+						loadedTiles[tileX][tileY] = loadTile(tileX, tileY);
 					}
 				}
 			}
@@ -186,7 +148,7 @@ void MapLoader::load(){
 	}
 }
 
-void MapLoader::loadTile(int tileX, int tileY){
+ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 
 	// Get Chunk ID
 	int chunkX = tileX / tileNS::CHUNK_WIDTH;
@@ -223,7 +185,7 @@ void MapLoader::loadTile(int tileX, int tileY){
 		t->setX(xPos);
 		t->setY(yPos);
 		drawManager->addObject(t, 0);
-		loadedTiles[tileX][tileY] = new ManagedTile(t);
+		return new ManagedTile(t);
 	}
 	else {
 		Image* t = new Image();
@@ -240,12 +202,13 @@ void MapLoader::loadTile(int tileX, int tileY){
 		t->setX(xPos);
 		t->setY(yPos);
 		drawManager->addObject(t, 0);
-		loadedTiles[tileX][tileY] = new ManagedTile(t);
+		return new ManagedTile(t);
 	}
 }
 
 void MapLoader::update(){
 	queue<VECTOR2> toErase;
+	queue<VECTOR2> toAdd;
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
 			// Get coordinates on the map based on tile count
@@ -260,18 +223,18 @@ void MapLoader::update(){
 				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
 
 				// If offscreen, move to other side of screen
-				if (vpCoords.x < 0 - tileNS::WIDTH / 2){
+				if (vpCoords.x < 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2){
 					changeX = tileWidth;
 				}
-				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH / 2){
+				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2){
 					changeX = -tileWidth;
 				}
 
-				if (vpCoords.y < 0 - tileNS::HEIGHT / 2){
+				if (vpCoords.y < 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2){
 					changeY = tileHeight;
 				}
-				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT / 2){
-					changeY = -tileWidth;
+				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
+					changeY = -tileHeight;
 				}
 			}
 			else if (mt->image != nullptr){
@@ -279,31 +242,46 @@ void MapLoader::update(){
 				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
 
 				// If offscreen, move to other side of screen
-				if (vpCoords.x < 0 - tileNS::WIDTH / 2){
+				if (vpCoords.x < 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2){
 					changeX = tileWidth;
 				}
-				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH / 2){
+				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2){
 					changeX = -tileWidth;
 				}
 
-				if (vpCoords.y < 0 - tileNS::HEIGHT / 2){
+				if (vpCoords.y < 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2){
 					changeY = tileHeight;
 				}
-				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT / 2){
-					changeY = -tileWidth;
+				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
+					changeY = -tileHeight;
 				}
 			}
 
+			//runtimeLog << changeX << " " << changeY << endl;
+
 			//Apply change
-			if (changeX > 0 || changeY > 0){
-				loadedTiles[tileX + changeX][tileY + changeY] = mt;
-				toErase.push(VECTOR2(tileX, tileY));
+			if (changeX != 0 || changeY != 0){
+				//loadedTiles[tileX + changeX][tileY + changeY] = mt;
+				if (tileX + changeX >= 0 && tileY + changeY >= 0){
+					toAdd.push(VECTOR2(tileX + changeX, tileY + changeY));
+					toErase.push(VECTOR2(tileX, tileY));
+					if (mt->tile != nullptr)
+						drawManager->removeObject(mt->tile);
+					else
+						drawManager->removeObject(mt->image);
+				}
 			}
 		}
 	}
 
 	while (!toErase.empty()){
 		loadedTiles[toErase.front().x].erase(toErase.front().y);
+		//runtimeLog << "Removed tile from " << toErase.front().x << ", " << toErase.front().y << endl;
 		toErase.pop();
+	}
+
+	while (!toAdd.empty()){
+		loadedTiles[toAdd.front().x][toAdd.front().y] = loadTile(toAdd.front().x, toAdd.front().y);
+		toAdd.pop();
 	}
 }

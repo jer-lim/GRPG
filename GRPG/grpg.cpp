@@ -25,7 +25,7 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-	viewport = new Viewport(this, GAME_WIDTH / 2 + 16, GAME_HEIGHT / 2, GAME_WIDTH, GAME_HEIGHT);
+	viewport = new Viewport(this, GAME_WIDTH / 2 + 64, GAME_HEIGHT / 2 + 64, GAME_WIDTH, GAME_HEIGHT);
 
 	drawManager = new DrawManager();
 	drawManager->initialize(viewport);
