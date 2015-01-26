@@ -8,7 +8,7 @@
 #include <sstream>
 #include "globals.h"
 #include "tile.h"
-#include "entityManager.h"
+#include "drawManager.h"
 
 using namespace std;
 
@@ -27,7 +27,7 @@ protected:
 
 	Game* gamePtr;
 	Graphics* graphics;
-	EntityManager* entityManager;
+	DrawManager* drawManager;
 
 	string mapFolder;
 	string tileImageFolder;
@@ -42,7 +42,7 @@ protected:
 
 public:
 	MapLoader();
-	void initialize(Game* game, Graphics* g, EntityManager* em);
+	void initialize(Game* game, Graphics* g, DrawManager* dm);
 	void load();
 };
 

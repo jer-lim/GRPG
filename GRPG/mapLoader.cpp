@@ -7,10 +7,10 @@ MapLoader::MapLoader(){
 	tileImageFolder = "assets/map/img/";
 }
 
-void MapLoader::initialize(Game* game, Graphics* g, EntityManager* em){
+void MapLoader::initialize(Game* game, Graphics* g, DrawManager* dm){
 	gamePtr = game;
 	graphics = g;
-	entityManager = em;
+	drawManager = dm;
 }
 
 void MapLoader::load(){
@@ -145,7 +145,7 @@ void MapLoader::load(){
 							t->initialize(gamePtr, textureManager);
 							t->setX(xPos);
 							t->setY(yPos);
-							entityManager->addEntity(t, 0);
+							drawManager->addObject(t, 0);
 						} else {
 							Image* t = new Image();
 							if (tileTms.count(tileId) > 0){
@@ -160,7 +160,7 @@ void MapLoader::load(){
 							t->initialize(graphics, tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
 							t->setX(xPos);
 							t->setY(yPos);
-							entityManager->addImage(t, 0);
+							drawManager->addObject(t, 0);
 						}
 					}
 				}
