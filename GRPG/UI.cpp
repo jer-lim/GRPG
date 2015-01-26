@@ -114,44 +114,57 @@ void UI::draw()
 {
 	graphics->drawQuad(vertexBuffer);       // draw backdrop
 
-	// display text on console
+	// Display the chat screen
+	//Firstly, create the text rectangle that will draw the chat console
+	//onto the screen on the specified locations.
+	//These locations will be changed eventually when the text is actually
+	//draw, but these values are set first to allow for calculation of
+	//row height and number of rows.
 	textRect.left = 0;
 	textRect.top = 0;
-	textRect.bottom = uiNS::HEIGHT - uiNS::tabMargin;
-	textRect.right = uiNS::WIDTH - uiNS::tabMargin;
 
 	// sets textRect bottom to height of 1 row
+	//When we perform this printing, uiText will modify textRect to only take up the space
+	//required to draw that text, has only setting it to the height of one row
 	uiText->print("|", textRect, DT_CALCRECT);
 	int rowHeight = textRect.bottom + 2;    // height of 1 row (+2 is row spacing)
 	if (rowHeight <= 0)                      // this should never be true
 		rowHeight = 20;                     // force a workable result
 
-	// number of rows that will fit on console
+	// Find the number of rows that will fit into the height of the chat
 	int rows = (uiNS::chatHeight) / rowHeight;
 	rows -= 2;                              // room for input prompt at bottom
 	if (rows <= 0)                          // this should never be true
 		rows = 5;                           // force a workable result
 
 	// set text display rect for one row
+	// Defines the text rectangle left and right locations
 	textRect.left = (long)(uiNS::tabMargin);
-	textRect.right = (long)(textRect.right + uiNS::chatWidth - uiNS::tabMargin);
+	textRect.right = (long)(textRect.left + uiNS::chatWidth - uiNS::tabMargin);
+
+	// Now set the drawing parts top and bottom.
+	//textRect.top = ; // Top doesn't actually need to be set because it will be later set in the for loop
 	// -2*rowHeight is room for input prompt
-	textRect.bottom = (long)(uiNS::chatHeight - 2 * uiNS::tabMargin - 2 * rowHeight);
+	// Chat is fixated at the bottom
+	textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin - 2 * rowHeight);
+
 	// for all rows (max text.size()) from bottom to top
 	for (int r = 0; r<rows && r<(int)(text.size()); r++)
 	{
 		// set text display rect top for this row
+		// So the text is drawn from here (Bottom up!)
 		textRect.top = textRect.bottom - rowHeight;
 		// display one row of text
 		uiText->print(text[r], textRect, DT_LEFT);
-		// adjust text display rect bottom for next row
+		// adjust text display rect bottom for next row, moving it up
 		textRect.bottom -= rowHeight;
 	}
 
 	// display command prompt and current command string
 	// set text display rect for prompt
-	textRect.bottom = (long)(y + uiNS::chatHeight- uiNS::tabMargin);
+	textRect.bottom = (long)(GAME_HEIGHT- uiNS::tabMargin);
 	textRect.top = textRect.bottom - rowHeight;
+
 	std::string prompt = ">";                   // build prompt string
 	prompt += input->getTextIn();
 	uiText->print(prompt, textRect, DT_LEFT);      // display prompt and command

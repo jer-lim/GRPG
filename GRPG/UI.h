@@ -24,7 +24,7 @@ namespace uiNS
 	const int tabLMargin = 15;
 	const int tabMargin = 5;
 
-	const UINT chatHeight = 400;
+	const UINT chatHeight = 200;
 	const UINT chatWidth = 500;
 	const COLOR_ARGB chatColour = SETCOLOR_ARGB(192, 0, 0, 0);
 }
