@@ -8,12 +8,12 @@
 class InventoryItem
 {
 private:
-	Item* item;
-	int currentStackCount;
+	Item* item=nullptr;
+	int currentStackCount=-1;
 public:
 	// constructor
 	InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
-	~InventoryItem(){ SAFE_DELETE(item); }
+	~InventoryItem(){ item = nullptr; }// don't destroy the item because it's used by multiple inventoryitems
 	InventoryItem(Item &item, int csc){
 		item = item;
 		currentStackCount = csc;
@@ -22,5 +22,6 @@ public:
 	void setItem(Item* s){ item = s; }
 	int getcurrentStackCount() { return currentStackCount; }
 	void setcurrentStackCount(int i) { currentStackCount = i; }
+	void destroy(){ item = nullptr; }
 };
 #endif
