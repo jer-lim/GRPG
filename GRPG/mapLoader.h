@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <queue>
 #include <sstream>
 #include <cmath>
 #include "globals.h"
@@ -59,6 +60,7 @@ public:
 	MapLoader();
 	void initialize(Game* game, DrawManager* dm, Viewport* vp);
 	void load();
+	void loadTile(int tileX, int tileY);
 	void update();
 };
 

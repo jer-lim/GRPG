@@ -6,8 +6,8 @@ MapLoader::MapLoader(){
 	mapFolder = "assets/map/";
 	tileImageFolder = "assets/map/img/";
 
-	tileWidth = ceil(GAME_WIDTH / tileNS::WIDTH) + 1;
-	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT) + 1;
+	tileWidth = ceil(GAME_WIDTH / tileNS::WIDTH);
+	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT);
 }
 
 void MapLoader::initialize(Game* game, DrawManager* dm, Viewport* vp){
@@ -112,9 +112,6 @@ void MapLoader::load(){
 
 	VECTOR2 vpTopLeft = viewport->getTopLeft();
 	VECTOR2 vpBottomRight = viewport->getBottomRight();
-
-	float startX = tileNS::WIDTH / 2;
-	float startY = tileNS::WIDTH / 2;
 	for (int x = 0; x < worldMap.size(); ++x){
 		for (int y = 0; y < worldMap[x].size(); ++y){
 
@@ -126,8 +123,11 @@ void MapLoader::load(){
 					// Load tiles
 					char tileId = chunks[chunkId]->tile[cx][cy];
 
-					float xPos = startX + (x * tileNS::CHUNK_WIDTH + cx) * tileNS::WIDTH;
-					float yPos = startY + (y * tileNS::CHUNK_HEIGHT + cy) * tileNS::HEIGHT;
+					int tileX = x * tileNS::CHUNK_WIDTH + cx;
+					int tileY = y * tileNS::CHUNK_HEIGHT + cy;
+
+					float xPos = tileNS::WIDTH / 2 + tileX * tileNS::WIDTH;
+					float yPos = tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT;
 
 					VECTOR2 vpCoords = viewport->translate(xPos, yPos);
 					float vpXPos = vpCoords.x;
@@ -160,8 +160,9 @@ void MapLoader::load(){
 							t->setX(xPos);
 							t->setY(yPos);
 							drawManager->addObject(t, 0);
-							loadedTiles[x * tileNS::CHUNK_WIDTH + cx][y * tileNS::CHUNK_HEIGHT + cy] = new ManagedTile(t);
-						} else {
+							loadedTiles[tileX][tileY] = new ManagedTile(t);
+						}
+						else {
 							Image* t = new Image();
 							if (tileTms.count(tileId) > 0){
 								textureManager = tileTms[tileId];
@@ -176,7 +177,7 @@ void MapLoader::load(){
 							t->setX(xPos);
 							t->setY(yPos);
 							drawManager->addObject(t, 0);
-							loadedTiles[x * tileNS::CHUNK_WIDTH + cx][y * tileNS::CHUNK_HEIGHT + cy] = new ManagedTile(t);
+							loadedTiles[tileX][tileY] = new ManagedTile(t);
 						}
 					}
 				}
@@ -185,9 +186,69 @@ void MapLoader::load(){
 	}
 }
 
+void MapLoader::loadTile(int tileX, int tileY){
+
+	// Get Chunk ID
+	int chunkX = tileX / tileNS::CHUNK_WIDTH;
+	int chunkY = tileY / tileNS::CHUNK_HEIGHT;
+	char chunkId = worldMap[chunkX][chunkY];
+
+	// Get Tile ID
+	int chunkTileX = tileX % tileNS::CHUNK_WIDTH;
+	int chunkTileY = tileY % tileNS::CHUNK_HEIGHT;
+	char tileId = chunks[chunkId]->tile[chunkTileX][chunkTileY];
+
+	// Get Tile Position
+	float xPos = tileNS::WIDTH / 2 + tileX * tileNS::WIDTH;
+	float yPos = tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT;
+
+	TextureManager* textureManager;
+	stringstream ss;
+	ss << tileImageFolder << tileset[tileId].imageName;
+
+	if (tileset[tileId].collidable){
+
+		Tile* t = new Tile();
+
+		if (tileTms.count(tileId) > 0){
+			textureManager = tileTms[tileId];
+		}
+		else{
+			textureManager = new TextureManager();
+			textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+			tileTms[tileId] = textureManager;
+		}
+
+		t->initialize(gamePtr, textureManager);
+		t->setX(xPos);
+		t->setY(yPos);
+		drawManager->addObject(t, 0);
+		loadedTiles[tileX][tileY] = new ManagedTile(t);
+	}
+	else {
+		Image* t = new Image();
+		if (tileTms.count(tileId) > 0){
+			textureManager = tileTms[tileId];
+		}
+		else{
+			textureManager = new TextureManager();
+			textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+			tileTms[tileId] = textureManager;
+		}
+
+		t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
+		t->setX(xPos);
+		t->setY(yPos);
+		drawManager->addObject(t, 0);
+		loadedTiles[tileX][tileY] = new ManagedTile(t);
+	}
+}
+
 void MapLoader::update(){
+	queue<VECTOR2> toErase;
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
+			// Get coordinates on the map based on tile count
 			int tileX = itx->first;
 			int tileY = ity->first;
 
@@ -197,13 +258,52 @@ void MapLoader::update(){
 			if (mt->tile != nullptr){
 				Tile* t = mt->tile;
 				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
+
+				// If offscreen, move to other side of screen
 				if (vpCoords.x < 0 - tileNS::WIDTH / 2){
 					changeX = tileWidth;
 				}
 				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH / 2){
 					changeX = -tileWidth;
 				}
+
+				if (vpCoords.y < 0 - tileNS::HEIGHT / 2){
+					changeY = tileHeight;
+				}
+				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT / 2){
+					changeY = -tileWidth;
+				}
+			}
+			else if (mt->image != nullptr){
+				Image* t = mt->image;
+				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
+
+				// If offscreen, move to other side of screen
+				if (vpCoords.x < 0 - tileNS::WIDTH / 2){
+					changeX = tileWidth;
+				}
+				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH / 2){
+					changeX = -tileWidth;
+				}
+
+				if (vpCoords.y < 0 - tileNS::HEIGHT / 2){
+					changeY = tileHeight;
+				}
+				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT / 2){
+					changeY = -tileWidth;
+				}
+			}
+
+			//Apply change
+			if (changeX > 0 || changeY > 0){
+				loadedTiles[tileX + changeX][tileY + changeY] = mt;
+				toErase.push(VECTOR2(tileX, tileY));
 			}
 		}
+	}
+
+	while (!toErase.empty()){
+		loadedTiles[toErase.front().x].erase(toErase.front().y);
+		toErase.pop();
 	}
 }
