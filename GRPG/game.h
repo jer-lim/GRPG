@@ -94,6 +94,11 @@ public:
     // Call graphics->spriteEnd();
     //   draw non-sprites
     virtual void render() = 0;
+
+	// Process commands that the user has entered into the console
+	// or the chat (i.e. kill the player, spawn enemies etc.)
+	// Returns true if command was processed, false on failure
+	virtual bool processCommand(std::string command) = 0;
 };
 
 #endif

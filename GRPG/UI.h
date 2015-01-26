@@ -26,7 +26,7 @@ namespace uiNS
 
 	const UINT chatHeight = 200;
 	const UINT chatWidth = 500;
-	const COLOR_ARGB chatColour = SETCOLOR_ARGB(192, 0, 0, 0);
+	const COLOR_ARGB chatColour = SETCOLOR_ARGB(50, 0, 0, 0);
 }
 
 // inherits from Entity class
@@ -35,7 +35,7 @@ class UI : public Entity
 private:
 
 	//GENERAL UI VARIABLES
-
+	Game* game;
 	TextDX* uiText;
 	Player* player; //Pointer to player to retrieve information about them
 	Input* input; //The input system

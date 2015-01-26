@@ -11,6 +11,7 @@
 #include "UI.h"
 #include "textDX.h"
 #include "Viewport.h"
+#include "Enemy.h"
 
 //=============================================================================
 // This class is the core of the game
@@ -41,6 +42,8 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
+
+	bool processCommand(std::string command);
 };
 
 #endif

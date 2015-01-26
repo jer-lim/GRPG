@@ -11,7 +11,7 @@ private:
 	float attackCooldown;
 
 public:
-	//Static characters used to refer to them (Similar to skills
+	//Static characters used to refer to them (Similar to skills)
 	static Character* thePlayer;
 
 	Character(){}
