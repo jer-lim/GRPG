@@ -263,7 +263,14 @@ bool UI::processCommand(const std::string commandStr)
 	if (commandStr.length() == 0)               // if no command entered
 		return true;
 
+	//Process the command string for cheat messages
+	if (commandStr == "help")
+	{
+		return true;
+	}
+
 	addChatText(commandStr);
+	player->sayMessage(commandStr, uiText);
 	input->clearTextIn();                       // clear input line
 	return false;								// return command
 }
