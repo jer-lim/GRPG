@@ -10,6 +10,7 @@
 #include "drawManager.h"
 #include "UI.h"
 #include "textDX.h"
+#include "Viewport.h"
 
 //=============================================================================
 // This class is the core of the game
@@ -22,6 +23,7 @@ private:
 	UI* ui;
 	DrawManager drawManager;
 	TextDX* uiFont;
+	Viewport* viewport;
 
 public:
     // Constructor

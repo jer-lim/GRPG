@@ -14,7 +14,7 @@ Tile::Tile() : Entity()
 	image.setCurrentFrame(0);
 	image.setFrames(0, 0);
 	collisionType = entityNS::NONE;
-	image.setFrameDelay(0.2);
+	image.setFrameDelay(0.2f);
 }
 
 //=============================================================================

@@ -10,6 +10,8 @@ namespace tileNS
     const int HEIGHT = 32;                  // image height
     const int X = GAME_WIDTH/2 - WIDTH/2;   // location on screen
     const int Y = GAME_HEIGHT/2 - HEIGHT/2;
+	const int CHUNK_WIDTH = 16; // Chunk width in tiles
+	const int CHUNK_HEIGHT = 16; // Chunk height in tiles
 }
 
 // inherits from Entity class

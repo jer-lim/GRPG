@@ -5,10 +5,13 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <sstream>
+#include <cmath>
 #include "globals.h"
 #include "tile.h"
 #include "drawManager.h"
+#include "Viewport.h"
 
 using namespace std;
 
@@ -27,6 +30,7 @@ protected:
 
 	Game* gamePtr;
 	DrawManager* drawManager;
+	Viewport* viewport;
 
 	string mapFolder;
 	string tileImageFolder;
@@ -38,11 +42,14 @@ protected:
 
 	// Loaded objects
 	unordered_map<int, TextureManager*> tileTms;
+	unordered_map<int, Tile*> loadedTileEntities;
+	unordered_map<int, Image*> loadedTileImages;
 
 public:
 	MapLoader();
-	void initialize(Game* game, DrawManager* dm);
+	void initialize(Game* game, DrawManager* dm, Viewport* vp);
 	void load();
+	void update();
 };
 
 #endif

@@ -7,9 +7,10 @@ MapLoader::MapLoader(){
 	tileImageFolder = "assets/map/img/";
 }
 
-void MapLoader::initialize(Game* game, DrawManager* dm){
+void MapLoader::initialize(Game* game, DrawManager* dm, Viewport* vp){
 	gamePtr = game;
 	drawManager = dm;
+	viewport = vp;
 }
 
 void MapLoader::load(){
@@ -106,23 +107,31 @@ void MapLoader::load(){
 	// Display world map
 	// Load each chunk
 
-	int startX = 16;
-	int startY = 16;
+	Coordinates vpTopLeft = viewport->getTopLeft();
+	Coordinates vpBottomRight = viewport->getBottomRight();
+
+	float startX = tileNS::WIDTH / 2;
+	float startY = tileNS::WIDTH / 2;
 	for (int x = 0; x < worldMap.size(); ++x){
 		for (int y = 0; y < worldMap[x].size(); ++y){
 
 			// Load tiles in chunk
 			char chunkId = worldMap[x][y];
-			for (int cx = 0; cx < 16; ++cx){
-				for (int cy = 0; cy < 16; ++cy){
+			for (int cx = 0; cx < tileNS::CHUNK_WIDTH; ++cx){
+				for (int cy = 0; cy < tileNS::CHUNK_HEIGHT; ++cy){
 
 					// Load tiles
 					char tileId = chunks[chunkId]->tile[cx][cy];
 
-					int xPos = startX + (x * 16 + cx) * tileNS::WIDTH;
-					int yPos = startY + (y * 16 + cy) * tileNS::HEIGHT;
+					float xPos = startX + (x * 16 + cx) * tileNS::WIDTH;
+					float yPos = startY + (y * 16 + cy) * tileNS::HEIGHT;
 
-					if (xPos < GAME_WIDTH + 16 && yPos < GAME_HEIGHT + 16){
+					if (xPos > vpTopLeft.x - tileNS::WIDTH / 2 && yPos > vpTopLeft.y - tileNS::WIDTH / 2 &&
+						xPos < vpBottomRight.x + tileNS::WIDTH / 2 && yPos < vpBottomRight.y + tileNS::WIDTH / 2){
+
+						Coordinates vpCoords = viewport->translate(xPos, yPos);
+						float vpXPos = vpCoords.x;
+						float vpYPos = vpCoords.y;
 
 						TextureManager* textureManager;
 						stringstream ss;
@@ -142,8 +151,8 @@ void MapLoader::load(){
 							}
 
 							t->initialize(gamePtr, textureManager);
-							t->setX(xPos);
-							t->setY(yPos);
+							t->setX(vpXPos);
+							t->setY(vpYPos);
 							drawManager->addObject(t, 0);
 						} else {
 							Image* t = new Image();
@@ -157,8 +166,8 @@ void MapLoader::load(){
 							}
 
 							t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
-							t->setX(xPos);
-							t->setY(yPos);
+							t->setX(vpXPos);
+							t->setY(vpYPos);
 							drawManager->addObject(t, 0);
 						}
 					}
@@ -166,5 +175,11 @@ void MapLoader::load(){
 			}
 		}
 	}
+
+	runtimeLog << viewport->getTopLeft().x << ", " << viewport->getTopLeft().y << endl;
+
+}
+
+void MapLoader::update(){
 
 }

@@ -46,6 +46,7 @@
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="Viewport.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>

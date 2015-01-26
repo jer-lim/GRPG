@@ -26,10 +26,11 @@ void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 	drawManager = DrawManager();
+	viewport = new Viewport(this, GAME_WIDTH/2 + 16, GAME_HEIGHT/2 + 16, GAME_WIDTH, GAME_HEIGHT);
 
 	// Load map
 	MapLoader mapLoader;
-	mapLoader.initialize(this, &drawManager);
+	mapLoader.initialize(this, &drawManager, viewport);
 	mapLoader.load();
 
 	// initialize DirectX fonts
