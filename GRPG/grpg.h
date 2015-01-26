@@ -21,7 +21,8 @@ private:
     // game items
 	Player* player;
 	UI* ui;
-	DrawManager drawManager;
+	DrawManager* drawManager;
+	MapLoader* mapLoader;
 	TextDX* uiFont;
 	Viewport* viewport;
 

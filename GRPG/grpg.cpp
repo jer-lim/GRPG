@@ -25,15 +25,15 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-	viewport = new Viewport(this, GAME_WIDTH/2 + 250, GAME_HEIGHT/2 + 250, GAME_WIDTH, GAME_HEIGHT);
+	viewport = new Viewport(this, GAME_WIDTH/2 + 8, GAME_HEIGHT/2 + 8, GAME_WIDTH, GAME_HEIGHT);
 
-	drawManager = DrawManager();
-	drawManager.initialize(viewport);
+	drawManager = new DrawManager();
+	drawManager->initialize(viewport);
 
 	// Load map
-	MapLoader mapLoader;
-	mapLoader.initialize(this, &drawManager, viewport);
-	mapLoader.load();
+	mapLoader = new MapLoader();
+	mapLoader->initialize(this, drawManager, viewport);
+	mapLoader->load();
 
 	// initialize DirectX fonts
 	// 15 pixel high Arial
@@ -56,8 +56,8 @@ void Grpg::initialize(HWND hwnd)
 	player->setX(GAME_WIDTH / 2);
 	player->setY(GAME_HEIGHT / 2);
 
-	drawManager.addObject(player);
-	drawManager.addObject(ui);
+	drawManager->addObject(player);
+	drawManager->addObject(ui);
 	
     return;
 }
@@ -80,8 +80,8 @@ void Grpg::update()
 	{
 		it->second.gainXP(rand()%10);
 	}
-
-	drawManager.updateAll(frameTime);
+	mapLoader->update();
+	drawManager->updateAll(frameTime);
 }
 
 //=============================================================================
@@ -105,7 +105,7 @@ void Grpg::render()
 {
     graphics->spriteBegin();                // begin drawing sprites
 
-	drawManager.renderAll();
+	drawManager->renderAll();
 	stringstream ss;
 	//ss << player->getSkills()->at(skillNS::ID_SKILL_ATTACK).getXP();
 	ss << "FPS: " << fps;
@@ -121,7 +121,7 @@ void Grpg::render()
 //=============================================================================
 void Grpg::releaseAll()
 {
-	drawManager.releaseAll();
+	drawManager->releaseAll();
 	uiFont->onLostDevice();
 	//UI is their own class as well, and needs to be told to release their inner children's
 	//textures and text (The entity manager only does it for the texture)
@@ -137,7 +137,7 @@ void Grpg::releaseAll()
 //=============================================================================
 void Grpg::resetAll()
 {
-	drawManager.resetAll();
+	drawManager->resetAll();
 	uiFont->onResetDevice();
 	//UI is their own class as well, and needs to be told to release their inner children's
 	//textures and text (The entity manager only does it for the texture)

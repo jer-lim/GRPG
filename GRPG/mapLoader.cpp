@@ -5,6 +5,9 @@ using namespace std;
 MapLoader::MapLoader(){
 	mapFolder = "assets/map/";
 	tileImageFolder = "assets/map/img/";
+
+	tileWidth = ceil(GAME_WIDTH / tileNS::WIDTH) + 1;
+	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT) + 1;
 }
 
 void MapLoader::initialize(Game* game, DrawManager* dm, Viewport* vp){
@@ -185,7 +188,22 @@ void MapLoader::load(){
 void MapLoader::update(){
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
+			int tileX = itx->first;
+			int tileY = ity->first;
+
+			int changeX = 0, changeY = 0;
 			
+			ManagedTile* mt = ity->second;
+			if (mt->tile != nullptr){
+				Tile* t = mt->tile;
+				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
+				if (vpCoords.x < 0 - tileNS::WIDTH / 2){
+					changeX = tileWidth;
+				}
+				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH / 2){
+					changeX = -tileWidth;
+				}
+			}
 		}
 	}
 }
