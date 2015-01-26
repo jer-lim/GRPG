@@ -26,8 +26,6 @@ struct tileStruct {
 struct ManagedTile {
 	Tile* tile = nullptr;
 	Image* image = nullptr;
-	int x;
-	int y;
 
 	ManagedTile(Tile* t){ tile = t; }
 	ManagedTile(Image* i){ image = i; }
@@ -43,6 +41,10 @@ protected:
 
 	string mapFolder;
 	string tileImageFolder;
+
+	// Calculated variables
+	int tileWidth; // Width of the game in number of tiles
+	int tileHeight; // Height of the game in number of tiles
 
 	// Raw text-only data
 	unordered_map<char, tileStruct> tileset;
