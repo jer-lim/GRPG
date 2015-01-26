@@ -35,6 +35,15 @@ void Player::sayMessage(std::string message, TextDX* font)
 	textMessage = message;
 	fontToUse = font;
 	timeLeft = playerNS::textTimeDisplay;
+	// Calculate the text side
+	RECT* textRect = new RECT();
+	textRect->left = 0;
+	textRect->top = 0;
+	//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
+	font->print(textMessage, *textRect, DT_CALCRECT);
+	textSize.x = textRect->right;
+	textSize.y = textRect->bottom;
+	//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162498%28v=vs.85%29.aspx
 }
 
 //=============================================================================
@@ -43,7 +52,7 @@ void Player::sayMessage(std::string message, TextDX* font)
 //=============================================================================
 bool Player::initialize(Game *gamePtr)
 {
-    return(Entity::initialize(gamePtr, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, TEXTURES_IMAGE));
+    return(Entity::initialize(gamePtr, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, Character::thePlayer));
 }
 
 //=============================================================================
@@ -60,7 +69,9 @@ void Player::draw()
 		DWORD oldColor = fontToUse->getFontColor();
 		fontToUse->setFontColor(graphicsNS::BLACK);
 
-		fontToUse->print(textMessage, getX(), getY());
+		fontToUse->print(textMessage, 
+			getX() - textSize.x/2,		//Make text center on top of player
+			getY() - playerNS::HEIGHT / 2);
 
 		fontToUse->setFontColor(oldColor);
 	}

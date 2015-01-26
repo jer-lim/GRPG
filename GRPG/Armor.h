@@ -12,7 +12,7 @@ private:
 	float defMultiplier;
 	float dmgReduction;
 public:
-	Armor(){}
+	Armor(){ Equipment(); }
 	Armor(string n, string d, string i, int m, int c, float defM, float dmgM, float costM, DWORD eq)
 	{
 		Equipment(n, d, i, m, c, costM, eq);//1 -> 001
