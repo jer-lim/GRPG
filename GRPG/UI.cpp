@@ -90,18 +90,29 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		return false;
 	}
 
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
-	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	//Initalize the chat screen
+	//Firstly, create the text rectangle that will draw the chat console
+	//onto the screen on the specified locations.
+	//These locations will be changed eventually when the text is actually
+	//draw, but these values are set first to allow for calculation of
+	//row height and number of rows.
+	textRect.left = 0;
+	textRect.top = 0;
+
+	// sets textRect bottom to height of 1 row
+	//When we perform this printing, uiText will modify textRect to only take up the space
+	//required to draw that text, has only setting it to the height of one row
+	//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
+	uiText->print("|", textRect, DT_CALCRECT);
+	rowHeight = textRect.bottom + 2;    // height of 1 row (+2 is row spacing)
+	if (rowHeight <= 0)                      // this should never be true
+		rowHeight = 20;                     // force a workable result
+
+	// Find the number of rows that will fit into the height of the chat
+	rows = (uiNS::chatHeight) / rowHeight;
+	rows -= 1;                              // room for input prompt at bottom
+	if (rows <= 0)                          // this should never be true
+		rows = 5;                           // force a workable result
 
 	//UI only have one image
 	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE));
@@ -115,28 +126,6 @@ void UI::draw()
 	graphics->drawQuad(vertexBuffer);       // draw backdrop
 
 	// Display the chat screen
-	//Firstly, create the text rectangle that will draw the chat console
-	//onto the screen on the specified locations.
-	//These locations will be changed eventually when the text is actually
-	//draw, but these values are set first to allow for calculation of
-	//row height and number of rows.
-	textRect.left = 0;
-	textRect.top = 0;
-
-	// sets textRect bottom to height of 1 row
-	//When we perform this printing, uiText will modify textRect to only take up the space
-	//required to draw that text, has only setting it to the height of one row
-	uiText->print("|", textRect, DT_CALCRECT);
-	int rowHeight = textRect.bottom + 2;    // height of 1 row (+2 is row spacing)
-	if (rowHeight <= 0)                      // this should never be true
-		rowHeight = 20;                     // force a workable result
-
-	// Find the number of rows that will fit into the height of the chat
-	int rows = (uiNS::chatHeight) / rowHeight;
-	rows -= 2;                              // room for input prompt at bottom
-	if (rows <= 0)                          // this should never be true
-		rows = 5;                           // force a workable result
-	maximumRows = rows;
 
 	// set text display rect for one row
 	// Defines the text rectangle left and right locations
@@ -145,9 +134,9 @@ void UI::draw()
 
 	// Now set the drawing parts top and bottom.
 	//textRect.top = ; // Top doesn't actually need to be set because it will be later set in the for loop
-	// -2*rowHeight is room for input prompt
+	// -rowHeight is room for input prompt
 	// Chat is fixated at the bottom
-	textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin - 2 * rowHeight);
+	textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin - rowHeight);
 
 	// for all rows (max text.size()) from bottom to top
 	for (int r = 0; r<rows && r<(int)(text.size()); r++)
@@ -265,19 +254,28 @@ void UI::drawTabContents(int tabNumber)
 //=============================================================================
 bool UI::processCommand(const std::string commandStr)
 {
+	input->clearTextIn();                       // clear input line
+
 	//check for Esc key
 	if (input->wasKeyPressed(ESC_KEY))
 	{
-		input->clearTextIn();                       // clear input line
 		return false;
 	}
 
 	if (commandStr.length() == 0)               // if no command entered
 		return true;
 
+	//Process the command string for cheat messages
+	if (commandStr == "exit")
+	{
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Exit command called"));
+		return true;
+	}
+
+	// Valid message, add it to the chat message line
 	addChatText(commandStr);
-	input->clearTextIn();                       // clear input line
-	return true;								// return command
+	player->sayMessage(commandStr, uiText);
+	return false;								// return command
 }
 
 //=============================================================================
@@ -287,7 +285,7 @@ bool UI::processCommand(const std::string commandStr)
 void UI::addChatText(const std::string &str)     // add text to console
 {
 	text.push_front(str);                       // add str to deque of text
-	if (text.size() > maximumRows)
+	while (text.size() > rows)
 		text.pop_back();                        // delete oldest line
 }
 

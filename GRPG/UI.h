@@ -54,7 +54,8 @@ private:
 	LP_VERTEXBUFFER vertexBuffer;       // buffer to hold vertex data
 	RECT textRect;               // text rectangle, used to specify and draw the chat box
 	std::deque<std::string> text;       // UI text
-	int maximumRows;	//Total number of rows in the chat
+	int rows;	//Total number of rows in the chat
+	int rowHeight;	//Amount of pixels each height take in the chat box
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location

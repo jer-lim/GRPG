@@ -19,7 +19,6 @@ class Grpg : public Game
 private:
     // game items
 	Player* player;
-	Player* player2;
 	UI* ui;
 	DrawManager drawManager;
 	TextDX* uiFont;

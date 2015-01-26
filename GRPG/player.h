@@ -7,6 +7,7 @@
 #include "playerSkill.h"
 #include "List.h"
 #include <map>
+#include "textDX.h"
 
 using namespace std;
 
@@ -21,6 +22,8 @@ namespace playerNS
     const int   START_FRAME = 0;      // ship1 starts at frame 0
     const int   END_FRAME = 3;        // ship1 animation frames 0,1,2,3
     const float ANIMATION_DELAY = 0.2f;    // time between frames
+
+	const float textTimeDisplay = 3;
 }
 
 // The main player of the game. The hero that will kill Aidleliun or however you spell that fking name
@@ -28,6 +31,12 @@ class Player : public Entity
 {
 private:
 	map <int, PlayerSkill> skills;
+
+	//Talking variables
+	std::string textMessage;
+	TextDX* fontToUse;
+	float timeLeft;
+	VECTOR2 textSize;
 	
 public:
     // constructor
@@ -37,6 +46,12 @@ public:
 
 	// Get the player's skills, which is a map of <string, PlayerSkill> All strings are in full lowercase
 	map<int, PlayerSkill>* getSkills() { return &skills; }
+
+	// Specific player functions
+
+	// Causes the player message to appear right above the player for a period of time,
+	// using the specified font
+	virtual void sayMessage(std::string message, TextDX* font);
 
     // inherited member functions
     virtual void draw();
