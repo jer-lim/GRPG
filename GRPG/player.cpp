@@ -15,7 +15,7 @@ Player::Player() : Entity()
 	image.setFrames(playerNS::START_FRAME, playerNS::END_FRAME);     // set animation frames
 	image.setCurrentFrame(playerNS::START_FRAME);
     radius = playerNS::WIDTH/2.0;
-    collisionType = entityNS::CIRCLE;
+    collisionType = entityNS::BOX;
 
 	//skills
 	skills[skillNS::ID_SKILL_ATTACK] = PlayerSkill(this, Skill::ATTACK);
@@ -65,7 +65,6 @@ void Player::draw(Viewport* viewport)
 	//Draw the text right above it
 	if (timeLeft > 0)
 	{
-
 		VECTOR2 vpCoords = viewport->translate(getX(), getY());
 
 		//Save the old font colour, and print in black
@@ -95,7 +94,20 @@ void Player::update(float frameTime)
 //=============================================================================
 // damage
 //=============================================================================
-void Player::damage(WEAPON weapon)
+void Player::damage(int weapon)
 {
+	//Force a workable effect
+	textMessage = "*Ouch*";
+	//fontToUse = font;
+	timeLeft = playerNS::textTimeDisplay;
+	// Calculate the text side
+	RECT* textRect = new RECT();
+	textRect->left = 0;
+	textRect->top = 0;
+	//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
+	fontToUse->print(textMessage, *textRect, DT_CALCRECT);
+	textSize.x = textRect->right;
+	textSize.y = textRect->bottom;
+	//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162498%28v=vs.85%29.aspx
 }
 

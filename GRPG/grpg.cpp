@@ -166,6 +166,8 @@ bool Grpg::processCommand(std::string command)
 		skeleton->setX(player->getX() - 50);
 		skeleton->setY(player->getY() - 50);
 
+		skeleton->setVictim(player);
+
 		drawManager->addObject(skeleton, 1);
 
 		return true;

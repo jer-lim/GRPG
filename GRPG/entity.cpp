@@ -19,7 +19,7 @@ Entity::Entity()
     edge.bottom = 1;
     active = true;                  // the entity is active
     rotatedBoxReady = false;
-    collisionType = entityNS::CIRCLE;
+    collisionType = entityNS::BOX;
     health = 100;
 	image = Image();
 	destination = 0;
@@ -126,6 +126,22 @@ void Entity::draw(Viewport* viewport)
 //=============================================================================
 void Entity::update(float frameTime)
 {
+	VECTOR2 collisionVector;
+
+	// Is there a victim? If so, set as destination
+	if (victim != 0)
+	{
+		if (!this->collidesWith(*victim, collisionVector))
+		{
+			destination = victim;
+		}
+		else
+		{
+			victim->damage(5);
+			destination = 0;
+		}
+	}
+
 	if(destination != 0)
 	{
 		float speed = character->getMovementSpeed();
@@ -152,6 +168,17 @@ void Entity::update(float frameTime)
 			destination = 0;
 		}
 	}
+
+	//Are we currently colliding with the entity? If so, attack!
+	if (victim != 0)
+	{
+		VECTOR2 collisionVector;
+		if (this->collidesWith(*victim, collisionVector))
+		{
+			victim->damage(5);
+		}
+	}
+
     image.update(frameTime);
     rotatedBoxReady = false;    // for rotatedBox collision detection
 }
@@ -244,10 +271,10 @@ bool Entity::collideBox(Entity &ent, VECTOR2 &collisionVector)
         return false;
 
     // Check for collision using Axis Aligned Bounding Box.
-	if ((getX() + edge.right*image.getScale() >= ent.getX() + ent.getEdge().left*ent.image.getScale()) &&
-		(getX() + edge.left*image.getScale() <= ent.getX() + ent.getEdge().right*ent.image.getScale()) &&
-		(getY() + edge.bottom*image.getScale() >= ent.getY() + ent.getEdge().top*ent.image.getScale()) &&
-		(getY() + edge.top*image.getScale() <= ent.getY() + ent.getEdge().bottom*ent.image.getScale()))
+	if ((getX() + image.getWidth()/2*image.getScale() >= ent.getX() - ent.getImage()->getWidth()/2*ent.image.getScale()) &&
+		(getX() - image.getWidth()/2*image.getScale() <= ent.getX() + ent.getImage()->getWidth()/2*ent.image.getScale()) &&
+		(getY() + image.getHeight()/2*image.getScale() >= ent.getY() - ent.getImage()->getHeight()/2*ent.image.getScale()) &&
+		(getY() - image.getHeight()/2*image.getScale() <= ent.getY() + ent.getImage()->getHeight()/2*ent.image.getScale()))
     {
         // set collision vector
         collisionVector = *ent.getCenter() - *getCenter();
@@ -491,6 +518,16 @@ void Entity::damage(int weapon)
 void Entity::move(Destination* d)
 {
 	destination = d;
+}
+
+//=============================================================================
+// attack
+// Causes this entity to attack another entity, moving towards that entity
+// If both entites are colliding, perform an attack
+//=============================================================================
+void Entity::attack(Entity* e)
+{
+	victim = e;
 }
 
 //=============================================================================

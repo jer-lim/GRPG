@@ -56,8 +56,8 @@ public:
     // inherited member functions
 	virtual void draw(Viewport* viewport);
     virtual bool initialize(Game *gamePtr);
-    void update(float frameTime);
-    void damage(WEAPON);
+    virtual void update(float frameTime);
+    virtual void damage(int weapon);
 };
 #endif
 
