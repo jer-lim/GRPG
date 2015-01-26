@@ -135,6 +135,12 @@ public:
 	// Post: &vertexBuffer points to buffer if successful.
 	HRESULT createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER &vertexBuffer);
 
+	// Display a quad (rectangle) with alpha transparency.
+	// Pre: createVertexBuffer was used to create vertexBuffer containing four
+	//      vertices defining the quad in clockwise order.
+	//      g3ddev->BeginScene was called
+	bool    drawQuad(LP_VERTEXBUFFER vertexBuffer);
+
     // Load the texture into default D3D memory (normal texture use)
     // For internal engine use only. Use the TextureManager class to load game textures.
     // Pre: filename = name of texture file.

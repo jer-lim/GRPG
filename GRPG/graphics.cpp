@@ -123,6 +123,34 @@ HRESULT Graphics::createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER
 }
 
 //=============================================================================
+// Display a quad with alpha transparency using Triangle Fan
+// Pre: createVertexBuffer was used to create vertexBuffer containing four
+//      vertices defining the quad in clockwise order.
+//      g3ddev->BeginScene was called
+// Post: Quad is drawn
+//=============================================================================
+bool Graphics::drawQuad(LP_VERTEXBUFFER vertexBuffer)
+{
+	HRESULT result = E_FAIL;    // standard Windows return value
+
+	if (vertexBuffer == NULL)
+		return false;
+
+	device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, true); // enable alpha blend
+
+	device3d->SetStreamSource(0, vertexBuffer, 0, sizeof(VertexC));
+	device3d->SetFVF(D3DFVF_VERTEX);
+	result = device3d->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
+
+	device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, false); // alpha blend off
+
+	if (FAILED(result))
+		return false;
+
+	return true;
+}
+
+//=============================================================================
 // Initialize D3D presentation parameters
 //=============================================================================
 void Graphics::initD3Dpp()

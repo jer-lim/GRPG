@@ -2,6 +2,7 @@
 #define _UI_H                 // file is included in more than one place
 
 #include "entity.h"
+#include <deque>
 #include "constants.h"
 #include "textDX.h"
 #include "player.h"
@@ -42,6 +43,8 @@ private:
 	int activeTab;
 	VertexC vtx[4];			//Vertex data for background
 	LP_VERTEXBUFFER vertexBuffer;       // buffer to hold vertex data
+	RECT textRect;               // text rectangle, used to specify and draw the chat box
+	std::deque<std::string> text;       // UI text
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location

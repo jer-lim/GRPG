@@ -99,6 +99,48 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 //=============================================================================
 void UI::draw()
 {
+	graphics->drawQuad(vertexBuffer);       // draw backdrop
+
+	// display text on console
+	textRect.left = 0;
+	textRect.top = 500;
+
+	// sets textRect bottom to height of 1 row
+	uiText->print("|", textRect, DT_CALCRECT);
+	int rowHeight = textRect.bottom + 2;    // height of 1 row (+2 is row spacing)
+	if (rowHeight <= 0)                      // this should never be true
+		rowHeight = 20;                     // force a workable result
+
+	// number of rows that will fit on console
+	int rows = (uiNS::chatHeight) / rowHeight;
+	rows -= 2;                              // room for input prompt at bottom
+	if (rows <= 0)                          // this should never be true
+		rows = 5;                           // force a workable result
+
+	// set text display rect for one row
+	textRect.left = (long)(x + uiNS::tabMargin);
+	textRect.right = (long)(textRect.right + uiNS::chatWidth - uiNS::tabMargin);
+	// -2*rowHeight is room for input prompt
+	textRect.bottom = (long)(y + uiNS::chatHeight - 2 * uiNS::tabMargin - 2 * rowHeight);
+	// for all rows (max text.size()) from bottom to top
+	for (int r = 0; r<rows && r<(int)(text.size()); r++)
+	{
+		// set text display rect top for this row
+		textRect.top = textRect.bottom - rowHeight;
+		// display one row of text
+		uiText->print(text[r], textRect, DT_LEFT);
+		// adjust text display rect bottom for next row
+		textRect.bottom -= rowHeight;
+	}
+
+	// display command prompt and current command string
+	// set text display rect for prompt
+	textRect.bottom = (long)(y + uiNS::chatHeight- uiNS::tabMargin);
+	textRect.top = textRect.bottom - rowHeight;
+	std::string prompt = ">";                   // build prompt string
+	prompt += input->getTextIn();
+	uiText->print(prompt, textRect, DT_LEFT);      // display prompt and command
+
 	if (uiNS::COMBATSTYLE != activeTab)
 		drawTab(uiNS::COMBATSTYLE);
 	if (uiNS::SKILLS != activeTab)
@@ -251,6 +293,7 @@ bool UI::mouseInside()
 void UI::onLostDevice()
 {
 	uiText->onLostDevice();
+	safeRelease(vertexBuffer);
 }
 
 //=============================================================================
@@ -259,4 +302,5 @@ void UI::onLostDevice()
 void UI::onResetDevice()
 {
 	uiText->onResetDevice();
+	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
 }
