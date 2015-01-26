@@ -9,7 +9,7 @@ private:
 	float strMultiplier;
 	float spdMultiplier;
 public:
-	Weapon(){}
+	Weapon(){ Equipment(); }
 	Weapon(string n, string d, string i, int m, int c, float strM, float spdM, float costM)
 	{
 		Equipment(n, d, i, m, c, costM, 6);//6 -> 110

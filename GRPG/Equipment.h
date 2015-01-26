@@ -9,13 +9,14 @@ private:
 	float costMultiplier;
 	DWORD equipmentSlot = 0x000;
 	/*
+		000
 		ABC, where:
 		A: weapon , 0 for does not equip, 1 for equip
 		B: offhand weapon, 0 for does not equip, 1 for equip
 		C: body, 0 for does not equip, 1 for equip
 	*/
 public:
-	Equipment(){}
+	Equipment(){ Item(); }
 	Equipment(string n, string d, string i, int m, int c, float costM, DWORD eq)
 	{
 		Item(n, d, i, m, c);

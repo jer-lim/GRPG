@@ -22,6 +22,8 @@
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Armor.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="QuestCondition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -54,5 +56,10 @@
     <ClInclude Include="InventoryItem.h" />
     <ClInclude Include="InventoryFood.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Quest.h" />
+    <ClInclude Include="QuestCondition.h" />
+    <ClInclude Include="GameEvent.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Enemy.h" />
   </ItemGroup>
 </Project>
