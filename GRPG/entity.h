@@ -41,10 +41,8 @@ class Entity : public Destination
     bool    active;         // only active entities may collide
     bool    rotatedBoxReady;    // true when rotated collision box is ready
 	Destination* destination;			//The destination of movement
-	float	x;				// The x location
-	float	y;				// The y location
-	float viewportX;
-	float viewportY;
+	float	x;				// logical X location
+	float	y;				// logical Y location
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
 	Character* character;	// Reference to the character that this entity refers to (NPC? Enemy? etc.)
