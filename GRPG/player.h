@@ -36,6 +36,7 @@ private:
 	std::string textMessage;
 	TextDX* fontToUse;
 	float timeLeft;
+	VECTOR2 textSize;
 	
 public:
     // constructor

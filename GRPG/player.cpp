@@ -35,6 +35,15 @@ void Player::sayMessage(std::string message, TextDX* font)
 	textMessage = message;
 	fontToUse = font;
 	timeLeft = playerNS::textTimeDisplay;
+	// Calculate the text side
+	RECT* textRect = new RECT();
+	//Don't make the text visible
+	textRect->left = -500;
+	textRect->top = -500;
+	
+	font->print(textMessage, *textRect, DT_CALCRECT);
+	textSize.x = textRect->right - textRect->left;
+	textSize.y = textRect->bottom - textRect->top;
 }
 
 //=============================================================================
@@ -60,7 +69,9 @@ void Player::draw()
 		DWORD oldColor = fontToUse->getFontColor();
 		fontToUse->setFontColor(graphicsNS::BLACK);
 
-		fontToUse->print(textMessage, getX(), getY());
+		fontToUse->print(textMessage, 
+			getX() - textSize.x/2,		//Make text center on top of player
+			getY() - playerNS::HEIGHT / 2);
 
 		fontToUse->setFontColor(oldColor);
 	}

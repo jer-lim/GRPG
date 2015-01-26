@@ -253,10 +253,11 @@ void UI::drawTabContents(int tabNumber)
 //=============================================================================
 bool UI::processCommand(const std::string commandStr)
 {
+	input->clearTextIn();                       // clear input line
+
 	//check for Esc key
 	if (input->wasKeyPressed(ESC_KEY))
 	{
-		input->clearTextIn();                       // clear input line
 		return false;
 	}
 
@@ -264,14 +265,15 @@ bool UI::processCommand(const std::string commandStr)
 		return true;
 
 	//Process the command string for cheat messages
-	if (commandStr == "help")
+	if (commandStr == "exit")
 	{
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Exit command called"));
 		return true;
 	}
 
+	// Valid message, add it to the chat message line
 	addChatText(commandStr);
 	player->sayMessage(commandStr, uiText);
-	input->clearTextIn();                       // clear input line
 	return false;								// return command
 }
 
