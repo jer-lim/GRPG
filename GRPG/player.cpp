@@ -26,6 +26,16 @@ Player::Player() : Entity()
 	skills[skillNS::ID_SKILL_COOKING] = PlayerSkill(this, Skill::COOKING);
 	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
 }
+//=============================================================================
+// sayMessage
+// Causes the message to appear right above the player, using the specified font
+//=============================================================================
+void Player::sayMessage(std::string message, TextDX* font)
+{
+	textMessage = message;
+	fontToUse = font;
+	timeLeft = playerNS::textTimeDisplay;
+}
 
 //=============================================================================
 // Initialize the Player.
@@ -42,6 +52,18 @@ bool Player::initialize(Game *gamePtr)
 void Player::draw()
 {
 	Entity::draw();
+
+	//Draw the text right above it
+	if (timeLeft > 0)
+	{
+		//Save the old font colour, and print in black
+		DWORD oldColor = fontToUse->getFontColor();
+		fontToUse->setFontColor(graphicsNS::BLACK);
+
+		fontToUse->print(textMessage, getX(), getY());
+
+		fontToUse->setFontColor(oldColor);
+	}
 }
 
 //=============================================================================
@@ -52,6 +74,8 @@ void Player::draw()
 void Player::update(float frameTime)
 {
 	Entity::update(frameTime);
+
+	timeLeft -= frameTime;
 }
 
 //=============================================================================
