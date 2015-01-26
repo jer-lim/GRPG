@@ -96,13 +96,17 @@ void Image::draw(COLOR_ARGB color)
 	if (!visible || graphics == NULL)
 		return;
 	// get fresh texture incase onReset() was called
-	//if (textureManager->getReset()){
-		spriteData.texture = textureManager->getTexture();
+	//if (!textureManager->getresetting()){
+		//spriteData.texture = textureManager->getTexture();
+		//textureManager->setresetting(false);
 	//}
-    if(color == graphicsNS::FILTER)                     // if draw with filter
-        graphics->drawSprite(spriteData, colorFilter);  // use colorFilter
-    else
-        graphics->drawSprite(spriteData, color);        // use color as filter
+	//else
+	//{
+	if (color == graphicsNS::FILTER)                     // if draw with filter
+		graphics->drawSprite(spriteData, colorFilter);  // use colorFilter
+	else
+		graphics->drawSprite(spriteData, color);        // use color as filter
+	//}
 }
 
 //=============================================================================

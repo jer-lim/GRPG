@@ -129,6 +129,9 @@ class Entity : public Destination
 	// Returns the character that this entity refers to
 	virtual Character* getCharacter() { return character; }
 
+	Image* getImage(){ return &image; }
+	void setImage(Image i){ image = i; }
+
     ////////////////////////////////////////
     //           Set functions            //
     ////////////////////////////////////////
