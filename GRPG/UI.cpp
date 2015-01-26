@@ -354,6 +354,16 @@ bool UI::mouseInside()
 			tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
 		}
 	}
+
+	//The game should still care about mouse clicks over the chat; it's a non-interactive game area
+	/*
+	//Check if the mouse is over the chat
+	if (input->getMouseY() > GAME_HEIGHT - uiNS::chatHeight && input->getMouseY() < GAME_HEIGHT &&
+		input->getMouseX() > 0 && input->getMouseX() < uiNS::chatWidth)
+	{
+		return true;
+	}*/
+
 	return false;
 }
 
