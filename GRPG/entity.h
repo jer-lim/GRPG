@@ -41,15 +41,21 @@ class Entity : public Destination
     HRESULT hr;             // standard return type
     bool    active;         // only active entities may collide
     bool    rotatedBoxReady;    // true when rotated collision box is ready
-	Destination* destination;			//The destination of movement
+
+	// New Entity variables added that are generic
+
 	float	x;				// logical X location
 	float	y;				// logical Y location
 	bool anchored;			// Anchored entities don't move when the viewport moves
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
-	Character* character;	// Reference to the character that this entity refers to (NPC? Enemy? etc.)
-
 	TextureManager* textureM; //This needs to be set on the entity's creation by any entity inheriting from this
+
+	// New Entity variables specific to GRPG
+
+	Destination* destination;			//The destination of movement
+	Character* character;	// Reference to the character that this entity refers to (NPC? Enemy? etc.
+	Entity* victim;	//If this entity is attacking someone, victim is that poor entity
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
@@ -131,6 +137,14 @@ class Entity : public Destination
 	// Returns the character that this entity refers to
 	virtual Character* getCharacter() { return character; }
 
+	// Returns the current destination that this entity is heading towards
+	// Returns a pointer to 0 if no current destination
+	virtual Destination* getDestination() { return destination; }
+
+	// Returns the current entity that this entity is attempting to attack
+	// Returns a pointer to 0 if no current victim
+	virtual Entity* getVictim() { return victim; }
+
 	Image* getImage(){ return &image; }
 	void setImage(Image i){ image = i; }
 
@@ -152,6 +166,9 @@ class Entity : public Destination
 
 	// Causes the player to move towards a specific destination (Can be a Point or an Entity)
 	virtual void setDestination(Destination* d) { destination = d; }
+
+	// Causes the player to start attacking a specific entity
+	virtual void setVictim(Entity* e) { victim = e; }
 
     // Set radius of collision circle.
     virtual void setCollisionRadius(float r)    {radius = r;}
@@ -214,6 +231,9 @@ class Entity : public Destination
 
 	// Move towards a specific destination (Can be a Point or an Entity)
 	void move(Destination* d);
+
+	// Start moving towards an entity. If close enough (colliding), automatically attack
+	void attack(Entity* e);
 
 	// Checks if the mouse is inside the sprite of this Entity
 	virtual bool mouseInside();
