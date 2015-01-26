@@ -35,7 +35,7 @@ class UI : public Entity
 private:
 
 	//GENERAL UI VARIABLES
-
+	Game* game;
 	TextDX* uiText;
 	Player* player; //Pointer to player to retrieve information about them
 	Input* input; //The input system

@@ -154,8 +154,22 @@ void Grpg::resetAll()
 
 //=============================================================================
 // Processes the command entered, performing different actions depending on the command
+// Returns true if command was processed, false on no processing
 //=============================================================================
-void Grpg::processCommand(std::string command)
+bool Grpg::processCommand(std::string command)
 {
+	if (command == "spawn skeleton")
+	{
+		Entity* skeleton = new Entity();
+		skeleton->initialize(this, 64, 64, 4, Enemy::Skeleton);
 
+		skeleton->setX(player->getX() - 50);
+		skeleton->setY(player->getY() - 50);
+
+		drawManager->addObject(skeleton, 1);
+
+		return true;
+	}
+
+	return false;
 }

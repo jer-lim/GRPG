@@ -43,7 +43,7 @@ public:
     void releaseAll();
     void resetAll();
 
-	void processCommand(std::string command);
+	bool processCommand(std::string command);
 };
 
 #endif

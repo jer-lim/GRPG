@@ -97,7 +97,8 @@ public:
 
 	// Process commands that the user has entered into the console
 	// or the chat (i.e. kill the player, spawn enemies etc.)
-	virtual void processCommand(std::string command) = 0;
+	// Returns true if command was processed, false on failure
+	virtual bool processCommand(std::string command) = 0;
 };
 
 #endif

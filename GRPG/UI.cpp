@@ -36,6 +36,7 @@ UI::~UI()
 //=============================================================================
 bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 {
+	game = gamePtr;
 	player = p;
 	input = in;
 	graphics = gamePtr->getGraphics();
@@ -261,12 +262,6 @@ bool UI::processCommand(const std::string commandStr)
 {
 	input->clearTextIn();                       // clear input line
 
-	//check for Esc key
-	if (input->wasKeyPressed(ESC_KEY))
-	{
-		return false;
-	}
-
 	if (commandStr.length() == 0)               // if no command entered
 		return true;
 
@@ -274,6 +269,12 @@ bool UI::processCommand(const std::string commandStr)
 	if (commandStr == "exit")
 	{
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Exit command called"));
+		return true;
+	}
+
+	//Check if the game can process it
+	if (game->processCommand(commandStr))
+	{
 		return true;
 	}
 
