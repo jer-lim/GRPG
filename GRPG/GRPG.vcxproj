@@ -12,14 +12,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="destination.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="drawManager.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
+    <ClInclude Include="GameEvent.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="grpg.h" />
@@ -34,6 +37,8 @@
     <ClInclude Include="mapLoader.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
+    <ClInclude Include="Quest.h" />
+    <ClInclude Include="QuestCondition.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="textDX.h" />
@@ -52,11 +57,13 @@
     <ClCompile Include="grpg.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="itemLoader.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="mapLoader.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
+    <ClCompile Include="QuestCondition.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />

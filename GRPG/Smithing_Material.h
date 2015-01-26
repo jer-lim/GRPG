@@ -9,7 +9,7 @@ private:
 	float strMultiplier;
 	float defMultiplier;
 public:
-	Smithing_Material();
+	Smithing_Material(){ Item(); }
 	Smithing_Material(string n, string d, string i, int m, int c, float s, float de){
 		Item(n, d, i, m, c);
 		strMultiplier = s;
