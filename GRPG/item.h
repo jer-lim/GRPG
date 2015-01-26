@@ -16,15 +16,27 @@ private:
 	string name;
 	string description;
 	string itemImgFileName;
-	int useType;//type of item
-	long maxStackCount;//maximum times item can stack at a slot
-	//long experience;//amt of experience
+	int maxStackCount;//maximum times item can stack at a slot
+	int cost;
 public:
 	// constructor
-	//int getSkillLevel();
-
-
-	// inherited member functions
-	//void gainXP(long xp);
+	Item(){}//If you don't have a .cpp, don't put ';', put '{}'
+	Item(string n, string d, string i, int m, int c){
+		name = n;
+		description = d;
+		itemImgFileName = i;
+		maxStackCount = m;
+		cost = c;
+	}
+	string getName(){ return name; }
+	void setName(string s){ name = s; }
+	string getDescription(){ return description; }
+	void setDescription(string s){ description = s; }
+	string getItemImgFileName(){ return itemImgFileName; }
+	void setItemImgFileName(string s){ itemImgFileName = s; }
+	int getMaxStackCount(){ return maxStackCount; }
+	void setMaxStackCount(int i){ maxStackCount = i; }
+	int getCost() { return cost; }
+	void setCost(int i) {cost = i;}
 };
 #endif

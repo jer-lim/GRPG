@@ -11,10 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Armor.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="destination.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="drawManager.h" />
+    <ClInclude Include="Equipment.h" />
+    <ClInclude Include="Food.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="globals.h" />
@@ -22,36 +25,44 @@
     <ClInclude Include="grpg.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryFood.h" />
+    <ClInclude Include="InventoryItem.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="itemLoader.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="mapLoader.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="skill.h" />
-    <ClInclude Include="skillLoader.h" />
+    <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Armor.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="drawManager.cpp" />
+    <ClCompile Include="Food.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="grpg.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="itemLoader.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="mapLoader.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="skill.cpp" />
-    <ClCompile Include="skillLoader.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
