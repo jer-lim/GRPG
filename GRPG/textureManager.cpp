@@ -16,9 +16,11 @@ TextureManager::TextureManager()
     texture = NULL;
     width = 0;
     height = 0;
-    file = NULL;
+    //file = NULL;
+	file_string;
     graphics = NULL;
     initialized = false;            // set true when successfully initialized
+	//reset = false;
 }
 
 //=============================================================================
@@ -37,9 +39,10 @@ bool TextureManager::initialize(Graphics *g, const char *f)
 {
     try{
         graphics = g;                       // the graphics object
-        file = f;                           // the texture file
+        //file = f;                           // the texture file
+		file_string = string(f, strlen(f));
 
-        hr = graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
+		hr = graphics->loadTexture(file_string.c_str(), TRANSCOLOR, width, height, texture);
         if (FAILED(hr))
         {
             SAFE_RELEASE(texture);
@@ -68,7 +71,10 @@ void TextureManager::onResetDevice()
 {
     if (!initialized)
         return;
-    graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
+	//if (file && file[0] == '\0') {//if file is empty
+		//file = file_string.c_str();
+	//}
+	graphics->loadTexture(file_string.c_str(), TRANSCOLOR, width, height, texture);
 }
 
 

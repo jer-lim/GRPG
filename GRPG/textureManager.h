@@ -17,9 +17,11 @@ class TextureManager
     UINT       width;       // width of texture in pixels
     UINT       height;      // height of texture in pixels
     LP_TEXTURE texture;     // pointer to texture
-    const char *file;       // name of file
+    //const char *file;       // name of file
+	string file_string;		// name of file in string format
     Graphics *graphics;     // save pointer to graphics
     bool    initialized;    // true when successfully initialized
+	bool	reset;
     HRESULT hr;             // standard return type
 
   public:
@@ -49,6 +51,8 @@ class TextureManager
 
     // Restore resourses
     virtual void onResetDevice();
+
+	bool getReset() { return reset; }
 };
 
 #endif
