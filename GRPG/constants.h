@@ -11,6 +11,66 @@
 
 using namespace std;
 
+//=============================================================================
+// Function templates for safely dealing with pointer referenced items.
+// The functions defined by these templates may be called using a normal
+// function call syntax. The compiler will create a function that replaces T
+// with the type of the calling parameter.
+//=============================================================================
+// Safely release pointer referenced item
+template <typename T>
+inline void safeRelease(T& ptr)
+{
+	if (ptr)
+	{
+		ptr->Release();
+		ptr = NULL;
+	}
+}
+#define SAFE_RELEASE safeRelease            // for backward compatiblility
+
+// Safely delete pointer referenced item
+template <typename T>
+inline void safeDelete(T& ptr)
+{
+	if (ptr)
+	{
+		delete ptr;
+		ptr = NULL;
+	}
+}
+#define SAFE_DELETE safeDelete              // for backward compatiblility
+
+// Safely delete pointer referenced array
+template <typename T>
+inline void safeDeleteArray(T& ptr)
+{
+	if (ptr)
+	{
+		delete[] ptr;
+		ptr = NULL;
+	}
+}
+#define SAFE_DELETE_ARRAY safeDeleteArray   // for backward compatiblility
+
+// Safely call onLostDevice
+template <typename T>
+inline void safeOnLostDevice(T& ptr)
+{
+	if (ptr)
+		ptr->onLostDevice();
+}
+#define SAFE_ON_LOST_DEVICE safeOnLostDevice    // for backward compatiblility
+
+// Safely call onResetDevice
+template <typename T>
+inline void safeOnResetDevice(T& ptr)
+{
+	if (ptr)
+		ptr->onResetDevice();
+}
+#define SAFE_ON_RESET_DEVICE safeOnResetDevice  // for backward compatiblility
+
 //-----------------------------------------------
 // Useful macros
 //-----------------------------------------------

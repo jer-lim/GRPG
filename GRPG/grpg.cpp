@@ -48,7 +48,7 @@ void Grpg::initialize(HWND hwnd)
 	if (!player2->initialize(this))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the player"));
 
-	if (!ui->initialize(this, player))
+	if (!ui->initialize(this, player, input))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing the user interface"));
 
 	ui->setX(uiNS::X);

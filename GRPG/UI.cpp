@@ -27,29 +27,68 @@ UI::UI() : Entity()
 UI::~UI()
 {
 	SAFE_DELETE(uiText);
+	onLostDevice();
 }
 
 //=============================================================================
 // Initialize the User interface.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool UI::initialize(Game* gamePtr, Player* p)
+bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 {
 	player = p;
+	input = in;
+	graphics = gamePtr->getGraphics();
 
 	// 15 pixel high Arial
-	if (uiText->initialize(gamePtr->getGraphics(), uiNS::textSize, true, false, "Arial") == false)
+	if (uiText->initialize(graphics, uiNS::textSize, true, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
 
 	//init texture
-	if (!tabTexture->initialize(gamePtr->getGraphics(), TAB_IMAGE))
+	if (!tabTexture->initialize(graphics, TAB_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing tabs texture"));
 
-	if (!tabImage.initialize(gamePtr->getGraphics(), 0, 0, 1, tabTexture))
+	if (!tabImage.initialize(graphics, 0, 0, 1, tabTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Tabs image could not be initalized"));
 
 	//Also white cause background black
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
+
+	//Build the chat system
+	try {
+		// top left
+		vtx[0].x = x;
+		vtx[0].y = y;
+		vtx[0].z = 0.0f;
+		vtx[0].rhw = 1.0f;
+		vtx[0].color = uiNS::chatColour;
+
+		// top right
+		vtx[1].x = x + uiNS::chatWidth;
+		vtx[1].y = y;
+		vtx[1].z = 0.0f;
+		vtx[1].rhw = 1.0f;
+		vtx[1].color = uiNS::chatColour;
+
+		// bottom right
+		vtx[2].x = x + uiNS::chatWidth;
+		vtx[2].y = y + uiNS::chatHeight;
+		vtx[2].z = 0.0f;
+		vtx[2].rhw = 1.0f;
+		vtx[2].color = uiNS::chatColour;
+
+		// bottom left
+		vtx[3].x = x;
+		vtx[3].y = y + uiNS::chatHeight;
+		vtx[3].z = 0.0f;
+		vtx[3].rhw = 1.0f;
+		vtx[3].color = uiNS::chatColour;
+
+		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+	}
+	catch (...) {
+		return false;
+	}
 
 	//UI only have one image
 	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE));
@@ -60,6 +99,48 @@ bool UI::initialize(Game* gamePtr, Player* p)
 //=============================================================================
 void UI::draw()
 {
+	graphics->drawQuad(vertexBuffer);       // draw backdrop
+
+	// display text on console
+	textRect.left = 0;
+	textRect.top = 500;
+
+	// sets textRect bottom to height of 1 row
+	uiText->print("|", textRect, DT_CALCRECT);
+	int rowHeight = textRect.bottom + 2;    // height of 1 row (+2 is row spacing)
+	if (rowHeight <= 0)                      // this should never be true
+		rowHeight = 20;                     // force a workable result
+
+	// number of rows that will fit on console
+	int rows = (uiNS::chatHeight) / rowHeight;
+	rows -= 2;                              // room for input prompt at bottom
+	if (rows <= 0)                          // this should never be true
+		rows = 5;                           // force a workable result
+
+	// set text display rect for one row
+	textRect.left = (long)(x + uiNS::tabMargin);
+	textRect.right = (long)(textRect.right + uiNS::chatWidth - uiNS::tabMargin);
+	// -2*rowHeight is room for input prompt
+	textRect.bottom = (long)(y + uiNS::chatHeight - 2 * uiNS::tabMargin - 2 * rowHeight);
+	// for all rows (max text.size()) from bottom to top
+	for (int r = 0; r<rows && r<(int)(text.size()); r++)
+	{
+		// set text display rect top for this row
+		textRect.top = textRect.bottom - rowHeight;
+		// display one row of text
+		uiText->print(text[r], textRect, DT_LEFT);
+		// adjust text display rect bottom for next row
+		textRect.bottom -= rowHeight;
+	}
+
+	// display command prompt and current command string
+	// set text display rect for prompt
+	textRect.bottom = (long)(y + uiNS::chatHeight- uiNS::tabMargin);
+	textRect.top = textRect.bottom - rowHeight;
+	std::string prompt = ">";                   // build prompt string
+	prompt += input->getTextIn();
+	uiText->print(prompt, textRect, DT_LEFT);      // display prompt and command
+
 	if (uiNS::COMBATSTYLE != activeTab)
 		drawTab(uiNS::COMBATSTYLE);
 	if (uiNS::SKILLS != activeTab)
@@ -212,6 +293,7 @@ bool UI::mouseInside()
 void UI::onLostDevice()
 {
 	uiText->onLostDevice();
+	safeRelease(vertexBuffer);
 }
 
 //=============================================================================
@@ -220,4 +302,5 @@ void UI::onLostDevice()
 void UI::onResetDevice()
 {
 	uiText->onResetDevice();
+	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
 }
