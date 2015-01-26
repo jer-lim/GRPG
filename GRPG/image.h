@@ -90,6 +90,8 @@ class Image
     // Return colorFilter.
     virtual COLOR_ARGB getColorFilter() {return colorFilter;}
 
+	virtual TextureManager* getTextureManager() { return textureManager; }
+
     ////////////////////////////////////////
     //           Set functions            //
     ////////////////////////////////////////
