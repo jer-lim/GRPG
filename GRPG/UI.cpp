@@ -293,7 +293,7 @@ bool UI::mouseInside()
 void UI::onLostDevice()
 {
 	uiText->onLostDevice();
-	safeRelease(vertexBuffer);
+	SAFE_RELEASE(vertexBuffer);
 }
 
 //=============================================================================
