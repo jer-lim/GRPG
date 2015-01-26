@@ -18,9 +18,9 @@ public:
 	bool is(GameEvent ge){
 		return true;
 	}
-	void setFromEntity(Entity& cha){ fromEntity = &cha; }
+	void setFromEntity(Entity* cha){ fromEntity = cha; }
 	Entity* getFromEntity(){ return fromEntity; }
-	void settoEntity(Entity& cha){ toEntity = &cha; }
+	void settoEntity(Entity* cha){ toEntity = cha; }
 	Entity* gettoEntity(){ return toEntity; }
 };
 
