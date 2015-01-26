@@ -25,7 +25,7 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-	viewport = new Viewport(this, GAME_WIDTH/2 + 8, GAME_HEIGHT/2 + 8, GAME_WIDTH, GAME_HEIGHT);
+	viewport = new Viewport(this, GAME_WIDTH / 2 + 8, GAME_HEIGHT / 2 + 8, GAME_WIDTH, GAME_HEIGHT);
 
 	drawManager = new DrawManager();
 	drawManager->initialize(viewport);
@@ -82,6 +82,10 @@ void Grpg::update()
 	}
 	mapLoader->update();
 	drawManager->updateAll(frameTime);
+
+	//View is always centered on the player
+	viewport->setX(player->getX());
+	viewport->setY(player->getY());
 }
 
 //=============================================================================
