@@ -4,10 +4,15 @@
 #include "entity.h"
 #include <map>
 
+struct ManagedObject {
+	int zindex = 1;
+	Entity* entity = nullptr;
+	Image* image = nullptr;
+};
+
 class EntityManager {
 private:
-	map<int, Entity*> entities;
-	map<int, Image*> images;
+	map<int, ManagedObject*> objects;
 public:
 
 	EntityManager();
