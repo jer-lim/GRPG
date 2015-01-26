@@ -22,8 +22,6 @@ class TextureManager
     bool    initialized;    // true when successfully initialized
     HRESULT hr;             // standard return type
 
-	bool reset;
-
   public:
     // Constructor
     TextureManager();
@@ -32,15 +30,13 @@ class TextureManager
     virtual ~TextureManager();
 
     // Returns a pointer to the texture
-	LP_TEXTURE getTexture() { reset = false; return texture; }
+	LP_TEXTURE getTexture() { return texture; }
 
     // Returns the texture width
     UINT getWidth() const {return width;}
 
     // Return the texture height
     UINT getHeight() const {return height;}
-
-	bool getReset() const { return reset; }
 
     // Initialize the textureManager
     // Pre: *g points to Graphics object

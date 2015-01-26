@@ -137,7 +137,11 @@ void MapLoader::load(){
 							}
 							else{
 								textureManager = new TextureManager();
-								textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+								string filestring = ss.str();
+								char* filename = new char[filestring.size() + 1];
+								filestring.copy(filename, filestring.size(), 0);
+								filename[filestring.size()] = '\0';
+								textureManager->initialize(gamePtr->getGraphics(), filename);
 								tileTms[tileId] = textureManager;
 							}
 
@@ -152,7 +156,11 @@ void MapLoader::load(){
 							}
 							else{
 								textureManager = new TextureManager();
-								textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+								string filestring = ss.str();
+								char* filename = new char[filestring.size() + 1];
+								filestring.copy(filename, filestring.size(), 0);
+								filename[filestring.size()] = '\0';
+								textureManager->initialize(gamePtr->getGraphics(), filename);
 								tileTms[tileId] = textureManager;
 							}
 

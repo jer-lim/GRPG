@@ -96,12 +96,7 @@ void Image::draw(COLOR_ARGB color)
 	if (!visible || graphics == NULL)
 		return;
 	// get fresh texture incase onReset() was called
-	/*
-	* MAJOR IMPROVEMENT MADE HERE
-	*/
-	if (textureManager->getReset()){
-		spriteData.texture = textureManager->getTexture();
-	}
+	spriteData.texture = textureManager->getTexture();
     if(color == graphicsNS::FILTER)                     // if draw with filter
         graphics->drawSprite(spriteData, colorFilter);  // use colorFilter
     else
@@ -119,9 +114,7 @@ void Image::draw(SpriteData sd, COLOR_ARGB color)
     if (!visible || graphics == NULL)
         return;
     sd.rect = spriteData.rect;                  // use this Images rect to select texture
-	if (textureManager->getReset()){
-		sd.texture = textureManager->getTexture();  // get fresh texture incase onReset() was called
-	}
+	sd.texture = textureManager->getTexture();  // get fresh texture incase onReset() was called
 
     if(color == graphicsNS::FILTER)             // if draw with filter
         graphics->drawSprite(sd, colorFilter);  // use colorFilter
