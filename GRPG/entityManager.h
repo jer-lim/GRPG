@@ -13,6 +13,9 @@ struct ManagedObject {
 class EntityManager {
 private:
 	map<int, ManagedObject*> objects;
+
+	void addManagedObject(ManagedObject* mo);
+
 public:
 
 	EntityManager();

@@ -39,23 +39,7 @@ void EntityManager::addEntity(Entity* ent, int zi){
 	mo->entity = ent;
 	mo->zindex = zi;
 	
-	bool added = false;
-	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->zindex > zi){
-			for (int j = objects.size() - 1; j >= i; --j){
-				objects[j + 1] = objects[j];
-			}
-			objects[i] = mo;
-			runtimeLog << "Added entity with zindex " << zi << " to " << i << endl;
-			added = true;
-			break;
-		}
-	}
-
-	if (!added){
-		runtimeLog << "Added entity with zindex " << zi << " to " << objects.size() << endl;
-		objects[objects.size()] = mo;
-	}
+	addManagedObject(mo);
 }
 
 void EntityManager::addImage(Image* img, int zi){
@@ -63,21 +47,23 @@ void EntityManager::addImage(Image* img, int zi){
 	mo->image = img;
 	mo->zindex = zi;
 
+	addManagedObject(mo);
+}
+
+void EntityManager::addManagedObject(ManagedObject* mo){
 	bool added = false;
 	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->zindex > zi){
+		if (objects[i]->zindex > mo->zindex){
 			for (int j = objects.size() - 1; j >= i; --j){
 				objects[j + 1] = objects[j];
 			}
 			objects[i] = mo;
-			runtimeLog << "Added image with zindex " << zi << " to " << i << endl;
 			added = true;
 			break;
 		}
 	}
 
 	if (!added){
-		runtimeLog << "Added image with zindex " << zi << " to " << objects.size() << endl;
 		objects[objects.size()] = mo;
 	}
 }
