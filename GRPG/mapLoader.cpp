@@ -7,10 +7,10 @@ MapLoader::MapLoader(){
 	tileImageFolder = "assets/map/img/";
 }
 
-void MapLoader::initialize(Game* game, Graphics* g, EntityManager* em){
+void MapLoader::initialize(Game* game, Graphics* g, DrawManager* dm){
 	gamePtr = game;
 	graphics = g;
-	entityManager = em;
+	drawManager = dm;
 }
 
 void MapLoader::load(){
@@ -126,24 +126,42 @@ void MapLoader::load(){
 					if (xPos < GAME_WIDTH + 16 && yPos < GAME_HEIGHT + 16){
 
 						TextureManager* textureManager;
-
-						Tile* t = new Tile();
 						stringstream ss;
 						ss << tileImageFolder << tileset[tileId].imageName;
 
-						if (tileTms.count(tileId) > 0){
-							textureManager = tileTms[tileId];
-						}
-						else{
-							textureManager = new TextureManager();
-							textureManager->initialize(graphics, ss.str().c_str());
-						}
+						if (tileset[tileId].collidable){
 
-						t->initialize(gamePtr, textureManager);
-						//t->initialize(gamePtr, ss.str().c_str());
-						t->setX(xPos);
-						t->setY(yPos);
-						entityManager->addEntity(t);
+							Tile* t = new Tile();
+
+							if (tileTms.count(tileId) > 0){
+								textureManager = tileTms[tileId];
+							}
+							else{
+								textureManager = new TextureManager();
+								textureManager->initialize(graphics, ss.str().c_str());
+								tileTms[tileId] = textureManager;
+							}
+
+							t->initialize(gamePtr, textureManager);
+							t->setX(xPos);
+							t->setY(yPos);
+							drawManager->addObject(t, 0);
+						} else {
+							Image* t = new Image();
+							if (tileTms.count(tileId) > 0){
+								textureManager = tileTms[tileId];
+							}
+							else{
+								textureManager = new TextureManager();
+								textureManager->initialize(graphics, ss.str().c_str());
+								tileTms[tileId] = textureManager;
+							}
+
+							t->initialize(graphics, tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
+							t->setX(xPos);
+							t->setY(yPos);
+							drawManager->addObject(t, 0);
+						}
 					}
 				}
 			}

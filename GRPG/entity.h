@@ -154,6 +154,9 @@ class Entity : public Destination
 	// Set y location
 	virtual void setY(float yL)				{ y = yL; }
 
+	// Causes the player to move towards a specific destination (Can be a Point or an Entity)
+	virtual void setDestination(Destination* d) { destination = d; }
+
     // Set radius of collision circle.
     virtual void setCollisionRadius(float r)    {radius = r;}
 
@@ -197,7 +200,8 @@ class Entity : public Destination
 	// Move towards a specific destination (Can be a Point or an Entity)
 	void move(Destination* d);
 
-
+	// Checks if the mouse is inside the sprite of this Entity
+	virtual bool mouseInside();
 };
 
 #endif

@@ -119,7 +119,9 @@ void Image::draw(SpriteData sd, COLOR_ARGB color)
     if (!visible || graphics == NULL)
         return;
     sd.rect = spriteData.rect;                  // use this Images rect to select texture
-    sd.texture = textureManager->getTexture();  // get fresh texture incase onReset() was called
+	if (textureManager->getReset()){
+		sd.texture = textureManager->getTexture();  // get fresh texture incase onReset() was called
+	}
 
     if(color == graphicsNS::FILTER)             // if draw with filter
         graphics->drawSprite(sd, colorFilter);  // use colorFilter

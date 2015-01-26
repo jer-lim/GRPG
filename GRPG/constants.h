@@ -12,7 +12,10 @@
 using namespace std;
 
 //-----------------------------------------------
-// Useful macros
+// Function templates for safely dealing with pointer referenced items.
+// The functions defined by these templates may be called using a normal
+// function call syntax. The compiler will create a function that replaces T
+// with the type of the calling parameter.
 //-----------------------------------------------
 // Safely delete pointer referenced item
 #define SAFE_DELETE(ptr)       { if (ptr) { delete (ptr); (ptr)=NULL; } }

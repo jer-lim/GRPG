@@ -27,29 +27,81 @@ UI::UI() : Entity()
 UI::~UI()
 {
 	SAFE_DELETE(uiText);
+	onLostDevice();
 }
 
 //=============================================================================
 // Initialize the User interface.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool UI::initialize(Game* gamePtr, Player* p)
+bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 {
 	player = p;
+	input = in;
+	graphics = gamePtr->getGraphics();
 
 	// 15 pixel high Arial
-	if (uiText->initialize(gamePtr->getGraphics(), uiNS::textSize, true, false, "Arial") == false)
+	if (uiText->initialize(graphics, uiNS::textSize, true, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
 
 	//init texture
-	if (!tabTexture->initialize(gamePtr->getGraphics(), TAB_IMAGE))
+	if (!tabTexture->initialize(graphics, TAB_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing tabs texture"));
 
-	if (!tabImage.initialize(gamePtr->getGraphics(), 0, 0, 1, tabTexture))
+	if (!tabImage.initialize(graphics, 0, 0, 1, tabTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Tabs image could not be initalized"));
 
 	//Also white cause background black
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
+
+	//Build the chat system
+	try {
+		// top left
+		vtx[0].x = x;
+		vtx[0].y = y;
+		vtx[0].z = 0.0f;
+		vtx[0].rhw = 1.0f;
+		vtx[0].color = uiNS::chatColour;
+
+		// top right
+		vtx[1].x = x + uiNS::chatWidth;
+		vtx[1].y = y;
+		vtx[1].z = 0.0f;
+		vtx[1].rhw = 1.0f;
+		vtx[1].color = uiNS::chatColour;
+
+		// bottom right
+		vtx[2].x = x + uiNS::chatWidth;
+		vtx[2].y = y + uiNS::chatHeight;
+		vtx[2].z = 0.0f;
+		vtx[2].rhw = 1.0f;
+		vtx[2].color = uiNS::chatColour;
+
+		// bottom left
+		vtx[3].x = x;
+		vtx[3].y = y + uiNS::chatHeight;
+		vtx[3].z = 0.0f;
+		vtx[3].rhw = 1.0f;
+		vtx[3].color = uiNS::chatColour;
+
+		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+	}
+	catch (...) {
+		return false;
+	}
+
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
+	text.push_front("Abaliszucbowsuefbszoubcozsuidvboaswzidbvozsudv");
 
 	//UI only have one image
 	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE));
@@ -60,6 +112,63 @@ bool UI::initialize(Game* gamePtr, Player* p)
 //=============================================================================
 void UI::draw()
 {
+	graphics->drawQuad(vertexBuffer);       // draw backdrop
+
+	// Display the chat screen
+	//Firstly, create the text rectangle that will draw the chat console
+	//onto the screen on the specified locations.
+	//These locations will be changed eventually when the text is actually
+	//draw, but these values are set first to allow for calculation of
+	//row height and number of rows.
+	textRect.left = 0;
+	textRect.top = 0;
+
+	// sets textRect bottom to height of 1 row
+	//When we perform this printing, uiText will modify textRect to only take up the space
+	//required to draw that text, has only setting it to the height of one row
+	uiText->print("|", textRect, DT_CALCRECT);
+	int rowHeight = textRect.bottom + 2;    // height of 1 row (+2 is row spacing)
+	if (rowHeight <= 0)                      // this should never be true
+		rowHeight = 20;                     // force a workable result
+
+	// Find the number of rows that will fit into the height of the chat
+	int rows = (uiNS::chatHeight) / rowHeight;
+	rows -= 2;                              // room for input prompt at bottom
+	if (rows <= 0)                          // this should never be true
+		rows = 5;                           // force a workable result
+
+	// set text display rect for one row
+	// Defines the text rectangle left and right locations
+	textRect.left = (long)(uiNS::tabMargin);
+	textRect.right = (long)(textRect.left + uiNS::chatWidth - uiNS::tabMargin);
+
+	// Now set the drawing parts top and bottom.
+	//textRect.top = ; // Top doesn't actually need to be set because it will be later set in the for loop
+	// -2*rowHeight is room for input prompt
+	// Chat is fixated at the bottom
+	textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin - 2 * rowHeight);
+
+	// for all rows (max text.size()) from bottom to top
+	for (int r = 0; r<rows && r<(int)(text.size()); r++)
+	{
+		// set text display rect top for this row
+		// So the text is drawn from here (Bottom up!)
+		textRect.top = textRect.bottom - rowHeight;
+		// display one row of text
+		uiText->print(text[r], textRect, DT_LEFT);
+		// adjust text display rect bottom for next row, moving it up
+		textRect.bottom -= rowHeight;
+	}
+
+	// display command prompt and current command string
+	// set text display rect for prompt
+	textRect.bottom = (long)(GAME_HEIGHT- uiNS::tabMargin);
+	textRect.top = textRect.bottom - rowHeight;
+
+	std::string prompt = ">";                   // build prompt string
+	prompt += input->getTextIn();
+	uiText->print(prompt, textRect, DT_LEFT);      // display prompt and command
+	
 	if (uiNS::COMBATSTYLE != activeTab)
 		drawTab(uiNS::COMBATSTYLE);
 	if (uiNS::SKILLS != activeTab)
@@ -95,10 +204,16 @@ void UI::drawTab(int tabNumber)
 //=============================================================================
 void UI::drawTabContents(int tabNumber)
 {
-	if (tabNumber == uiNS::SKILLS)
+	float topLeftX = getX() - uiNS::WIDTH / 2;
+	float topLeftY = getY() - uiNS::HEIGHT / 2;
+
+	if (tabNumber == uiNS::COMBATSTYLE)
+	{
+		uiText->print("Combat styles", topLeftX + 5, topLeftY + 5);
+	}
+	else if (tabNumber == uiNS::SKILLS)
 	{
 		float heightAllowed = uiNS::HEIGHT / 7; //We have 7 skills
-		float yLocation = getY() - uiNS::HEIGHT / 2;
 		map<int, PlayerSkill>* playerSkills = player->getSkills();
 		map<int, PlayerSkill>::iterator it;
 		stringstream skillLevel;
@@ -106,7 +221,7 @@ void UI::drawTabContents(int tabNumber)
 		{
 			//Print the skill text at the center of each location, with 5 px margin: left;
 			uiText->print(it->second.getSkill().getName(),
-				getX() + 5 - uiNS::WIDTH / 2, yLocation + heightAllowed / 2 - (uiNS::textSize / 2));
+				topLeftX + 5, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
 			//Check skill level and append a 0 in front if needed
 			if (it->second.getSkillLevel() < 10)
 			{
@@ -118,12 +233,17 @@ void UI::drawTabContents(int tabNumber)
 			}
 			//Print level
 			uiText->print(skillLevel.str() + "/99",
-				getX() + 40, yLocation + heightAllowed / 2 - (uiNS::textSize / 2));
+				getX() + 40, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
 
 			skillLevel.str("");
 
-			yLocation += heightAllowed;
+			topLeftY += heightAllowed;
 		}
+	}
+	else if (tabNumber == uiNS::INVENTORY)
+	{
+		//Temporary text
+		uiText->print("Inventory", topLeftX + 5, topLeftY + 5);
 	}
 }
 
@@ -168,22 +288,20 @@ void UI::update(float frameTime)
 // Checks if the mouse is currently over any part of the UI.
 // Returns true if mouse is over, false if not
 //=============================================================================
-bool UI::mouseOverUI()
+bool UI::mouseInside()
 {
-	float imageTopLeftX = getX() - uiNS::WIDTH / 2;
-	float imageTopLeftY = getY() - uiNS::HEIGHT / 2;
-
-	if (input->getMouseX() >= imageTopLeftX && input->getMouseX() <= imageTopLeftX + uiNS::WIDTH &&
-		input->getMouseY() >= imageTopLeftY && input->getMouseY() <= imageTopLeftY + uiNS::HEIGHT)
+	if (Entity::mouseInside())
+	{
 		return true;
+	}
 
 	//Check if mouse is over any tab
-	float tabTopLeftY = imageTopLeftY - uiNS::tabHEIGHT * 3 / 4;
-	float tabBottomLeftY = imageTopLeftY;
+	float tabTopLeftY = getY() - image.getHeight() / 2 - uiNS::tabHEIGHT * 3 / 4;
+	float tabBottomLeftY = getY() - image.getHeight() / 2;
 
 	if (input->getMouseY() > tabTopLeftY && input->getMouseY() < tabBottomLeftY)
 	{
-		float tabTopLeftX = imageTopLeftX + uiNS::tabLMargin;
+		float tabTopLeftX = getX() - uiNS::WIDTH / 2 + uiNS::tabLMargin;
 		for (int i = 0; i < 3; i++)
 		{
 			// Increase in tab: (tabNumber - 1)*(uiNS::tabWIDTH + uiNS::tabMargin) + uiNS::tabWIDTH / 2);
@@ -203,6 +321,7 @@ bool UI::mouseOverUI()
 void UI::onLostDevice()
 {
 	uiText->onLostDevice();
+	SAFE_RELEASE(vertexBuffer);
 }
 
 //=============================================================================
@@ -211,4 +330,5 @@ void UI::onLostDevice()
 void UI::onResetDevice()
 {
 	uiText->onResetDevice();
+	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
 }
