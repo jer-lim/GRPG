@@ -25,7 +25,10 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-	viewport = new Viewport(this, GAME_WIDTH / 2 + 64, GAME_HEIGHT / 2 + 64, GAME_WIDTH, GAME_HEIGHT);
+
+	VECTOR2 startLocation = VECTOR2(3.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 5.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
+
+	viewport = new Viewport(this, startLocation.x, startLocation.y, GAME_WIDTH, GAME_HEIGHT);
 
 	drawManager = new DrawManager();
 	drawManager->initialize(viewport);
@@ -53,8 +56,8 @@ void Grpg::initialize(HWND hwnd)
 	ui->setX(uiNS::X);
 	ui->setY(uiNS::Y);
 	
-	player->setX(GAME_WIDTH / 2);
-	player->setY(GAME_HEIGHT / 2);
+	player->setX(startLocation.x);
+	player->setY(startLocation.y);
 
 	drawManager->addObject(player);
 	drawManager->addObject(ui, 999);
