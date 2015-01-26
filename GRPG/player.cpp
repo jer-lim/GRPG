@@ -65,13 +65,16 @@ void Player::draw(Viewport* viewport)
 	//Draw the text right above it
 	if (timeLeft > 0)
 	{
+
+		Coordinates vpCoords = viewport->translate(getX(), getY());
+
 		//Save the old font colour, and print in black
 		DWORD oldColor = fontToUse->getFontColor();
 		fontToUse->setFontColor(graphicsNS::BLACK);
 
 		fontToUse->print(textMessage, 
-			getX() - textSize.x/2,		//Make text center on top of player
-			getY() - playerNS::HEIGHT / 2);
+			vpCoords.x - textSize.x/2,		//Make text center on top of player
+			vpCoords.y - playerNS::HEIGHT / 2);
 
 		fontToUse->setFontColor(oldColor);
 	}

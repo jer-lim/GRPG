@@ -180,9 +180,6 @@ void MapLoader::load(){
 			}
 		}
 	}
-
-	runtimeLog << viewport->getTopLeft().x << ", " << viewport->getTopLeft().y << endl;
-
 }
 
 void MapLoader::update(){
