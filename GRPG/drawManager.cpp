@@ -99,7 +99,7 @@ void DrawManager::removeObject(Entity* ent){
 	// Iterate to element to delete and delete it
 	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
 		if (it->second->entity == ent){
-			objects.erase(it);
+			it = objects.erase(it);
 		}
 	}
 }
