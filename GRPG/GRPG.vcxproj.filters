@@ -61,5 +61,6 @@
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameEvent_Damage.h" />
   </ItemGroup>
 </Project>

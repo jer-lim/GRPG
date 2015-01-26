@@ -7,6 +7,7 @@
 class Character
 {
 private:
+	//Not up to date with class diagram
 	string imgFileName,
 		name,
 		description;

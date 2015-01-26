@@ -23,6 +23,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="GameEvent.h" />
+    <ClInclude Include="GameEvent_Damage.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="grpg.h" />
