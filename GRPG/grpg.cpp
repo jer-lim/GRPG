@@ -29,7 +29,7 @@ void Grpg::initialize(HWND hwnd)
 
 	// Load map
 	MapLoader mapLoader;
-	mapLoader.initialize(this, graphics, &drawManager);
+	mapLoader.initialize(this, &drawManager);
 	mapLoader.load();
 
 	// initialize DirectX fonts

@@ -26,7 +26,6 @@ class MapLoader {
 protected:
 
 	Game* gamePtr;
-	Graphics* graphics;
 	DrawManager* drawManager;
 
 	string mapFolder;
@@ -42,7 +41,7 @@ protected:
 
 public:
 	MapLoader();
-	void initialize(Game* game, Graphics* g, DrawManager* dm);
+	void initialize(Game* game, DrawManager* dm);
 	void load();
 };
 
