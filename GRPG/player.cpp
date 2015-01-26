@@ -66,7 +66,7 @@ void Player::draw(Viewport* viewport)
 	if (timeLeft > 0)
 	{
 
-		Coordinates vpCoords = viewport->translate(getX(), getY());
+		VECTOR2 vpCoords = viewport->translate(getX(), getY());
 
 		//Save the old font colour, and print in black
 		DWORD oldColor = fontToUse->getFontColor();

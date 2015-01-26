@@ -26,6 +26,8 @@ struct tileStruct {
 struct ManagedTile {
 	Tile* tile = nullptr;
 	Image* image = nullptr;
+	int x;
+	int y;
 
 	ManagedTile(Tile* t){ tile = t; }
 	ManagedTile(Image* i){ image = i; }

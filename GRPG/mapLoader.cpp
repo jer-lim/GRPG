@@ -107,8 +107,8 @@ void MapLoader::load(){
 	// Display world map
 	// Load each chunk
 
-	Coordinates vpTopLeft = viewport->getTopLeft();
-	Coordinates vpBottomRight = viewport->getBottomRight();
+	VECTOR2 vpTopLeft = viewport->getTopLeft();
+	VECTOR2 vpBottomRight = viewport->getBottomRight();
 
 	float startX = tileNS::WIDTH / 2;
 	float startY = tileNS::WIDTH / 2;
@@ -126,7 +126,7 @@ void MapLoader::load(){
 					float xPos = startX + (x * tileNS::CHUNK_WIDTH + cx) * tileNS::WIDTH;
 					float yPos = startY + (y * tileNS::CHUNK_HEIGHT + cy) * tileNS::HEIGHT;
 
-					Coordinates vpCoords = viewport->translate(xPos, yPos);
+					VECTOR2 vpCoords = viewport->translate(xPos, yPos);
 					float vpXPos = vpCoords.x;
 					float vpYPos = vpCoords.y;
 

@@ -3,16 +3,6 @@
 
 #include "game.h"
 
-struct Coordinates {
-	float x;
-	float y;
-
-	Coordinates(float x2, float y2){
-		x = x2;
-		y = y2;
-	}
-};
-
 class Viewport {
 private:
 
@@ -36,18 +26,18 @@ public:
 	int getWidth() { return width; }
 	int getHeight() { return height; }
 
-	Coordinates getTopLeft(){ return Coordinates(x - width / 2, y - height / 2); }
-	Coordinates getTopRight(){ return Coordinates(x + width / 2, y - height / 2); }
-	Coordinates getBottomLeft(){ return Coordinates(x - width / 2, y + height / 2); }
-	Coordinates getBottomRight(){ return Coordinates(x + width / 2, y + height / 2); }
+	VECTOR2 getTopLeft(){ return VECTOR2(x - width / 2, y - height / 2); }
+	VECTOR2 getTopRight(){ return VECTOR2(x + width / 2, y - height / 2); }
+	VECTOR2 getBottomLeft(){ return VECTOR2(x - width / 2, y + height / 2); }
+	VECTOR2 getBottomRight(){ return VECTOR2(x + width / 2, y + height / 2); }
 
 	// Translate viewport coordinates into screen coordinates
-	Coordinates translate(float x, float y){
-		return Coordinates(x - getTopLeft().x, y - getTopLeft().y);
+	VECTOR2 translate(float x, float y){
+		return VECTOR2(x - getTopLeft().x, y - getTopLeft().y);
 	}
 
-	Coordinates reverseTranslate(float x, float y){
-		return Coordinates(x + getTopLeft().x, y + getTopLeft().y);
+	VECTOR2 reverseTranslate(float x, float y){
+		return VECTOR2(x + getTopLeft().x, y + getTopLeft().y);
 	}
 	
 };
