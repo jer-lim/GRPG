@@ -102,6 +102,7 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	// sets textRect bottom to height of 1 row
 	//When we perform this printing, uiText will modify textRect to only take up the space
 	//required to draw that text, has only setting it to the height of one row
+	//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
 	uiText->print("|", textRect, DT_CALCRECT);
 	rowHeight = textRect.bottom + 2;    // height of 1 row (+2 is row spacing)
 	if (rowHeight <= 0)                      // this should never be true
