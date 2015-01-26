@@ -150,3 +150,12 @@ void Grpg::resetAll()
     Game::resetAll();
     return;
 }
+
+
+//=============================================================================
+// Processes the command entered, performing different actions depending on the command
+//=============================================================================
+void Grpg::processCommand(std::string command)
+{
+
+}

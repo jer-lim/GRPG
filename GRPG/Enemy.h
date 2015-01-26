@@ -9,7 +9,19 @@ private:
 	int damage, attackLv, defenseLv, strengthLv;
 	float damageReduction;
 public:
+	static Enemy Skeleton;
+
 	Enemy(){ Character(); }
+
+	Enemy(const char* i, float mov, float atk, int d, int atkLv, int defLv, int strLv, float dmgReduction)
+	{
+		damage = d;
+		attackLv = atkLv;
+		defenseLv = defLv;
+		strengthLv = strLv;
+		damageReduction = dmgReduction;
+		Character::Character(i, mov, atk);
+	}
 
 	//Getters and setters
 
