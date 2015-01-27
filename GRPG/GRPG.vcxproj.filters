@@ -68,5 +68,6 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
+    <ClInclude Include="string_functions.h" />
   </ItemGroup>
 </Project>

@@ -10,9 +10,10 @@ private:
 	bool isCooked, isDelicious;
 public:
 	// constructor
-	InventoryFood(){}//If you don't have a .cpp, don't put ';', put '{}'
-	InventoryFood(Item &item, int csc,bool isC,bool isD){
-		InventoryItem(item, csc);
+	InventoryFood():InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
+	InventoryFood(Item &item, int csc,bool isC,bool isD)
+		:InventoryItem(item, csc)
+	{
 		isCooked = isC;
 		isDelicious = isD;
 	}

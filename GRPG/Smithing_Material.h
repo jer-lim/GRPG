@@ -8,16 +8,21 @@ class Smithing_Material : public Item
 private:
 	float strMultiplier;
 	float defMultiplier;
+	float spdMultiplier;
 public:
-	Smithing_Material(){ Item(); }
-	Smithing_Material(string n, string d, string i, int m, int c, float s, float de){
-		Item(n, d, i, m, c);
+	Smithing_Material() :Item(){}
+	Smithing_Material(string n, string d, string i, int m, int c, float s, float de, float spd)
+		:Item(n, d, i, m, c)
+	{
 		strMultiplier = s;
 		defMultiplier = de;
+		spdMultiplier = spd;
 	}
 	float getStrMultiplier() { return strMultiplier; }
 	void setStrMultiplier(float i){ strMultiplier = i; }
 	float getDefMultiplier() { return defMultiplier; }
 	void setDefMultiplier(float i){ defMultiplier = i; }
+	float getSpdMultiplier() { return spdMultiplier; }
+	void setSpdMultiplier(float i){ spdMultiplier = i; }
 };
 #endif

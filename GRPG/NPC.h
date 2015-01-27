@@ -14,10 +14,10 @@ private:
 
 public:
 
-	NPC(){}
+	NPC() : Person() {}
 	NPC(string i, float mov, float atk,string nama,string desc,int maxhp)
+		: Person(i, mov, atk)
 	{
-		Person(i, mov, atk);
 		name = nama;
 		description = desc;
 		maxHealth = maxhp;

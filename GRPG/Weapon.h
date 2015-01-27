@@ -9,10 +9,10 @@ private:
 	float strMultiplier;
 	float spdMultiplier;
 public:
-	Weapon(){ Equipment(); }
+	Weapon():Equipment(){ }
 	Weapon(string n, string d, string i, int m, int c, float strM, float spdM, float costM)
+		:Equipment(n, d, i, m, c, costM, 6)//6 -> 110
 	{
-		Equipment(n, d, i, m, c, costM, 6);//6 -> 110
 		strMultiplier = strM;
 		spdMultiplier = spdM;
 	}

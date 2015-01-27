@@ -1,6 +1,6 @@
-01 Pile_of_Moss pile_of_moss.png 101_of_Heroism:_“Tastes_terrible,_but_heroes_don’t_bother_about_the_small_details.” 1 1 0 50 0
+01 Pile_of_Moss pile_of_moss.png 101_of_Heroism:_"Tastes_terrible,_but_heroes_don't_bother_about_the_small_details." 1 1 0 50 0
 02 Goblin_Meat goblin_meat.png This_probably_needs_hours_of_cooking_to_get_rid_of_the_smell. 1 2 1 25 10
-03 Rotten Meat rotten_meat.png This_looks_disgusting. 1 3 7 25 10
-04 Ogre Meat ogre_meat.png I_heard_ogres_are_chewier_than_they_look. 1 5 8 12.5 70
+03 Rotten_Meat rotten_meat.png This_looks_disgusting. 1 3 7 25 10
+04 Ogre_Meat ogre_meat.png I_heard_ogres_are_chewier_than_they_look. 1 5 8 12.5 70
 05 Fish fish.png Anything_that_isn’t_scraped_off_dead_monsters_looks_appetizing_at_this_point_in_time. 1 4 1 25 30
-06 Dragon Meat dragon_meat.png Just_looking_at_it_makes_your_mouth_water. 1 8 15 10 200
+06 Dragon_Meat dragon_meat.png Just_looking_at_it_makes_your_mouth_water. 1 8 15 10 200

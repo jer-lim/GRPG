@@ -44,6 +44,7 @@
     <ClInclude Include="QuestCondition.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="Smithing_Material.h" />
+    <ClInclude Include="string_functions.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="tile.h" />

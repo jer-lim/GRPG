@@ -5,6 +5,8 @@
 #include "game.h"
 #include "textureManager.h"
 #include "mapLoader.h"
+#include "PersonLoader.h"
+#include "itemLoader.h"
 #include "player.h"
 #include "image.h"
 #include "drawManager.h"
@@ -24,6 +26,8 @@ private:
 	UI* ui;
 	DrawManager* drawManager;
 	MapLoader* mapLoader;
+	PersonLoader* personLoader;
+	ItemLoader* itemLoader;
 	TextDX* uiFont;
 	Viewport* viewport;
 

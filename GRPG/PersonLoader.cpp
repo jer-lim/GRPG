@@ -6,12 +6,12 @@ void PersonLoader::loadAllNPCs()
 	//Friendly Characters
 	characterstream.open(friendlynpcDataLocation);
 	if (characterstream.is_open()){
-		string name, img_filename, descript;
+		string name, img_filename, description;
 		int id;
 		float movementspd, attackcd;
 		while (!characterstream.eof()){
-			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> descript;
-			NPC myChar = NPC(img_filename, movementspd, attackcd, name, descript, 9999);//almost infinite health
+			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> description;
+			NPC myChar = NPC(img_filename, movementspd, attackcd, name, description, 9999);//almost infinite health
 			map_friendlyNPCs[id] = myChar;
 		}
 		characterstream.close();
@@ -25,8 +25,8 @@ void PersonLoader::loadAllNPCs()
 		while (!characterstream.eof()){
 			characterstream >> id >> name >> img_filename >> movementspd >> attackcd
 				>> description >> atk >> str >> def >> hp >> dmg_red;
-			//Enemy myChar = Enemy(img_filename, name, movementspd, attackcd);
-			//map_friendlyNPCs[id] = myChar;
+			Enemy myChar = Enemy(img_filename, movementspd, attackcd, name, description, hp, atk, str, def, dmg_red);
+			map_friendlyNPCs[id] = myChar;
 		}
 		characterstream.close();
 	}

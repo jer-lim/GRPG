@@ -16,10 +16,10 @@ private:
 	C: body, 0 for does not equip, 1 for equip
 	*/
 public:
-	Food(){ Item(); }
+	Food() : Item() {}
 	Food(string n, string d, string i, int m, int c,int h,int lr,float ld)
+		: Item(n, d, i, m, c)
 	{
-		Item(n, d, i, m, c);
 		health_gain = h;
 		levelReq_for_50 = lr;
 		level_deviation = ld;

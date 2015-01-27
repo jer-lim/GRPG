@@ -16,6 +16,10 @@ Grpg::~Grpg()
 {
     releaseAll();           // call onLostDevice() for every graphics item
 	SAFE_DELETE(uiFont);
+	SAFE_DELETE(drawManager);
+	SAFE_DELETE(mapLoader);
+	SAFE_DELETE(itemLoader);
+	SAFE_DELETE(personLoader);
 }
 
 //=============================================================================
@@ -37,6 +41,12 @@ void Grpg::initialize(HWND hwnd)
 	mapLoader = new MapLoader();
 	mapLoader->initialize(this, drawManager, viewport);
 	mapLoader->load();
+
+	// Load data
+	itemLoader = new ItemLoader();
+	itemLoader->loadAllItems();
+	personLoader = new PersonLoader();
+	personLoader->loadAllNPCs();
 
 	// initialize DirectX fonts
 	// 15 pixel high Arial

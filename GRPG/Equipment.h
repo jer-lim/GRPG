@@ -16,10 +16,10 @@ private:
 		C: body, 0 for does not equip, 1 for equip
 	*/
 public:
-	Equipment(){ Item(); }
+	Equipment() :Item(){}
 	Equipment(string n, string d, string i, int m, int c, float costM, DWORD eq)
+	:Item(n, d, i, m, c)
 	{
-		Item(n, d, i, m, c);
 		costMultiplier = costM;
 		equipmentSlot = eq;
 	}
