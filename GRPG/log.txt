@@ -13,4 +13,4 @@ Finished loading map
 Starting initial scene build
 Finished initial scene build
 Finished map startup sequence
-Map startup sequence finished in 0.61469 seconds
+Map startup sequence finished in 0.613183 seconds

@@ -182,8 +182,8 @@ char MapLoader::getTileIdAtLocation(int tileX, int tileY){
 	return chunks[chunkId]->tile[chunkTileX][chunkTileY];
 }
 
-VECTOR2 MapLoader::getCoordsAtTileLocation(int tileX, int tileY){
-	return VECTOR2(tileNS::WIDTH / 2 + tileX * tileNS::WIDTH,
+TileVector MapLoader::getCoordsAtTileLocation(int tileX, int tileY){
+	return TileVector(tileNS::WIDTH / 2 + tileX * tileNS::WIDTH,
 		tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT);
 }
 
@@ -192,7 +192,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	char tileId = getTileIdAtLocation(tileX, tileY);
 
 	// Get Tile Position
-	VECTOR2 tilePos = getCoordsAtTileLocation(tileX, tileY);
+	TileVector tilePos = getCoordsAtTileLocation(tileX, tileY);
 
 	TextureManager* textureManager;
 	stringstream ss;
@@ -375,7 +375,7 @@ void MapLoader::update(){
 		}
 
 		// Move actual location of tile
-		VECTOR2 tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
+		TileVector tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
 		if (mt->tile != nullptr){
 			mt->tile->setX(tilePos.x);
 			mt->tile->setY(tilePos.y);
