@@ -171,32 +171,30 @@ void Grpg::resetAll()
 //=============================================================================
 bool Grpg::processCommand(std::string command)
 {
-	
-	if (command == "spawn skeleton")
+	if (command.substr(0, 5) == "spawn")
 	{
-		Entity* skeleton = new Entity();
-		skeleton->initialize(this, 64, 64, 4, personLoader->getNPC(PersonNS::ID_NPC_SKELETON));//Enemy::Skeleton);
+		Entity* enemy = new Entity();
 
-		skeleton->setX(player->getX() - 50);
-		skeleton->setY(player->getY() - 50);
+		std::string enemyToSpawn = command.substr(6);
+		
+		if (enemyToSpawn == "skeleton")
+			enemy->initialize(this, 64, 64, 4, personLoader->getNPC(PersonNS::ID_NPC_SKELETON));
+		else if (enemyToSpawn == "dragon")
+			enemy->initialize(this, 128, 128, 4, personLoader->getNPC(PersonNS::ID_NPC_DRAGON));
+		else if (enemyToSpawn == "aidil")
+			enemy->initialize(this, 128, 128, 4, personLoader->getNPC(PersonNS::ID_NPC_AIDIL));
+		else
+		{
+			ui->addChatText("No such character: " + enemyToSpawn);
+			return true;
+		}
 
-		skeleton->setVictim(player);
+		enemy->setX(player->getX() - 50);
+		enemy->setY(player->getY() - 50);
 
-		drawManager->addObject(skeleton, 1);
+		enemy->setVictim(player);
 
-		return true;
-	}
-	else if (command == "spawn dragon")
-	{
-		Entity* skeleton = new Entity();
-		skeleton->initialize(this, 128, 128, 4, personLoader->getNPC(PersonNS::ID_NPC_DRAGON));//Enemy::Skeleton);
-
-		skeleton->setX(player->getX() - 50);
-		skeleton->setY(player->getY() - 50);
-
-		skeleton->setVictim(player);
-
-		drawManager->addObject(skeleton, 1);
+		drawManager->addObject(enemy, 1);
 
 		return true;
 	}

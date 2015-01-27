@@ -65,11 +65,6 @@ protected:
 	//Draws the specified tab contents onto the screen on the correct location
 	//Also see drawTab
 	void drawTabContents(int tabNumber);
-
-	// Add text to console
-	// Only the first line of text in str will be displayed.
-	virtual void addChatText(const std::string &str);     // add text to console
-
 public:
 	// constructor
 	UI();
@@ -87,6 +82,10 @@ public:
 
 	// Checks if the mouse is currently over any part of the UI. Returns true if so
 	virtual bool mouseInside();
+
+	// Add text to console
+	// Only the first line of text in str will be displayed.
+	virtual void addChatText(const std::string &str);     // add text to console
 
 	// Release resources
 	virtual void onLostDevice();
