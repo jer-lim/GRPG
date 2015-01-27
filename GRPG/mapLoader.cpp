@@ -265,7 +265,8 @@ void MapLoader::update(){
 			if (changeX != 0 || changeY != 0){
 				int newTileX = tileX + changeX;
 				int newTileY = tileY + changeY;
-				if (newTileX >= 0 && newTileY >= 0){
+				if (newTileX >= 0 && newTileY >= 0
+					&& newTileX < worldMap.size() * tileNS::CHUNK_WIDTH && newTileY < worldMap[0].size() * tileNS::CHUNK_HEIGHT){
 					toMove.push(VECTOR2(tileX, tileY));
 					toMoveTo.push(VECTOR2(newTileX, newTileY));
 				}
@@ -309,7 +310,6 @@ void MapLoader::update(){
 					mt->tile->getImage()->setTextureManager(textureManager);
 				}
 				else{
-					runtimeLog << "Switching tiles from" << oldTileId << " to " << newTileId << endl;
 					mt->image->setTextureManager(textureManager);
 				}
 			}
