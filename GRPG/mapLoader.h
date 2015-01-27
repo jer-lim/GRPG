@@ -60,6 +60,9 @@ protected:
 private:
 	char getTileIdAtLocation(int tileX, int tileY);
 	VECTOR2 getCoordsAtTileLocation(int tileX, int tileY);
+
+	VECTOR2 getBufferedTopLeftCoords(){ return VECTOR2(0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2, 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2); }
+	VECTOR2 getBufferedBottomRightCoords(){ return VECTOR2(GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2, GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2); }
 public:
 	MapLoader();
 	void initialize(Game* game, DrawManager* dm, Viewport* vp);

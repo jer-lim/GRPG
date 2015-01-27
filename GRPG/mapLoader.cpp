@@ -145,11 +145,14 @@ void MapLoader::load(){
 					float vpXPos = vpCoords.x;
 					float vpYPos = vpCoords.y;
 
+					VECTOR2 bufferedTopLeftCoords = getBufferedTopLeftCoords();
+					VECTOR2 bufferedBottomRightCoords = getBufferedBottomRightCoords();
+
 					// Is in viewport range
-					if (vpXPos > 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2
-						&& vpYPos > 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2
-						&& vpXPos < GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2
-						&& vpYPos < GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
+					if (vpXPos > bufferedTopLeftCoords.x
+						&& vpYPos > bufferedTopLeftCoords.y
+						&& vpXPos < bufferedBottomRightCoords.x
+						&& vpYPos < bufferedBottomRightCoords.y){
 
 						loadedTiles[tileX][tileY] = loadTile(tileX, tileY);
 					}
@@ -206,7 +209,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 
 	if (tileset[tileId].type == 1){
 
-		Tile* t = new Tile();	
+		Tile* t = new Tile();
 
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
@@ -236,45 +239,35 @@ void MapLoader::update(){
 			int tileY = ity->first;
 
 			int changeX = 0, changeY = 0;
+
+			VECTOR2 vpCoords;
 			
 			ManagedTile* mt = ity->second;
 			if (mt->tile != nullptr){
 				Tile* t = mt->tile;
-				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
-
-				// If offscreen, move to other side of screen
-				if (vpCoords.x < 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2){
-					changeX = tileWidth;
-				}
-				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2){
-					changeX = -tileWidth;
-				}
-
-				if (vpCoords.y < 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2){
-					changeY = tileHeight;
-				}
-				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
-					changeY = -tileHeight;
-				}
+				vpCoords = viewport->translate(t->getX(), t->getY());
 			}
 			else if (mt->image != nullptr){
 				Image* t = mt->image;
-				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
+				vpCoords = viewport->translate(t->getX(), t->getY());
+			}
 
-				// If offscreen, move to other side of screen
-				if (vpCoords.x < 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2){
-					changeX = tileWidth;
-				}
-				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2){
-					changeX = -tileWidth;
-				}
+			VECTOR2 bufferedTopLeftCoords = getBufferedTopLeftCoords();
+			VECTOR2 bufferedBottomRightCoords = getBufferedBottomRightCoords();
 
-				if (vpCoords.y < 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2){
-					changeY = tileHeight;
-				}
-				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
-					changeY = -tileHeight;
-				}
+			// If offscreen, move to other side of screen
+			if (vpCoords.x < bufferedTopLeftCoords.x){
+				changeX = tileWidth;
+			}
+			else if (vpCoords.x > bufferedBottomRightCoords.x){
+				changeX = -tileWidth;
+			}
+
+			if (vpCoords.y < bufferedTopLeftCoords.y){
+				changeY = tileHeight;
+			}
+			else if (vpCoords.y > bufferedBottomRightCoords.y){
+				changeY = -tileHeight;
 			}
 
 			//runtimeLog << changeX << " " << changeY << endl;
