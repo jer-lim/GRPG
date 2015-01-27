@@ -20,7 +20,7 @@ struct chunk {
 };
 
 struct tileStruct {
-	bool collidable;
+	int type;
 	string imageName;
 };
 

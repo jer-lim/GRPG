@@ -32,17 +32,16 @@ void MapLoader::load(){
 	tilestream.open(mapFolder + "tiles.gdef");
 	if (tilestream.is_open()){
 		char tileId;
-		int tileCollidable;
+		int tileType;
 		string tileFileName;
 		while (!tilestream.eof()){
 
 			tilestream >> tileId;
-			tilestream >> tileCollidable;
+			tilestream >> tileType;
 			tilestream >> tileFileName;
 
 			//Insert into a map
-			if (tileCollidable == 1) tileset[tileId].collidable = TRUE;
-			else tileset[tileId].collidable = FALSE;
+			tileset[tileId].type = tileType;
 			tileset[tileId].imageName = tileFileName;
 			runtimeLog << "Loaded tile " << tileId << endl;
 		}
@@ -205,7 +204,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		tileTms[tileId] = textureManager;
 	}
 
-	if (tileset[tileId].collidable){
+	if (tileset[tileId].type == 1){
 
 		Tile* t = new Tile();	
 
@@ -215,7 +214,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t);
 	}
-	else {
+	else if(tileset[tileId].type == 0){
 
 		Image* t = new Image();
 
@@ -309,8 +308,8 @@ void MapLoader::update(){
 			tileStruct oldTileInfo = tileset[oldTileId];
 			tileStruct newTileInfo = tileset[newTileId];
 
-			// If both are collidable / not collidable, they are both entities / images so just change textureManagers
-			if (newTileInfo.collidable == oldTileInfo.collidable){
+			// If both are the same class, just change textureManagers
+			if (newTileInfo.type == oldTileInfo.type){
 				TextureManager* textureManager;
 				stringstream ss;
 				ss << tileImageFolder << newTileInfo.imageName;
@@ -335,6 +334,7 @@ void MapLoader::update(){
 			// Incompatible types, need new Entity / Image to store
 			else{
 				// Clear old data
+				// MEMORY LEAK HERE
 				if (mt->tile != nullptr){
 					//delete mt->tile;
 					drawManager->removeObject(mt->tile);
@@ -362,7 +362,7 @@ void MapLoader::update(){
 					tileTms[newTileId] = textureManager;
 				}
 
-				if (newTileInfo.collidable){
+				if (newTileInfo.type == 1){
 
 					Tile* t = new Tile();
 
@@ -370,7 +370,7 @@ void MapLoader::update(){
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
 				}
-				else {
+				else if(newTileInfo.type == 0){
 
 					Image* t = new Image();
 
