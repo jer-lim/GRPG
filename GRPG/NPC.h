@@ -3,9 +3,10 @@
 
 #include "constants.h"
 #include "Person.h"
+#include "Interactable.h"
 #include <string>
 
-class NPC : public Person
+class NPC : public Person, Interactable
 {
 private:
 	string name;
