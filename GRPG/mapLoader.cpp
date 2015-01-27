@@ -19,6 +19,14 @@ void MapLoader::initialize(Game* game, DrawManager* dm, Viewport* vp){
 
 void MapLoader::load(){
 
+	LARGE_INTEGER timeStart, timeEnd, timerFreq;
+	QueryPerformanceCounter(&timeStart);
+	QueryPerformanceFrequency(&timerFreq);
+
+
+	runtimeLog << "Starting map startup sequence" << endl;
+	runtimeLog << "Starting map info load" << endl;
+
 	// Load tileset
 	ifstream tilestream;
 	tilestream.open(mapFolder + "tiles.gdef");
@@ -108,6 +116,10 @@ void MapLoader::load(){
 		runtimeLog << "Failed to open worldmap" << endl;
 	}
 
+	runtimeLog << "Finished loading map" << endl;
+
+	runtimeLog << "Starting initial scene build" << endl;
+
 	// Display world map
 	// Load each chunk
 
@@ -146,6 +158,13 @@ void MapLoader::load(){
 			}
 		}
 	}
+
+	runtimeLog << "Finished initial scene build" << endl;
+	runtimeLog << "Finished map startup sequence" << endl;
+
+	QueryPerformanceCounter(&timeEnd);
+	runtimeLog << "Map startup sequence finished in " << ((float)(timeEnd.QuadPart - timeStart.QuadPart) / (float)timerFreq.QuadPart) << " seconds" << endl;
+
 }
 
 char MapLoader::getTileIdAtLocation(int tileX, int tileY){
