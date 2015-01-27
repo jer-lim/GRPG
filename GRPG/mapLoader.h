@@ -57,6 +57,9 @@ protected:
 	unordered_map<int, TextureManager*> tileTms;
 	unordered_map<int, unordered_map<int, ManagedTile*>> loadedTiles;
 
+private:
+	char getTileIdAtLocation(int tileX, int tileY);
+	VECTOR2 getCoordsAtTileLocation(int tileX, int tileY);
 public:
 	MapLoader();
 	void initialize(Game* game, DrawManager* dm, Viewport* vp);

@@ -1,3 +1,5 @@
+Starting map startup sequence
+Starting map info load
 Loaded tile 0
 Loaded tile 1
 Loaded tile x
@@ -5,4 +7,10 @@ Loaded chunk x
 Loaded chunk 0
 Loaded chunk 1
 Loaded chunk 2
+Loaded chunk 3
 Loaded world map
+Finished loading map
+Starting initial scene build
+Finished initial scene build
+Finished map startup sequence
+Map startup sequence finished in 0.617066 seconds

@@ -30,7 +30,7 @@ void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 
-	VECTOR2 startLocation = VECTOR2(3.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 5.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
+	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 4.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
 
 	viewport = new Viewport(this, startLocation.x, startLocation.y, GAME_WIDTH, GAME_HEIGHT);
 
