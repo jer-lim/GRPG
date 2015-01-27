@@ -37,19 +37,25 @@ private:
 	float width;
 	int numOfCols;
 
+	float colliHeight;
+	float colliWidth;
 public:
 	//Static characters used to refer to them (Similar to skills)
 	static Person* thePlayer;
 
 	Person(){}
-	Person(string i, float mov, float atk, float h, float w, int cols)
+	Person(string i, float mov, float atk, float h, float w, int cols, float colHeight, float colWidth)
 	{
 		imgFileName = i;
 		movementSpeed = mov;
 		attackCooldown = atk;
+
 		height = h;
 		width = w;
 		numOfCols = cols;
+
+		colliHeight = colHeight;
+		colliWidth = colWidth;
 	}
 
 	string getImgFileName() { return imgFileName; }

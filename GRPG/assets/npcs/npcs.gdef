@@ -1,12 +1,12 @@
-3 Skeleton skeleton.png 60 1 64 64 4 Flimsy_pieces_of_bone_held_together_with_magic. 5 5 5 10 1.0
-4 Skeleton_King_Aboilath skeleton_king.png 60 1 64 64 4 The_king_of_skeletons._Walks_like_a_drunkard. 15 10 5 15 0.9
-5 Goblin goblin.png 60 1 64 64 4 The_lousiest_(and_smelliest)_of_monsters. 10 5 5 5 0.9
-6 Goblin_Chieftain_Ugu goblin_chieftain.png 80 1 64 64 4 The_chief_of_goblins._Can_be_smelt_from_miles_away. 15 15 15 10 0.9
-7 Undead undead.png 60 1 64 64 4 Undead_Soldier. 15 15 15 15 0.8
-8 Undead_Commander_Qeim undead_commander.png 3 1 64 64 4 The_leader_of_undead._Has_a_crown. 20 15 10 20 0.8
-9 Ogre ogre.png 90 0.7 64 64 4 Big_giant_and_huge_monsters_that_are_strong_but_slow. 10 20 15 20 0.9
-10 Ogre_Ogur ogre_boss.png 100 0.7 64 64 4 A_cannibalizing_Ogre._Scary,_even_to_other_ogres. 15 25 15 25 0.9
-11 Golem golem.png 90 0.7 64 64 4 Monster_made_of_mystical_stone. 15 25 5 10 0.25
-12 Earth_Guardian_Agroet golem_guardian.png 100 0.7 64 64 4 Protector_of_the_Earth._He_doesn't_like_competition. 20 25 5 15 0.25 
-13 Dragon dragon.png 140 1 128 128 4 Dragon! 20 25 10 25 0.7
-14 Doombreather_Aildiuln aidiluin.png 140 1 128 128 4 A_dragon._A_very_evil_and_terrifying_dragon. 25 30 15 35 0.7
+3 Skeleton skeleton.png 60 1 64 64 4 64 64 Flimsy_pieces_of_bone_held_together_with_magic. 5 5 5 10 1.0
+4 Skeleton_King_Aboilath skeleton_king.png 60 1 64 64 4 64 64 The_king_of_skeletons._Walks_like_a_drunkard. 15 10 5 15 0.9
+5 Goblin goblin.png 60 1 64 64 4 64 64 The_lousiest_(and_smelliest)_of_monsters. 10 5 5 5 0.9
+6 Goblin_Chieftain_Ugu goblin_chieftain.png 80 1 64 64 4 64 64 The_chief_of_goblins._Can_be_smelt_from_miles_away. 15 15 15 10 0.9
+7 Undead undead.png 60 1 64 64 4 64 64 Undead_Soldier. 15 15 15 15 0.8
+8 Undead_Commander_Qeim undead_commander.png 3 1 64 64 4 64 64 The_leader_of_undead._Has_a_crown. 20 15 10 20 0.8
+9 Ogre ogre.png 90 0.7 64 64 4 64 64 Big_giant_and_huge_monsters_that_are_strong_but_slow. 10 20 15 20 0.9
+10 Ogre_Ogur ogre_boss.png 100 0.7 64 64 4 64 64 A_cannibalizing_Ogre._Scary,_even_to_other_ogres. 15 25 15 25 0.9
+11 Golem golem.png 90 0.7 64 64 4 64 64 Monster_made_of_mystical_stone. 15 25 5 10 0.25
+12 Earth_Guardian_Agroet golem_guardian.png 100 0.7 64 64 4 64 64 Protector_of_the_Earth._He_doesn't_like_competition. 20 25 5 15 0.25 
+13 Dragon dragon.png 140 1 128 128 4 128 128 Dragon! 20 25 10 25 0.7
+14 Doombreather_Aildiuln aidiluin.png 140 1 128 128 4 128 128 A_dragon._A_very_evil_and_terrifying_dragon. 25 30 15 35 0.7
