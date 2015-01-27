@@ -4,6 +4,7 @@ void ItemLoader::loadAllItems()
 {
 	ifstream itemstream;
 	//Misc Items
+	index_misc_items_start = map_items.size();
 	itemstream.open(misc_itemDataLocation);
 	if (itemstream.is_open()){
 		string name, img_filename, descript;
@@ -18,6 +19,7 @@ void ItemLoader::loadAllItems()
 		itemstream.close();
 	}
 	//Food items
+	index_food_start = map_items.size() + 1;
 	itemstream.open(foodDataLocation);
 	if (itemstream.is_open()){
 		string name, img_filename, descript;
@@ -34,6 +36,7 @@ void ItemLoader::loadAllItems()
 		itemstream.close();
 	}
 	//Smithing Material items
+	index_smithing_materials_start = map_items.size() + 1;
 	itemstream.open(smithing_materialsDataLocation);
 	if (itemstream.is_open()){
 		string name, img_filename = "smithing_materials.png", descript;
@@ -49,6 +52,7 @@ void ItemLoader::loadAllItems()
 		itemstream.close();
 	}
 	//Weapon items
+	index_weapons_start = map_items.size() + 1;
 	itemstream.open(weaponsDataLocation);
 	if (itemstream.is_open()){
 		string name, img_filename, descript;
@@ -64,6 +68,7 @@ void ItemLoader::loadAllItems()
 		itemstream.close();
 	}
 	//Armor items
+	index_armor_start = map_items.size() + 1;
 	itemstream.open(armorDataLocation);
 	if (itemstream.is_open()){
 		string name, img_filename, descript;
@@ -79,6 +84,7 @@ void ItemLoader::loadAllItems()
 		itemstream.close();
 	}
 	//Shield items
+	index_shields_start = map_items.size() + 1;
 	itemstream.open(shieldsDataLocation);
 	if (itemstream.is_open()){
 		string name, img_filename, descript;

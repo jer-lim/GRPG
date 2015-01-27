@@ -12,7 +12,7 @@ void PersonLoader::loadAllNPCs()
 		while (!characterstream.eof()){
 			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> description;
 			NPC myChar = NPC(img_filename, movementspd, attackcd, name, description, 9999);//almost infinite health
-			map_friendlyNPCs[id] = myChar;
+			map_npcs[id] = myChar;
 		}
 		characterstream.close();
 	}
@@ -26,7 +26,7 @@ void PersonLoader::loadAllNPCs()
 			characterstream >> id >> name >> img_filename >> movementspd >> attackcd
 				>> description >> atk >> str >> def >> hp >> dmg_red;
 			Enemy myChar = Enemy(img_filename, movementspd, attackcd, name, description, hp, atk, str, def, dmg_red);
-			map_friendlyNPCs[id] = myChar;
+			map_npcs[id] = myChar;
 		}
 		characterstream.close();
 	}

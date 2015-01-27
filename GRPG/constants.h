@@ -49,7 +49,7 @@ const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calcul
 const float GRAVITY = 6.67428e-11f;             // gravitational constant
 
 // graphic images
-const char TEXTURES_IMAGE[] = "assets/npcs/sprites/player.png";  // game textures
+const char TEXTURES_IMAGE[] = "player.png";  // game textures, path is defined in personNS
 const char UI_IMAGE[] = "assets/ui/bottomrightbackground.png"; //UI texture
 const char TAB_IMAGE[] = "assets/ui/tabs.png"; //UI tabs texture
 

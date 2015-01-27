@@ -84,7 +84,9 @@ class Entity : public Destination
     // Constructor
     Entity();
     // Destructor
-    virtual ~Entity() {}
+    virtual ~Entity() {
+		person = nullptr;
+	}
 
     ////////////////////////////////////////
     //           Get functions            //

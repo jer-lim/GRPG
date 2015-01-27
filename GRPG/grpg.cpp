@@ -171,11 +171,11 @@ void Grpg::resetAll()
 //=============================================================================
 bool Grpg::processCommand(std::string command)
 {
-	/*
+	
 	if (command == "spawn skeleton")
 	{
 		Entity* skeleton = new Entity();
-		skeleton->initialize(this, 64, 64, 4, Enemy::Skeleton);
+		skeleton->initialize(this, 64, 64, 4, personLoader->getNPC(PersonNS::ID_NPC_SKELETON));//Enemy::Skeleton);
 
 		skeleton->setX(player->getX() - 50);
 		skeleton->setY(player->getY() - 50);
@@ -185,7 +185,7 @@ bool Grpg::processCommand(std::string command)
 		drawManager->addObject(skeleton, 1);
 
 		return true;
-	}*/
+	}
 
 	return false;
 }

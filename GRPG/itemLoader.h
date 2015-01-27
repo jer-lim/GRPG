@@ -17,6 +17,12 @@
 class ItemLoader
 {
 private:
+	int index_misc_items_start;
+	int index_food_start;
+	int index_smithing_materials_start;
+	int index_weapons_start;
+	int index_armor_start;
+	int index_shields_start;
 	const std::string misc_itemDataLocation = "assets/items/misc_item.gdef";
 	const std::string foodDataLocation = "assets/items/food.gdef";
 	const std::string smithing_materialsDataLocation = "assets/items/smithing_materials.gdef";

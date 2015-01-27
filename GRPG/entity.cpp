@@ -70,10 +70,10 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Person*
 
 	textureM = new TextureManager();
 	person = whichCharacter;
-
+	string path = PersonNS::spriteDirectory + person->getImgFileName();
 	//init texture
-	if (!textureM->initialize(graphics, person->getImgFileName().c_str()))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *person->getImgFileName().c_str()));
+	if (!textureM->initialize(graphics, path.c_str()))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *path.c_str()));
 
     return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM, anc);
 }
