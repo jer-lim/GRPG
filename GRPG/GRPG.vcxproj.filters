@@ -69,5 +69,6 @@
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
     <ClInclude Include="string_functions.h" />
+    <ClInclude Include="Interactable.h" />
   </ItemGroup>
 </Project>
