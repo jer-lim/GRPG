@@ -1,21 +1,21 @@
 #ifndef _ENEMY_H			         // Prevent multiple definitions if this 
 #define _ENEMY_H		             // file is included in more than one place
 
-#include "Character.h"
+#include "NPC.h"
 
-class Enemy : public Character
+class Enemy : public NPC
 {
 private:
-	int damage, attackLv, defenseLv, strengthLv;
+	int attackLv, defenseLv, strengthLv;
 	float damageReduction;
 public:
-	static Enemy* Skeleton;
+	//static Enemy* Skeleton;
 
-	Enemy(){ Character(); }
+	Enemy(){ Person(); }
 
-	Enemy(const char* i, float mov, float atk, int d, int atkLv, int defLv, int strLv, float dmgReduction) : Character(i, mov, atk)
+	Enemy(string i, float mov, float atkSpd, string nama, string desc, int maxhp, int atkLv, int defLv, int strLv, float dmgReduction) 
+		: NPC(i, mov, atkSpd, nama, desc, maxhp)
 	{
-		damage = d;
 		attackLv = atkLv;
 		defenseLv = defLv;
 		strengthLv = strLv;
@@ -23,9 +23,6 @@ public:
 	}
 
 	//Getters and setters
-
-	int getDamage(){ return damage; }
-	void setDamage(int i){ damage = i; }
 	int getattackLv(){ return attackLv; }
 	void setattackLv(int i){ attackLv = i; }
 	int getdefenseLv(){ return defenseLv; }

@@ -61,7 +61,7 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
 //		anc = twhether this entity is anchored or not (Changes drawing x and y location based on viewport)
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Character* whichCharacter, bool anc)
+bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Person* whichCharacter, bool anc)
 {
 	anchored = anc;
 
@@ -69,11 +69,11 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Charact
 	graphics = gamePtr->getGraphics();
 
 	textureM = new TextureManager();
-	character = whichCharacter;
+	person = whichCharacter;
 
 	//init texture
-	if (!textureM->initialize(graphics, character->getImgFileName()))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *character->getImgFileName()));
+	if (!textureM->initialize(graphics, person->getImgFileName().c_str()))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *person->getImgFileName().c_str()));
 
     return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM, anc);
 }
@@ -144,7 +144,7 @@ void Entity::update(float frameTime)
 
 	if(destination != 0)
 	{
-		float speed = character->getMovementSpeed();
+		float speed = person->getMovementSpeed();
 
 		VECTOR2 direction = destination->getVector() - getVector();
 		VECTOR2 *normalizedDirection = &VECTOR2();

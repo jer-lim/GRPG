@@ -161,6 +161,7 @@ void Grpg::resetAll()
 //=============================================================================
 bool Grpg::processCommand(std::string command)
 {
+	/*
 	if (command == "spawn skeleton")
 	{
 		Entity* skeleton = new Entity();
@@ -174,7 +175,7 @@ bool Grpg::processCommand(std::string command)
 		drawManager->addObject(skeleton, 1);
 
 		return true;
-	}
+	}*/
 
 	return false;
 }

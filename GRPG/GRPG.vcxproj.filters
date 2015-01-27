@@ -24,8 +24,9 @@
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
-    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Person.cpp" />
+    <ClCompile Include="PersonLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -61,9 +62,11 @@
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestCondition.h" />
     <ClInclude Include="GameEvent.h" />
-    <ClInclude Include="Character.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameEvent_Damage.h" />
     <ClInclude Include="Viewport.h" />
+    <ClInclude Include="NPC.h" />
+    <ClInclude Include="Person.h" />
+    <ClInclude Include="PersonLoader.h" />
   </ItemGroup>
 </Project>

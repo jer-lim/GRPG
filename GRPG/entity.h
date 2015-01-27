@@ -11,7 +11,7 @@
 #include "input.h"
 #include "game.h"
 #include "destination.h"
-#include "Character.h"
+#include "Person.h"
 #include "Viewport.h"
 
 namespace entityNS
@@ -54,7 +54,7 @@ class Entity : public Destination
 	// New Entity variables specific to GRPG
 
 	Destination* destination;			//The destination of movement
-	Character* character;	// Reference to the character that this entity refers to (NPC? Enemy? etc.
+	Person* person;	// Reference to the character that this entity refers to (NPC? Enemy? etc.
 	Entity* victim;	//If this entity is attacking someone, victim is that poor entity
 
     // --- The following functions are protected because they are not intended to be
@@ -135,7 +135,7 @@ class Entity : public Destination
 	virtual TextureManager* getTextureManager() { return textureM; }
 
 	// Returns the character that this entity refers to
-	virtual Character* getCharacter() { return character; }
+	virtual Person* getPerson() { return person; }
 
 	// Returns the current destination that this entity is heading towards
 	// Returns a pointer to 0 if no current destination
@@ -200,7 +200,7 @@ class Entity : public Destination
 	//		whichCharacter = the character that this entity refers to
 	//		anc = twhether this entity is anchored or not (Changes drawing x and y location based on viewport)
 	// Post: returns true if successful, false if failed
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, Character* character, bool anc = false);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, Person* character, bool anc = false);
 
 	// Initialize entity using a pre-initialized TextureManager
 	// Pre: *gamePtr = pointer to Game object

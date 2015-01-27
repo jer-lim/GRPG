@@ -6,7 +6,6 @@ void ItemLoader::loadAllItems()
 	//Misc Items
 	itemstream.open(misc_itemDataLocation);
 	if (itemstream.is_open()){
-		itemstream.close();
 		string name, img_filename, descript;
 		int id, stackcount, cost;
 		while (!itemstream.eof()){
