@@ -196,13 +196,10 @@ class Entity : public Destination
 
     // Initialize Entity
     // Pre: *gamePtr = pointer to Game object
-    //      width = width of Image in pixels  (0 = use full texture width)
-    //      height = height of Image in pixels (0 = use full texture height)
-    //      ncols = number of columns in texture (1 to n) (0 same as 1)
 	//		whichCharacter = the character that this entity refers to
 	//		anc = twhether this entity is anchored or not (Changes drawing x and y location based on viewport)
 	// Post: returns true if successful, false if failed
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, Person* character, bool anc = false);
+	virtual bool initialize(Game *gamePtr, Person* character, bool anc = false);
 
 	// Initialize entity using a pre-initialized TextureManager
 	// Pre: *gamePtr = pointer to Game object

@@ -16,8 +16,8 @@ private:
 public:
 
 	NPC() : Person() {}
-	NPC(string i, float mov, float atk,string nama,string desc,int maxhp)
-		: Person(i, mov, atk)
+	NPC(string i, float mov, float atk, float h, float w, int cols, string nama,string desc,int maxhp)
+		: Person(i, mov, atk, h, w, cols)
 	{
 		name = nama;
 		description = desc;

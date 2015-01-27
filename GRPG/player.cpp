@@ -52,7 +52,7 @@ void Player::sayMessage(std::string message, TextDX* font)
 //=============================================================================
 bool Player::initialize(Game *gamePtr)
 {
-    return(Entity::initialize(gamePtr, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, Person::thePlayer));
+    return(Entity::initialize(gamePtr, Person::thePlayer));
 }
 
 //=============================================================================

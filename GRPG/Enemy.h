@@ -13,8 +13,8 @@ public:
 
 	Enemy() : NPC() { }
 
-	Enemy(string i, float mov, float atkSpd, string nama, string desc, int maxhp, int atkLv, int defLv, int strLv, float dmgReduction) 
-		: NPC(i, mov, atkSpd, nama, desc, maxhp)
+	Enemy(string i, float mov, float atkSpd, float h, float w, float cols, string nama, string desc, int maxhp, int atkLv, int defLv, int strLv, float dmgReduction) 
+		: NPC(i, mov, atkSpd, h, w, cols, nama, desc, maxhp)
 	{
 		attackLv = atkLv;
 		defenseLv = defLv;
