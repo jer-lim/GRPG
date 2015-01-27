@@ -186,6 +186,20 @@ bool Grpg::processCommand(std::string command)
 
 		return true;
 	}
+	else if (command == "spawn dragon")
+	{
+		Entity* skeleton = new Entity();
+		skeleton->initialize(this, 128, 128, 4, personLoader->getNPC(PersonNS::ID_NPC_DRAGON));//Enemy::Skeleton);
+
+		skeleton->setX(player->getX() - 50);
+		skeleton->setY(player->getY() - 50);
+
+		skeleton->setVictim(player);
+
+		drawManager->addObject(skeleton, 1);
+
+		return true;
+	}
 
 	return false;
 }
