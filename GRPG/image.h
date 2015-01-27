@@ -145,7 +145,9 @@ class Image
 
     // Set TextureManager
     virtual void setTextureManager(TextureManager *textureM)
-    { textureManager = textureM; }
+	{
+		textureManager = textureM; spriteData.texture = textureManager->getTexture();
+	}
 
     ////////////////////////////////////////
     //         Other functions            //

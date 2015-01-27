@@ -12,16 +12,18 @@ namespace tileNS
     const int Y = GAME_HEIGHT/2 - HEIGHT/2;
 	const int CHUNK_WIDTH = 16; // Chunk width in tiles
 	const int CHUNK_HEIGHT = 16; // Chunk height in tiles
+	const int ZINDEX = 0;
 }
 
 // inherits from Entity class
-class Tile : public Entity
+class Tile : public Entity 
 {
 private:
 
 public:
     // constructor
     Tile();
+	~Tile(){};
 
     // inherited member functions
     virtual void draw(Viewport* viewport);

@@ -148,8 +148,7 @@ void MapLoader::load(){
 	}
 }
 
-ManagedTile* MapLoader::loadTile(int tileX, int tileY){
-
+char MapLoader::getTileIdAtLocation(int tileX, int tileY){
 	// Get Chunk ID
 	int chunkX = tileX / tileNS::CHUNK_WIDTH;
 	int chunkY = tileY / tileNS::CHUNK_HEIGHT;
@@ -158,57 +157,60 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	// Get Tile ID
 	int chunkTileX = tileX % tileNS::CHUNK_WIDTH;
 	int chunkTileY = tileY % tileNS::CHUNK_HEIGHT;
-	char tileId = chunks[chunkId]->tile[chunkTileX][chunkTileY];
+
+	return chunks[chunkId]->tile[chunkTileX][chunkTileY];
+}
+
+VECTOR2 MapLoader::getCoordsAtTileLocation(int tileX, int tileY){
+	return VECTOR2(tileNS::WIDTH / 2 + tileX * tileNS::WIDTH,
+		tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT);
+}
+
+ManagedTile* MapLoader::loadTile(int tileX, int tileY){
+
+	char tileId = getTileIdAtLocation(tileX, tileY);
 
 	// Get Tile Position
-	float xPos = tileNS::WIDTH / 2 + tileX * tileNS::WIDTH;
-	float yPos = tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT;
+	VECTOR2 tilePos = getCoordsAtTileLocation(tileX, tileY);
 
 	TextureManager* textureManager;
 	stringstream ss;
 	ss << tileImageFolder << tileset[tileId].imageName;
 
+	if (tileTms.count(tileId) > 0){
+		textureManager = tileTms[tileId];
+	}
+	else{
+		textureManager = new TextureManager();
+		textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+		tileTms[tileId] = textureManager;
+	}
+
 	if (tileset[tileId].collidable){
 
-		Tile* t = new Tile();
-
-		if (tileTms.count(tileId) > 0){
-			textureManager = tileTms[tileId];
-		}
-		else{
-			textureManager = new TextureManager();
-			textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
-			tileTms[tileId] = textureManager;
-		}
+		Tile* t = new Tile();	
 
 		t->initialize(gamePtr, textureManager);
-		t->setX(xPos);
-		t->setY(yPos);
-		drawManager->addObject(t, 0);
+		t->setX(tilePos.x);
+		t->setY(tilePos.y);
+		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t);
 	}
 	else {
+
 		Image* t = new Image();
-		if (tileTms.count(tileId) > 0){
-			textureManager = tileTms[tileId];
-		}
-		else{
-			textureManager = new TextureManager();
-			textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
-			tileTms[tileId] = textureManager;
-		}
 
 		t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
-		t->setX(xPos);
-		t->setY(yPos);
-		drawManager->addObject(t, 0);
+		t->setX(tilePos.x);
+		t->setY(tilePos.y);
+		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t);
 	}
 }
 
 void MapLoader::update(){
-	queue<VECTOR2> toErase;
-	queue<VECTOR2> toAdd;
+	queue<VECTOR2> toMove;
+	queue<VECTOR2> toMoveTo;
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
 			// Get coordinates on the map based on tile count
@@ -261,27 +263,118 @@ void MapLoader::update(){
 
 			//Apply change
 			if (changeX != 0 || changeY != 0){
-				//loadedTiles[tileX + changeX][tileY + changeY] = mt;
-				if (tileX + changeX >= 0 && tileY + changeY >= 0){
-					toAdd.push(VECTOR2(tileX + changeX, tileY + changeY));
-					toErase.push(VECTOR2(tileX, tileY));
-					if (mt->tile != nullptr)
-						drawManager->removeObject(mt->tile);
-					else
-						drawManager->removeObject(mt->image);
+				int newTileX = tileX + changeX;
+				int newTileY = tileY + changeY;
+				if (newTileX >= 0 && newTileY >= 0){
+					toMove.push(VECTOR2(tileX, tileY));
+					toMoveTo.push(VECTOR2(newTileX, newTileY));
 				}
 			}
 		}
 	}
 
-	while (!toErase.empty()){
-		loadedTiles[toErase.front().x].erase(toErase.front().y);
-		//runtimeLog << "Removed tile from " << toErase.front().x << ", " << toErase.front().y << endl;
-		toErase.pop();
-	}
+	while (!toMove.empty()){
+		// Move recorded location of tile
+		VECTOR2 oldLocation = toMove.front();
+		ManagedTile* mt = loadedTiles[oldLocation.x][oldLocation.y];
+		VECTOR2 newLocation = toMoveTo.front();
+		loadedTiles[newLocation.x][newLocation.y] = mt;
+		loadedTiles[toMove.front().x].erase(toMove.front().y);
 
-	while (!toAdd.empty()){
-		loadedTiles[toAdd.front().x][toAdd.front().y] = loadTile(toAdd.front().x, toAdd.front().y);
-		toAdd.pop();
+		char oldTileId = getTileIdAtLocation(oldLocation.x, oldLocation.y);
+		char newTileId = getTileIdAtLocation(newLocation.x, newLocation.y);
+
+		// If they are different tiles, need to change it
+		if (newTileId != oldTileId){
+			tileStruct oldTileInfo = tileset[oldTileId];
+			tileStruct newTileInfo = tileset[newTileId];
+
+			// If both are collidable / not collidable, they are both entities / images so just change textureManagers
+			if (newTileInfo.collidable == oldTileInfo.collidable){
+				TextureManager* textureManager;
+				stringstream ss;
+				ss << tileImageFolder << newTileInfo.imageName;
+
+				// use pre-existing texturemanager if already exists
+				if (tileTms.count(newTileId) > 0){
+					textureManager = tileTms[newTileId];
+				}
+				else{
+					textureManager = new TextureManager();
+					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+					tileTms[newTileId] = textureManager;
+				}
+
+				if (mt->tile != nullptr){
+					mt->tile->getImage()->setTextureManager(textureManager);
+				}
+				else{
+					runtimeLog << "Switching tiles from" << oldTileId << " to " << newTileId << endl;
+					mt->image->setTextureManager(textureManager);
+				}
+			}
+			// Incompatible types, need new Entity / Image to store
+			else{
+				// Clear old data
+				if (mt->tile != nullptr){
+					//delete mt->tile;
+					drawManager->removeObject(mt->tile);
+					mt->tile = nullptr;
+				}
+				else {
+					//delete mt->image;
+					drawManager->removeObject(mt->image);
+					mt->image = nullptr;
+				}
+
+				// Make new tile
+
+				TextureManager* textureManager;
+				stringstream ss;
+				ss << tileImageFolder << newTileInfo.imageName;
+
+				// use pre-existing texturemanager if already exists
+				if (tileTms.count(newTileId) > 0){
+					textureManager = tileTms[newTileId];
+				}
+				else{
+					textureManager = new TextureManager();
+					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+					tileTms[newTileId] = textureManager;
+				}
+
+				if (newTileInfo.collidable){
+
+					Tile* t = new Tile();
+
+					t->initialize(gamePtr, textureManager);
+					drawManager->addObject(t, tileNS::ZINDEX);
+					mt->tile = t;
+				}
+				else {
+
+					Image* t = new Image();
+
+					t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
+					drawManager->addObject(t, tileNS::ZINDEX);
+					mt->image = t;
+				}
+			}
+		}
+
+		// Move actual location of tile
+		VECTOR2 tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
+		if (mt->tile != nullptr){
+			mt->tile->setX(tilePos.x);
+			mt->tile->setY(tilePos.y);
+		}
+		else{
+			mt->image->setX(tilePos.x);
+			mt->image->setY(tilePos.y);
+		}
+
+		//runtimeLog << "Removed tile from " << toErase.front().x << ", " << toErase.front().y << endl;
+		toMove.pop();
+		toMoveTo.pop();
 	}
 }
