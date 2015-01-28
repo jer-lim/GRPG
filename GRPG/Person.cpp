@@ -1,3 +1,3 @@
 #include "Person.h"
 
-Person* Person::thePlayer = new Person(TEXTURES_IMAGE, 100, 0, 64, 64, 4, 32, 32);
+Person* Person::thePlayer = new Person(TEXTURES_IMAGE, 100, 25, 64, 64, 4, 32, 32);

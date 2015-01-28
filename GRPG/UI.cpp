@@ -259,13 +259,18 @@ void UI::draw(Viewport* viewport)
 
 	//Now draw the required stuff for the health bar
 	//Calculate how much health the player has left
+	float healthPercent = player->getHealth() / player->getSkills()->at(skillNS::ID_SKILL_TOUGHNESS).getSkillLevel();
+	if (healthPercent < 0)
+	{
+		healthPercent = 0;
+	}
 	try {
 		// top right
-		availableHealth[1].x = uiNS::chatWidth + uiNS::healthWidth;
+		availableHealth[1].x = uiNS::chatWidth + uiNS::healthWidth*healthPercent;
 		availableHealth[1].y = GAME_HEIGHT - uiNS::healthHeight;
 
 		// bottom right
-		availableHealth[2].x = uiNS::chatWidth + uiNS::healthWidth;
+		availableHealth[2].x = uiNS::chatWidth + uiNS::healthWidth*healthPercent;
 		availableHealth[2].y = GAME_HEIGHT;
 
 		graphics->createVertexBuffer(availableHealth, sizeof availableHealth, availableHealthBuffer);
@@ -396,8 +401,6 @@ void UI::addChatText(const std::string &str)     // add text to console
 //=============================================================================
 void UI::update(float frameTime)
 {
-	Entity::update(frameTime);
-
 	if (input->getMouseLButton())
 	{
 		//Check if mouse is over any tab

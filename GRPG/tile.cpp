@@ -47,5 +47,5 @@ void Tile::draw(Viewport* viewport)
 //=============================================================================
 void Tile::update(float frameTime)
 {
-	Entity::update(frameTime);
+	//Entity::update(frameTime);
 }
