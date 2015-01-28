@@ -1,4 +1,3 @@
-// FUCK
 // Charles Kelly
 
 #ifndef _GAME_H                 // Prevent multiple definitions if this 
