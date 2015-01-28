@@ -1,4 +1,5 @@
 #include "player.h"
+#include "grpg.h"
 
 //=============================================================================
 // default constructor
@@ -53,6 +54,7 @@ void Player::sayMessage(std::string message, TextDX* font)
 //=============================================================================
 bool Player::initialize(Game *gamePtr)
 {
+	game = (Grpg*) gamePtr;
     return(Entity::initialize(gamePtr, Person::thePlayer));
 }
 
@@ -104,5 +106,6 @@ void Player::damage(int damageDealt)
 		//Will crash the game instead of properly throwing warning
 		// Piece of shit code
 		//throw new GameError(gameErrorNS::WARNING, "You have died!");
+		game->getUI()->addChatText("You died!");
 	}
 }

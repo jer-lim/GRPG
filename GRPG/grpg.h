@@ -40,6 +40,8 @@ public:
     void resetAll();
 
 	bool processCommand(std::string command);
+
+	UI* getUI() { return ui; }
 };
 
 #endif
