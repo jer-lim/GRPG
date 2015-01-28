@@ -1,4 +1,7 @@
 #include "mapLoader.h"
+#include "drawManager.h"
+#include "Viewport.h"
+#include "Spawner.h"
 
 using namespace std;
 

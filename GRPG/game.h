@@ -13,6 +13,10 @@
 #include "globals.h"
 #include "gameError.h"
 
+class DrawManager;
+class Viewport;
+class MapLoader;
+
 class Game
 {
 protected:
@@ -29,6 +33,10 @@ protected:
     DWORD   sleepTime;          // number of milli-seconds to sleep between frames
     bool    paused;             // true if game is paused
     bool    initialized;
+
+	DrawManager* drawManager;
+	Viewport* viewport;
+	MapLoader* mapLoader;
 
 public:
     // Constructor

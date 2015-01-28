@@ -10,9 +10,9 @@
 #include <cmath>
 #include "globals.h"
 #include "tile.h"
-#include "drawManager.h"
-#include "Viewport.h"
-#include "Spawner.h"
+
+class DrawManager;
+class Viewport;
 
 using namespace std;
 

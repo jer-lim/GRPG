@@ -1,4 +1,7 @@
 #include "grpg.h"
+#include "drawManager.h"
+#include "mapLoader.h"
+#include "tile.h"
 #include <sstream>
 
 //=============================================================================
@@ -32,14 +35,10 @@ void Grpg::initialize(HWND hwnd)
 
 	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 4.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
 
-	viewport = new Viewport(this, startLocation.x, startLocation.y, GAME_WIDTH, GAME_HEIGHT);
-
-	drawManager = new DrawManager();
-	drawManager->initialize(viewport);
+	viewport->setX(startLocation.x);
+	viewport->setY(startLocation.y);
 
 	// Load map
-	mapLoader = new MapLoader();
-	mapLoader->initialize(this, drawManager, viewport);
 	mapLoader->load();
 
 	// Load data
