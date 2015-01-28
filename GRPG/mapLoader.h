@@ -77,7 +77,7 @@ private:
 public:
 	MapLoader();
 	~MapLoader(){};
-	void initialize(Game* game, DrawManager* dm, Viewport* vp);
+	void initialize(Game* game);
 	void load();
 	ManagedTile* loadTile(int tileX, int tileY);
 	void update();

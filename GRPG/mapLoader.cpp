@@ -14,10 +14,10 @@ MapLoader::MapLoader(){
 	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT) + 2 * bufferSize + 1;
 }
 
-void MapLoader::initialize(Game* game, DrawManager* dm, Viewport* vp){
+void MapLoader::initialize(Game* game){
 	gamePtr = game;
-	drawManager = dm;
-	viewport = vp;
+	drawManager = gamePtr->getDrawManager();
+	viewport = gamePtr->getViewport();
 }
 
 void MapLoader::load(){

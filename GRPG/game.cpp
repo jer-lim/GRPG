@@ -117,7 +117,7 @@ void Game::initialize(HWND hw)
 	drawManager->initialize(viewport);
 
 	mapLoader = new MapLoader();
-	mapLoader->initialize(this, drawManager, viewport);
+	mapLoader->initialize(this);
 
     // attempt to set up high resolution timer
     if(QueryPerformanceFrequency(&timerFreq) == false)

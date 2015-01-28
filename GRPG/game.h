@@ -106,6 +106,9 @@ public:
 	// or the chat (i.e. kill the player, spawn enemies etc.)
 	// Returns true if command was processed, false on failure
 	virtual bool processCommand(std::string command) = 0;
+
+	DrawManager* getDrawManager(){ return drawManager; }
+	Viewport* getViewport(){ return viewport; }
 };
 
 #endif
