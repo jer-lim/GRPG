@@ -22,6 +22,7 @@ private:
 	UI* ui;
 	ItemLoader* itemLoader;
 	TextDX* uiFont;
+	Entity* mouseOverEntity = nullptr;
 
 public:
     // Constructor
@@ -38,6 +39,9 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
+
+	void setMouseOverEntity(Entity* ent){ mouseOverEntity = ent; }
+	Entity* getMouseOverEntity(){ return mouseOverEntity; }
 
 	bool processCommand(std::string command);
 };

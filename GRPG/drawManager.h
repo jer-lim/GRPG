@@ -3,6 +3,7 @@
 
 #include <map>
 #include "image.h"
+#include "grpg.h"
 
 class Entity;
 class Viewport;
@@ -17,13 +18,14 @@ class DrawManager {
 private:
 	map<int, ManagedObject*> objects;
 	Viewport* viewport;
+	Grpg* gamePtr;
 
 	void addManagedObject(ManagedObject* mo);
 
 public:
 
 	DrawManager();
-	void initialize(Viewport* vp);
+	void initialize(Grpg* gamPtr, Viewport* vp);
 
 	// Functions to handle the menial tasks
 	void updateAll(float frameTime);
