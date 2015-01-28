@@ -2,6 +2,8 @@
 #define _ENTITY_H               // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
+#include <queue>
+
 #include "image.h"
 #include "input.h"
 #include "game.h"
@@ -53,6 +55,9 @@ class Entity : public Destination
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
 	TextureManager* textureM; //This needs to be set on the entity's creation by any entity inheriting from this
+
+	// Pathfinding
+	queue<VECTOR2> path;
 
 	// New Entity variables specific to GRPG
 
@@ -189,7 +194,7 @@ class Entity : public Destination
     // Update Entity.
     // typically called once per frame
     // frameTime is used to regulate the speed of movement and animation
-    virtual void update(float frameTime);
+    virtual void update(float frameTime, Game* gamePtr = nullptr);
 
 	// Initialize Entity
 	// Pre: *gamePtr = pointer to Game object

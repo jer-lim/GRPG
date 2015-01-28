@@ -113,6 +113,7 @@ public:
 	DrawManager* getDrawManager(){ return drawManager; }
 	Viewport* getViewport(){ return viewport; }
 	PersonLoader* getPersonLoader(){ return personLoader; }
+	MapLoader* getMapLoader(){ return mapLoader; }
 
 	void setMouseOverEntity(Entity* ent){ mouseOverEntity = ent; }
 	Entity* getMouseOverEntity(){ return mouseOverEntity; }

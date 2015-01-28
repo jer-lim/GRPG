@@ -434,6 +434,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	map<int, AStarNode*> openList; // Open list, ordered by f score
 	map<int, AStarNode*> closedList; // Closed list, don't consider these nodes
 	bool pathFound = false;
+	int nodesExplored = 0;
 
 	float diagonalCost = sqrt(pow(tileNS::WIDTH, 2) + pow(tileNS::HEIGHT, 2)); // Precompute diagonal cost once so we don't have to do it later
 
@@ -447,22 +448,31 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	TileVector endNodeTile = getNearestTile(endCoords);
 	AStarNode* currentNode = openList[0];
 
+	runtimeLog << "Start node is " << startNodeTile.x << ", " << startNodeTile.y << endl;
+	runtimeLog << "End node is " << endNodeTile.x << ", " << endNodeTile.y << endl;
+
 	// While there are tiles to find or path is not found, find path
-	while (!openList.empty() || !pathFound){
-		currentNode = openList[0];
+	while (!openList.empty() && !pathFound){
+		// Give up if no path found in reasonable time
+		if (nodesExplored > 500) break;
+		currentNode = openList.begin()->second;
+		nodesExplored++;
+
+		//runtimeLog << "Checking node at " << currentNode->tileCoords.x << ", " << currentNode->tileCoords.y << " with cost " << currentNode->totalCost << endl;
 
 		// Move currentNode from openList to closeList
-		openList.erase(0);
+		openList.erase(openList.begin());
 		closedList[closedList.size()] = currentNode;
 
 		if (currentNode->tileCoords.x == endNodeTile.x && currentNode->tileCoords.y == endNodeTile.y){
 			pathFound = true;
+			//runtimeLog << "Found path!" << endl;
 			break;
 		}
 
 		// Search surrounding nodes
-		for (int x = currentNode->tileCoords.x - 1; x < currentNode->tileCoords.x + 1; ++x){
-			for (int y = currentNode->tileCoords.y - 1; y < currentNode->tileCoords.y + 1; ++y){
+		for (int x = currentNode->tileCoords.x - 1; x < currentNode->tileCoords.x + 2; ++x){
+			for (int y = currentNode->tileCoords.y - 1; y < currentNode->tileCoords.y + 2; ++y){
 
 				// Limit search to the map
 				if (x < 0) x++;
@@ -499,30 +509,51 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 					newNode->estimatedCostToEnd = (abs(x - endNodeTile.x) + abs(y - endNodeTile.y)) * tileNS::WIDTH;
 					newNode->totalCost = newNode->collectiveCost + newNode->estimatedCostToEnd;
 
-					// Add it to the correct spot in openList here
-					bool added = false;
+					//runtimeLog << "Adding new node at " << x << ", " << y << " with cost " << newNode->totalCost << endl;
+
+					// Check if the node is already in openList
+					bool toAdd = true;
 					for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
-						if (it->second->totalCost < newNode->totalCost){
-							map<int, AStarNode*>::iterator it2 = openList.end();
-							it2--;
-							for (it2; distance(it, it2) >= 0; --it2){
-								openList[it2->first + 1] = openList[it2->first];
-								if (distance(it, it2) == 0) break;
+						if (newNode->tileCoords.x == it->second->tileCoords.x && newNode->tileCoords.y == it->second->tileCoords.y){
+
+							// If new node is better, delete old node
+							if (newNode->totalCost < it->second->totalCost){
+								//runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
+								it = openList.erase(it);
+								break;
 							}
-							openList[it->first] = newNode;
-							added = true;
-							break;
+							else{
+								toAdd = false;
+							}
 						}
 					}
-					if (!added){
-						if (openList.size() == 0){
-							openList[0] = newNode;
+
+					if (toAdd){
+						// Add it to the correct spot in openList here
+						bool added = false;
+						for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
+							if (newNode->totalCost < it->second->totalCost){
+								map<int, AStarNode*>::iterator it2 = openList.end();
+								it2--;
+								for (it2; distance(it, it2) >= 0; --it2){
+									openList[it2->first + 1] = openList[it2->first];
+									if (distance(it, it2) == 0) break;
+								}
+								openList[it->first] = newNode;
+								added = true;
+								break;
+							}
 						}
-						else{
-							map<int, AStarNode*>::iterator lastIt = openList.end();
-							lastIt--;
-							int key = lastIt->first;
-							openList[++key] = newNode;
+						if (!added){
+							if (openList.size() == 0){
+								openList[0] = newNode;
+							}
+							else{
+								map<int, AStarNode*>::iterator lastIt = openList.end();
+								lastIt--;
+								int key = lastIt->first;
+								openList[++key] = newNode;
+							}
 						}
 					}
 				}
@@ -547,7 +578,17 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 			path.push(reversePath.top());
 			reversePath.pop();
 		}
+		// Remove first node if already standing on that node
+		if (path.front().x == startCoords.x && path.front().y == startCoords.y) path.pop();
 	}
+
+	// Destroy everything
+	runtimeLog << "Nodes explored: " << nodesExplored << endl;
+	if (pathFound){
+		runtimeLog << "Path length: " << path.size() << endl;
+		runtimeLog << "First node: " << path.front().x << ", " << path.front().y << endl;
+	}
+	runtimeLog << endl;
 	
 	return path;
 }

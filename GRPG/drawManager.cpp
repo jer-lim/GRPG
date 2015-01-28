@@ -26,7 +26,7 @@ void DrawManager::updateAll(float frameTime){
 	for (map<int, ManagedObject*>::reverse_iterator it = objects.rbegin(); it != objects.rend(); ++it){
 		if (it->second->entity != nullptr)
 		{
-			it->second->entity->update(frameTime);
+			it->second->entity->update(frameTime, gamePtr);
 			if (gamePtr->getMouseOverEntity() == nullptr)
 			{//already have an existing mouse over
 				if (it->second->entity->mouseInside())

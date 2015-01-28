@@ -4,6 +4,8 @@
 // Chapter 6 entity.cpp v1.3
 
 #include "entity.h"
+#include "game.h"
+#include "mapLoader.h"
 #include <cmath>
 #include <sstream>
 
@@ -133,7 +135,7 @@ void Entity::draw(Viewport* viewport)
 // typically called once per frame
 // frameTime is used to regulate the speed of movement and animation
 //=============================================================================
-void Entity::update(float frameTime)
+void Entity::update(float frameTime, Game* gamePtr)
 {
 	//temp fix
 	if (person != nullptr)
@@ -172,9 +174,20 @@ void Entity::update(float frameTime)
 				image.setFrames(0, 1);
 			}
 
+			VECTOR2 destinationVector = destination->getVector();
+
+			if (gamePtr != nullptr){
+				// Awesome pathfinding here
+				path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
+				if (!path.empty()){
+					destinationVector = path.front();
+					runtimeLog << "Traveling to " << destinationVector.x << ", " << destinationVector.y << endl;
+				}
+			}
+
 			float speed = person->getMovementSpeed();
 
-			VECTOR2 direction = destination->getVector() - getVector();
+			VECTOR2 direction = destinationVector - getVector();
 			VECTOR2 *normalizedDirection = &VECTOR2();
 			D3DXVec2Normalize(normalizedDirection, &direction);
 			setX(getX() + normalizedDirection->x * speed * frameTime);
@@ -190,8 +203,8 @@ void Entity::update(float frameTime)
 			float distanceToDest = D3DXVec2Length(&direction);
 			if (distanceToDest < speed * frameTime)
 			{
-				setX(destination->getX());
-				setY(destination->getY());
+				setX(destinationVector.x);
+				setY(destinationVector.y);
 				// delete destination; // Sometimes a destination might be re-used or be an actual entity
 				destination = 0;
 			}
