@@ -15,21 +15,31 @@
 
 using namespace std;
 
+// Stores 2D array of tile IDs that the chunk consists of
 struct chunk {
 	char tile[16][16];
 };
 
+// Stores the information about tiles
 struct tileStruct {
-	bool collidable;
+	int type;
 	string imageName;
 };
 
+// Stores a tile, which can be either an entity or an image
 struct ManagedTile {
 	Tile* tile = nullptr;
 	Image* image = nullptr;
 
 	ManagedTile(Tile* t){ tile = t; }
 	ManagedTile(Image* i){ image = i; }
+};
+
+// Stores the location of a tile with respect to the world map - 0, 0 being the top left tile
+struct TileVector {
+	int x;
+	int y;
+	TileVector(int x2, int y2){ x = x2; y = y2; }
 };
 
 class MapLoader {
@@ -59,7 +69,10 @@ protected:
 
 private:
 	char getTileIdAtLocation(int tileX, int tileY);
-	VECTOR2 getCoordsAtTileLocation(int tileX, int tileY);
+	TileVector getCoordsAtTileLocation(int tileX, int tileY);
+
+	TileVector getBufferedTopLeftCoords(){ return TileVector(0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2, 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2); }
+	TileVector getBufferedBottomRightCoords(){ return TileVector(GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2, GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2); }
 public:
 	MapLoader();
 	void initialize(Game* game, DrawManager* dm, Viewport* vp);

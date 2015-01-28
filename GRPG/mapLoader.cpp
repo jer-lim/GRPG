@@ -32,17 +32,16 @@ void MapLoader::load(){
 	tilestream.open(mapFolder + "tiles.gdef");
 	if (tilestream.is_open()){
 		char tileId;
-		int tileCollidable;
+		int tileType;
 		string tileFileName;
 		while (!tilestream.eof()){
 
 			tilestream >> tileId;
-			tilestream >> tileCollidable;
+			tilestream >> tileType;
 			tilestream >> tileFileName;
 
 			//Insert into a map
-			if (tileCollidable == 1) tileset[tileId].collidable = TRUE;
-			else tileset[tileId].collidable = FALSE;
+			tileset[tileId].type = tileType;
 			tileset[tileId].imageName = tileFileName;
 			runtimeLog << "Loaded tile " << tileId << endl;
 		}
@@ -146,11 +145,14 @@ void MapLoader::load(){
 					float vpXPos = vpCoords.x;
 					float vpYPos = vpCoords.y;
 
+					TileVector bufferedTopLeftCoords = getBufferedTopLeftCoords();
+					TileVector bufferedBottomRightCoords = getBufferedBottomRightCoords();
+
 					// Is in viewport range
-					if (vpXPos > 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2
-						&& vpYPos > 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2
-						&& vpXPos < GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2
-						&& vpYPos < GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
+					if (vpXPos > bufferedTopLeftCoords.x
+						&& vpYPos > bufferedTopLeftCoords.y
+						&& vpXPos < bufferedBottomRightCoords.x
+						&& vpYPos < bufferedBottomRightCoords.y){
 
 						loadedTiles[tileX][tileY] = loadTile(tileX, tileY);
 					}
@@ -180,8 +182,8 @@ char MapLoader::getTileIdAtLocation(int tileX, int tileY){
 	return chunks[chunkId]->tile[chunkTileX][chunkTileY];
 }
 
-VECTOR2 MapLoader::getCoordsAtTileLocation(int tileX, int tileY){
-	return VECTOR2(tileNS::WIDTH / 2 + tileX * tileNS::WIDTH,
+TileVector MapLoader::getCoordsAtTileLocation(int tileX, int tileY){
+	return TileVector(tileNS::WIDTH / 2 + tileX * tileNS::WIDTH,
 		tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT);
 }
 
@@ -190,7 +192,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	char tileId = getTileIdAtLocation(tileX, tileY);
 
 	// Get Tile Position
-	VECTOR2 tilePos = getCoordsAtTileLocation(tileX, tileY);
+	TileVector tilePos = getCoordsAtTileLocation(tileX, tileY);
 
 	TextureManager* textureManager;
 	stringstream ss;
@@ -205,9 +207,9 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		tileTms[tileId] = textureManager;
 	}
 
-	if (tileset[tileId].collidable){
+	if (tileset[tileId].type == 1){
 
-		Tile* t = new Tile();	
+		Tile* t = new Tile();
 
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
@@ -215,7 +217,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t);
 	}
-	else {
+	else if(tileset[tileId].type == 0){
 
 		Image* t = new Image();
 
@@ -228,8 +230,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 }
 
 void MapLoader::update(){
-	queue<VECTOR2> toMove;
-	queue<VECTOR2> toMoveTo;
+	queue<TileVector> toMove;
+	queue<TileVector> toMoveTo;
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
 			// Get coordinates on the map based on tile count
@@ -237,45 +239,35 @@ void MapLoader::update(){
 			int tileY = ity->first;
 
 			int changeX = 0, changeY = 0;
+
+			VECTOR2 vpCoords;
 			
 			ManagedTile* mt = ity->second;
 			if (mt->tile != nullptr){
 				Tile* t = mt->tile;
-				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
-
-				// If offscreen, move to other side of screen
-				if (vpCoords.x < 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2){
-					changeX = tileWidth;
-				}
-				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2){
-					changeX = -tileWidth;
-				}
-
-				if (vpCoords.y < 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2){
-					changeY = tileHeight;
-				}
-				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
-					changeY = -tileHeight;
-				}
+				vpCoords = viewport->translate(t->getX(), t->getY());
 			}
 			else if (mt->image != nullptr){
 				Image* t = mt->image;
-				VECTOR2 vpCoords = viewport->translate(t->getX(), t->getY());
+				vpCoords = viewport->translate(t->getX(), t->getY());
+			}
 
-				// If offscreen, move to other side of screen
-				if (vpCoords.x < 0 - tileNS::WIDTH * bufferSize - tileNS::WIDTH / 2){
-					changeX = tileWidth;
-				}
-				else if (vpCoords.x > GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2){
-					changeX = -tileWidth;
-				}
+			TileVector bufferedTopLeftCoords = getBufferedTopLeftCoords();
+			TileVector bufferedBottomRightCoords = getBufferedBottomRightCoords();
 
-				if (vpCoords.y < 0 - tileNS::HEIGHT * bufferSize - tileNS::HEIGHT / 2){
-					changeY = tileHeight;
-				}
-				else if (vpCoords.y > GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2){
-					changeY = -tileHeight;
-				}
+			// If offscreen, move to other side of screen
+			if (vpCoords.x < bufferedTopLeftCoords.x){
+				changeX = tileWidth;
+			}
+			else if (vpCoords.x > bufferedBottomRightCoords.x){
+				changeX = -tileWidth;
+			}
+
+			if (vpCoords.y < bufferedTopLeftCoords.y){
+				changeY = tileHeight;
+			}
+			else if (vpCoords.y > bufferedBottomRightCoords.y){
+				changeY = -tileHeight;
 			}
 
 			//runtimeLog << changeX << " " << changeY << endl;
@@ -286,8 +278,8 @@ void MapLoader::update(){
 				int newTileY = tileY + changeY;
 				if (newTileX >= 0 && newTileY >= 0
 					&& newTileX < worldMap.size() * tileNS::CHUNK_WIDTH && newTileY < worldMap[0].size() * tileNS::CHUNK_HEIGHT){
-					toMove.push(VECTOR2(tileX, tileY));
-					toMoveTo.push(VECTOR2(newTileX, newTileY));
+					toMove.push(TileVector(tileX, tileY));
+					toMoveTo.push(TileVector(newTileX, newTileY));
 				}
 			}
 		}
@@ -295,9 +287,9 @@ void MapLoader::update(){
 
 	while (!toMove.empty()){
 		// Move recorded location of tile
-		VECTOR2 oldLocation = toMove.front();
+		TileVector oldLocation = toMove.front();
 		ManagedTile* mt = loadedTiles[oldLocation.x][oldLocation.y];
-		VECTOR2 newLocation = toMoveTo.front();
+		TileVector newLocation = toMoveTo.front();
 		loadedTiles[newLocation.x][newLocation.y] = mt;
 		loadedTiles[toMove.front().x].erase(toMove.front().y);
 
@@ -309,8 +301,8 @@ void MapLoader::update(){
 			tileStruct oldTileInfo = tileset[oldTileId];
 			tileStruct newTileInfo = tileset[newTileId];
 
-			// If both are collidable / not collidable, they are both entities / images so just change textureManagers
-			if (newTileInfo.collidable == oldTileInfo.collidable){
+			// If both are the same class, just change textureManagers
+			if (newTileInfo.type == oldTileInfo.type){
 				TextureManager* textureManager;
 				stringstream ss;
 				ss << tileImageFolder << newTileInfo.imageName;
@@ -335,6 +327,7 @@ void MapLoader::update(){
 			// Incompatible types, need new Entity / Image to store
 			else{
 				// Clear old data
+				// MEMORY LEAK HERE
 				if (mt->tile != nullptr){
 					//delete mt->tile;
 					drawManager->removeObject(mt->tile);
@@ -362,7 +355,7 @@ void MapLoader::update(){
 					tileTms[newTileId] = textureManager;
 				}
 
-				if (newTileInfo.collidable){
+				if (newTileInfo.type == 1){
 
 					Tile* t = new Tile();
 
@@ -370,7 +363,7 @@ void MapLoader::update(){
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
 				}
-				else {
+				else if(newTileInfo.type == 0){
 
 					Image* t = new Image();
 
@@ -382,7 +375,7 @@ void MapLoader::update(){
 		}
 
 		// Move actual location of tile
-		VECTOR2 tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
+		TileVector tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
 		if (mt->tile != nullptr){
 			mt->tile->setX(tilePos.x);
 			mt->tile->setY(tilePos.y);
