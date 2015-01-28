@@ -345,6 +345,12 @@ void UI::drawTabContents(int tabNumber)
 	{
 		//Temporary text
 		uiText->print("Inventory", topLeftX + 5, topLeftY + 5);
+		map<int, InventoryItem>* slotList = player->getInventory()->getSlotList();
+		for (std::map<int, InventoryItem>::iterator it = slotList->begin(); it != slotList->end(); ++it)
+		{
+
+		}
+		(slotList) = nullptr;
 	}
 }
 
