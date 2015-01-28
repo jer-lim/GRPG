@@ -43,6 +43,10 @@ void MapLoader::load(){
 			//Insert into a map
 			tileset[tileId].type = tileType;
 			tileset[tileId].imageName = tileFileName;
+			if (tileType == 2){ //spawner
+				tilestream >> tileset[tileId].spawnId;
+				tilestream >> tileset[tileId].spawnCooldown;
+			}
 			runtimeLog << "Loaded tile " << tileId << endl;
 		}
 
@@ -206,8 +210,16 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 		tileTms[tileId] = textureManager;
 	}
+	if (tileset[tileId].type == 2){
+		Spawner* t = new Spawner(tileset[tileId].spawnId, tileset[tileId].spawnCooldown);
 
-	if (tileset[tileId].type == 1){
+		t->initialize(gamePtr, textureManager);
+		t->setX(tilePos.x);
+		t->setY(tilePos.y);
+		drawManager->addObject(t, tileNS::ZINDEX);
+		return new ManagedTile(t);
+	}
+	else if (tileset[tileId].type == 1){
 
 		Tile* t = new Tile();
 
@@ -355,6 +367,13 @@ void MapLoader::update(){
 					tileTms[newTileId] = textureManager;
 				}
 
+				if (newTileInfo.type == 2){
+					Spawner* t = new Spawner(newTileInfo.spawnId, newTileInfo.spawnCooldown);
+
+					t->initialize(gamePtr, textureManager);
+					drawManager->addObject(t, tileNS::ZINDEX);
+					mt->tile = t;
+				}
 				if (newTileInfo.type == 1){
 
 					Tile* t = new Tile();

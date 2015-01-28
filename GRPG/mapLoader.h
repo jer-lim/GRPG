@@ -12,6 +12,7 @@
 #include "tile.h"
 #include "drawManager.h"
 #include "Viewport.h"
+#include "Spawner.h"
 
 using namespace std;
 
@@ -24,6 +25,8 @@ struct chunk {
 struct tileStruct {
 	int type;
 	string imageName;
+	int spawnId;
+	int spawnCooldown;
 };
 
 // Stores a tile, which can be either an entity or an image

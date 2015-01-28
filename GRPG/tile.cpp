@@ -3,7 +3,7 @@
 //=============================================================================
 // default constructor
 //=============================================================================
-Tile::Tile() : Entity()
+Tile::Tile(bool collidable) : Entity()
 {
     image.spriteData.width = tileNS::WIDTH;           // size of tile
 	image.spriteData.height = tileNS::HEIGHT;
@@ -13,7 +13,8 @@ Tile::Tile() : Entity()
 	image.spriteData.y = tileNS::Y;
 	image.setCurrentFrame(0);
 	image.setFrames(0, 0);
-	collisionType = entityNS::BOX;
+	if (collidable) collisionType = entityNS::BOX;
+	else collisionType = entityNS::NONE;
 	image.setFrameDelay(0.2f);
 }
 

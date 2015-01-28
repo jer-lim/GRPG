@@ -22,7 +22,7 @@ private:
 
 public:
     // constructor
-    Tile();
+    Tile(bool collidable = true);
 	~Tile(){};
 
     // inherited member functions
