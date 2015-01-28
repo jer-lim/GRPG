@@ -13,6 +13,12 @@ namespace tileNS
 	const int CHUNK_WIDTH = 16; // Chunk width in tiles
 	const int CHUNK_HEIGHT = 16; // Chunk height in tiles
 	const int ZINDEX = 0;
+
+	namespace type {
+		const int FLOOR = 0;
+		const int WALL = 1;
+		const int SPAWNER = 2;
+	}
 }
 
 // inherits from Entity class
