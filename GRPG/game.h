@@ -111,6 +111,7 @@ public:
 
 	DrawManager* getDrawManager(){ return drawManager; }
 	Viewport* getViewport(){ return viewport; }
+	PersonLoader* getPersonLoader(){ return personLoader; }
 };
 
 #endif

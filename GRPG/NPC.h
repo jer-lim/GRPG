@@ -29,7 +29,7 @@ public:
 		maxHealth = maxhp;
 	}
 
-	static void spawn(Game* gamePtr, PersonLoader* pl, int npcId, VECTOR2 coords, Entity* victim = nullptr);
+	static void spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim = nullptr);
 
 	string getname() { return name; }
 	string getdescription() { return description; }

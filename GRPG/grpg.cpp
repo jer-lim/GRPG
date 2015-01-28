@@ -176,11 +176,11 @@ bool Grpg::processCommand(std::string command)
 		std::string enemyToSpawn = command.substr(6);
 		
 		if (enemyToSpawn == "skeleton")
-			NPC::spawn(this, personLoader, PersonNS::ID_NPC_SKELETON, VECTOR2(player->getX() - 50, player->getY() - 50), player);
+			NPC::spawn(this, PersonNS::ID_NPC_SKELETON, VECTOR2(player->getX() - 50, player->getY() - 50), player);
 		else if (enemyToSpawn == "dragon")
-			NPC::spawn(this, personLoader, PersonNS::ID_NPC_DRAGON, VECTOR2(player->getX() - 50, player->getY() - 50), player);
+			NPC::spawn(this, PersonNS::ID_NPC_DRAGON, VECTOR2(player->getX() - 50, player->getY() - 50), player);
 		else if (enemyToSpawn == "aidil")
-			NPC::spawn(this, personLoader, PersonNS::ID_NPC_AIDIL, VECTOR2(player->getX() - 50, player->getY() - 50), player);
+			NPC::spawn(this, PersonNS::ID_NPC_AIDIL, VECTOR2(player->getX() - 50, player->getY() - 50), player);
 		else
 		{
 			ui->addChatText("No such character: " + enemyToSpawn);

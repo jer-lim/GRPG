@@ -2,9 +2,9 @@
 #include "PersonLoader.h"
 #include "drawManager.h"
 
-void NPC::spawn(Game* gamePtr, PersonLoader* pl, int npcId, VECTOR2 coords, Entity* victim){
+void NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy = new Entity();
-	enemy->initialize(gamePtr, pl->getNPC(npcId));
+	enemy->initialize(gamePtr, gamePtr->getPersonLoader()->getNPC(npcId));
 	enemy->setX(coords.x);
 	enemy->setY(coords.y);
 	enemy->setVictim(victim);
