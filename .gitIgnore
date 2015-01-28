@@ -22,6 +22,7 @@ Debug/*
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 *.tlog
+log.txt
 
 *_i.c
 *_p.c

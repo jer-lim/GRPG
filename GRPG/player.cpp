@@ -15,7 +15,7 @@ Player::Player() : Entity()
 	image.setFrames(playerNS::START_FRAME, playerNS::END_FRAME);     // set animation frames
 	image.setCurrentFrame(playerNS::START_FRAME);
     radius = playerNS::WIDTH/2.0;
-    collisionType = entityNS::CIRCLE;
+    collisionType = entityNS::BOX;
 
 	//skills
 	skills[skillNS::ID_SKILL_ATTACK] = PlayerSkill(this, Skill::ATTACK);
@@ -110,4 +110,3 @@ void Player::damage(int weapon)
 	textSize.y = textRect->bottom;
 	//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162498%28v=vs.85%29.aspx
 }
-

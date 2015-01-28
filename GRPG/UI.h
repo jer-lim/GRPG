@@ -27,6 +27,11 @@ namespace uiNS
 	const UINT chatHeight = 200;
 	const UINT chatWidth = 500;
 	const COLOR_ARGB chatColour = SETCOLOR_ARGB(50, 0, 0, 0);
+
+	const UINT healthHeight = 40;
+	const float healthWidth = (GAME_WIDTH / 2 - uiNS::chatWidth) * 2;
+	const COLOR_ARGB healthColor = SETCOLOR_ARGB(180, 255, 0, 0);
+	const COLOR_ARGB noHealthColor = SETCOLOR_ARGB(180, 0, 0, 0);
 }
 
 // inherits from Entity class
@@ -56,6 +61,12 @@ private:
 	std::deque<std::string> text;       // UI text
 	int rows;	//Total number of rows in the chat
 	int rowHeight;	//Amount of pixels each height take in the chat box
+
+	// HEALTH BAR
+	VertexC health[4];			//Vertex data for entirity of the health bar
+	LP_VERTEXBUFFER healthBuffer;
+	VertexC availableHealth[4]; // Vertex data for only the health that the player has
+	LP_VERTEXBUFFER availableHealthBuffer;
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location

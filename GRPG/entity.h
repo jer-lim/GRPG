@@ -150,6 +150,9 @@ class Entity : public Destination
 	Image* getImage(){ return &image; }
 	void setImage(Image i){ image = i; }
 
+	// Returns the edge that is used for box and rotated box collision
+	virtual RECT getEdge() { return edge; }
+
     ////////////////////////////////////////
     //           Set functions            //
     ////////////////////////////////////////
