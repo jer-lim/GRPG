@@ -192,8 +192,8 @@ char MapLoader::getTileIdAtLocation(int tileX, int tileY){
 	return chunks[chunkId]->tile[chunkTileX][chunkTileY];
 }
 
-TileVector MapLoader::getCoordsAtTileLocation(int tileX, int tileY){
-	return TileVector(tileNS::WIDTH / 2 + tileX * tileNS::WIDTH,
+VECTOR2 MapLoader::getCoordsAtTileLocation(int tileX, int tileY){
+	return VECTOR2(tileNS::WIDTH / 2 + tileX * tileNS::WIDTH,
 		tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT);
 }
 
@@ -202,7 +202,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	char tileId = getTileIdAtLocation(tileX, tileY);
 
 	// Get Tile Position
-	TileVector tilePos = getCoordsAtTileLocation(tileX, tileY);
+	VECTOR2 tilePos = getCoordsAtTileLocation(tileX, tileY);
 
 	TextureManager* textureManager;
 	stringstream ss;
@@ -316,7 +316,7 @@ void MapLoader::update(){
 		char newTileId = getTileIdAtLocation(newLocation.x, newLocation.y);
 
 		// New tile location
-		TileVector tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
+		VECTOR2 tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
 
 		tileStruct oldTileInfo = tileset[oldTileId];
 		tileStruct newTileInfo = tileset[newTileId];
@@ -421,4 +421,133 @@ void MapLoader::update(){
 		toMove.pop();
 		toMoveTo.pop();
 	}
+}
+
+TileVector MapLoader::getNearestTile(VECTOR2 coords){
+	return TileVector(coords.x / tileNS::WIDTH, coords.y / tileNS::HEIGHT);
+}
+
+queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
+
+	queue<VECTOR2> path; // The actual path of coordinates to follow
+	stack<VECTOR2> reversePath; // Reverse path to use to trace route back to start from end
+	map<int, AStarNode*> openList; // Open list, ordered by f score
+	map<int, AStarNode*> closedList; // Closed list, don't consider these nodes
+	bool pathFound = false;
+
+	float diagonalCost = sqrt(pow(tileNS::WIDTH, 2) + pow(tileNS::HEIGHT, 2)); // Precompute diagonal cost once so we don't have to do it later
+
+	// Create start node and add to open list
+	TileVector startNodeTile = getNearestTile(startCoords);
+	AStarNode* startNode = new AStarNode(startNodeTile);
+	startNode->collectiveCost = 0;
+	openList[0] = startNode;
+
+	// Note down where the end node is
+	TileVector endNodeTile = getNearestTile(endCoords);
+	AStarNode* currentNode = openList[0];
+
+	// While there are tiles to find or path is not found, find path
+	while (!openList.empty() || !pathFound){
+		currentNode = openList[0];
+
+		// Move currentNode from openList to closeList
+		openList.erase(0);
+		closedList[closedList.size()] = currentNode;
+
+		if (currentNode->tileCoords.x == endNodeTile.x && currentNode->tileCoords.y == endNodeTile.y){
+			pathFound = true;
+			break;
+		}
+
+		// Search surrounding nodes
+		for (int x = currentNode->tileCoords.x - 1; x < currentNode->tileCoords.x + 1; ++x){
+			for (int y = currentNode->tileCoords.y - 1; y < currentNode->tileCoords.y + 1; ++y){
+
+				// Limit search to the map
+				if (x < 0) x++;
+				else if (x > worldMap.size() * tileNS::CHUNK_WIDTH) break;
+				if (y < 0) y++;
+				else if (y > worldMap[0].size() * tileNS::CHUNK_HEIGHT) break;
+
+				// Get tile information
+				char tileId = getTileIdAtLocation(x, y);
+				tileStruct tileInfo = tileset[tileId];
+
+				// Check if tile is on closed list
+				bool isOnClosedList = false;
+				for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
+					if (it->second->tileCoords.x == x && it->second->tileCoords.y == y){
+						isOnClosedList = true;
+					}
+				}
+
+				// If tile is walkable and is not on closed list, add it to open list
+				if ((tileInfo.type == tileNS::type::FLOOR || tileInfo.type == tileNS::type::SPAWNER) && !isOnClosedList){
+					AStarNode* newNode = new AStarNode(TileVector(x, y));
+					newNode->parent = currentNode;
+
+					float addedCost;
+					// If both change in x and change in y exist, moving diagonally hence more cost
+					if (abs(x - currentNode->tileCoords.x) > 0 && abs(y - currentNode->tileCoords.y) > 0){
+						addedCost = diagonalCost;
+					}
+					else{
+						addedCost = tileNS::WIDTH;
+					}
+					newNode->collectiveCost = currentNode->collectiveCost + addedCost;
+					newNode->estimatedCostToEnd = (abs(x - endNodeTile.x) + abs(y - endNodeTile.y)) * tileNS::WIDTH;
+					newNode->totalCost = newNode->collectiveCost + newNode->estimatedCostToEnd;
+
+					// Add it to the correct spot in openList here
+					bool added = false;
+					for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
+						if (it->second->totalCost < newNode->totalCost){
+							map<int, AStarNode*>::iterator it2 = openList.end();
+							it2--;
+							for (it2; distance(it, it2) >= 0; --it2){
+								openList[it2->first + 1] = openList[it2->first];
+								if (distance(it, it2) == 0) break;
+							}
+							openList[it->first] = newNode;
+							added = true;
+							break;
+						}
+					}
+					if (!added){
+						if (openList.size() == 0){
+							openList[0] = newNode;
+						}
+						else{
+							map<int, AStarNode*>::iterator lastIt = openList.end();
+							lastIt--;
+							int key = lastIt->first;
+							openList[++key] = newNode;
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	if (pathFound){
+		// Put coordinates of target in, so it will be the last node in the real path
+		reversePath.push(endCoords);
+
+		// Trace route back to start from target node
+		while (currentNode->parent != nullptr){
+			reversePath.push(getCoordsAtTileLocation(currentNode->tileCoords.x, currentNode->tileCoords.y));
+			currentNode = currentNode->parent;
+		}
+		reversePath.push(getCoordsAtTileLocation(currentNode->tileCoords.x, currentNode->tileCoords.y));
+
+		// Reverse the stack into a queue
+		while (!reversePath.empty()){
+			path.push(reversePath.top());
+			reversePath.pop();
+		}
+	}
+	
+	return path;
 }
