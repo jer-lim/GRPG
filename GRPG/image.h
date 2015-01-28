@@ -9,7 +9,8 @@
 
 #include "textureManager.h"
 #include "constants.h"
-#include "Viewport.h"
+
+class Viewport;
 
 class Image
 {

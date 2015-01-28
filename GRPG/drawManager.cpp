@@ -1,4 +1,6 @@
 #include "drawManager.h"
+#include "Viewport.h"
+#include "entity.h"
 
 using namespace std;
 

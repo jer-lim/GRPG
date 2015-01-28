@@ -4,6 +4,7 @@
 // Image.cpp v1.0
 
 #include "image.h"
+#include "Viewport.h"
 
 //=============================================================================
 // default constructor

@@ -1,5 +1,6 @@
 #include "NPC.h"
 #include "PersonLoader.h"
+#include "drawManager.h"
 
 void NPC::spawn(Game* gamePtr, DrawManager* dm, PersonLoader* pl, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy = new Entity();

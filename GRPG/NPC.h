@@ -6,10 +6,10 @@
 #include "Interactable.h"
 #include "graphics.h"
 #include "entity.h"
-#include "drawManager.h"
 #include <string>
 
 class PersonLoader;
+class DrawManager;
 
 class NPC : public Person, Interactable
 {
