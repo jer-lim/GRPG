@@ -1,8 +1,3 @@
-// Programming 2D Games
-// Copyright (c) 2011 by: 
-// Charles Kelly
-// Chapter 6 entity.h v1.0
-
 #ifndef _ENTITY_H               // Prevent multiple definitions if this 
 #define _ENTITY_H               // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
@@ -18,7 +13,15 @@ namespace entityNS
 {
     enum COLLISION_TYPE {NONE, CIRCLE, BOX, ROTATED_BOX};
     const float GRAVITY = 6.67428e-11f;         // gravitational constant
+	const float animationWait = 0.2f;
 }
+
+/*
+Entities Animation:
+The entity's 2nd frame is always the stand still frame where the entity does nothing.
+If the entity is moving, then constantly swap between the 1st and 2nd frame
+If the entity is attacking, then constantly swpa between the 2nd all the way to the last frame
+*/
 
 class Entity : public Destination
 {
@@ -56,6 +59,7 @@ class Entity : public Destination
 	Destination* destination;			//The destination of movement
 	Person* person;	// Reference to the character that this entity refers to (NPC? Enemy? etc.
 	Entity* victim;	//If this entity is attacking someone, victim is that poor entity
+	float attackCooldown; //How long more before the entity can attack again
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.

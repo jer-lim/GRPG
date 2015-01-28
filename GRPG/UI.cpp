@@ -401,8 +401,6 @@ void UI::addChatText(const std::string &str)     // add text to console
 //=============================================================================
 void UI::update(float frameTime)
 {
-	Entity::update(frameTime);
-
 	if (input->getMouseLButton())
 	{
 		//Check if mouse is over any tab

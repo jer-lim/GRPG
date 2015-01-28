@@ -23,6 +23,8 @@ Entity::Entity()
     health = 100;
 	image = Image();
 	destination = 0;
+	attackCooldown = 0;
+	image.setFrameDelay(entityNS::animationWait);
 }
 
 //=============================================================================
@@ -142,13 +144,21 @@ void Entity::update(float frameTime)
 		}
 		else
 		{
-			victim->damage(1);
 			destination = 0;
 		}
 	}
 
 	if(destination != 0)
 	{
+		//Handle animation
+		//If the animation was not already set to moving...
+		if (!image.getLoop())
+		{
+			//Set it to moving
+			image.setLoop(true);
+			image.setFrames(0, 1);
+		}
+
 		float speed = person->getMovementSpeed();
 
 		VECTOR2 direction = destination->getVector() - getVector();
@@ -173,14 +183,32 @@ void Entity::update(float frameTime)
 			destination = 0;
 		}
 	}
+	else
+	{
+		image.setFrames(1, 1);
+		image.setCurrentFrame(1);
+		image.setLoop(false);
+	}
 
 	//Are we currently colliding with the entity? If so, attack!
 	if (victim != 0)
 	{
-		VECTOR2 collisionVector;
-		if (this->collidesWith(*victim, collisionVector))
+		//Can't attack yet, it's on cooldown!
+		if (attackCooldown > 0)
 		{
-			victim->damage(5);
+			attackCooldown -= frameTime;
+		}
+		else
+		{
+			//We can attack!
+			VECTOR2 collisionVector;
+			if (this->collidesWith(*victim, collisionVector))
+			{
+				victim->damage(1);
+				attackCooldown = person->getAttackCooldown();
+				image.setFrames(1, person->getNumOfCols());
+				image.setLoop(false);
+			}
 		}
 	}
 
