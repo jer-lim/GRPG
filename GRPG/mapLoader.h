@@ -44,8 +44,7 @@ struct TileVector {
 
 class MapLoader {
 
-protected:
-
+private:
 	Game* gamePtr;
 	DrawManager* drawManager;
 	Viewport* viewport;
@@ -67,7 +66,6 @@ protected:
 	unordered_map<int, TextureManager*> tileTms;
 	unordered_map<int, unordered_map<int, ManagedTile*>> loadedTiles;
 
-private:
 	char getTileIdAtLocation(int tileX, int tileY);
 	TileVector getCoordsAtTileLocation(int tileX, int tileY);
 
@@ -75,6 +73,7 @@ private:
 	TileVector getBufferedBottomRightCoords(){ return TileVector(GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2, GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2); }
 public:
 	MapLoader();
+	~MapLoader(){};
 	void initialize(Game* game, DrawManager* dm, Viewport* vp);
 	void load();
 	ManagedTile* loadTile(int tileX, int tileY);
