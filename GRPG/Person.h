@@ -64,6 +64,9 @@ public:
 	float getHeight() { return height; }
 	float getWidth() { return width; }
 	int getNumOfCols() { return numOfCols; }
+
+	float getColliHeight() { return colliHeight; }
+	float getColliWidth() { return colliWidth; }
 };
 
 #endif

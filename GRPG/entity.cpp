@@ -70,6 +70,11 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 
 	textureM = new TextureManager();
 	person = whichCharacter;
+	edge.top = whichCharacter->getColliHeight() / 2;
+	edge.bottom = whichCharacter->getColliHeight() / 2;
+	edge.left = whichCharacter->getColliWidth() / 2;
+	edge.right = whichCharacter->getColliWidth() / 2;
+
 	string path = PersonNS::spriteDirectory + person->getImgFileName();
 	//init texture
 	if (!textureM->initialize(graphics, path.c_str()))
@@ -271,10 +276,10 @@ bool Entity::collideBox(Entity &ent, VECTOR2 &collisionVector)
         return false;
 
     // Check for collision using Axis Aligned Bounding Box.
-	if ((getX() + image.getWidth()/2*image.getScale() >= ent.getX() - ent.getImage()->getWidth()/2*ent.image.getScale()) &&
-		(getX() - image.getWidth()/2*image.getScale() <= ent.getX() + ent.getImage()->getWidth()/2*ent.image.getScale()) &&
-		(getY() + image.getHeight()/2*image.getScale() >= ent.getY() - ent.getImage()->getHeight()/2*ent.image.getScale()) &&
-		(getY() - image.getHeight()/2*image.getScale() <= ent.getY() + ent.getImage()->getHeight()/2*ent.image.getScale()))
+	if ((getX() + edge.right*image.getScale() >= ent.getX() - ent.getEdge().left*ent.image.getScale()) &&
+		(getX() - edge.left*image.getScale() <= ent.getX() + ent.getEdge().right*ent.image.getScale()) &&
+		(getY() + edge.bottom*image.getScale() >= ent.getY() - ent.getEdge().top*ent.image.getScale()) &&
+		(getY() - edge.top*image.getScale() <= ent.getY() + ent.getEdge().bottom*ent.image.getScale()))
     {
         // set collision vector
         collisionVector = *ent.getCenter() - *getCenter();

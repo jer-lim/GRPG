@@ -110,4 +110,3 @@ void Player::damage(int weapon)
 	textSize.y = textRect->bottom;
 	//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162498%28v=vs.85%29.aspx
 }
-
