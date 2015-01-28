@@ -494,3 +494,5 @@ void UI::onResetDevice()
 	uiText->onResetDevice();
 	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
 }
+
+string UI::view(){ return "User Interface"; }

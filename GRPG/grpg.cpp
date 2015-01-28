@@ -141,6 +141,17 @@ void Grpg::render()
 	ss << "FPS: " << fps;
 	uiFont->print(ss.str(), 5, 0); //Feel free to use this text for any debugging thing
 	ss.str("");
+	//Handle mouseover
+	if (mouseOverEntity != nullptr)
+	{
+		//do a proper interface check here for the name
+		uiFont->print(mouseOverEntity->view(), 5, 20);
+		/*if (mouseOverEntity->getPerson() != nullptr)
+		{
+			if (mouseOverEntity->getPerson())
+				uiFont->print(((NPC*)(mouseOverEntity->getPerson()))->getname(), 5, 20);
+		}*/
+	}
 
     graphics->spriteEnd();                  // end drawing sprites
 }

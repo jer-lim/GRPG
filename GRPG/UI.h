@@ -105,5 +105,7 @@ public:
 	virtual void onResetDevice();
 
 	void update(float frameTime);
+
+	string view();
 };
 #endif
