@@ -8,6 +8,7 @@
 #include "destination.h"
 #include "Person.h"
 #include "Viewport.h"
+#include "Interactable.h"
 
 namespace entityNS
 {
@@ -23,7 +24,7 @@ If the entity is moving, then constantly swap between the 1st and 2nd frame
 If the entity is attacking, then constantly swpa between the 2nd all the way to the last frame
 */
 
-class Entity : public Destination
+class Entity : public Destination, public Interactable
 {
     // Entity properties
   protected:

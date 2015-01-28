@@ -115,7 +115,7 @@ void Game::initialize(HWND hw)
 	viewport = new Viewport(this, GAME_WIDTH/2, GAME_HEIGHT/2, GAME_WIDTH, GAME_HEIGHT);
 
 	drawManager = new DrawManager();
-	drawManager->initialize(viewport);
+	drawManager->initialize(this,viewport);
 
 	mapLoader = new MapLoader();
 	mapLoader->initialize(this);
