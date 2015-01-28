@@ -19,9 +19,6 @@ namespace playerNS
 	const int Y = GAME_HEIGHT / 2 - HEIGHT / 2;
     const float SPEED = 100;                // 100 pixels per second
     const int   TEXTURE_COLS = 8;           // texture has 8 columns
-    const int   START_FRAME = 0;      // starts at frame 0
-    const int   END_FRAME = 3;        // animation frames 0,1,2,3
-    const float ANIMATION_DELAY = 0.2f;    // time between frames
 
 	const float textTimeDisplay = 3;
 }

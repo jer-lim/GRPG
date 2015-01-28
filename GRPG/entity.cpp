@@ -148,46 +148,55 @@ void Entity::update(float frameTime)
 		}
 	}
 
-	if(destination != 0)
+	//Don't change the animation or move if the entity's animation
+	//is still at an attacking state
+	if (attackCooldown > person->getAttackCooldown() - ((person->getNumOfCols() - 1) * entityNS::animationWait))
 	{
-		//Handle animation
-		//If the animation was not already set to moving...
-		if (!image.getLoop())
-		{
-			//Set it to moving
-			image.setLoop(true);
-			image.setFrames(0, 1);
-		}
-
-		float speed = person->getMovementSpeed();
-
-		VECTOR2 direction = destination->getVector() - getVector();
-		VECTOR2 *normalizedDirection = &VECTOR2();
-		D3DXVec2Normalize(normalizedDirection, &direction);
-		setX(getX() + normalizedDirection->x * speed * frameTime);
-		setY(getY() + normalizedDirection->y * speed * frameTime);
-		/*
-			Dot Product of 2 unit vectors gives the cosine between the vectors.
-			This can be used to determine angles for trajectory and light reflection.
-		*/
-		float angle = acos(normalizedDirection->x/D3DXVec2Length(normalizedDirection));
-		image.flipHorizontal(angle > PI / 2);
-
-		//Is it close enough?
-		float distanceToDest = D3DXVec2Length(&direction);
-		if(distanceToDest < speed * frameTime)
-		{
-			setX(destination->getX());
-			setY(destination->getY());
-			// delete destination; // Sometimes a destination might be re-used or be an actual entity
-			destination = 0;
-		}
+		//Do nothing, plasyer is effectively "stunned" for this duration
 	}
 	else
 	{
-		image.setFrames(1, 1);
-		image.setCurrentFrame(1);
-		image.setLoop(false);
+		if (destination != 0)
+		{
+			//Handle animation
+			//If the animation was not already set to moving...
+			if (!image.getLoop())
+			{
+				//Set it to moving
+				image.setLoop(true);
+				image.setFrames(0, 1);
+			}
+
+			float speed = person->getMovementSpeed();
+
+			VECTOR2 direction = destination->getVector() - getVector();
+			VECTOR2 *normalizedDirection = &VECTOR2();
+			D3DXVec2Normalize(normalizedDirection, &direction);
+			setX(getX() + normalizedDirection->x * speed * frameTime);
+			setY(getY() + normalizedDirection->y * speed * frameTime);
+			/*
+			Dot Product of 2 unit vectors gives the cosine between the vectors.
+			This can be used to determine angles for trajectory and light reflection.
+			*/
+			float angle = acos(normalizedDirection->x / D3DXVec2Length(normalizedDirection));
+			image.flipHorizontal(angle > PI / 2);
+
+			//Is it close enough?
+			float distanceToDest = D3DXVec2Length(&direction);
+			if (distanceToDest < speed * frameTime)
+			{
+				setX(destination->getX());
+				setY(destination->getY());
+				// delete destination; // Sometimes a destination might be re-used or be an actual entity
+				destination = 0;
+			}
+		}
+		else
+		{
+			image.setFrames(1, 1);
+			image.setCurrentFrame(1);
+			image.setLoop(false);
+		}
 	}
 
 	//Are we currently colliding with the entity? If so, attack!
@@ -206,7 +215,7 @@ void Entity::update(float frameTime)
 			{
 				victim->damage(1);
 				attackCooldown = person->getAttackCooldown();
-				image.setFrames(1, person->getNumOfCols());
+				image.setFrames(1, person->getNumOfCols()-1);
 				image.setLoop(false);
 			}
 		}

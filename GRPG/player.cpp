@@ -11,9 +11,6 @@ Player::Player() : Entity()
 	//image.spriteData.y = playerNS::Y;
 	image.spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
 	image.spriteData.rect.right = playerNS::WIDTH;
-	image.setFrameDelay(playerNS::ANIMATION_DELAY);
-	image.setFrames(playerNS::START_FRAME, playerNS::END_FRAME);     // set animation frames
-	image.setCurrentFrame(playerNS::START_FRAME);
     radius = playerNS::WIDTH/2.0;
     collisionType = entityNS::BOX;
 	health = 10;
