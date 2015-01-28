@@ -8,13 +8,33 @@ DrawManager::DrawManager(){
 
 }
 
-void DrawManager::initialize(Viewport* vp){
+void DrawManager::initialize(Grpg* gamPtr, Viewport* vp){
 	viewport = vp;
+	gamePtr = gamPtr;
 }
 
 void DrawManager::updateAll(float frameTime){
+	//check if mouse over entity still working
+	if (gamePtr->getMouseOverEntity() != nullptr)
+	{
+		if (!gamePtr->getMouseOverEntity()->mouseInside())
+		{
+			gamePtr->setMouseOverEntity(nullptr);
+		}
+	}
+
 	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
-		if (it->second->entity != nullptr) it->second->entity->update(frameTime);
+		if (it->second->entity != nullptr)
+		{
+			it->second->entity->update(frameTime);
+			if (gamePtr->getMouseOverEntity() == nullptr)
+			{//already have an existing mouse over
+				if (it->second->entity->mouseInside())
+				{
+					gamePtr->setMouseOverEntity(it->second->entity);
+				}
+			}
+		}
 		else it->second->image->update(frameTime);
 	}
 }
