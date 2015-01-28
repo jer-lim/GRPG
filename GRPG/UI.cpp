@@ -440,12 +440,14 @@ void UI::update(float frameTime)
 // Checks if the mouse is currently over any part of the UI.
 // Returns true if mouse is over, false if not
 //=============================================================================
-bool UI::mouseInside()
+bool UI::mouseInside(Viewport vp)
 {
-	if (Entity::mouseInside())
+	if (Entity::mouseInside(vp))
 	{
 		return true;
 	}
+
+	//UI is always anchored, and so doesn't care about any viewport below
 
 	//Check if mouse is over any tab
 	float tabTopLeftY = getY() - image.getHeight() / 2 - uiNS::tabHEIGHT * 3 / 4;
@@ -494,3 +496,5 @@ void UI::onResetDevice()
 	uiText->onResetDevice();
 	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
 }
+
+string UI::view(){ return "User Interface"; }

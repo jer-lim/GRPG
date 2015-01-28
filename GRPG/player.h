@@ -24,12 +24,16 @@ namespace playerNS
 	const float textTimeDisplay = 3;
 }
 
+class Grpg;
+
 // The main player of the game. The hero that will kill Aidleliun or however you spell that fking name
 class Player : public Entity
 {
 private:
 	map <int, PlayerSkill> skills;
 	Inventory inventory;
+
+	Grpg* game;
 
 	//Talking variables
 	std::string textMessage;

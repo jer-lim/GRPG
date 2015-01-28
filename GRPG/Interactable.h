@@ -26,7 +26,7 @@ public:
 	virtual void fish(){}
 	virtual void attack(){}
 	virtual void cook(){}
-	virtual void view(){}
+	virtual string view(){ return "Move Here"; }//returns a string tht is displayed when mouse overed
 };
 
 #endif

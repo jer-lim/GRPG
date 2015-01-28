@@ -3,7 +3,6 @@
 
 #include "constants.h"
 #include "Person.h"
-#include "Interactable.h"
 #include "graphics.h"
 #include "entity.h"
 #include <string>
@@ -11,7 +10,7 @@
 class PersonLoader;
 class DrawManager;
 
-class NPC : public Person, Interactable
+class NPC : public Person
 {
 private:
 	string name;
