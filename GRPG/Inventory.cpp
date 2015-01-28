@@ -8,12 +8,13 @@ Inventory::Inventory(){
 	}*/
 }
 
-bool Inventory::addInventoryItem(int i, InventoryItem ii)
+bool Inventory::addInventoryItem(int i, InventoryItem* ii)
 {
 	if (slotList.size() < maxSlotListCount)
 	{
 		if (!hasInventoryItem(i))
 		{
+			//update inventoryitem's entity's position here
 			slotList[i] = ii;
 			return true;
 		}
@@ -21,12 +22,12 @@ bool Inventory::addInventoryItem(int i, InventoryItem ii)
 	return false;
 }
 
-bool Inventory::addInventoryItem(InventoryItem ii)
+bool Inventory::addInventoryItem(InventoryItem* ii)
 {
 	if (slotList.size() < maxSlotListCount)
 	{//Find an empty spot and slot the item in
 		int prevIndex = 0;
-		for (std::map<int, InventoryItem>::iterator it = slotList.begin(); it != slotList.end(); ++it)
+		for (std::map<int, InventoryItem*>::iterator it = slotList.begin(); it != slotList.end(); ++it)
 		{
 			if (it->first > prevIndex + 1) {
 				addInventoryItem(prevIndex + 1, ii);
@@ -44,7 +45,8 @@ bool Inventory::removeInventoryItem(int i)
 {
 	if (hasInventoryItem(i))
 	{
-		slotList[i].destroy();
+		slotList[i]->destroy();
+		slotList[i] = nullptr;
 		slotList.erase(i);
 		return true;
 	}
@@ -53,7 +55,7 @@ bool Inventory::removeInventoryItem(int i)
 
 bool Inventory::hasInventoryItem(int i)
 {
-	map<int, InventoryItem>::iterator it = slotList.find(i);
+	map<int, InventoryItem*>::iterator it = slotList.find(i);
 	if (it != slotList.end())
 	{
 		return true;
@@ -61,11 +63,11 @@ bool Inventory::hasInventoryItem(int i)
 	return false;
 }
 
-InventoryItem Inventory::getInventoryItem(int i)
+InventoryItem* Inventory::getInventoryItem(int i)
 {
 	if (hasInventoryItem(i))
 	{
 		return slotList[i];
 	}
-	return InventoryItem();
+	return nullptr;
 }

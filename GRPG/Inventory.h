@@ -9,17 +9,17 @@ class Inventory
 {
 private:
 	const int maxSlotListCount = 20;
-	map<int,InventoryItem> slotList;
-	InventoryItem slot_body, slot_hand, slot_offhand;
+	map<int,InventoryItem*> slotList;
+	InventoryItem* slot_body, slot_hand, slot_offhand;
 
 public:
 	// constructor
 	Inventory();//If you don't have a .cpp, don't put ';', put '{}'
-	bool addInventoryItem(int i, InventoryItem ii);
-	bool addInventoryItem(InventoryItem ii);
+	bool addInventoryItem(int i, InventoryItem* ii);
+	bool addInventoryItem(InventoryItem* ii);
 	bool removeInventoryItem(int i);
 	bool hasInventoryItem(int i);
-	InventoryItem getInventoryItem(int i);
-	map<int,InventoryItem>* getSlotList(){ return &slotList; }
+	InventoryItem* getInventoryItem(int i);
+	map<int,InventoryItem*>* getSlotList(){ return &slotList; }
 };
 #endif

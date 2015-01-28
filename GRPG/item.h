@@ -27,12 +27,17 @@ private:
 	float spriteWidth, spriteHeight, spriteColumns;
 	int maxStackCount;//maximum times item can stack at a slot
 	int cost;
-	TextureManager* textureManager;
+	int instanceCount = 0;
+	TextureManager* textureManager = nullptr;
 public:
-	void initialize(Game* gamePtr)
+	void initializeTexture(Game* gamePtr)
 	{
-		textureManager = new TextureManager();
-		textureManager->initialize(gamePtr->getGraphics(), itemImgFileName.c_str());
+		if (instanceCount <= 0)
+		{
+			textureManager = new TextureManager();
+			textureManager->initialize(gamePtr->getGraphics(), itemImgFileName.c_str());
+		}
+		instanceCount++;
 	}
 	// constructor
 	Item(){}//If you don't have a .cpp, don't put ';', put '{}'
@@ -59,5 +64,20 @@ public:
 	void setMaxStackCount(int i){ maxStackCount = i; }
 	int getCost() { return cost; }
 	void setCost(int i) {cost = i;}
+	TextureManager* getTextureManager() { return textureManager; }
+	float getSpriteWidth() { return spriteWidth; }
+	float getspriteHeight() { return spriteHeight; }
+	float getspriteColumns() { return spriteColumns; }
+	int getInstanceCount() { return instanceCount; }
+	void setInstanceCount(int i) { 
+		instanceCount = i;
+		if (instanceCount <= 0)
+		{
+			SAFE_DELETE(textureManager);
+		}
+	}
+	void inventoryItemDestroyed() {
+		setInstanceCount(instanceCount - 1);
+	}
 };
 #endif

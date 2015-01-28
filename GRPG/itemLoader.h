@@ -32,5 +32,8 @@ private:
 	unordered_map<int, Item> map_items;
 public:
 	void loadAllItems();
+	Item* getItem(int id){
+		return &map_items[id];
+	}
 };
 #endif

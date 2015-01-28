@@ -25,6 +25,8 @@ Entity::Entity()
 	destination = 0;
 	attackCooldown = 0;
 	image.setFrameDelay(entityNS::animationWait);
+
+	person = nullptr;
 }
 
 //=============================================================================
@@ -122,7 +124,7 @@ void Entity::draw(Viewport* viewport)
 {
 	image.setX(getX());
 	image.setY(getY());
-	if (anchored) image.draw();
+	if (anchored || viewport == nullptr) image.draw();
 	else image.draw(viewport);
 }
 
@@ -133,6 +135,9 @@ void Entity::draw(Viewport* viewport)
 //=============================================================================
 void Entity::update(float frameTime)
 {
+	//temp fix
+	if (person != nullptr)
+	{
 	VECTOR2 collisionVector;
 
 	// Is there a victim? If so, set as destination
@@ -223,6 +228,7 @@ void Entity::update(float frameTime)
 
     image.update(frameTime);
     rotatedBoxReady = false;    // for rotatedBox collision detection
+	}
 }
 
 //=============================================================================

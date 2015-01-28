@@ -72,6 +72,18 @@ void Grpg::initialize(HWND hwnd)
 	// Load and display map, start spawners
 	mapLoader->setVictim(player);
 	mapLoader->load();
+
+	//Object test
+	
+	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
+	x->initialize(this, false);
+	x->getEntity()->setX(0);
+	x->getEntity()->setY(0);
+	drawManager->addObject(x->getEntity(), 1);
+
+	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
+	y->initialize(this, true);
+	player->getInventory()->addInventoryItem(y);
 	
     return;
 }
