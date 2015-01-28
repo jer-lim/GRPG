@@ -16,6 +16,7 @@ Player::Player() : Entity()
 	image.setCurrentFrame(playerNS::START_FRAME);
     radius = playerNS::WIDTH/2.0;
     collisionType = entityNS::BOX;
+	health = 10;
 
 	//skills
 	skills[skillNS::ID_SKILL_ATTACK] = PlayerSkill(this, Skill::ATTACK);
@@ -25,6 +26,8 @@ Player::Player() : Entity()
 	skills[skillNS::ID_SKILL_FISHING] = PlayerSkill(this, Skill::FISHING);
 	skills[skillNS::ID_SKILL_COOKING] = PlayerSkill(this, Skill::COOKING);
 	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
+
+	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(11));
 }
 //=============================================================================
 // sayMessage
@@ -94,19 +97,7 @@ void Player::update(float frameTime)
 //=============================================================================
 // damage
 //=============================================================================
-void Player::damage(int weapon)
+void Player::damage(int damageDealt)
 {
-	//Force a workable effect
-	textMessage = "*Ouch*";
-	//fontToUse = font;
-	timeLeft = playerNS::textTimeDisplay;
-	// Calculate the text side
-	RECT* textRect = new RECT();
-	textRect->left = 0;
-	textRect->top = 0;
-	//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
-	fontToUse->print(textMessage, *textRect, DT_CALCRECT);
-	textSize.x = textRect->right;
-	textSize.y = textRect->bottom;
-	//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162498%28v=vs.85%29.aspx
+	health -= damageDealt;
 }

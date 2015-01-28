@@ -142,7 +142,7 @@ void Entity::update(float frameTime)
 		}
 		else
 		{
-			victim->damage(5);
+			victim->damage(1);
 			destination = 0;
 		}
 	}
