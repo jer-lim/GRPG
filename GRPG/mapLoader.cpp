@@ -30,6 +30,8 @@ void MapLoader::load(){
 	runtimeLog << "Starting map startup sequence" << endl;
 	runtimeLog << "Starting map info load" << endl;
 
+	string trash;
+
 	// Load tileset
 	ifstream tilestream;
 	tilestream.open(mapFolder + "tiles.gdef");
@@ -50,6 +52,9 @@ void MapLoader::load(){
 				tilestream >> tileset[tileId].spawnId;
 				tilestream >> tileset[tileId].spawnCooldown;
 			}
+			else{
+				tilestream >> trash >> trash;
+			}
 			runtimeLog << "Loaded tile " << tileId << endl;
 		}
 
@@ -66,7 +71,6 @@ void MapLoader::load(){
 	chunkstream.open(mapFolder + "chunks.gdef");
 	if (chunkstream.is_open()){
 		char chunkId;
-		string trash;
 		while (!chunkstream.eof()){
 
 			chunkstream >> chunkId;
@@ -214,11 +218,12 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		tileTms[tileId] = textureManager;
 	}
 	if (tileset[tileId].type == 2){
-		Spawner* t = new Spawner(tileset[tileId].spawnId, tileset[tileId].spawnCooldown);
+		Spawner* t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, victim);
 
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
+		t->spawn();
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t);
 	}
@@ -371,7 +376,7 @@ void MapLoader::update(){
 				}
 
 				if (newTileInfo.type == 2){
-					Spawner* t = new Spawner(newTileInfo.spawnId, newTileInfo.spawnCooldown);
+					Spawner* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, victim);
 
 					t->initialize(gamePtr, textureManager);
 					drawManager->addObject(t, tileNS::ZINDEX);

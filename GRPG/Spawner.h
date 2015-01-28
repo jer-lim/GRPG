@@ -5,10 +5,18 @@
 
 class Spawner : public Tile {
 protected:
-	int spawnedNPC;
+
+	Game* gamePtr;
+	Entity* victim;
+	Entity* spawnedNPC;
+
+	int npcId;
 	int cooldown;
+	LARGE_INTEGER lastSpawnedTime;
 public:
-	Spawner(int spawn, int cd);
+	Spawner(Game* gp, int spawn, int cd, Entity* v);
+
+	void spawn();
 };
 
 #endif

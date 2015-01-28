@@ -52,6 +52,8 @@ private:
 	DrawManager* drawManager;
 	Viewport* viewport;
 
+	Entity* victim;
+
 	string mapFolder;
 	string tileImageFolder;
 	int bufferSize; // width of tiles beyond the border to load
@@ -69,6 +71,7 @@ private:
 	unordered_map<int, TextureManager*> tileTms;
 	unordered_map<int, unordered_map<int, ManagedTile*>> loadedTiles;
 
+	// Helper functions
 	char getTileIdAtLocation(int tileX, int tileY);
 	TileVector getCoordsAtTileLocation(int tileX, int tileY);
 
@@ -78,6 +81,7 @@ public:
 	MapLoader();
 	~MapLoader(){};
 	void initialize(Game* game);
+	void setVictim(Entity* v){ victim = v; }
 	void load();
 	ManagedTile* loadTile(int tileX, int tileY);
 	void update();

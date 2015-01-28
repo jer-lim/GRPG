@@ -1,4 +1,4 @@
-0 0 grass.png
-1 0 dirt.png
-x 1 border.png
+0 0 grass.png 0 0
+1 0 dirt.png 0 0
+x 1 border.png 0 0
 s 2 grass.png 3 3

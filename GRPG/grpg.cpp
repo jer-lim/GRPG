@@ -40,9 +40,6 @@ void Grpg::initialize(HWND hwnd)
 	viewport->setX(startLocation.x);
 	viewport->setY(startLocation.y);
 
-	// Load map
-	mapLoader->load();
-
 	// Load data
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
@@ -71,6 +68,10 @@ void Grpg::initialize(HWND hwnd)
 
 	drawManager->addObject(player);
 	drawManager->addObject(ui, 999);
+
+	// Load and display map, start spawners
+	mapLoader->setVictim(player);
+	mapLoader->load();
 	
     return;
 }
