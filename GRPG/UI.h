@@ -92,7 +92,7 @@ public:
 	virtual bool UI::processCommand(const std::string commandStr);
 
 	// Checks if the mouse is currently over any part of the UI. Returns true if so
-	virtual bool mouseInside();
+	virtual bool mouseInside(Viewport vp);
 
 	// Add text to console
 	// Only the first line of text in str will be displayed.

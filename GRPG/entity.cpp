@@ -585,10 +585,20 @@ void Entity::attack(Entity* e)
 // Returns true if it is inside, false if it is outside
 // Uses input->getMouseX() and input->getMouseY()
 //=============================================================================
-bool Entity::mouseInside()
+bool Entity::mouseInside(Viewport vp)
 {
-	float imageTopLeftX = getX() - image.getWidth() / 2;
-	float imageTopLeftY = getY() - image.getHeight() / 2;
+	VECTOR2 screenTopLeft;
+	if (!anchored)
+	{
+		screenTopLeft = vp.getTopLeft();
+	}
+	else
+	{
+		screenTopLeft = VECTOR2(0, 0);
+	}
+
+	float imageTopLeftX = getX() - screenTopLeft.x - image.getWidth() / 2;
+	float imageTopLeftY = getY() - screenTopLeft.y - image.getHeight() / 2;
 
 	if (input->getMouseX() >= imageTopLeftX && input->getMouseX() <= imageTopLeftX + image.getWidth() &&
 		input->getMouseY() >= imageTopLeftY && input->getMouseY() <= imageTopLeftY + image.getHeight())

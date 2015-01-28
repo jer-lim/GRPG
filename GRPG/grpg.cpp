@@ -93,7 +93,7 @@ void Grpg::initialize(HWND hwnd)
 //=============================================================================
 void Grpg::update()
 {
-	if(input->getMouseLButton() && !ui->mouseInside())
+	if(input->getMouseLButton() && !ui->mouseInside(*viewport))
 	{
 		VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
 		Point* p =  new Point(vpCoords.x, vpCoords.y);
