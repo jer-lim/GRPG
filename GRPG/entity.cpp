@@ -23,6 +23,8 @@ Entity::Entity()
     health = 100;
 	image = Image();
 	destination = 0;
+	attackCooldown = 0;
+	image.setFrameDelay(entityNS::animationWait);
 }
 
 //=============================================================================
@@ -142,45 +144,80 @@ void Entity::update(float frameTime)
 		}
 		else
 		{
-			victim->damage(5);
 			destination = 0;
 		}
 	}
 
-	if(destination != 0)
+	//Don't change the animation or move if the entity's animation
+	//is still at an attacking state
+	if (attackCooldown > person->getAttackCooldown() - ((person->getNumOfCols() - 1) * entityNS::animationWait))
 	{
-		float speed = person->getMovementSpeed();
+		//Do nothing, plasyer is effectively "stunned" for this duration
+	}
+	else
+	{
+		if (destination != 0)
+		{
+			//Handle animation
+			//If the animation was not already set to moving...
+			if (!image.getLoop())
+			{
+				//Set it to moving
+				image.setLoop(true);
+				image.setFrames(0, 1);
+			}
 
-		VECTOR2 direction = destination->getVector() - getVector();
-		VECTOR2 *normalizedDirection = &VECTOR2();
-		D3DXVec2Normalize(normalizedDirection, &direction);
-		setX(getX() + normalizedDirection->x * speed * frameTime);
-		setY(getY() + normalizedDirection->y * speed * frameTime);
-		/*
+			float speed = person->getMovementSpeed();
+
+			VECTOR2 direction = destination->getVector() - getVector();
+			VECTOR2 *normalizedDirection = &VECTOR2();
+			D3DXVec2Normalize(normalizedDirection, &direction);
+			setX(getX() + normalizedDirection->x * speed * frameTime);
+			setY(getY() + normalizedDirection->y * speed * frameTime);
+			/*
 			Dot Product of 2 unit vectors gives the cosine between the vectors.
 			This can be used to determine angles for trajectory and light reflection.
-		*/
-		float angle = acos(normalizedDirection->x/D3DXVec2Length(normalizedDirection));
-		image.flipHorizontal(angle > PI / 2);
+			*/
+			float angle = acos(normalizedDirection->x / D3DXVec2Length(normalizedDirection));
+			image.flipHorizontal(angle > PI / 2);
 
-		//Is it close enough?
-		float distanceToDest = D3DXVec2Length(&direction);
-		if(distanceToDest < speed * frameTime)
+			//Is it close enough?
+			float distanceToDest = D3DXVec2Length(&direction);
+			if (distanceToDest < speed * frameTime)
+			{
+				setX(destination->getX());
+				setY(destination->getY());
+				// delete destination; // Sometimes a destination might be re-used or be an actual entity
+				destination = 0;
+			}
+		}
+		else
 		{
-			setX(destination->getX());
-			setY(destination->getY());
-			// delete destination; // Sometimes a destination might be re-used or be an actual entity
-			destination = 0;
+			image.setFrames(1, 1);
+			image.setCurrentFrame(1);
+			image.setLoop(false);
 		}
 	}
 
 	//Are we currently colliding with the entity? If so, attack!
 	if (victim != 0)
 	{
-		VECTOR2 collisionVector;
-		if (this->collidesWith(*victim, collisionVector))
+		//Can't attack yet, it's on cooldown!
+		if (attackCooldown > 0)
 		{
-			victim->damage(5);
+			attackCooldown -= frameTime;
+		}
+		else
+		{
+			//We can attack!
+			VECTOR2 collisionVector;
+			if (this->collidesWith(*victim, collisionVector))
+			{
+				victim->damage(1);
+				attackCooldown = person->getAttackCooldown();
+				image.setFrames(1, person->getNumOfCols()-1);
+				image.setLoop(false);
+			}
 		}
 	}
 
@@ -509,11 +546,12 @@ bool Entity::outsideRect(RECT rect)
 
 //=============================================================================
 // damage
-// This entity has been damaged by a weapon.
+// This entity has been damaged, taking d damage.
 // Override this function in the inheriting class.
 //=============================================================================
-void Entity::damage(int weapon)
-{}
+void Entity::damage(int d)
+{
+}
 
 //=============================================================================
 // Move

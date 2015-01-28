@@ -10,8 +10,9 @@
 #include <cmath>
 #include "globals.h"
 #include "tile.h"
-#include "drawManager.h"
-#include "Viewport.h"
+
+class DrawManager;
+class Viewport;
 
 using namespace std;
 
@@ -24,6 +25,8 @@ struct chunk {
 struct tileStruct {
 	int type;
 	string imageName;
+	int spawnId;
+	int spawnCooldown;
 };
 
 // Stores a tile, which can be either an entity or an image
@@ -49,6 +52,8 @@ private:
 	DrawManager* drawManager;
 	Viewport* viewport;
 
+	Entity* victim;
+
 	string mapFolder;
 	string tileImageFolder;
 	int bufferSize; // width of tiles beyond the border to load
@@ -66,6 +71,7 @@ private:
 	unordered_map<int, TextureManager*> tileTms;
 	unordered_map<int, unordered_map<int, ManagedTile*>> loadedTiles;
 
+	// Helper functions
 	char getTileIdAtLocation(int tileX, int tileY);
 	TileVector getCoordsAtTileLocation(int tileX, int tileY);
 
@@ -74,7 +80,8 @@ private:
 public:
 	MapLoader();
 	~MapLoader(){};
-	void initialize(Game* game, DrawManager* dm, Viewport* vp);
+	void initialize(Game* game);
+	void setVictim(Entity* v){ victim = v; }
 	void load();
 	ManagedTile* loadTile(int tileX, int tileY);
 	void update();

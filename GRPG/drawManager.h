@@ -2,9 +2,10 @@
 #define DRAWMANAGER_H
 
 #include <map>
-#include "entity.h"
 #include "image.h"
-#include "viewport.h"
+
+class Entity;
+class Viewport;
 
 struct ManagedObject {
 	int zindex = 1;

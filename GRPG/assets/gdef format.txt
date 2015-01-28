@@ -18,3 +18,10 @@ shields.gdef
 	ITEM_ID NAME IMG_FILENAME DESCRIPTION DEF_MULTIPLIER DMG_REDUCTION COST_MULTIPLIER
 quests.gdef
 	ID	NAME	DESCRIPT	...
+tiles.gdef
+	TILE_ID TYPE(0 = floor, 1 = wall, 2 = spawner) IMAGE_NAME [SPAWNED_NPC_ID SPAWN_COOLDOWN]
+chunks.gdef
+	CHUNK_ID
+	16x16 square of TILE_ID
+worldmap.gdef
+	whatever size of CHUNK_ID you want

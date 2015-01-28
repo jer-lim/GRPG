@@ -27,6 +27,8 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PersonLoader.cpp" />
+    <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="NPC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -70,5 +72,6 @@
     <ClInclude Include="PersonLoader.h" />
     <ClInclude Include="string_functions.h" />
     <ClInclude Include="Interactable.h" />
+    <ClInclude Include="Spawner.h" />
   </ItemGroup>
 </Project>

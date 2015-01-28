@@ -1,4 +1,8 @@
 #include "grpg.h"
+#include "drawManager.h"
+#include "mapLoader.h"
+#include "tile.h"
+#include "PersonLoader.h"
 #include <sstream>
 
 //=============================================================================
@@ -32,20 +36,13 @@ void Grpg::initialize(HWND hwnd)
 
 	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 4.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
 
-	viewport = new Viewport(this, startLocation.x, startLocation.y, GAME_WIDTH, GAME_HEIGHT);
-
-	drawManager = new DrawManager();
-	drawManager->initialize(viewport);
-
-	// Load map
-	mapLoader = new MapLoader();
-	mapLoader->initialize(this, drawManager, viewport);
-	mapLoader->load();
+	// Set viewport
+	viewport->setX(startLocation.x);
+	viewport->setY(startLocation.y);
 
 	// Load data
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
-	personLoader = new PersonLoader();
 	personLoader->loadAllNPCs();
 
 	// initialize DirectX fonts
@@ -71,6 +68,10 @@ void Grpg::initialize(HWND hwnd)
 
 	drawManager->addObject(player);
 	drawManager->addObject(ui, 999);
+
+	// Load and display map, start spawners
+	mapLoader->setVictim(player);
+	mapLoader->load();
 	
     return;
 }
@@ -173,28 +174,20 @@ bool Grpg::processCommand(std::string command)
 {
 	if (command.substr(0, 5) == "spawn")
 	{
-		Entity* enemy = new Entity();
 
 		std::string enemyToSpawn = command.substr(6);
 		
 		if (enemyToSpawn == "skeleton")
-			enemy->initialize(this, personLoader->getNPC(PersonNS::ID_NPC_SKELETON));
+			NPC::spawn(this, PersonNS::ID_NPC_SKELETON, VECTOR2(player->getX() - 50, player->getY() - 50), player);
 		else if (enemyToSpawn == "dragon")
-			enemy->initialize(this, personLoader->getNPC(PersonNS::ID_NPC_DRAGON));
+			NPC::spawn(this, PersonNS::ID_NPC_DRAGON, VECTOR2(player->getX() - 50, player->getY() - 50), player);
 		else if (enemyToSpawn == "aidil")
-			enemy->initialize(this, personLoader->getNPC(PersonNS::ID_NPC_AIDIL));
+			NPC::spawn(this, PersonNS::ID_NPC_AIDIL, VECTOR2(player->getX() - 50, player->getY() - 50), player);
 		else
 		{
 			ui->addChatText("No such character: " + enemyToSpawn);
 			return true;
 		}
-
-		enemy->setX(player->getX() - 50);
-		enemy->setY(player->getY() - 50);
-
-		enemy->setVictim(player);
-
-		drawManager->addObject(enemy, 1);
 
 		return true;
 	}

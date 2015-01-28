@@ -4,7 +4,12 @@
 #include "constants.h"
 #include "Person.h"
 #include "Interactable.h"
+#include "graphics.h"
+#include "entity.h"
 #include <string>
+
+class PersonLoader;
+class DrawManager;
 
 class NPC : public Person, Interactable
 {
@@ -23,6 +28,8 @@ public:
 		description = desc;
 		maxHealth = maxhp;
 	}
+
+	static Entity* spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim = nullptr);
 
 	string getname() { return name; }
 	string getdescription() { return description; }

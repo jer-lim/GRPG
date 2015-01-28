@@ -9,7 +9,8 @@
 
 #include "textureManager.h"
 #include "constants.h"
-#include "Viewport.h"
+
+class Viewport;
 
 class Image
 {
@@ -83,6 +84,9 @@ class Image
 
     // Return number of current frame.
     virtual int   getCurrentFrame() {return currentFrame;}
+
+	// Returns whether this animation will loop or not
+	virtual bool  getLoop() { return loop; }
 
     // Return RECT structure of Image.
     virtual RECT  getSpriteDataRect() {return spriteData.rect;}

@@ -4,15 +4,11 @@
 
 #include "game.h"
 #include "textureManager.h"
-#include "mapLoader.h"
-#include "PersonLoader.h"
 #include "itemLoader.h"
 #include "player.h"
 #include "image.h"
-#include "drawManager.h"
 #include "UI.h"
 #include "textDX.h"
-#include "Viewport.h"
 #include "Enemy.h"
 
 //=============================================================================
@@ -24,12 +20,8 @@ private:
     // game items
 	Player* player;
 	UI* ui;
-	DrawManager* drawManager;
-	MapLoader* mapLoader;
-	PersonLoader* personLoader;
 	ItemLoader* itemLoader;
 	TextDX* uiFont;
-	Viewport* viewport;
 
 public:
     // Constructor

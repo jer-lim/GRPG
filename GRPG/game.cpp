@@ -4,6 +4,10 @@
 // Chapter 6 game.cpp v1.0
 
 #include "game.h"
+#include "drawManager.h"
+#include "Viewport.h"
+#include "mapLoader.h"
+#include "PersonLoader.h"
 
 // The primary class should inherit from Game class
 
@@ -107,6 +111,16 @@ void Game::initialize(HWND hw)
 
     // initialize input, do not capture mouse
     input->initialize(hwnd, false);             // throws GameError
+	
+	viewport = new Viewport(this, GAME_WIDTH/2, GAME_HEIGHT/2, GAME_WIDTH, GAME_HEIGHT);
+
+	drawManager = new DrawManager();
+	drawManager->initialize(viewport);
+
+	mapLoader = new MapLoader();
+	mapLoader->initialize(this);
+
+	personLoader = new PersonLoader();
 
     // attempt to set up high resolution timer
     if(QueryPerformanceFrequency(&timerFreq) == false)
