@@ -590,6 +590,15 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	runtimeLog << endl;
 
 	// Destroy everything here
+	// SOMEHOW STILL HUGE MEMORY LEAK
+	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
+		it->second->~AStarNode();
+	}
+	openList.clear();
+	for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
+		it->second->~AStarNode();
+	}
+	closedList.clear();
 	
 	return path;
 }

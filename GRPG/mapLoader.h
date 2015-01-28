@@ -55,6 +55,7 @@ struct AStarNode {
 	AStarNode* parent = nullptr;
 
 	AStarNode(TileVector c){ tileCoords = c; }
+	~AStarNode(){ parent = nullptr; }
 };
 
 class MapLoader {
