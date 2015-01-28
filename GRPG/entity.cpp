@@ -546,11 +546,12 @@ bool Entity::outsideRect(RECT rect)
 
 //=============================================================================
 // damage
-// This entity has been damaged by a weapon.
+// This entity has been damaged, taking d damage.
 // Override this function in the inheriting class.
 //=============================================================================
-void Entity::damage(int weapon)
-{}
+void Entity::damage(int d)
+{
+}
 
 //=============================================================================
 // Move

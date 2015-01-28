@@ -94,8 +94,15 @@ void Player::update(float frameTime)
 
 //=============================================================================
 // damage
+// This entity has taken damage
 //=============================================================================
 void Player::damage(int damageDealt)
 {
 	health -= damageDealt;
+	if (health <= 0)
+	{
+		//Will crash the game instead of properly throwing warning
+		// Piece of shit code
+		//throw new GameError(gameErrorNS::WARNING, "You have died!");
+	}
 }
