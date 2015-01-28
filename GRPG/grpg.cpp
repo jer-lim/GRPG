@@ -2,6 +2,7 @@
 #include "drawManager.h"
 #include "mapLoader.h"
 #include "tile.h"
+#include "PersonLoader.h"
 #include <sstream>
 
 //=============================================================================
@@ -44,7 +45,6 @@ void Grpg::initialize(HWND hwnd)
 	// Load data
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
-	personLoader = new PersonLoader();
 	personLoader->loadAllNPCs();
 
 	// initialize DirectX fonts

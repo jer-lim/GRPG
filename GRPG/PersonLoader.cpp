@@ -1,4 +1,6 @@
 #include "PersonLoader.h"
+#include "Enemy.h"
+#include "NPC.h"
 
 void PersonLoader::loadAllNPCs()
 {

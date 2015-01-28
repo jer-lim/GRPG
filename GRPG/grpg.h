@@ -4,7 +4,6 @@
 
 #include "game.h"
 #include "textureManager.h"
-#include "PersonLoader.h"
 #include "itemLoader.h"
 #include "player.h"
 #include "image.h"
@@ -21,7 +20,6 @@ private:
     // game items
 	Player* player;
 	UI* ui;
-	PersonLoader* personLoader;
 	ItemLoader* itemLoader;
 	TextDX* uiFont;
 

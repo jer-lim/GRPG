@@ -15,6 +15,7 @@
 class DrawManager;
 class Viewport;
 class MapLoader;
+class PersonLoader;
 
 class Game
 {
@@ -36,6 +37,7 @@ protected:
 	DrawManager* drawManager;
 	Viewport* viewport;
 	MapLoader* mapLoader;
+	PersonLoader* personLoader;
 
 public:
     // Constructor

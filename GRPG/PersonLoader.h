@@ -3,13 +3,13 @@
 
 #include "constants.h"
 //#include "Character.h"
-//#include "NPC.h"
-#include "Enemy.h"
+#include "NPC.h"
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <unordered_map>
 #include "string_functions.h"
+
 class PersonLoader
 {
 private:

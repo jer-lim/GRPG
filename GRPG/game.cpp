@@ -7,6 +7,7 @@
 #include "drawManager.h"
 #include "Viewport.h"
 #include "mapLoader.h"
+#include "PersonLoader.h"
 
 // The primary class should inherit from Game class
 
@@ -118,6 +119,8 @@ void Game::initialize(HWND hw)
 
 	mapLoader = new MapLoader();
 	mapLoader->initialize(this);
+
+	personLoader = new PersonLoader();
 
     // attempt to set up high resolution timer
     if(QueryPerformanceFrequency(&timerFreq) == false)
