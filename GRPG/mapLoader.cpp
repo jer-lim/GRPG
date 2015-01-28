@@ -145,8 +145,8 @@ void MapLoader::load(){
 					float vpXPos = vpCoords.x;
 					float vpYPos = vpCoords.y;
 
-					VECTOR2 bufferedTopLeftCoords = getBufferedTopLeftCoords();
-					VECTOR2 bufferedBottomRightCoords = getBufferedBottomRightCoords();
+					TileVector bufferedTopLeftCoords = getBufferedTopLeftCoords();
+					TileVector bufferedBottomRightCoords = getBufferedBottomRightCoords();
 
 					// Is in viewport range
 					if (vpXPos > bufferedTopLeftCoords.x
@@ -230,8 +230,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 }
 
 void MapLoader::update(){
-	queue<VECTOR2> toMove;
-	queue<VECTOR2> toMoveTo;
+	queue<TileVector> toMove;
+	queue<TileVector> toMoveTo;
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
 			// Get coordinates on the map based on tile count
@@ -252,8 +252,8 @@ void MapLoader::update(){
 				vpCoords = viewport->translate(t->getX(), t->getY());
 			}
 
-			VECTOR2 bufferedTopLeftCoords = getBufferedTopLeftCoords();
-			VECTOR2 bufferedBottomRightCoords = getBufferedBottomRightCoords();
+			TileVector bufferedTopLeftCoords = getBufferedTopLeftCoords();
+			TileVector bufferedBottomRightCoords = getBufferedBottomRightCoords();
 
 			// If offscreen, move to other side of screen
 			if (vpCoords.x < bufferedTopLeftCoords.x){
@@ -278,8 +278,8 @@ void MapLoader::update(){
 				int newTileY = tileY + changeY;
 				if (newTileX >= 0 && newTileY >= 0
 					&& newTileX < worldMap.size() * tileNS::CHUNK_WIDTH && newTileY < worldMap[0].size() * tileNS::CHUNK_HEIGHT){
-					toMove.push(VECTOR2(tileX, tileY));
-					toMoveTo.push(VECTOR2(newTileX, newTileY));
+					toMove.push(TileVector(tileX, tileY));
+					toMoveTo.push(TileVector(newTileX, newTileY));
 				}
 			}
 		}
@@ -287,9 +287,9 @@ void MapLoader::update(){
 
 	while (!toMove.empty()){
 		// Move recorded location of tile
-		VECTOR2 oldLocation = toMove.front();
+		TileVector oldLocation = toMove.front();
 		ManagedTile* mt = loadedTiles[oldLocation.x][oldLocation.y];
-		VECTOR2 newLocation = toMoveTo.front();
+		TileVector newLocation = toMoveTo.front();
 		loadedTiles[newLocation.x][newLocation.y] = mt;
 		loadedTiles[toMove.front().x].erase(toMove.front().y);
 
