@@ -36,6 +36,7 @@ void Grpg::initialize(HWND hwnd)
 
 	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 4.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
 
+	// Set viewport
 	viewport->setX(startLocation.x);
 	viewport->setY(startLocation.y);
 
