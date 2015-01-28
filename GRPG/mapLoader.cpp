@@ -316,6 +316,9 @@ void MapLoader::update(){
 		char oldTileId = getTileIdAtLocation(oldLocation.x, oldLocation.y);
 		char newTileId = getTileIdAtLocation(newLocation.x, newLocation.y);
 
+		// New tile location
+		TileVector tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
+
 		// If they are different tiles, need to change it
 		if (newTileId != oldTileId){
 			tileStruct oldTileInfo = tileset[oldTileId];
@@ -379,6 +382,9 @@ void MapLoader::update(){
 					Spawner* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, victim);
 
 					t->initialize(gamePtr, textureManager);
+					t->setX(tilePos.x);
+					t->setY(tilePos.y);
+					t->spawn();
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
 				}
@@ -402,7 +408,6 @@ void MapLoader::update(){
 		}
 
 		// Move actual location of tile
-		TileVector tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
 		if (mt->tile != nullptr){
 			mt->tile->setX(tilePos.x);
 			mt->tile->setY(tilePos.y);
