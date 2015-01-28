@@ -354,6 +354,7 @@ void UI::drawTabContents(int tabNumber)
 		for (std::map<int, InventoryItem*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
 		{
 			it->second->getEntity()->draw(nullptr);
+			//draw stack here using uiText
 		}
 		(slotList) = nullptr;
 	}
