@@ -11,6 +11,7 @@
 #include "globals.h"
 #include "gameError.h"
 
+class Entity;
 class DrawManager;
 class Viewport;
 class MapLoader;
@@ -37,6 +38,7 @@ protected:
 	Viewport* viewport;
 	MapLoader* mapLoader;
 	PersonLoader* personLoader;
+	Entity* mouseOverEntity = nullptr;
 
 public:
     // Constructor
@@ -111,6 +113,9 @@ public:
 	DrawManager* getDrawManager(){ return drawManager; }
 	Viewport* getViewport(){ return viewport; }
 	PersonLoader* getPersonLoader(){ return personLoader; }
+
+	void setMouseOverEntity(Entity* ent){ mouseOverEntity = ent; }
+	Entity* getMouseOverEntity(){ return mouseOverEntity; }
 };
 
 #endif

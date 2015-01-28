@@ -8,7 +8,7 @@ DrawManager::DrawManager(){
 
 }
 
-void DrawManager::initialize(Grpg* gamPtr, Viewport* vp){
+void DrawManager::initialize(Game* gamPtr, Viewport* vp){
 	viewport = vp;
 	gamePtr = gamPtr;
 }
@@ -23,7 +23,7 @@ void DrawManager::updateAll(float frameTime){
 		}
 	}
 
-	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+	for (map<int, ManagedObject*>::reverse_iterator it = objects.rbegin(); it != objects.rend(); ++it){
 		if (it->second->entity != nullptr)
 		{
 			it->second->entity->update(frameTime);
