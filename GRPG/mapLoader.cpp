@@ -579,16 +579,17 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 			reversePath.pop();
 		}
 		// Remove first node if already standing on that node
-		if (path.front().x == startCoords.x && path.front().y == startCoords.y) path.pop();
+		path.pop();
 	}
 
-	// Destroy everything
 	runtimeLog << "Nodes explored: " << nodesExplored << endl;
 	if (pathFound){
 		runtimeLog << "Path length: " << path.size() << endl;
 		runtimeLog << "First node: " << path.front().x << ", " << path.front().y << endl;
 	}
 	runtimeLog << endl;
+
+	// Destroy everything here
 	
 	return path;
 }
