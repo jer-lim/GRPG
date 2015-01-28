@@ -26,7 +26,6 @@ void MapLoader::load(){
 	QueryPerformanceCounter(&timeStart);
 	QueryPerformanceFrequency(&timerFreq);
 
-
 	runtimeLog << "Starting map startup sequence" << endl;
 	runtimeLog << "Starting map info load" << endl;
 
@@ -48,7 +47,7 @@ void MapLoader::load(){
 			//Insert into a map
 			tileset[tileId].type = tileType;
 			tileset[tileId].imageName = tileFileName;
-			if (tileType == 2){ //spawner
+			if (tileType == tileNS::type::SPAWNER){
 				tilestream >> tileset[tileId].spawnId;
 				tilestream >> tileset[tileId].spawnCooldown;
 			}
@@ -217,7 +216,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 		tileTms[tileId] = textureManager;
 	}
-	if (tileset[tileId].type == 2){
+	if (tileset[tileId].type == tileNS::type::SPAWNER){
 		Spawner* t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, victim);
 
 		t->initialize(gamePtr, textureManager);
@@ -227,7 +226,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t);
 	}
-	else if (tileset[tileId].type == 1){
+	else if (tileset[tileId].type == tileNS::type::WALL){
 
 		Tile* t = new Tile();
 
@@ -237,7 +236,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t);
 	}
-	else if(tileset[tileId].type == 0){
+	else if (tileset[tileId].type == tileNS::type::FLOOR){
 
 		Image* t = new Image();
 
@@ -316,10 +315,14 @@ void MapLoader::update(){
 		char oldTileId = getTileIdAtLocation(oldLocation.x, oldLocation.y);
 		char newTileId = getTileIdAtLocation(newLocation.x, newLocation.y);
 
-		// If they are different tiles, need to change it
-		if (newTileId != oldTileId){
-			tileStruct oldTileInfo = tileset[oldTileId];
-			tileStruct newTileInfo = tileset[newTileId];
+		// New tile location
+		TileVector tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
+
+		tileStruct oldTileInfo = tileset[oldTileId];
+		tileStruct newTileInfo = tileset[newTileId];
+
+		// If they are different tiles or are spawners, need to delete and change it
+		if (newTileId != oldTileId || newTileInfo.type == tileNS::type::SPAWNER){
 
 			// If both are the same class, just change textureManagers
 			if (newTileInfo.type == oldTileInfo.type){
@@ -375,14 +378,17 @@ void MapLoader::update(){
 					tileTms[newTileId] = textureManager;
 				}
 
-				if (newTileInfo.type == 2){
+				if (newTileInfo.type == tileNS::type::SPAWNER){
 					Spawner* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, victim);
 
 					t->initialize(gamePtr, textureManager);
+					t->setX(tilePos.x);
+					t->setY(tilePos.y);
+					t->spawn();
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
 				}
-				if (newTileInfo.type == 1){
+				if (newTileInfo.type == tileNS::type::WALL){
 
 					Tile* t = new Tile();
 
@@ -390,7 +396,7 @@ void MapLoader::update(){
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
 				}
-				else if(newTileInfo.type == 0){
+				else if (newTileInfo.type == tileNS::type::FLOOR){
 
 					Image* t = new Image();
 
@@ -402,7 +408,6 @@ void MapLoader::update(){
 		}
 
 		// Move actual location of tile
-		TileVector tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
 		if (mt->tile != nullptr){
 			mt->tile->setX(tilePos.x);
 			mt->tile->setY(tilePos.y);

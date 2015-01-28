@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "playerSkill.h"
 #include "List.h"
+#include "Inventory.h"
 #include <map>
 #include "textDX.h"
 
@@ -30,6 +31,7 @@ class Player : public Entity
 {
 private:
 	map <int, PlayerSkill> skills;
+	Inventory inventory;
 
 	Grpg* game;
 
@@ -60,6 +62,8 @@ public:
     virtual bool initialize(Game *gamePtr);
     virtual void update(float frameTime);
     virtual void damage(int weapon);
+
+	Inventory* getInventory(){ return &inventory; }
 };
 #endif
 

@@ -7,6 +7,7 @@ Spawner::Spawner(Game* gp, int spawn, int cd, Entity* v) : Tile(){
 	npcId = spawn;
 	cooldown = cd;
 	victim = v;
+	lastSpawnedTime.QuadPart = 0;
 	Tile(false);
 }
 

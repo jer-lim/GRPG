@@ -13,7 +13,7 @@ void ItemLoader::loadAllItems()
 			itemstream >> id >> name >> img_filename >> descript >> stackcount >> cost;
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
-			Item myItem = Item(name, descript, img_filename, stackcount, cost);
+			Item myItem = Item(name, descript, img_filename, stackcount, cost, itemNS::spriteColForMisc);
 			map_items[id] = myItem;
 		}
 		itemstream.close();
