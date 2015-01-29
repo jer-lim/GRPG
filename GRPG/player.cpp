@@ -87,7 +87,7 @@ void Player::draw(Viewport* viewport)
 // typically called once per frame
 // frameTime is used to regulate the speed of movement and animation
 //=============================================================================
-void Player::update(float frameTime)
+void Player::update(float frameTime, Game* gamePtr)
 {
 	Entity::update(frameTime);
 
