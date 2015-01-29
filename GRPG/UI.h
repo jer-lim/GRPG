@@ -104,7 +104,10 @@ public:
 	// Restore resources
 	virtual void onResetDevice();
 
-	void update(float frameTime);
+	void update(float frameTime, Game* gamePtr);
+
+	//Causes the UI to update as if a click had been performed
+	void performClick();
 
 	string view();
 };
