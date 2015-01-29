@@ -104,7 +104,7 @@ void Grpg::update()
 	map<int, PlayerSkill>* playerSkills = player->getSkills();
 	for (it = playerSkills->begin(); it != playerSkills->end(); it++)
 	{
-		it->second.gainXP(rand()%10);
+		//it->second.gainXP(rand()%10);
 	}
 	mapLoader->update();
 	drawManager->updateAll(frameTime);
