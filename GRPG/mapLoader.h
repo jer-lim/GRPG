@@ -37,6 +37,11 @@ struct ManagedTile {
 
 	ManagedTile(Tile* t){ tile = t; }
 	ManagedTile(Image* i){ image = i; }
+
+	~ManagedTile(){
+		if (tile != nullptr) delete tile;
+		if (image != nullptr) delete image;
+	}
 };
 
 // Stores the location of a tile with respect to the world map - 0, 0 being the top left tile
@@ -101,7 +106,7 @@ private:
 	TileVector getBufferedBottomRightCoords(){ return TileVector(GAME_WIDTH + tileNS::WIDTH * bufferSize + tileNS::WIDTH / 2, GAME_HEIGHT + tileNS::HEIGHT * bufferSize + tileNS::HEIGHT / 2); }
 public:
 	MapLoader();
-	~MapLoader(){};
+	~MapLoader();
 	void initialize(Game* game);
 	void setVictim(Entity* v){ victim = v; }
 	void load();

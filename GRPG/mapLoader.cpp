@@ -16,6 +16,39 @@ MapLoader::MapLoader(){
 	pathRequestedThisFrame = false;
 }
 
+MapLoader::~MapLoader(){
+	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
+		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
+			ManagedTile* mt = ity->second;
+			delete mt;
+			ity->second = nullptr;
+		}
+		loadedTiles[itx->first].clear();
+	}
+	loadedTiles.clear();
+
+	for (unordered_map<int, TextureManager*>::iterator it = tileTms.begin(); it != tileTms.end(); ++it){
+		TextureManager* tm = it->second;
+		delete tm;
+		it->second = nullptr;
+	}
+	tileTms.clear();
+
+	for (unordered_map<int, unordered_map<int, char>>::iterator it = worldMap.begin(); it != worldMap.end(); ++it){
+		worldMap[it->first].clear();
+	}
+	worldMap.clear();
+
+	for (unordered_map<char, chunk*>::iterator it = chunks.begin(); it != chunks.end(); ++it){
+		chunk* c = it->second;
+		delete c;
+		it->second = nullptr;
+	}
+	chunks.clear();
+
+	tileset.clear();
+}
+
 void MapLoader::initialize(Game* game){
 	gamePtr = game;
 	drawManager = gamePtr->getDrawManager();
@@ -355,7 +388,7 @@ void MapLoader::update(){
 			// Incompatible types, need new Entity / Image to store
 			else{
 				// Clear old data
-				// MEMORY LEAK HERE
+				// POSSIBLE MEMORY LEAK HERE
 				if (mt->tile != nullptr){
 					delete mt->tile;
 					drawManager->removeObject(mt->tile);
