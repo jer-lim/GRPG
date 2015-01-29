@@ -230,6 +230,14 @@ bool Grpg::processCommand(std::string command)
 		
 		if (enemyToSpawn == "skeleton")
 			NPC::spawn(this, PersonNS::ID_NPC_SKELETON, VECTOR2(player->getX() - 50, player->getY() - 50), player);
+		else if (enemyToSpawn == "goblin")
+			NPC::spawn(this, PersonNS::ID_NPC_GOBLIN, VECTOR2(player->getX() - 50, player->getY() - 50), player);
+		else if (enemyToSpawn == "ogre")
+			NPC::spawn(this, PersonNS::ID_NPC_OGRE, VECTOR2(player->getX() - 50, player->getY() - 50), player);
+		else if (enemyToSpawn == "undead")
+			NPC::spawn(this, PersonNS::ID_NPC_UNDEAD, VECTOR2(player->getX() - 50, player->getY() - 50), player);
+		else if (enemyToSpawn == "golem")
+			NPC::spawn(this, PersonNS::ID_NPC_GOLEM, VECTOR2(player->getX() - 50, player->getY() - 50), player);
 		else if (enemyToSpawn == "dragon")
 			NPC::spawn(this, PersonNS::ID_NPC_DRAGON, VECTOR2(player->getX() - 50, player->getY() - 50), player);
 		else if (enemyToSpawn == "aidil")
