@@ -41,7 +41,10 @@ void DrawManager::updateAll(float frameTime){
 
 void DrawManager::renderAll(){
 	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
-		if (it->second->entity != nullptr) it->second->entity->draw(viewport);
+		if (it->second->entity != nullptr)
+		{
+			it->second->entity->draw(viewport);
+		}
 		else it->second->image->draw(viewport);
 	}
 }
