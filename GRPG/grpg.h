@@ -23,6 +23,8 @@ private:
 	ItemLoader* itemLoader;
 	TextDX* uiFont;
 
+	bool mouseWasDown;
+
 public:
     // Constructor
     Grpg();

@@ -84,6 +84,8 @@ void Grpg::initialize(HWND hwnd)
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	y->initialize(this, true);
 	player->getInventory()->addInventoryItem(y);
+
+	mouseWasDown = input->getMouseLButton();
 	
     return;
 }
@@ -93,11 +95,16 @@ void Grpg::initialize(HWND hwnd)
 //=============================================================================
 void Grpg::update()
 {
-	if(input->getMouseLButton() && !ui->mouseInside(*viewport))
+	if(!input->getMouseLButton() && mouseWasDown && !ui->mouseInside(*viewport))
 	{
 		VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
 		Point* p =  new Point(vpCoords.x, vpCoords.y);
 		player->move(p);
+	}
+	
+	if (input->getMouseLButton())
+	{
+		mouseWasDown = true;
 	}
 
 	map<int, PlayerSkill>::iterator it;
