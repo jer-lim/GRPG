@@ -11,6 +11,8 @@ public:
 	virtual float getY() = 0;
 	// Get the vector that stores the destination
 	virtual D3DXVECTOR2 getVector() = 0;
+	// Release this destination if it is unlikely to be used otherwise
+	virtual void release() = 0;
 };
 
 class Point : public Destination
@@ -57,6 +59,12 @@ public:
 	void setY(float theY)
 	{
 		pointDetails.y = theY;
+	}
+
+	//Release the point
+	virtual void release()
+	{
+		delete this;
 	}
 };
 

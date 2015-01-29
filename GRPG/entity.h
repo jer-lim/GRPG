@@ -104,9 +104,7 @@ class Entity : public Destination, public Interactable
     // Constructor
     Entity();
     // Destructor
-    virtual ~Entity() {
-		person = nullptr;
-	}
+	virtual ~Entity();
 
     ////////////////////////////////////////
     //           Get functions            //
@@ -273,6 +271,9 @@ class Entity : public Destination, public Interactable
 	// Note that this only resets the health part, which is the background of the health
 	// To re-draw the red part as well, call resetAvailableHealth.
 	virtual void resetHealth();
+
+	// Never actually releases the entity because it is likely reused
+	virtual void release(){  }
 };
 
 #endif

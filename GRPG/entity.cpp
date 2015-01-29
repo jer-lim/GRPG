@@ -28,6 +28,26 @@ Entity::Entity()
 	lastPathfindTime.QuadPart = 0;
 
 	person = nullptr;
+	backHealth = nullptr;
+	availableHealth = nullptr;
+}
+
+//=============================================================================
+// Destructor
+//=============================================================================
+Entity::~Entity()
+{
+	if (backHealth != nullptr)
+	{
+		backHealth->deleteVertexBuffer();
+		backHealth = nullptr;
+	}
+	if (availableHealth != nullptr)
+	{
+		availableHealth->deleteVertexBuffer();
+		availableHealth = nullptr;
+	}
+	person = nullptr;
 }
 
 //=============================================================================
@@ -98,11 +118,6 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		{
 			throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
 		}
-	}
-	else
-	{
-		backHealth = nullptr;
-		availableHealth = nullptr;
 	}
 	
 	edge.top = whichCharacter->getColliHeight() / 2;
@@ -264,6 +279,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 
 				// If arrived at final destination
 				if (destination->getVector() == getVector()){
+					destination->release();
 					destination = 0;
 				}
 			}
