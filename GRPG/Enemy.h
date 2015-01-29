@@ -14,7 +14,7 @@ public:
 	Enemy() : NPC() { }
 
 	Enemy(string i, float mov, float atkSpd, float h, float w, float cols, float colHeight, float colWidth, string nama, string desc, int maxhp, int atkLv, int defLv, int strLv, float dmgReduction) 
-		: NPC(i, mov, atkSpd, h, w, cols, colHeight, colWidth, nama, desc, maxhp)
+		: NPC(i, mov, atkSpd, h, w, cols, colHeight, colWidth, nama, desc, maxhp, true)
 	{
 		attackLv = atkLv;
 		defenseLv = defLv;

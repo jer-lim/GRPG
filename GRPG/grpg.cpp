@@ -77,9 +77,9 @@ void Grpg::initialize(HWND hwnd)
 	
 	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
 	x->initialize(this, false);
-	x->getEntity()->setX(0);
-	x->getEntity()->setY(0);
-	drawManager->addObject(x->getEntity(), 1);
+	x->getEntity()->setX(40);
+	x->getEntity()->setY(40);
+	drawManager->addObject(x->getEntity(), 1000);
 
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	y->initialize(this, true);
@@ -103,9 +103,19 @@ void Grpg::update()
 		}
 		else
 		{
-			VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
-			Point* p = new Point(vpCoords.x, vpCoords.y);
-			player->move(p);
+			if (mouseOverEntity != nullptr && mouseOverEntity->isEnemy())
+			{
+				player->setVictim(mouseOverEntity);
+				player->setDestination(0);
+			}
+			else
+			{
+				VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
+
+				Point* p = new Point(vpCoords.x, vpCoords.y);
+				player->move(p);
+				player->setVictim(0);
+			}
 		}
 		mouseWasDown = false;
 	}

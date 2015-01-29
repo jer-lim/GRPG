@@ -1,13 +1,9 @@
-// Programming 2D Games
-// Copyright (c) 2011 by: 
-// Charles Kelly
-// Chapter 6 entity.cpp v1.3
-
 #include "entity.h"
 #include "game.h"
 #include "mapLoader.h"
 #include <cmath>
 #include <sstream>
+#include "NPC.h"
 
 //=============================================================================
 // constructor
@@ -76,6 +72,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 
 	textureM = new TextureManager();
 	person = whichCharacter;
+	
 	edge.top = whichCharacter->getColliHeight() / 2;
 	edge.bottom = whichCharacter->getColliHeight() / 2;
 	edge.left = whichCharacter->getColliWidth() / 2;
@@ -221,11 +218,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 	if (victim != 0)
 	{
 		//Can't attack yet, it's on cooldown!
-		if (attackCooldown > 0)
-		{
-			attackCooldown -= frameTime;
-		}
-		else
+		if (attackCooldown <= 0)
 		{
 			//We can attack!
 			VECTOR2 collisionVector;
@@ -237,6 +230,12 @@ void Entity::update(float frameTime, Game* gamePtr)
 				image.setLoop(false);
 			}
 		}
+	}
+
+	// Reduce attackCooldown if required
+	if (attackCooldown > 0)
+	{
+		attackCooldown -= frameTime;
 	}
 
     image.update(frameTime);
@@ -618,6 +617,30 @@ bool Entity::mouseInside(Viewport vp)
 		return true;
 
 	return false;
+}
+
+string Entity::view()
+{
+	if (person != nullptr)
+	{
+		return "Attack " + (((NPC*)person)->getname());
+	}
+	else
+	{
+		return "Move here";
+	}
+}
+
+bool Entity::isEnemy()
+{
+	if (person != nullptr)
+	{
+		return (((NPC*)person)->getIsEnemy());
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
