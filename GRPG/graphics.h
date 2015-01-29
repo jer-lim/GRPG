@@ -140,6 +140,7 @@ public:
 	//      vertices defining the quad in clockwise order.
 	//      g3ddev->BeginScene was called
 	bool    drawQuad(LP_VERTEXBUFFER vertexBuffer);
+	bool    drawQuad(LP_VERTEXBUFFER vertexBuffer,int sides);
 
     // Load the texture into default D3D memory (normal texture use)
     // For internal engine use only. Use the TextureManager class to load game textures.
