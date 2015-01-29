@@ -429,6 +429,10 @@ TileVector MapLoader::getNearestTile(VECTOR2 coords){
 
 queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 
+	LARGE_INTEGER pfStart, pfEnd, pfFreq;
+	QueryPerformanceCounter(&pfStart);
+	QueryPerformanceFrequency(&pfFreq);
+
 	queue<VECTOR2> path; // The actual path of coordinates to follow
 	stack<VECTOR2> reversePath; // Reverse path to use to trace route back to start from end
 	map<int, AStarNode*> openList; // Open list, ordered by f score
@@ -580,23 +584,11 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 		path.pop();
 	}
 
-	runtimeLog << "Nodes explored: " << nodesExplored << endl;
-	if (pathFound){
-		runtimeLog << "Path length: " << path.size() << endl;
-		runtimeLog << "First node: " << path.front().x << ", " << path.front().y << endl;
-	}
-	runtimeLog << endl;
-
-	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
-		AStarNode* n = it->second;
-		runtimeLog << n->tileCoords.x << ", " << n->tileCoords.y << endl;
-	}
-
 	// Destroy everything here
-	// SOMEHOW STILL HUGE MEMORY LEAK
+	// MEMORY LEAK PLUGGED
 	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
 		AStarNode* n = it->second;
-		runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
 		n->~AStarNode();
 		delete n;
 		it->second = nullptr;
@@ -604,12 +596,22 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	openList.clear();
 	for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
 		AStarNode* n = it->second;
-		runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
 		n->~AStarNode();
 		delete n;
 		it->second = nullptr;
 	}
 	closedList.clear();
+
+	QueryPerformanceCounter(&pfEnd);
+
+	runtimeLog << "Nodes explored: " << nodesExplored << endl;
+	if (pathFound){
+		runtimeLog << "Path length: " << path.size() << endl;
+		runtimeLog << "First node: " << path.front().x << ", " << path.front().y << endl;
+	}
+	runtimeLog << "Time taken: " << ((float)(pfEnd.QuadPart - pfStart.QuadPart) / (float)pfFreq.QuadPart) << " seconds" << endl;
+	runtimeLog << endl;
 	
 	return path;
 }
