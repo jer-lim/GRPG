@@ -18,6 +18,37 @@ private:
 	bool initialized;
 
 public:
+	//wrap this with a try catch
+	bool initializeRectangle(Graphics *g, float x, float y, float WIDTH, float HEIGHT, COLOR_ARGB backColor)
+	{
+		graphics = g;                    // the graphics system
+
+		vtx[0].x = x;
+		vtx[0].y = y;
+		vtx[0].z = 0.0f;
+		vtx[0].rhw = 1.0f;
+		vtx[0].color = backColor;
+		// top right
+		vtx[1].x = x + WIDTH;
+		vtx[1].y = y;
+		vtx[1].z = 0.0f;
+		vtx[1].rhw = 1.0f;
+		vtx[1].color = backColor;
+		// bottom right
+		vtx[2].x = x + WIDTH;
+		vtx[2].y = y + HEIGHT;
+		vtx[2].z = 0.0f;
+		vtx[2].rhw = 1.0f;
+		vtx[2].color = backColor;
+		// bottom left
+		vtx[3].x = x;
+		vtx[3].y = y + HEIGHT;
+		vtx[3].z = 0.0f;
+		vtx[3].rhw = 1.0f;
+		vtx[3].color = backColor;
+
+		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+	}
 	bool initialize(Graphics *g, float x, float y, float WIDTH, float HEIGHT, COLOR_ARGB backColor, std::string txt)
 	{
 		visible = true;
@@ -27,51 +58,7 @@ public:
 		sides = 4;
 		//sidesOfCircle = 16;
 		try {
-			graphics = g;                    // the graphics system
-
-
-			/*float radius = WIDTH;
-			DWORD backColor = SETCOLOR_ARGB(255,255,255,255);
-			for(int a=0;a<sidesOfCircle;++a)
-			{
-			//float angle = 360/sidesOfCircle*a;//get next point of circle
-			//angle = angle*PI/180;//angle to rad
-			float angle =(float)(2*PI/sidesOfCircle*a);
-			vtx[a].x = x - cos(angle)*radius;
-			vtx[a].y = y - sin(angle)*radius;
-			vtx[a].z = 0.0f;	//keep this at 0.0f
-			vtx[a].rhw = 1.0f;	//idk wtf rhw is, just keep as 1.0f
-			vtx[a].color = SETCOLOR_ARGB(192,rand() % 255,rand() % 255,rand() % 255);
-			}*/
-
-			// top left
-
-			vtx[0].x = x;
-			vtx[0].y = y;
-			vtx[0].z = 0.0f;
-			vtx[0].rhw = 1.0f;
-			vtx[0].color = backColor;
-			// top right
-			vtx[1].x = x + WIDTH;
-			vtx[1].y = y;
-			vtx[1].z = 0.0f;
-			vtx[1].rhw = 1.0f;
-			vtx[1].color = backColor;
-			// bottom right
-			vtx[2].x = x + WIDTH;
-			vtx[2].y = y + HEIGHT;
-			vtx[2].z = 0.0f;
-			vtx[2].rhw = 1.0f;
-			vtx[2].color = backColor;
-			// bottom left
-			vtx[3].x = x;
-			vtx[3].y = y + HEIGHT;
-			vtx[3].z = 0.0f;
-			vtx[3].rhw = 1.0f;
-			vtx[3].color = backColor;
-
-			graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
-
+			initializeRectangle(g, x, y, WIDTH, HEIGHT, backColor);
 		}
 		catch (...) {
 			return false;
