@@ -19,7 +19,7 @@ private:
 
 public:
 	//wrap this with a try catch
-	bool initializeRectangle(Graphics *g, float x, float y, float WIDTH, float HEIGHT, COLOR_ARGB backColor)
+	void initializeRectangle(Graphics *g, float x, float y, float WIDTH, float HEIGHT, COLOR_ARGB backColor)
 	{
 		graphics = g;                    // the graphics system
 
