@@ -77,9 +77,9 @@ void Grpg::initialize(HWND hwnd)
 	
 	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
 	x->initialize(this, false);
-	x->getEntity()->setX(0);
-	x->getEntity()->setY(0);
-	drawManager->addObject(x->getEntity(), 1);
+	x->getEntity()->setX(40);
+	x->getEntity()->setY(40);
+	drawManager->addObject(x->getEntity(), 1000);
 
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	y->initialize(this, true);
