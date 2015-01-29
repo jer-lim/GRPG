@@ -176,7 +176,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 
 			VECTOR2 destinationVector = destination->getVector();
 
-			if (gamePtr != nullptr){
+			if (gamePtr != nullptr && false){
 				// Awesome pathfinding here
 				path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
 				if (!path.empty()){

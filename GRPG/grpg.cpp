@@ -100,6 +100,7 @@ void Grpg::update()
 		VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
 		Point* p =  new Point(vpCoords.x, vpCoords.y);
 		player->move(p);
+		mouseWasDown = false;
 	}
 	
 	if (input->getMouseLButton())
