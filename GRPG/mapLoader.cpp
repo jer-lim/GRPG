@@ -442,11 +442,14 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	TileVector startNodeTile = getNearestTile(startCoords);
 	AStarNode* startNode = new AStarNode(startNodeTile);
 	startNode->collectiveCost = 0;
+	startNode->estimatedCostToEnd = 0;
+	startNode->totalCost = 0;
 	openList[0] = startNode;
 
 	// Note down where the end node is
 	TileVector endNodeTile = getNearestTile(endCoords);
 	AStarNode* currentNode = openList[0];
+	map<int, AStarNode*>::iterator currentNodeIt;
 
 	runtimeLog << "Start node is " << startNodeTile.x << ", " << startNodeTile.y << endl;
 	runtimeLog << "End node is " << endNodeTile.x << ", " << endNodeTile.y << endl;
@@ -455,13 +458,23 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	while (!openList.empty() && !pathFound){
 		// Give up if no path found in reasonable time
 		if (nodesExplored > 1000) break;
+
+		// Find node with lowest cost and use it as currentNode
 		currentNode = openList.begin()->second;
+		currentNodeIt = openList.begin();
+		for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
+			if (it->second->totalCost < currentNode->totalCost){
+				currentNode = it->second;
+				currentNodeIt = it;
+			}
+		}
+
 		nodesExplored++;
 
 		//runtimeLog << "Checking node at " << currentNode->tileCoords.x << ", " << currentNode->tileCoords.y << " with cost " << currentNode->totalCost << ". Estimate to end " << currentNode->estimatedCostToEnd << endl;
 
 		// Move currentNode from openList to closeList
-		openList.erase(openList.begin());
+		openList.erase(currentNodeIt);
 		closedList[closedList.size()] = currentNode;
 
 		if (currentNode->tileCoords.x == endNodeTile.x && currentNode->tileCoords.y == endNodeTile.y){
@@ -519,6 +532,10 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 							// If new node is better, delete old node
 							if (newNode->totalCost < it->second->totalCost){
 								//runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
+								AStarNode* n = it->second;
+								n->~AStarNode();
+								delete n;
+								it->second = 0;
 								it = openList.erase(it);
 								break;
 							}
@@ -529,31 +546,12 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 					}
 
 					if (toAdd){
-						// Add it to the correct spot in openList here
-						bool added = false;
-						for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
-							if (newNode->totalCost < it->second->totalCost){
-								map<int, AStarNode*>::iterator it2 = openList.end();
-								it2--;
-								for (it2; distance(it, it2) >= 0; --it2){
-									openList[it2->first + 1] = openList[it2->first];
-									if (distance(it, it2) == 0) break;
-								}
-								openList[it->first] = newNode;
-								added = true;
-								break;
-							}
-						}
-						if (!added){
-							if (openList.size() == 0){
-								openList[0] = newNode;
-							}
-							else{
-								map<int, AStarNode*>::iterator lastIt = openList.end();
-								lastIt--;
-								int key = lastIt->first;
-								openList[++key] = newNode;
-							}
+						if (openList.empty()) openList[0] = newNode;
+						else{
+							map<int, AStarNode*>::iterator lastIt = openList.end();
+							lastIt--;
+							int key = lastIt->first;
+							openList[++key] = newNode;
 						}
 					}
 				}
@@ -589,14 +587,27 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	}
 	runtimeLog << endl;
 
+	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
+		AStarNode* n = it->second;
+		runtimeLog << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+	}
+
 	// Destroy everything here
 	// SOMEHOW STILL HUGE MEMORY LEAK
 	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
-		it->second->~AStarNode();
+		AStarNode* n = it->second;
+		runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+		n->~AStarNode();
+		delete n;
+		it->second = nullptr;
 	}
 	openList.clear();
 	for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
-		it->second->~AStarNode();
+		AStarNode* n = it->second;
+		runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+		n->~AStarNode();
+		delete n;
+		it->second = nullptr;
 	}
 	closedList.clear();
 	
