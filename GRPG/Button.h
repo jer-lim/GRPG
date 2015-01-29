@@ -67,7 +67,12 @@ public:
 		return true;
 	}
 	void destroy(){ graphics = nullptr; }//i don't want to destroy the graphics object
-	~Button(){ destroy(); }
+	
+	~Button()
+	{
+		destroy();
+		//deleteVertexBuffer();
+	}
 
 	bool mouseOver(int mouseX, int mouseY)
 	{//rectangle collision
@@ -118,7 +123,7 @@ public:
 
 	void deleteVertexBuffer()
 	{
-		//delete vertexBuffer;
+		vertexBuffer->Release();
 	}
 };
 
