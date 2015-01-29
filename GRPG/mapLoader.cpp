@@ -452,6 +452,9 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 
 	// Note down where the end node is
 	TileVector endNodeTile = getNearestTile(endCoords);
+	char endTileId = getTileIdAtLocation(endNodeTile.x, endNodeTile.y);
+	tileStruct endTileInfo = tileset[endTileId];
+
 	AStarNode* currentNode = openList[0];
 	map<int, AStarNode*>::iterator currentNodeIt;
 
@@ -459,7 +462,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	runtimeLog << "End node is " << endNodeTile.x << ", " << endNodeTile.y << endl;
 
 	// While there are tiles to find or path is not found, find path
-	while (!openList.empty() && !pathFound){
+	while (!openList.empty() && !pathFound && endTileInfo.type != tileNS::type::WALL){
 		// Give up if no path found in reasonable time
 		if (nodesExplored > 1000) break;
 
