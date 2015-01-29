@@ -58,8 +58,7 @@ private:
 
 	// CHAT VARIABLES
 
-	VertexC vtx[4];			//Vertex data for background
-	LP_VERTEXBUFFER vertexBuffer;       // buffer to hold vertex data
+	Button chatRect;				// Vertex data to show the chat rectangle at the bottom left
 	RECT textRect;               // text rectangle, used to specify and draw the chat box
 	std::deque<std::string> text;       // UI text
 	int rows;	//Total number of rows in the chat

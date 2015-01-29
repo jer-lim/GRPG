@@ -68,40 +68,9 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
 	}
 
-	//Build the chat system
-	try {
-		// top left
-		vtx[0].x = 0;
-		vtx[0].y = GAME_HEIGHT - uiNS::chatHeight;
-		vtx[0].z = 0.0f;
-		vtx[0].rhw = 1.0f;
-		vtx[0].color = uiNS::chatColour;
-
-		// top right
-		vtx[1].x = uiNS::chatWidth;
-		vtx[1].y = GAME_HEIGHT - uiNS::chatHeight;
-		vtx[1].z = 0.0f;
-		vtx[1].rhw = 1.0f;
-		vtx[1].color = uiNS::chatColour;
-
-		// bottom right
-		vtx[2].x = uiNS::chatWidth;
-		vtx[2].y = GAME_HEIGHT;
-		vtx[2].z = 0.0f;
-		vtx[2].rhw = 1.0f;
-		vtx[2].color = uiNS::chatColour;
-
-		// bottom left
-		vtx[3].x = 0;
-		vtx[3].y = GAME_HEIGHT;
-		vtx[3].z = 0.0f;
-		vtx[3].rhw = 1.0f;
-		vtx[3].color = uiNS::chatColour;
-
-		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
-	}
-	catch (...) {
-		return false;
+	if (!chatRect.initialize(graphics, 0, GAME_HEIGHT - uiNS::chatHeight, uiNS::chatWidth, uiNS::chatHeight, uiNS::chatColour, ""))
+	{
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Chat background could not be initalized");
 	}
 
 	//Initalize the chat screen
@@ -143,7 +112,7 @@ void UI::draw(Viewport* viewport)
 	graphics->spriteEnd();
 	graphics->spriteBegin();
 
-	graphics->drawQuad(vertexBuffer);       // draw backdrop
+	chatRect.draw();
 
 	// Display the chat screen
 
@@ -204,8 +173,10 @@ void UI::draw(Viewport* viewport)
 	{
 		healthPercent = 0;
 	}
-	if (!availableHealth.initialize(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth*healthPercent, uiNS::healthHeight, uiNS::healthColor, ""))
-	{
+	try {
+		availableHealth.initializeRectangle(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth*healthPercent, uiNS::healthHeight, uiNS::healthColor);
+	}
+	catch (...) {
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Health could not be drawn");
 	}
 
@@ -420,7 +391,9 @@ bool UI::mouseInside(Viewport vp)
 void UI::onLostDevice()
 {
 	uiText->onLostDevice();
-	SAFE_RELEASE(vertexBuffer);
+	chatRect.onLostDevice();
+	health.onLostDevice();
+	availableHealth.onLostDevice();
 }
 
 //=============================================================================
@@ -429,7 +402,9 @@ void UI::onLostDevice()
 void UI::onResetDevice()
 {
 	uiText->onResetDevice();
-	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+	chatRect.onResetDevice();
+	health.onResetDevice();
+	availableHealth.onResetDevice();
 }
 
 string UI::view(){ return "User Interface"; }
