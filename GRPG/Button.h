@@ -18,6 +18,15 @@ private:
 	bool initialized;
 
 public:
+	Button() {}
+
+	//Destructor
+	virtual ~Button()
+	{
+		destroy();
+		deleteVertexBuffer();
+	}
+
 	//wrap this with a try catch
 	void initializeRectangle(Graphics *g, float x, float y, float WIDTH, float HEIGHT, COLOR_ARGB backColor)
 	{
@@ -67,12 +76,6 @@ public:
 		return true;
 	}
 	void destroy(){ graphics = nullptr; }//i don't want to destroy the graphics object
-	
-	~Button()
-	{
-		destroy();
-		//deleteVertexBuffer();
-	}
 
 	bool mouseOver(int mouseX, int mouseY)
 	{//rectangle collision
@@ -123,6 +126,7 @@ public:
 
 	void deleteVertexBuffer()
 	{
+		//You can't call delete, must call release for vertex buffers
 		vertexBuffer->Release();
 	}
 };

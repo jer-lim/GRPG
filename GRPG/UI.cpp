@@ -56,9 +56,6 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
 
 	//Initalize the health bar
-	health = Button();
-	availableHealth = Button();
-
 	if (!health.initialize(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth, uiNS::healthHeight, uiNS::noHealthColor, ""))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Health could not be initalized");
