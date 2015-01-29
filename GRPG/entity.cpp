@@ -72,6 +72,12 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 
 	textureM = new TextureManager();
 	person = whichCharacter;
+
+	//Set the health if this is not the player
+	if (whichCharacter != Person::thePlayer)
+	{
+		health = ((NPC*)whichCharacter)->getmaxhealth();
+	}
 	
 	edge.top = whichCharacter->getColliHeight() / 2;
 	edge.bottom = whichCharacter->getColliHeight() / 2;
@@ -565,10 +571,16 @@ bool Entity::outsideRect(RECT rect)
 //=============================================================================
 // damage
 // This entity has been damaged, taking d damage.
-// Override this function in the inheriting class.
 //=============================================================================
 void Entity::damage(int d)
 {
+	health -= d;
+	if (health <= 0)
+	{
+		//TODO: tell draw manager that this is dead
+		//TODO: Tell spawn manager to spawn another one of this dude
+		delete this;
+	}
 }
 
 //=============================================================================

@@ -239,7 +239,7 @@ class Entity : public Destination, public Interactable
     virtual bool collidesWith(Entity &ent, VECTOR2 &collisionVector);
 
     // Damage this Entity with weapon.
-    virtual void damage(int weapon);
+    virtual void damage(int d);
 
 	// Move towards a specific destination (Can be a Point or an Entity)
 	void move(Destination* d);
