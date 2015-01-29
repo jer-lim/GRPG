@@ -239,6 +239,11 @@ void Entity::update(float frameTime, Game* gamePtr)
 				}
 				
 			}
+			else{
+				// Can't go there
+				destination = 0;
+				return;
+			}
 
 			float speed = person->getMovementSpeed();
 

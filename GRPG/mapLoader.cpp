@@ -352,12 +352,12 @@ void MapLoader::update(){
 				// Clear old data
 				// MEMORY LEAK HERE
 				if (mt->tile != nullptr){
-					//delete mt->tile;
+					delete mt->tile;
 					drawManager->removeObject(mt->tile);
 					mt->tile = nullptr;
 				}
 				else {
-					//delete mt->image;
+					delete mt->image;
 					drawManager->removeObject(mt->image);
 					mt->image = nullptr;
 				}
@@ -452,6 +452,9 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 
 	// Note down where the end node is
 	TileVector endNodeTile = getNearestTile(endCoords);
+	char endTileId = getTileIdAtLocation(endNodeTile.x, endNodeTile.y);
+	tileStruct endTileInfo = tileset[endTileId];
+
 	AStarNode* currentNode = openList[0];
 	map<int, AStarNode*>::iterator currentNodeIt;
 
@@ -459,7 +462,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	runtimeLog << "End node is " << endNodeTile.x << ", " << endNodeTile.y << endl;
 
 	// While there are tiles to find or path is not found, find path
-	while (!openList.empty() && !pathFound){
+	while (!openList.empty() && !pathFound && endTileInfo.type != tileNS::type::WALL){
 		// Give up if no path found in reasonable time
 		if (nodesExplored > 1000) break;
 
@@ -485,6 +488,44 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 			pathFound = true;
 			//runtimeLog << "Found path!" << endl;
 			break;
+		}
+
+		// Close off blocked corner
+		unordered_map<int, unordered_map<int, bool>> walkableCorners;
+		walkableCorners[currentNode->tileCoords.x - 1][currentNode->tileCoords.y - 1] = true;
+		walkableCorners[currentNode->tileCoords.x - 1][currentNode->tileCoords.y + 1] = true;
+		walkableCorners[currentNode->tileCoords.x + 1][currentNode->tileCoords.y - 1] = true;
+		walkableCorners[currentNode->tileCoords.x + 1][currentNode->tileCoords.y + 1] = true;
+
+		for (int x = currentNode->tileCoords.x - 1; x < currentNode->tileCoords.x + 2; ++x){
+			for (int y = currentNode->tileCoords.y - 1; y < currentNode->tileCoords.y + 2; ++y){
+				// Get tile information
+				char tileId = getTileIdAtLocation(x, y);
+				tileStruct tileInfo = tileset[tileId];
+
+				if (tileInfo.type == tileNS::type::WALL){
+					// Top left + top right
+					if (x == currentNode->tileCoords.x && y == currentNode->tileCoords.y - 1){
+						walkableCorners[currentNode->tileCoords.x - 1][currentNode->tileCoords.y - 1] = false;
+						walkableCorners[currentNode->tileCoords.x + 1][currentNode->tileCoords.y - 1] = false;
+					}
+					// Top right + bottom right
+					else if (x == currentNode->tileCoords.x + 1 && y == currentNode->tileCoords.y){
+						walkableCorners[currentNode->tileCoords.x + 1][currentNode->tileCoords.y - 1] = false;
+						walkableCorners[currentNode->tileCoords.x + 1][currentNode->tileCoords.y + 1] = false;
+					}
+					// Bottom left + bottom right
+					else if (x == currentNode->tileCoords.x && y == currentNode->tileCoords.y + 1){
+						walkableCorners[currentNode->tileCoords.x - 1][currentNode->tileCoords.y + 1] = false;
+						walkableCorners[currentNode->tileCoords.x + 1][currentNode->tileCoords.y + 1] = false;
+					}
+					// Top left + bottom left
+					else if (x == currentNode->tileCoords.x - 1 && y == currentNode->tileCoords.y){
+						walkableCorners[currentNode->tileCoords.x - 1][currentNode->tileCoords.y - 1] = false;
+						walkableCorners[currentNode->tileCoords.x - 1][currentNode->tileCoords.y + 1] = false;
+					}
+				}
+			}
 		}
 
 		// Search surrounding nodes
@@ -514,10 +555,17 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 					AStarNode* newNode = new AStarNode(TileVector(x, y));
 					newNode->parent = currentNode;
 
+					bool toAdd = true;
+
 					float addedCost;
 					// If both change in x and change in y exist, moving diagonally hence more cost
 					if (abs(x - currentNode->tileCoords.x) > 0 && abs(y - currentNode->tileCoords.y) > 0){
 						addedCost = diagonalCost;
+
+						// If corner is blocked, don't add to openList
+						if (!walkableCorners[x][y]){
+							toAdd = false;
+						}
 					}
 					else{
 						addedCost = tileNS::WIDTH;
@@ -528,23 +576,24 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 
 					//runtimeLog << "Adding new node at " << x << ", " << y << " with cost " << newNode->totalCost << endl;
 
-					// Check if the node is already in openList
-					bool toAdd = true;
-					for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
-						if (newNode->tileCoords.x == it->second->tileCoords.x && newNode->tileCoords.y == it->second->tileCoords.y){
+					if (toAdd){
+						// Check if the node is already in openList
+						for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
+							if (newNode->tileCoords.x == it->second->tileCoords.x && newNode->tileCoords.y == it->second->tileCoords.y){
 
-							// If new node is better, delete old node
-							if (newNode->totalCost < it->second->totalCost){
-								//runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
-								AStarNode* n = it->second;
-								n->~AStarNode();
-								delete n;
-								it->second = 0;
-								it = openList.erase(it);
-								break;
-							}
-							else{
-								toAdd = false;
+								// If new node is better, delete old node
+								if (newNode->totalCost < it->second->totalCost){
+									//runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
+									AStarNode* n = it->second;
+									n->~AStarNode();
+									delete n;
+									it->second = 0;
+									it = openList.erase(it);
+									break;
+								}
+								else{
+									toAdd = false;
+								}
 							}
 						}
 					}
