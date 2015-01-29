@@ -69,6 +69,7 @@ class Entity : public Destination, public Interactable
 	// Pathfinding
 	queue<VECTOR2> path;
 	LARGE_INTEGER lastPathfindTime;
+	VECTOR2 currentDestination;
 
 	// New Entity variables specific to GRPG
 
