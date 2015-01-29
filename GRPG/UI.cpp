@@ -27,6 +27,7 @@ UI::UI() : Entity()
 UI::~UI()
 {
 	SAFE_DELETE(uiText);
+	SAFE_DELETE(tabTexture);
 	onLostDevice();
 }
 
