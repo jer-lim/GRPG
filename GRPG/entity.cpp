@@ -4,6 +4,7 @@
 #include <cmath>
 #include <sstream>
 #include "NPC.h"
+#include "UI.h"
 
 //=============================================================================
 // constructor
@@ -79,6 +80,29 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 	if (whichCharacter != Person::thePlayer)
 	{
 		health = ((NPC*)whichCharacter)->getmaxhealth();
+		//Health bars above the player
+		backHealth = new Button();
+		availableHealth = new Button();
+		//Initialize them
+		if (!backHealth->initialize(graphics, 
+			getX() - image.getX() / 2 - entityNS::healthBarWidth / 2,
+			getY() - image.getY()/2 - entityNS::healthBarHeight,
+			entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::noHealthColor, ""))
+		{
+			throw new GameError(gameErrorNS::FATAL_ERROR, "Back Health could not be initalized");
+		}
+		if (!availableHealth->initialize(graphics,
+			getX() - image.getX() / 2 - entityNS::healthBarWidth / 2,
+			getY() - image.getY() / 2 - entityNS::healthBarHeight,
+			entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::healthColor, ""))
+		{
+			throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
+		}
+	}
+	else
+	{
+		backHealth = nullptr;
+		availableHealth = nullptr;
 	}
 	
 	edge.top = whichCharacter->getColliHeight() / 2;
@@ -129,6 +153,15 @@ void Entity::activate()
 //=============================================================================
 void Entity::draw(Viewport* viewport)
 {
+	if (backHealth != nullptr && false)
+	{
+		graphics->spriteEnd();
+		graphics->spriteBegin();
+
+		backHealth->draw();
+		availableHealth->draw();
+	}
+
 	image.setX(getX());
 	image.setY(getY());
 	if (anchored || viewport == nullptr) image.draw();

@@ -174,6 +174,7 @@ void UI::draw(Viewport* viewport)
 		healthPercent = 0;
 	}
 	try {
+		availableHealth.deleteVertexBuffer();
 		availableHealth.initializeRectangle(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth*healthPercent, uiNS::healthHeight, uiNS::healthColor);
 	}
 	catch (...) {

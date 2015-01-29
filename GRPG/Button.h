@@ -115,6 +115,11 @@ public:
 	{
 		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
 	}
+
+	void deleteVertexBuffer()
+	{
+		//delete vertexBuffer;
+	}
 };
 
 #endif

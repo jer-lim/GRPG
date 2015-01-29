@@ -11,12 +11,17 @@
 #include "Person.h"
 #include "Viewport.h"
 #include "Interactable.h"
+#include "Button.h"
 
 namespace entityNS
 {
     enum COLLISION_TYPE {NONE, CIRCLE, BOX, ROTATED_BOX};
     const float GRAVITY = 6.67428e-11f;         // gravitational constant
 	const float animationWait = 0.2f;
+
+	// Health bar
+	const UINT healthBarWidth = 64;
+	const UINT healthBarHeight = 20;
 }
 
 /*
@@ -53,10 +58,13 @@ class Entity : public Destination, public Interactable
 	float	x;				// logical X location
 	float	y;				// logical Y location
 	VECTOR2 oldViewport;	// The old viewport top left location to check if re-drawing are needed
+	VECTOR2 oldLocation;	// The old location this entity was at to check if re-drawing are needed
 	bool anchored;			// Anchored entities don't move when the viewport moves
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
 	TextureManager* textureM; //This needs to be set on the entity's creation by any entity inheriting from this
+	Button* backHealth;			//Vertex data for the entirety of the health bar
+	Button* availableHealth;		// Vertex data for only the health that the player has
 
 	// Pathfinding
 	queue<VECTOR2> path;
