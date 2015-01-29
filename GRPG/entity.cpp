@@ -175,19 +175,30 @@ void Entity::update(float frameTime, Game* gamePtr)
 			}
 
 			VECTOR2 destinationVector = destination->getVector();
+			VECTOR2 immediateVector = destinationVector;
 
-			if (gamePtr != nullptr && false){
+			// Find a path if there's no path
+			if (gamePtr != nullptr && path.empty()){
 				// Awesome pathfinding here
 				path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
-				if (!path.empty()){
-					destinationVector = path.front();
-					runtimeLog << "Traveling to " << destinationVector.x << ", " << destinationVector.y << endl;
+			}
+
+			// While entity has a path to follow, follow path
+			if (!path.empty()){
+				immediateVector = path.front();
+				if (immediateVector == getVector()){
+					path.pop();
+					if (!path.empty()){
+						immediateVector = path.front();
+						runtimeLog << "Traveling to " << immediateVector.x << ", " << immediateVector.y << endl;
+					}
 				}
+				
 			}
 
 			float speed = person->getMovementSpeed();
 
-			VECTOR2 direction = destinationVector - getVector();
+			VECTOR2 direction = immediateVector - getVector();
 			VECTOR2 *normalizedDirection = &VECTOR2();
 			D3DXVec2Normalize(normalizedDirection, &direction);
 			setX(getX() + normalizedDirection->x * speed * frameTime);
@@ -203,10 +214,14 @@ void Entity::update(float frameTime, Game* gamePtr)
 			float distanceToDest = D3DXVec2Length(&direction);
 			if (distanceToDest < speed * frameTime)
 			{
-				setX(destinationVector.x);
-				setY(destinationVector.y);
+				setX(immediateVector.x);
+				setY(immediateVector.y);
 				// delete destination; // Sometimes a destination might be re-used or be an actual entity
-				destination = 0;
+
+				// If arrived at final destination
+				if (destination->getVector() == getVector()){
+					destination = 0;
+				}
 			}
 		}
 		else
