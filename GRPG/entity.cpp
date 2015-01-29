@@ -252,12 +252,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 			D3DXVec2Normalize(normalizedDirection, &direction);
 			setX(getX() + normalizedDirection->x * speed * frameTime);
 			setY(getY() + normalizedDirection->y * speed * frameTime);
-			/*
-			Dot Product of 2 unit vectors gives the cosine between the vectors.
-			This can be used to determine angles for trajectory and light reflection.
-			*/
-			float angle = acos(normalizedDirection->x / D3DXVec2Length(normalizedDirection));
-			image.flipHorizontal(angle > PI / 2);
+			image.flipHorizontal(normalizedDirection->x < 0);
 
 			//Is it close enough?
 			float distanceToDest = D3DXVec2Length(&direction);
@@ -295,6 +290,11 @@ void Entity::update(float frameTime, Game* gamePtr)
 				attackCooldown = person->getAttackCooldown();
 				image.setFrames(1, person->getNumOfCols()-1);
 				image.setLoop(false);
+
+				// Check if the entity needs to be flipped
+				VECTOR2 destinationVector = victim->getVector();
+				VECTOR2 direction = destinationVector - getVector();
+				image.flipHorizontal(direction.x < 0);
 			}
 		}
 	}
