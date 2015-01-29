@@ -678,60 +678,16 @@ bool Entity::isEnemy()
 	}
 }
 
-
-/*
-//=============================================================================
-// Entity bounces after collision with another entity
-//=============================================================================
-void Entity::bounce(VECTOR2 &collisionVector, Entity &ent)
+// Resets the coordinates of the available health portion of this entity
+void Entity::resetAvailableHealth()
 {
-    VECTOR2 Vdiff = ent.getVelocity() - velocity;
-    VECTOR2 cUV = collisionVector;              // collision unit vector
-    Graphics::Vector2Normalize(&cUV);
-    float cUVdotVdiff = Graphics::Vector2Dot(&cUV, &Vdiff);
-    float massRatio = 2.0f;
-    if (getMass() != 0)
-        massRatio *= (ent.getMass() / (getMass() + ent.getMass()));
 
-    // If entities are already moving apart then bounce must
-    // have been previously called and they are still colliding.
-    // Move entities apart along collisionVector
-    if(cUVdotVdiff > 0)
-    {
-        setX(getX() - cUV.x * massRatio);
-        setY(getY() - cUV.y * massRatio);
-    }
-    else 
-        deltaV += ((massRatio * cUVdotVdiff) * cUV);
-}*/
-
-/*
-//=============================================================================
-// Force of gravity on this entity from other entity
-// Adds the gravitational force to the velocity vector of this entity
-// force = GRAVITY * m1 * m2 / r*r
-//                    2              2
-//  r*r  =   (Ax - Bx)   +  (Ay - By)
-//=============================================================================
-void Entity::gravityForce(Entity *ent, float frameTime)
-{
-    // if either entity is not active then no gravity effect
-    if (!active || !ent->getActive())
-        return ;
-
-    rr = pow((ent->getCenterX() - getCenterX()),2) + 
-            pow((ent->getCenterY() - getCenterY()),2);
-    force = gravity * ent->getMass() * mass/rr;
-
-    // --- Using vector math to create gravity vector ---
-    // Create vector between entities
-    VECTOR2 gravityV(ent->getCenterX() - getCenterX(),
-                        ent->getCenterY() - getCenterY());
-    // Normalize the vector
-    Graphics::Vector2Normalize(&gravityV);
-    // Multipy by force of gravity to create gravity vector
-    gravityV *= force * frameTime;
-    // Add gravity vector to moving velocity vector to change direction
-    velocity += gravityV;
 }
-*/
+
+// Resets the coordinates of the health portion of this entity
+// Note that this only resets the health part, which is the background of the health
+// To re-draw the red part as well, call resetAvailableHealth.
+void Entity::resetHealth()
+{
+
+}
