@@ -7,6 +7,10 @@ Inventory::Inventory(){
 		slotList[i] = InventoryItem();
 	}*/
 }
+Inventory::Inventory(int x,int y){
+	xDrawPosition = x;
+	yDrawPosition = y;
+}
 
 bool Inventory::addInventoryItem(int i, InventoryItem* ii)
 {
@@ -14,7 +18,10 @@ bool Inventory::addInventoryItem(int i, InventoryItem* ii)
 	{
 		if (!hasInventoryItem(i))
 		{
-			//update inventoryitem's entity's position here
+			int row = i / inventoryColumns + 1;
+			int col = i % inventoryColumns + 1;
+			ii->getEntity()->setX(xDrawPosition + col*ii->getItem()->getSpriteWidth() + magicPadding);
+			ii->getEntity()->setY(yDrawPosition + row*ii->getItem()->getSpriteHeight() + magicPadding);
 			slotList[i] = ii;
 			return true;
 		}
@@ -24,7 +31,11 @@ bool Inventory::addInventoryItem(int i, InventoryItem* ii)
 
 bool Inventory::addInventoryItem(InventoryItem* ii)
 {
-	if (slotList.size() < maxSlotListCount)
+	if (slotList.size() == 0)
+	{//everything is empty
+		addInventoryItem(0, ii);
+	}
+	else if (slotList.size() < maxSlotListCount)
 	{//Find an empty spot and slot the item in
 		int prevIndex = 0;
 		for (std::map<int, InventoryItem*>::iterator it = slotList.begin(); it != slotList.end(); ++it)

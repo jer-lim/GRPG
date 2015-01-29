@@ -56,76 +56,16 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
 
 	//Initalize the health bar
-	
-	// Calculate the width of the health bar
-	// Health bar centralizes in the middle, left maximum chat, right as much as left
-	try {
-		// top left
-		health[0].x = uiNS::chatWidth;
-		health[0].y = GAME_HEIGHT - uiNS::healthHeight;
-		health[0].z = 0.0f;
-		health[0].rhw = 1.0f;
-		health[0].color = uiNS::noHealthColor;
+	health = Button();
+	availableHealth = Button();
 
-		// top right
-		health[1].x = uiNS::chatWidth + uiNS::healthWidth;
-		health[1].y = GAME_HEIGHT - uiNS::healthHeight;
-		health[1].z = 0.0f;
-		health[1].rhw = 1.0f;
-		health[1].color = uiNS::noHealthColor;
-
-		// bottom right
-		health[2].x = uiNS::chatWidth + uiNS::healthWidth;
-		health[2].y = GAME_HEIGHT;
-		health[2].z = 0.0f;
-		health[2].rhw = 1.0f;
-		health[2].color = uiNS::noHealthColor;
-
-		// bottom left
-		health[3].x = uiNS::chatWidth;
-		health[3].y = GAME_HEIGHT;
-		health[3].z = 0.0f;
-		health[3].rhw = 1.0f;
-		health[3].color = uiNS::noHealthColor;
-
-		graphics->createVertexBuffer(health, sizeof health, healthBuffer);
+	if (!health.initialize(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth, uiNS::healthHeight, uiNS::noHealthColor, ""))
+	{
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Health could not be initalized");
 	}
-	catch (...) {
-		return false;
-	}
-
-	//Setup the vector that shows how much health the player has left as much as possible
-	try {
-		// top left
-		availableHealth[0].x = uiNS::chatWidth;
-		availableHealth[0].y = GAME_HEIGHT - uiNS::healthHeight;
-		availableHealth[0].z = 0.0f;
-		availableHealth[0].rhw = 1.0f;
-		availableHealth[0].color = uiNS::healthColor;
-
-		// top right
-		//availableHealth[1].x = uiNS::chatWidth + healthWidth; //Cannot tell yet
-		//availableHealth[1].y = GAME_HEIGHT - uiNS::healthHeight; //Cannot tell yet
-		availableHealth[1].z = 0.0f;
-		availableHealth[1].rhw = 1.0f;
-		availableHealth[1].color = uiNS::healthColor;
-
-		// bottom right
-		//availableHealth[2].x = uiNS::chatWidth + healthWidth; //Cannot tell yet
-		//availableHealth[2].y = GAME_HEIGHT; //Cannot tell yet
-		availableHealth[2].z = 0.0f;
-		availableHealth[2].rhw = 1.0f;
-		availableHealth[2].color = uiNS::healthColor;
-
-		// bottom left
-		availableHealth[3].x = uiNS::chatWidth;
-		availableHealth[3].y = GAME_HEIGHT;
-		availableHealth[3].z = 0.0f;
-		availableHealth[3].rhw = 1.0f;
-		availableHealth[3].color = uiNS::healthColor;
-	}
-	catch (...) {
-		return false;
+	if (!availableHealth.initialize(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth, uiNS::healthHeight, uiNS::healthColor, ""))
+	{
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
 	}
 
 	//Build the chat system
@@ -264,23 +204,13 @@ void UI::draw(Viewport* viewport)
 	{
 		healthPercent = 0;
 	}
-	try {
-		// top right
-		availableHealth[1].x = uiNS::chatWidth + uiNS::healthWidth*healthPercent;
-		availableHealth[1].y = GAME_HEIGHT - uiNS::healthHeight;
-
-		// bottom right
-		availableHealth[2].x = uiNS::chatWidth + uiNS::healthWidth*healthPercent;
-		availableHealth[2].y = GAME_HEIGHT;
-
-		graphics->createVertexBuffer(availableHealth, sizeof availableHealth, availableHealthBuffer);
-	}
-	catch (...) {
+	if (!availableHealth.initialize(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth*healthPercent, uiNS::healthHeight, uiNS::healthColor, ""))
+	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Health could not be drawn");
 	}
 
-	graphics->drawQuad(healthBuffer);       // draw backdrop
-	graphics->drawQuad(availableHealthBuffer);       // draw backdrop
+	health.draw();
+	availableHealth.draw();
 
 	Entity::draw(viewport);
 
@@ -310,8 +240,8 @@ void UI::drawTab(int tabNumber)
 //=============================================================================
 void UI::drawTabContents(int tabNumber)
 {
-	float topLeftX = getX() - uiNS::WIDTH / 2;
-	float topLeftY = getY() - uiNS::HEIGHT / 2;
+	float topLeftX = getTopLeftX();//getX() - uiNS::WIDTH / 2;
+	float topLeftY = getTopLeftY();// getY() - uiNS::HEIGHT / 2;
 
 	if (tabNumber == uiNS::COMBATSTYLE)
 	{
@@ -355,6 +285,10 @@ void UI::drawTabContents(int tabNumber)
 		{
 			it->second->getEntity()->draw(nullptr);
 			//draw stack here using uiText
+			if (it->second->getCurrentStackCount() > 1)//draw stack count
+			{
+				uiText->print(it->second->getCurrentStackCountString(), (int)(it->second->getEntity()->getX()), (int)(it->second->getEntity()->getY()));
+			}
 		}
 		(slotList) = nullptr;
 	}

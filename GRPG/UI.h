@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "textDX.h"
 #include "player.h"
+#include "Button.h"
 
 namespace uiNS
 {
@@ -29,6 +30,8 @@ namespace uiNS
 	const COLOR_ARGB chatColour = SETCOLOR_ARGB(50, 0, 0, 0);
 
 	const UINT healthHeight = 40;
+	// Calculate the width of the health bar
+	// Health bar centralizes in the middle, left maximum chat, right as much as left
 	const float healthWidth = (GAME_WIDTH / 2 - uiNS::chatWidth) * 2;
 	const COLOR_ARGB healthColor = SETCOLOR_ARGB(180, 255, 0, 0);
 	const COLOR_ARGB noHealthColor = SETCOLOR_ARGB(180, 0, 0, 0);
@@ -63,10 +66,8 @@ private:
 	int rowHeight;	//Amount of pixels each height take in the chat box
 
 	// HEALTH BAR
-	VertexC health[4];			//Vertex data for entirity of the health bar
-	LP_VERTEXBUFFER healthBuffer;
-	VertexC availableHealth[4]; // Vertex data for only the health that the player has
-	LP_VERTEXBUFFER availableHealthBuffer;
+	Button health;				//Vertex data for the entirety of the health bar
+	Button availableHealth;		// Vertex data for only the health that the player has
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -110,5 +111,8 @@ public:
 	void performClick();
 
 	string view();
+
+	float getTopLeftX(){ return getX() - uiNS::WIDTH / 2; }
+	float getTopLeftY(){ return getY() - uiNS::HEIGHT / 2; }
 };
 #endif

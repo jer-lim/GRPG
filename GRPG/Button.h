@@ -19,7 +19,7 @@ private:
 
 public:
 	//wrap this with a try catch
-	bool initializeRectangle(Graphics *g, float x, float y, float WIDTH, float HEIGHT, COLOR_ARGB backColor)
+	void initializeRectangle(Graphics *g, float x, float y, float WIDTH, float HEIGHT, COLOR_ARGB backColor)
 	{
 		graphics = g;                    // the graphics system
 
@@ -87,8 +87,6 @@ public:
 		else
 		{
 			graphics->drawQuad(vertexBuffer, sides - 2);       // draw circle, - 2 because rectangle takes 2 primitives, so just - 2
-			graphics->spriteBegin();                // begin drawing sprites
-			graphics->spriteEnd();                // begin drawing sprites
 		}
 	}
 	void draw(TextDX* font)
@@ -99,12 +97,10 @@ public:
 		else
 		{
 			graphics->drawQuad(vertexBuffer, sides - 2);       // draw circle, - 2 because rectangle takes 2 primitives, so just - 2
-			graphics->spriteBegin();                // begin drawing sprites
 			if (text != "")
 			{
 				font->print(text, (int)vtx[0].x, (int)vtx[0].y);
 			}
-			graphics->spriteEnd();                // begin drawing sprites
 		}
 	}
 

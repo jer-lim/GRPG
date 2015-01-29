@@ -62,6 +62,9 @@ void Grpg::initialize(HWND hwnd)
 
 	ui->setX(uiNS::X);
 	ui->setY(uiNS::Y);
+	//Init position of inventory inside inventory to init positioning of inventory items upon their adding into them
+	player->getInventory()->setXDrawPosition(ui->getTopLeftX());
+	player->getInventory()->setYDrawPosition(ui->getTopLeftY());
 	
 	player->setX(startLocation.x);
 	player->setY(startLocation.y);
