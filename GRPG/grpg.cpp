@@ -66,7 +66,7 @@ void Grpg::initialize(HWND hwnd)
 	player->setX(startLocation.x);
 	player->setY(startLocation.y);
 
-	drawManager->addObject(player);
+	drawManager->addObject(player,3);
 	drawManager->addObject(ui, 999);
 
 	// Load and display map, start spawners
@@ -77,8 +77,8 @@ void Grpg::initialize(HWND hwnd)
 	
 	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
 	x->initialize(this, false);
-	x->getEntity()->setX(0);
-	x->getEntity()->setY(0);
+	x->getEntity()->setX(startLocation.x);
+	x->getEntity()->setY(startLocation.y);
 	drawManager->addObject(x->getEntity(), 1);
 
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
@@ -103,9 +103,19 @@ void Grpg::update()
 		}
 		else
 		{
-			VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
-			Point* p = new Point(vpCoords.x, vpCoords.y);
-			player->move(p);
+			if (mouseOverEntity != nullptr && mouseOverEntity->isEnemy())
+			{
+				player->setVictim(mouseOverEntity);
+				player->setDestination(0);
+			}
+			else
+			{
+				VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
+
+				Point* p = new Point(vpCoords.x, vpCoords.y);
+				player->move(p);
+				player->setVictim(0);
+			}
 		}
 		mouseWasDown = false;
 	}

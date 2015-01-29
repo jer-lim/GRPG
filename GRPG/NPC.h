@@ -17,15 +17,18 @@ private:
 	string description;
 	int maxHealth;
 
+	bool isEnemy;
+
 public:
 
 	NPC() : Person() {}
-	NPC(string i, float mov, float atk, float h, float w, int cols, int colHeight, int colWidth, string nama,string desc,int maxhp)
+	NPC(string i, float mov, float atk, float h, float w, int cols, int colHeight, int colWidth, string nama,string desc,int maxhp, bool enemy)
 		: Person(i, mov, atk, h, w, cols, colHeight, colWidth)
 	{
 		name = nama;
 		description = desc;
 		maxHealth = maxhp;
+		isEnemy = enemy;
 	}
 
 	static Entity* spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim = nullptr);
@@ -33,6 +36,8 @@ public:
 	string getname() { return name; }
 	string getdescription() { return description; }
 	int getmaxhealth() { return maxHealth; }
+
+	bool getIsEnemy() { return isEnemy; }
 };
 
 #endif

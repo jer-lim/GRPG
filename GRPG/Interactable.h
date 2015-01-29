@@ -4,7 +4,7 @@
 class Interactable
 {
 private:
-	DWORD player_actions = 0x0000;
+	DWORD player_actions = 0x00000;
 	/*
 		000000000
 		IHGFEDCBA, where:

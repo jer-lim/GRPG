@@ -73,5 +73,6 @@
     <ClInclude Include="string_functions.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="Spawner.h" />
+    <ClInclude Include="Button.h" />
   </ItemGroup>
 </Project>
