@@ -454,11 +454,11 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	// While there are tiles to find or path is not found, find path
 	while (!openList.empty() && !pathFound){
 		// Give up if no path found in reasonable time
-		if (nodesExplored > 500) break;
+		if (nodesExplored > 1000) break;
 		currentNode = openList.begin()->second;
 		nodesExplored++;
 
-		//runtimeLog << "Checking node at " << currentNode->tileCoords.x << ", " << currentNode->tileCoords.y << " with cost " << currentNode->totalCost << endl;
+		//runtimeLog << "Checking node at " << currentNode->tileCoords.x << ", " << currentNode->tileCoords.y << " with cost " << currentNode->totalCost << ". Estimate to end " << currentNode->estimatedCostToEnd << endl;
 
 		// Move currentNode from openList to closeList
 		openList.erase(openList.begin());

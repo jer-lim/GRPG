@@ -28,6 +28,8 @@ Entity::Entity()
 	attackCooldown = 0;
 	image.setFrameDelay(entityNS::animationWait);
 
+	lastPathfindTime.QuadPart = 0;
+
 	person = nullptr;
 }
 
@@ -177,10 +179,16 @@ void Entity::update(float frameTime, Game* gamePtr)
 			VECTOR2 destinationVector = destination->getVector();
 			VECTOR2 immediateVector = destinationVector;
 
+			LARGE_INTEGER currentTime;
+			LARGE_INTEGER timerFreq;
+			QueryPerformanceCounter(&currentTime);
+			QueryPerformanceFrequency(&timerFreq);
+
 			// Find a path if there's no path
-			if (gamePtr != nullptr && path.empty()){
+			if (gamePtr != nullptr && (currentTime.QuadPart - lastPathfindTime.QuadPart) / timerFreq.QuadPart > 0.5){
 				// Awesome pathfinding here
 				path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
+				QueryPerformanceCounter(&lastPathfindTime);
 			}
 
 			// While entity has a path to follow, follow path
@@ -190,7 +198,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					path.pop();
 					if (!path.empty()){
 						immediateVector = path.front();
-						runtimeLog << "Traveling to " << immediateVector.x << ", " << immediateVector.y << endl;
+						//runtimeLog << "Travelling to " << immediateVector.x << ", " << immediateVector.y << endl;
 					}
 				}
 				
