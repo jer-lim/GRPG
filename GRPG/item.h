@@ -69,8 +69,8 @@ public:
 	void setCost(int i) {cost = i;}
 	TextureManager* getTextureManager() { return textureManager; }
 	float getSpriteWidth() { return spriteWidth; }
-	float getspriteHeight() { return spriteHeight; }
-	float getspriteColumns() { return spriteColumns; }
+	float getSpriteHeight() { return spriteHeight; }
+	float getSpriteColumns() { return spriteColumns; }
 	int getInstanceCount() { return instanceCount; }
 	void setInstanceCount(int i) { 
 		instanceCount = i;

@@ -3,6 +3,7 @@
 
 #include "constants.h"
 #include <string>
+#include <sstream>
 #include "item.h"
 #include "game.h"
 #include "entity.h"
@@ -13,6 +14,7 @@ class InventoryItem
 private:
 	Item* item=nullptr;
 	int currentStackCount=-1;
+	string currentStackCountString;
 	Entity* entity;
 	DrawManager* drawmanager;
 public:
@@ -20,7 +22,7 @@ public:
 	{
 		item->initializeTexture(gamePtr);
 		entity = new Entity();
-		entity->initialize(gamePtr, item->getSpriteWidth(), item->getspriteHeight(), item->getspriteColumns(), item->getTextureManager(), anchor);
+		entity->initialize(gamePtr, item->getSpriteWidth(), item->getSpriteHeight(), item->getSpriteColumns(), item->getTextureManager(), anchor);
 	}
 	// constructor
 	InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
@@ -39,8 +41,14 @@ public:
 	}
 	Item* getItem(){ return item; }
 	void setItem(Item* s){ item = s; }
-	int getcurrentStackCount() { return currentStackCount; }
-	void setcurrentStackCount(int i) { currentStackCount = i; }
+	int getCurrentStackCount() { return currentStackCount; }
+	void setCurrentStackCount(int i) {
+		currentStackCount = i; 
+		stringstream ss;
+		ss << currentStackCount;
+		currentStackCountString = ss.str();
+	}
+	string getCurrentStackCountString() { return currentStackCountString; }
 
 	Entity* getEntity(){ return entity; }
 	void setEntity(Entity* e){ entity = e; }

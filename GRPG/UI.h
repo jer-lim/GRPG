@@ -110,5 +110,8 @@ public:
 	void performClick();
 
 	string view();
+
+	float getTopLeftX(){ return getX() - uiNS::WIDTH / 2; }
+	float getTopLeftY(){ return getY() - uiNS::HEIGHT / 2; }
 };
 #endif

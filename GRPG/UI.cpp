@@ -310,8 +310,8 @@ void UI::drawTab(int tabNumber)
 //=============================================================================
 void UI::drawTabContents(int tabNumber)
 {
-	float topLeftX = getX() - uiNS::WIDTH / 2;
-	float topLeftY = getY() - uiNS::HEIGHT / 2;
+	float topLeftX = getTopLeftX();//getX() - uiNS::WIDTH / 2;
+	float topLeftY = getTopLeftY();// getY() - uiNS::HEIGHT / 2;
 
 	if (tabNumber == uiNS::COMBATSTYLE)
 	{
@@ -355,6 +355,10 @@ void UI::drawTabContents(int tabNumber)
 		{
 			it->second->getEntity()->draw(nullptr);
 			//draw stack here using uiText
+			if (it->second->getCurrentStackCount() > 1)//draw stack count
+			{
+				uiText->print(it->second->getCurrentStackCountString(), (int)(it->second->getEntity()->getX()), (int)(it->second->getEntity()->getY()));
+			}
 		}
 		(slotList) = nullptr;
 	}
