@@ -352,12 +352,12 @@ void MapLoader::update(){
 				// Clear old data
 				// MEMORY LEAK HERE
 				if (mt->tile != nullptr){
-					//delete mt->tile;
+					delete mt->tile;
 					drawManager->removeObject(mt->tile);
 					mt->tile = nullptr;
 				}
 				else {
-					//delete mt->image;
+					delete mt->image;
 					drawManager->removeObject(mt->image);
 					mt->image = nullptr;
 				}
