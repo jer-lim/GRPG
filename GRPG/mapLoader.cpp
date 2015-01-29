@@ -388,7 +388,7 @@ void MapLoader::update(){
 			// Incompatible types, need new Entity / Image to store
 			else{
 				// Clear old data
-				// POSSIBLE MEMORY LEAK HERE
+				// DEFINITE MEMORY LEAK HERE
 				if (mt->tile != nullptr){
 					delete mt->tile;
 					drawManager->removeObject(mt->tile);
