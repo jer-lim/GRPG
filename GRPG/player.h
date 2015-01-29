@@ -60,7 +60,7 @@ public:
     // inherited member functions
 	virtual void draw(Viewport* viewport);
     virtual bool initialize(Game *gamePtr);
-    virtual void update(float frameTime);
+	virtual void Player::update(float frameTime, Game* gamePtr);
     virtual void damage(int weapon);
 
 	Inventory* getInventory(){ return &inventory; }

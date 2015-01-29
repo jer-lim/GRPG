@@ -95,11 +95,18 @@ void Grpg::initialize(HWND hwnd)
 //=============================================================================
 void Grpg::update()
 {
-	if(!input->getMouseLButton() && mouseWasDown && !ui->mouseInside(*viewport))
+	if(!input->getMouseLButton() && mouseWasDown)
 	{
-		VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
-		Point* p =  new Point(vpCoords.x, vpCoords.y);
-		player->move(p);
+		if (ui->mouseInside(*viewport))
+		{
+			ui->performClick();
+		}
+		else
+		{
+			VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
+			Point* p = new Point(vpCoords.x, vpCoords.y);
+			player->move(p);
+		}
 		mouseWasDown = false;
 	}
 	
