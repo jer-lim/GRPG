@@ -103,9 +103,19 @@ void Grpg::update()
 		}
 		else
 		{
-			VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
-			Point* p = new Point(vpCoords.x, vpCoords.y);
-			player->move(p);
+			if (mouseOverEntity != nullptr && mouseOverEntity->isEnemy())
+			{
+				player->setVictim(mouseOverEntity);
+				player->setDestination(0);
+			}
+			else
+			{
+				VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
+
+				Point* p = new Point(vpCoords.x, vpCoords.y);
+				player->move(p);
+				player->setVictim(0);
+			}
 		}
 		mouseWasDown = false;
 	}

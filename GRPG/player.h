@@ -64,6 +64,14 @@ public:
     virtual void damage(int weapon);
 
 	Inventory* getInventory(){ return &inventory; }
+
+	// Displays the text that will be shown when the mouse is over it
+	// Overrides the Entity function so that nothing is shown on mouse over the player
+	virtual string view() { return ""; }
+
+	// Return whether the entity is an attackable enemy
+	// Overrides the Entity function so that the player is always marked as an ally
+	virtual bool isEnemy() { return false; }
 };
 #endif
 

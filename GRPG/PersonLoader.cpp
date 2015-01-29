@@ -13,7 +13,7 @@ void PersonLoader::loadAllNPCs()
 		float movementspd, attackcd, height, width, colHeight, colWidth;
 		while (!characterstream.eof()){
 			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> height >> width >> cols >> colHeight >> colWidth >> description;
-			NPC myChar = NPC(img_filename, movementspd, attackcd, height, width, cols, colHeight, colWidth, name, description, 9999);//almost infinite health
+			NPC myChar = NPC(img_filename, movementspd, attackcd, height, width, cols, colHeight, colWidth, name, description, 9999, false);//almost infinite health
 			map_npcs[id] = myChar;
 		}
 		characterstream.close();

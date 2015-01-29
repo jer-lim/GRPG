@@ -240,7 +240,7 @@ class Entity : public Destination, public Interactable
     virtual bool collidesWith(Entity &ent, VECTOR2 &collisionVector);
 
     // Damage this Entity with weapon.
-    virtual void damage(int weapon);
+    virtual void damage(int d);
 
 	// Move towards a specific destination (Can be a Point or an Entity)
 	void move(Destination* d);
@@ -250,6 +250,12 @@ class Entity : public Destination, public Interactable
 
 	// Checks if the mouse is inside the sprite of this Entity
 	virtual bool mouseInside(Viewport vp);
+
+	// Displays the text that will be shown when the mouse is over it
+	virtual string view();
+
+	// Return whether the entity is an attackable enemy
+	virtual bool isEnemy();
 };
 
 #endif

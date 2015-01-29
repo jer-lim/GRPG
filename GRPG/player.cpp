@@ -89,7 +89,7 @@ void Player::draw(Viewport* viewport)
 //=============================================================================
 void Player::update(float frameTime, Game* gamePtr)
 {
-	Entity::update(frameTime);
+	Entity::update(frameTime, gamePtr);
 
 	timeLeft -= frameTime;
 }
