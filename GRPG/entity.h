@@ -52,6 +52,7 @@ class Entity : public Destination, public Interactable
 
 	float	x;				// logical X location
 	float	y;				// logical Y location
+	VECTOR2 oldViewport;	// The old viewport top left location to check if re-drawing are needed
 	bool anchored;			// Anchored entities don't move when the viewport moves
 	Image	image;			// The image that is drawn on the screen
 	Graphics* graphics;		// A pointer to the graphics object
@@ -256,6 +257,14 @@ class Entity : public Destination, public Interactable
 
 	// Return whether the entity is an attackable enemy
 	virtual bool isEnemy();
+
+	// Resets the coordinates of the available health portion of this entity
+	virtual void resetAvailableHealth();
+
+	// Resets the coordinates of the health portion of this entity
+	// Note that this only resets the health part, which is the background of the health
+	// To re-draw the red part as well, call resetAvailableHealth.
+	virtual void resetHealth();
 };
 
 #endif
