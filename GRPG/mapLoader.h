@@ -71,6 +71,9 @@ private:
 	string tileImageFolder;
 	int bufferSize; // width of tiles beyond the border to load
 
+	// Pathfinding
+	bool pathRequestedThisFrame;
+
 	// Calculated variables
 	int tileWidth; // Width of the game in number of tiles
 	int tileHeight; // Height of the game in number of tiles
@@ -103,6 +106,9 @@ public:
 	void setVictim(Entity* v){ victim = v; }
 	void load();
 	void update();
+	bool canRequestPath(){
+		return !pathRequestedThisFrame;
+	}
 	queue<VECTOR2> path(VECTOR2 startCoords, VECTOR2 endCoords);
 };
 

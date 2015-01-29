@@ -238,8 +238,10 @@ void Entity::update(float frameTime, Game* gamePtr)
 			// Find a path if there's no path
 			if (gamePtr != nullptr && (currentTime.QuadPart - lastPathfindTime.QuadPart) / timerFreq.QuadPart > 0.5){
 				// Awesome pathfinding here
-				path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
-				QueryPerformanceCounter(&lastPathfindTime);
+				if (gamePtr->getMapLoader()->canRequestPath()){
+					path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
+					QueryPerformanceCounter(&lastPathfindTime);
+				}
 			}
 
 			// While entity has a path to follow, follow path

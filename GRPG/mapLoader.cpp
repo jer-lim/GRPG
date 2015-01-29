@@ -12,6 +12,8 @@ MapLoader::MapLoader(){
 
 	tileWidth = ceil(GAME_WIDTH / tileNS::WIDTH) + 2 * bufferSize + 1;
 	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT) + 2 * bufferSize + 1;
+
+	pathRequestedThisFrame = false;
 }
 
 void MapLoader::initialize(Game* game){
@@ -249,6 +251,9 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 }
 
 void MapLoader::update(){
+
+	pathRequestedThisFrame = false;
+
 	queue<TileVector> toMove;
 	queue<TileVector> toMoveTo;
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
