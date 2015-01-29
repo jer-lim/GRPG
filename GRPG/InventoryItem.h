@@ -37,7 +37,7 @@ public:
 	}// don't destroy the item because it's used by multiple inventoryitems
 	InventoryItem(Item *itm, int stack){
 		item = itm;
-		currentStackCount = stack;
+		setCurrentStackCount(stack);
 	}
 	Item* getItem(){ return item; }
 	void setItem(Item* s){ item = s; }
