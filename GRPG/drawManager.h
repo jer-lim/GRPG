@@ -25,6 +25,7 @@ private:
 public:
 
 	DrawManager();
+	~DrawManager();
 	void initialize(Game* gamPtr, Viewport* vp);
 
 	// Functions to handle the menial tasks

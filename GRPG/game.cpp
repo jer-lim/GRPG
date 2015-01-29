@@ -264,5 +264,6 @@ void Game::deleteAll()
     releaseAll();               // call onLostDevice() for every graphics item
     SAFE_DELETE(graphics);
     SAFE_DELETE(input);
+	delete drawManager;
     initialized = false;
 }

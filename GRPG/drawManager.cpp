@@ -13,6 +13,15 @@ void DrawManager::initialize(Game* gamPtr, Viewport* vp){
 	gamePtr = gamPtr;
 }
 
+DrawManager::~DrawManager(){
+	for (map<int, ManagedObject*>::iterator it = objects.begin(); it != objects.end(); ++it){
+		ManagedObject* mo = it->second;
+		delete mo;
+		it->second = nullptr;
+	}
+	objects.clear();
+}
+
 void DrawManager::updateAll(float frameTime){
 	//check if mouse over entity still working
 	if (gamePtr->getMouseOverEntity() != nullptr)
