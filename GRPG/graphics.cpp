@@ -131,6 +131,10 @@ HRESULT Graphics::createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER
 //=============================================================================
 bool Graphics::drawQuad(LP_VERTEXBUFFER vertexBuffer)
 {
+	return Graphics::drawQuad(vertexBuffer, 2);
+}
+bool Graphics::drawQuad(LP_VERTEXBUFFER vertexBuffer, int numOfPrimitives)
+{
 	HRESULT result = E_FAIL;    // standard Windows return value
 
 	if (vertexBuffer == NULL)
@@ -140,7 +144,7 @@ bool Graphics::drawQuad(LP_VERTEXBUFFER vertexBuffer)
 
 	device3d->SetStreamSource(0, vertexBuffer, 0, sizeof(VertexC));
 	device3d->SetFVF(D3DFVF_VERTEX);
-	result = device3d->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
+	result = device3d->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, numOfPrimitives);
 
 	device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, false); // alpha blend off
 

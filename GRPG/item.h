@@ -35,7 +35,10 @@ public:
 		if (instanceCount <= 0)
 		{
 			textureManager = new TextureManager();
-			textureManager->initialize(gamePtr->getGraphics(), itemImgFileName.c_str());
+			if (!textureManager->initialize(gamePtr->getGraphics(), (itemNS::itemSpriteLocation+itemImgFileName).c_str()))
+			{
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize item texture " + itemImgFileName));
+			}
 		}
 		instanceCount++;
 	}

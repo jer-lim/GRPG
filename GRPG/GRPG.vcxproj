@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
