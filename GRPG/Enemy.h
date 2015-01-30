@@ -24,11 +24,11 @@ public:
 
 	//Getters and setters
 	int getattackLv(){ return attackLv; }
-	void setattackLv(int i){ attackLv = i; }
+	//void setattackLv(int i){ attackLv = i; }
 	int getdefenseLv(){ return defenseLv; }
-	void setdefenseLv(int i){ defenseLv = i; }
+	//void setdefenseLv(int i){ defenseLv = i; }
 	int getstrengthLv(){ return strengthLv; }
-	void setstrengthLv(int i){ strengthLv = i; }
+	//void setstrengthLv(int i){ strengthLv = i; }
 };
 
 #endif

@@ -29,18 +29,18 @@ private:
 	const std::string weaponsDataLocation = "assets/items/weapons.gdef";
 	const std::string armorDataLocation = "assets/items/armor.gdef";
 	const std::string shieldsDataLocation = "assets/items/shields.gdef";
-	unordered_map<int, Item> map_items;
+	unordered_map<int, Item*> map_items;
 public:
 	ItemLoader(){}
 	void loadAllItems();
 	~ItemLoader(){
-		for (unordered_map<int, Item>::iterator it = map_items.begin(); it != map_items.end(); ++it){
-			it->second.destroy();
+		for (unordered_map<int, Item*>::iterator it = map_items.begin(); it != map_items.end(); ++it){
+			SAFE_DELETE(it->second);
 		}
 		map_items.clear();
 	}
 	Item* getItem(int id){
-		return &map_items[id];
+		return map_items[id];
 	}
 };
 #endif
