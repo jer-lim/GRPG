@@ -118,7 +118,7 @@ HRESULT Graphics::createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER
 		return result;
 	memcpy(ptr, verts, size);   // copy vertex data into buffer
 	vertexBuffer->Unlock();     // unlock buffer
-
+	
 	return result;
 }
 
@@ -150,7 +150,6 @@ bool Graphics::drawQuad(LP_VERTEXBUFFER vertexBuffer, int numOfPrimitives)
 
 	if (FAILED(result))
 		return false;
-
 	return true;
 }
 

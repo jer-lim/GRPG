@@ -104,7 +104,7 @@ void Grpg::update()
 {
 	if(!input->getMouseLButton() && mouseWasDown)
 	{
-		if (ui->mouseInside(*viewport))
+		if (ui->mouseInside(viewport))
 		{
 			ui->performClick();
 		}
@@ -131,19 +131,22 @@ void Grpg::update()
 	{
 		mouseWasDown = true;
 	}
-
+	
 	map<int, PlayerSkill>::iterator it;
 	map<int, PlayerSkill>* playerSkills = player->getSkills();
 	for (it = playerSkills->begin(); it != playerSkills->end(); it++)
 	{
 		//it->second.gainXP(rand()%10);
 	}
+	//CRIME SCENE/MEMORY LEAK
 	mapLoader->update();
+	//CRIME SCENE/MEMORY LEAK
 	drawManager->updateAll(frameTime);
-
+	
 	//View is always centered on the player
 	viewport->setX(player->getX());
 	viewport->setY(player->getY());
+	
 }
 
 //=============================================================================
@@ -165,6 +168,7 @@ void Grpg::collisions()
 //=============================================================================
 void Grpg::render()
 {
+	
     graphics->spriteBegin();                // begin drawing sprites
 
 	drawManager->renderAll();
@@ -178,14 +182,10 @@ void Grpg::render()
 	{
 		//do a proper interface check here for the name
 		uiFont->print(mouseOverEntity->view(), 5, 20);
-		/*if (mouseOverEntity->getPerson() != nullptr)
-		{
-			if (mouseOverEntity->getPerson())
-				uiFont->print(((NPC*)(mouseOverEntity->getPerson()))->getname(), 5, 20);
-		}*/
 	}
 
     graphics->spriteEnd();                  // end drawing sprites
+	
 }
 
 //=============================================================================

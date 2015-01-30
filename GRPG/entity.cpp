@@ -753,12 +753,12 @@ void Entity::attack(Entity* e)
 // Returns true if it is inside, false if it is outside
 // Uses input->getMouseX() and input->getMouseY()
 //=============================================================================
-bool Entity::mouseInside(Viewport vp)
+bool Entity::mouseInside(Viewport* vp)
 {
 	VECTOR2 screenTopLeft;
 	if (!anchored)
 	{
-		screenTopLeft = vp.getTopLeft();
+		screenTopLeft = vp->getTopLeft();
 	}
 	else
 	{
