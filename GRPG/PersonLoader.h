@@ -15,14 +15,14 @@ class PersonLoader
 private:
 	const std::string friendlynpcDataLocation = "assets/npcs/friendly_npcs.gdef";
 	const std::string enemyDataLocation = "assets/npcs/npcs.gdef";
-	unordered_map<int, NPC> map_npcs;
+	unordered_map<int, NPC*> map_npcs;
 	//unordered_map<int, Enemy> map_enemies;
 public:
 	PersonLoader(){}
 	void loadAllNPCs();
 	~PersonLoader(){
-		for (unordered_map<int, NPC>::iterator it = map_npcs.begin(); it != map_npcs.end(); ++it){
-			it->second.destroy();
+		for (unordered_map<int, NPC*>::iterator it = map_npcs.begin(); it != map_npcs.end(); ++it){
+			SAFE_DELETE(it->second);
 		}
 		map_npcs.clear();
 	}
@@ -36,7 +36,7 @@ public:
 		return &map_enemies[id];
 	}*/
 	NPC* getNPC(int id){
-		return &map_npcs[id];
+		return map_npcs[id];
 	}
 };
 #endif
