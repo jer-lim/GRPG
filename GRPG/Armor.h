@@ -1,3 +1,5 @@
+//MATTSCAN: LIKELIHOOD OF MEMORY LEAK: 0%
+
 #ifndef _ARMOR_H			         // Prevent multiple definitions if this 
 #define _ARMOR_H		             // file is included in more than one place
 

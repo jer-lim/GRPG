@@ -18,6 +18,7 @@ UI::UI() : Entity()
 	image.setFrameDelay(1);
 	uiText = new TextDX();
 	tabTexture = new TextureManager();
+	uiImgTexture = new TextureManager();
 	activeTab = uiNS::SKILLS;
 }
 
@@ -26,9 +27,10 @@ UI::UI() : Entity()
 //=============================================================================
 UI::~UI()
 {
+	onLostDevice();
 	SAFE_DELETE(uiText);
 	SAFE_DELETE(tabTexture);
-	onLostDevice();
+	SAFE_DELETE(uiImgTexture);
 }
 
 //=============================================================================
@@ -49,7 +51,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	//init texture
 	if (!tabTexture->initialize(graphics, TAB_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing tabs texture"));
-
+	if (!uiImgTexture->initialize(graphics, UI_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing ui_image texture"));
 	if (!tabImage.initialize(graphics, 0, 0, 1, tabTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Tabs image could not be initalized"));
 
@@ -96,7 +99,7 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		rows = 5;                           // force a workable result
 
 	//UI only have one image
-	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, UI_IMAGE, true));
+	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, uiImgTexture, true));
 }
 
 //=============================================================================
@@ -172,7 +175,6 @@ void UI::draw(Viewport* viewport)
 		healthPercent = 0;
 	}
 	try {
-		availableHealth.deleteVertexBuffer();
 		availableHealth.initializeRectangle(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth*healthPercent, uiNS::healthHeight, uiNS::healthColor);
 	}
 	catch (...) {

@@ -214,7 +214,7 @@ class Entity : public Destination, public Interactable
 	//		whichTexture = the texture that this entity reads from
 	//		anc = twhether this entity is anchored or not (Changes drawing x and y location based on viewport)
 	// Post: returns true if successful, false if failed
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[], bool anc = false);
+	//virtual bool initialize(Game *gamePtr, int width, int height, int ncols, const char whichTexture[], bool anc = false);
 
     // Initialize Entity
     // Pre: *gamePtr = pointer to Game object

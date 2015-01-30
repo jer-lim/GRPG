@@ -61,6 +61,7 @@ Entity::~Entity()
 //		anc = twhether this entity is anchored or not (Changes drawing x and y location based on viewport)
 // Post: returns true if successful, false if failed
 //=============================================================================
+/*
 bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const char* whichTexture, bool anc)
 {
 	anchored = anc;
@@ -75,7 +76,7 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *whichTexture));
 
 	return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM, anc);
-}
+}*/
 
 //=============================================================================
 // Initialize the Entity.

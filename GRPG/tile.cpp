@@ -22,10 +22,10 @@ Tile::Tile(bool collidable) : Entity()
 // Initialize the Ship.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Tile::initialize(Game *gamePtr, const char image[])
+/*bool Tile::initialize(Game *gamePtr, const char image[])
 {
 	return(Entity::initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, 1, image));
-}
+}*/
 
 bool Tile::initialize(Game *gamePtr, TextureManager* tm)
 {

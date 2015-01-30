@@ -1,3 +1,10 @@
+//MATTSCAN: LIKELIHOOD OF MEMORY LEAK: VERY UNLIKELY
+/*
+	MEMORY LEAK POSSIBILITIES:
+		GRAPHICS PTR: DELETE CALLED IN GAME DESTRUCTOR
+		VERTEXBUFFER: SAFE_RELEASE CALLED IN DESTRUCTOR AND RECREATE
+*/
+
 #ifndef _BUTTON_H              // Prevent multiple definitions if this 
 #define _BUTTON_H              // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
@@ -21,15 +28,19 @@ public:
 	Button() {}
 
 	//Destructor
+	void destroy(){
+		graphics = nullptr;
+		deleteVertexBuffer();
+	}
 	virtual ~Button()
 	{
 		destroy();
-		deleteVertexBuffer();
 	}
 
 	//wrap this with a try catch
 	void initializeRectangle(Graphics *g, float x, float y, float WIDTH, float HEIGHT, COLOR_ARGB backColor)
 	{
+		deleteVertexBuffer();
 		graphics = g;                    // the graphics system
 
 		vtx[0].x = x;
@@ -75,7 +86,6 @@ public:
 		initialized = true;
 		return true;
 	}
-	void destroy(){ graphics = nullptr; }//i don't want to destroy the graphics object
 
 	bool mouseOver(int mouseX, int mouseY)
 	{//rectangle collision
@@ -126,8 +136,10 @@ public:
 
 	void deleteVertexBuffer()
 	{
-		//You can't call delete, must call release for vertex buffers
-		vertexBuffer->Release();
+		if (initialized)
+			//You can't call delete, must call release for vertex buffers
+			//vertexBuffer->Release();
+			SAFE_RELEASE(vertexBuffer);
 	}
 };
 

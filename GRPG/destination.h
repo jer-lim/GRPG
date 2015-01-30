@@ -1,3 +1,5 @@
+//MATTSCAN: LIKELIHOOD OF MEMORY LEAK: VERY UNLIKELY
+
 #ifndef _DESTINATION_H               // Prevent multiple definitions if this 
 #define _DESTINATION_H               // file is included in more than one place
 

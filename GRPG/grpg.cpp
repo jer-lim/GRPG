@@ -20,11 +20,14 @@ Grpg::~Grpg()
 {
     releaseAll();           // call onLostDevice() for every graphics item
 	SAFE_DELETE(uiFont);
+	SAFE_DELETE(ui);
 	SAFE_DELETE(drawManager);
 	SAFE_DELETE(mapLoader);
 	SAFE_DELETE(itemLoader);
 	SAFE_DELETE(personLoader);
 	Skill::deleteAllSkills();
+	SAFE_DELETE(Person::thePlayer);
+	//~Game() called afterward
 }
 
 //=============================================================================

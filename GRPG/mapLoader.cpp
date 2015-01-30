@@ -19,8 +19,7 @@ MapLoader::MapLoader(){
 MapLoader::~MapLoader(){
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
-			ManagedTile* mt = ity->second;
-			delete mt;
+			delete ity->second;
 			ity->second = nullptr;
 		}
 		loadedTiles[itx->first].clear();
@@ -28,8 +27,7 @@ MapLoader::~MapLoader(){
 	loadedTiles.clear();
 
 	for (unordered_map<int, TextureManager*>::iterator it = tileTms.begin(); it != tileTms.end(); ++it){
-		TextureManager* tm = it->second;
-		delete tm;
+		delete it->second;
 		it->second = nullptr;
 	}
 	tileTms.clear();
@@ -40,13 +38,14 @@ MapLoader::~MapLoader(){
 	worldMap.clear();
 
 	for (unordered_map<char, chunk*>::iterator it = chunks.begin(); it != chunks.end(); ++it){
-		chunk* c = it->second;
-		delete c;
+		delete it->second;
 		it->second = nullptr;
 	}
 	chunks.clear();
 
 	tileset.clear();
+	
+	//delete victim;//victim is always player and player is deleted at the end
 }
 
 void MapLoader::initialize(Game* game){
