@@ -26,24 +26,32 @@ private:
 	int exp_gain;//skill gain per action done
 public:
 	//Skill names and what they do. These skills are defined in the cpp file
-	static const Skill ATTACK;
-	static const Skill STRENGTH;
-	static const Skill DEFENSE;
-	static const Skill TOUGHNESS;
-	static const Skill FISHING;
-	static const Skill COOKING;
-	static const Skill MINING;
+	static const Skill* ATTACK;
+	static const Skill* STRENGTH;
+	static const Skill* DEFENSE;
+	static const Skill* TOUGHNESS;
+	static const Skill* FISHING;
+	static const Skill* COOKING;
+	static const Skill* MINING;
 
 	static void initSkills();
 
     // constructor
     Skill();
 	Skill(std::string,std::string,int);
+	~Skill();
 
 	//Get functions
 
-	std::string getName(){ return name; }
-	std::string getDescription() { return description; }
+	std::string getName() const
+	{
+		return name;
+	}
+
+	std::string getDescription() const
+	{
+		return description;
+	}
 
 	//Uses runescape's xp formula currently
 	static int calculateXPRequired(float level)
@@ -54,6 +62,17 @@ public:
 			points += floor(lvl + 300 * pow(2, lvl / 7));
 		}
 		return floor(points / 4);
+	}
+
+	static void deleteAllSkills()
+	{
+		delete ATTACK;
+		delete STRENGTH;
+		delete DEFENSE;
+		delete TOUGHNESS;
+		delete FISHING;
+		delete COOKING;
+		delete MINING;
 	}
 };
 #endif

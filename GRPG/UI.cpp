@@ -226,7 +226,7 @@ void UI::drawTabContents(int tabNumber)
 		for (it = playerSkills->begin(); it != playerSkills->end(); it++)
 		{
 			//Print the skill text at the center of each location, with 5 px margin: left;
-			uiText->print(it->second.getSkill().getName(),
+			uiText->print(it->second.getSkill()->getName(),
 				topLeftX + 5, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
 			//Check skill level and append a 0 in front if needed
 			if (it->second.getSkillLevel() < 10)

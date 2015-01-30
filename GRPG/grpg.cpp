@@ -24,6 +24,7 @@ Grpg::~Grpg()
 	SAFE_DELETE(mapLoader);
 	SAFE_DELETE(itemLoader);
 	SAFE_DELETE(personLoader);
+	Skill::deleteAllSkills();
 }
 
 //=============================================================================

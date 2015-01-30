@@ -25,12 +25,14 @@ private:
 	//The player that has this skill and it's corresponding XP
 	Player* thePlayer;
 	//The skill that this refers to
-	Skill skill;
+	const Skill* skill;
 public:
 	// default constructor
 	PlayerSkill();
 	// constructor
-	PlayerSkill(Player* referencedPlayer, Skill s);
+	PlayerSkill(Player* referencedPlayer, const Skill* s);
+
+	~PlayerSkill();
 
 	//Get functions
 
@@ -38,7 +40,7 @@ public:
 	Player* getPlayer() { return thePlayer; }
 
 	// Get the skill that this referes to
-	Skill getSkill() { return skill; }
+	const Skill* getSkill() { return skill; }
 
 	// Get the total number of XP the player has gained in this skill
 	long getXP() { return experience; }

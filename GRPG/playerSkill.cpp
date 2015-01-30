@@ -12,11 +12,16 @@ PlayerSkill::PlayerSkill() {}
 // p: The player that has this skill
 // s: The skill that you are referring to
 //=============================================================================
-PlayerSkill::PlayerSkill(Player* p, Skill s)
+PlayerSkill::PlayerSkill(Player* p, const Skill* s)
 {
 	thePlayer = p;
 	skill = s;
 	experience = 0;
+}
+
+//Destructor
+PlayerSkill::~PlayerSkill()
+{
 }
 
 //Makes use of Runescape's experience formula to calculate the level
