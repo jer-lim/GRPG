@@ -381,6 +381,7 @@ void MapLoader::update(){
 		loadedTiles[newLocation.x][newLocation.y] = mt;
 		loadedTiles[oldLocation.x].erase(oldLocation.y);
 		//END CRIME SCENE
+		//VERDICT: NOT GUILTY
 		
 		char oldTileId = getTileIdAtLocation(oldLocation.x, oldLocation.y);
 		char newTileId = getTileIdAtLocation(newLocation.x, newLocation.y);
