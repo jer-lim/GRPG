@@ -103,6 +103,12 @@ class Entity : public Destination, public Interactable
     bool projectionsOverlap(Entity &ent);
     bool collideCornerCircle(VECTOR2 corner, Entity &ent, VECTOR2 &collisionVector);
 
+	// Returns a random number from 1 to 0
+	float getRandomNumber()
+	{
+		return ((float)rand() / (RAND_MAX));
+	}
+
   public:
     // Constructor
     Entity();
@@ -249,8 +255,10 @@ class Entity : public Destination, public Interactable
     // Does this entity collide with ent?
     virtual bool collidesWith(Entity &ent, VECTOR2 &collisionVector);
 
-    // Damage this Entity with weapon.
-    virtual void damage(int d);
+	// This entity has been damaged by another entity
+	// Pass in the other entity's attack and strength.
+	// Returns the amount of damage dealt.
+    virtual int damage(int atk, int str);
 
 	// Move towards a specific destination (Can be a Point or an Entity)
 	void move(Destination* d);

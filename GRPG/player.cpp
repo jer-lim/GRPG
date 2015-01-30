@@ -94,19 +94,28 @@ void Player::update(float frameTime, Game* gamePtr)
 
 	timeLeft -= frameTime;
 }
-
 //=============================================================================
 // damage
-// This entity has taken damage
+// This entity has been damaged by another entity
+// Pass in the other entity's attack and strength.
+// Returns the amount of damage dealt.
 //=============================================================================
-void Player::damage(int damageDealt)
+int Player::damage(int atk, int str)
 {
-	health -= damageDealt;
+	int chanceToHit = ((0.5*getRandomNumber() + 0.5)*atk - (0.5*getRandomNumber() + 0.5)*(skills[skillNS::ID_SKILL_DEFENSE].getSkillLevel())) * 0.8;
+	int damage;
+	if (getRandomNumber() < chanceToHit)
+	{
+		damage = (0.5*getRandomNumber() + 0.5)*str;
+	}
+	else
+	{
+		damage = 0;
+	}
+	health -= damage;
 	if (health <= 0)
 	{
-		//Will crash the game instead of properly throwing warning
-		// Piece of shit code
-		//throw new GameError(gameErrorNS::WARNING, "You have died!");
 		game->getUI()->addChatText("You died!");
 	}
+	return damage;
 }

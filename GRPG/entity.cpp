@@ -5,6 +5,7 @@
 #include <sstream>
 #include "NPC.h"
 #include "UI.h"
+#include "Enemy.h"
 
 //=============================================================================
 // constructor
@@ -332,7 +333,15 @@ void Entity::update(float frameTime, Game* gamePtr)
 				VECTOR2 direction = destinationVector - getVector();
 				image.flipHorizontal(direction.x < 0);
 
-				victim->damage(1);
+				if (person != Person::thePlayer)
+				{
+					victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
+				}
+				else
+				{
+					map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
+					victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+				}
 				attackCooldown = person->getAttackCooldown();
 				image.setFrames(1, person->getNumOfCols()-1);
 				image.setLoop(false);
@@ -683,11 +692,23 @@ bool Entity::outsideRect(RECT rect)
 
 //=============================================================================
 // damage
-// This entity has been damaged, taking d damage.
+// This entity has been damaged by another entity
+// Pass in the other entity's attack and strength.
+// Returns the amount of damage dealt.
 //=============================================================================
-void Entity::damage(int d)
+int Entity::damage(int atk, int str)
 {
-	health -= d;
+	int chanceToHit = ((0.5*getRandomNumber() + 0.5)*atk - (0.5*getRandomNumber() + 0.5)*((Enemy*)person)->getdefenseLv()) * 0.8;
+	int damage;
+	if (getRandomNumber() < chanceToHit)
+	{
+		damage = ceil((0.5*getRandomNumber() + 0.5)*str);
+	}
+	else
+	{
+		damage = 0;
+	}
+	health -= damage;
 	resetAvailableHealth(oldViewport);
 	displayTime = entityNS::healthDisplay;
 	availableHealth->setVisible(true);
@@ -698,6 +719,7 @@ void Entity::damage(int d)
 		//TODO: Tell spawn manager to spawn another one of this dude
 		delete this;
 	}
+	return damage;
 }
 
 //=============================================================================

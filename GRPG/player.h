@@ -64,7 +64,10 @@ public:
 	virtual void draw(Viewport* viewport);
     virtual bool initialize(Game *gamePtr);
 	virtual void Player::update(float frameTime, Game* gamePtr);
-    virtual void damage(int weapon);
+	// This entity has been damaged by another entity
+	// Pass in the other entity's attack and strength.
+	// Returns the amount of damage dealt.
+	virtual int damage(int atk, int str);
 
 	Inventory* getInventory(){ return &inventory; }
 
