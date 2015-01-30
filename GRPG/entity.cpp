@@ -299,6 +299,9 @@ void Entity::update(float frameTime, Game* gamePtr)
 				requestPath = true;
 			}
 
+			// Uncomment this and comment the next block to not use pathfinding
+			//path.push(immediateVector);
+
 			if (requestPath){
 				// Awesome pathfinding here
 				if (gamePtr->getMapLoader()->canRequestPath()){
