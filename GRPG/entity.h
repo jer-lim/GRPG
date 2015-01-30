@@ -61,10 +61,10 @@ class Entity : public Destination, public Interactable
 	VECTOR2 oldLocation;	// The old location this entity was at to check if re-drawing are needed
 	bool anchored;			// Anchored entities don't move when the viewport moves
 	Image	image;			// The image that is drawn on the screen
-	Graphics* graphics;		// A pointer to the graphics object
-	TextureManager* textureM; //This needs to be set on the entity's creation by any entity inheriting from this
-	Button* backHealth;			//Vertex data for the entirety of the health bar
-	Button* availableHealth;		// Vertex data for only the health that the player has
+	Graphics* graphics = nullptr;		// A pointer to the graphics object
+	TextureManager* textureM = nullptr; //This needs to be set on the entity's creation by any entity inheriting from this
+	Button* backHealth = nullptr;			//Vertex data for the entirety of the health bar
+	Button* availableHealth = nullptr;		// Vertex data for only the health that the player has
 
 	// Pathfinding
 	queue<VECTOR2> path;

@@ -21,7 +21,10 @@ public:
 	PersonLoader(){}
 	void loadAllNPCs();
 	~PersonLoader(){
-
+		for (unordered_map<int, NPC>::iterator it = map_npcs.begin(); it != map_npcs.end(); ++it){
+			it->second.destroy();
+		}
+		map_npcs.clear();
 	}
 
 	//Make sure to use only the IDs for these 2 or else it is likely that an exception is thrown
