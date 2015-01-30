@@ -189,7 +189,7 @@ class Entity : public Destination, public Interactable
 	virtual void setY(float yL)				{ y = yL; }
 
 	// Causes the player to move towards a specific destination (Can be a Point or an Entity)
-	virtual void setDestination(Destination* d) { destination = d; }
+	virtual void setDestination(Destination* d) { move(d); }
 
 	// Causes the player to start attacking a specific entity
 	virtual void setVictim(Entity* e) { victim = e; }
@@ -266,12 +266,12 @@ class Entity : public Destination, public Interactable
 	virtual bool isEnemy();
 
 	// Resets the coordinates of the available health portion of this entity
-	virtual void resetAvailableHealth();
+	virtual void resetAvailableHealth(Viewport* vp);
 
 	// Resets the coordinates of the health portion of this entity
 	// Note that this only resets the health part, which is the background of the health
 	// To re-draw the red part as well, call resetAvailableHealth.
-	virtual void resetHealth();
+	virtual void resetHealth(Viewport* vp);
 
 	// Never actually releases the entity because it is likely reused
 	virtual void release(){  }

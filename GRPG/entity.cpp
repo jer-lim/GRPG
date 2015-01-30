@@ -31,6 +31,9 @@ Entity::Entity()
 	person = nullptr;
 	backHealth = nullptr;
 	availableHealth = nullptr;
+
+	oldViewport = VECTOR2(-1, -1);
+	oldLocation = VECTOR2(-1, -1);
 }
 
 //=============================================================================
@@ -104,21 +107,6 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		//Health bars above the player
 		backHealth = new Button();
 		availableHealth = new Button();
-		//Initialize them
-		if (!backHealth->initialize(graphics, 
-			getX() - image.getX() / 2 - entityNS::healthBarWidth / 2,
-			getY() - image.getY()/2 - entityNS::healthBarHeight,
-			entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::noHealthColor, ""))
-		{
-			throw new GameError(gameErrorNS::FATAL_ERROR, "Back Health could not be initalized");
-		}
-		if (!availableHealth->initialize(graphics,
-			getX() - image.getX() / 2 - entityNS::healthBarWidth / 2,
-			getY() - image.getY() / 2 - entityNS::healthBarHeight,
-			entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::healthColor, ""))
-		{
-			throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
-		}
 	}
 	
 	edge.top = whichCharacter->getColliHeight() / 2;
@@ -169,8 +157,20 @@ void Entity::activate()
 //=============================================================================
 void Entity::draw(Viewport* viewport)
 {
-	if (backHealth != nullptr && false)
+	if (backHealth != nullptr)
 	{
+		//Perform a viewport check
+
+		//Check if changes are required
+		if (viewport->getTopLeft() != oldViewport && getVector() != oldLocation)
+		{
+
+		}
+
+		//Calculate drawing requirements
+		resetAvailableHealth(viewport);
+		resetHealth(viewport);
+
 		graphics->spriteEnd();
 		graphics->spriteBegin();
 
@@ -230,7 +230,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 
 			VECTOR2 destinationVector = destination->getVector();
 			VECTOR2 immediateVector = destinationVector;
-
+			/*
 			LARGE_INTEGER currentTime;
 			LARGE_INTEGER timerFreq;
 			QueryPerformanceCounter(&currentTime);
@@ -271,9 +271,9 @@ void Entity::update(float frameTime, Game* gamePtr)
 				destination = 0;
 				return;
 			}
-
+			*/
 			float speed = person->getMovementSpeed();
-
+			
 			VECTOR2 direction = immediateVector - getVector();
 			VECTOR2 *normalizedDirection = &VECTOR2();
 			D3DXVec2Normalize(normalizedDirection, &direction);
@@ -679,6 +679,11 @@ void Entity::damage(int d)
 //=============================================================================
 void Entity::move(Destination* d)
 {
+	//Remove last destination if any
+	if (destination != nullptr)
+	{
+		destination->release();
+	}
 	destination = d;
 }
 
@@ -745,15 +750,29 @@ bool Entity::isEnemy()
 }
 
 // Resets the coordinates of the available health portion of this entity
-void Entity::resetAvailableHealth()
+void Entity::resetAvailableHealth(Viewport* vp)
 {
-
+	VECTOR2 amountToReduce = vp->getTopLeft();
+	if (!availableHealth->initialize(graphics,
+		getX() - image.getX() / 2 - amountToReduce.x - entityNS::healthBarWidth / 2,
+		getY() - image.getY() / 2 - amountToReduce.y - entityNS::healthBarHeight,
+		entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::healthColor, ""))
+	{
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
+	}
 }
 
 // Resets the coordinates of the health portion of this entity
 // Note that this only resets the health part, which is the background of the health
 // To re-draw the red part as well, call resetAvailableHealth.
-void Entity::resetHealth()
+void Entity::resetHealth(Viewport* vp)
 {
-
+	VECTOR2 amountToReduce = vp->getTopLeft();
+	if (!backHealth->initialize(graphics,
+		getX() - image.getX() / 2 - amountToReduce.x - entityNS::healthBarWidth / 2,
+		getY() - image.getY() / 2 - amountToReduce.y - entityNS::healthBarHeight,
+		entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::noHealthColor, ""))
+	{
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Back Health could not be initalized");
+	}
 }
