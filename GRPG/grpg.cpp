@@ -25,6 +25,8 @@ Grpg::~Grpg()
 	SAFE_DELETE(mapLoader);
 	SAFE_DELETE(itemLoader);
 	SAFE_DELETE(personLoader);
+	SAFE_DELETE(hitSplat);
+	SAFE_DELETE(missSplat);
 	Skill::deleteAllSkills();
 	SAFE_DELETE(Person::thePlayer);
 	//~Game() called afterward
@@ -48,6 +50,14 @@ void Grpg::initialize(HWND hwnd)
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
 	personLoader->loadAllNPCs();
+
+	missSplat = new TextureManager();
+	missSplat->initialize(graphics, MISS_IMAGE);
+	entityNS::miss.initialize(graphics, 0, 0, 0, missSplat);
+
+	hitSplat = new TextureManager();
+	hitSplat->initialize(graphics, HIT_IMAGE);
+	entityNS::hit.initialize(graphics, 0, 0, 0, hitSplat);
 
 	// initialize DirectX fonts
 	// 15 pixel high Arial

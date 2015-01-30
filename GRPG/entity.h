@@ -23,6 +23,10 @@ namespace entityNS
 	const UINT healthBarWidth = 64;
 	const UINT healthBarHeight = 8;
 	const float healthDisplay = 2;
+
+	// Blood splat
+	extern Image miss;
+	extern Image hit;
 }
 
 /*

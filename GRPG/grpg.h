@@ -23,6 +23,9 @@ private:
 	ItemLoader* itemLoader;
 	TextDX* uiFont;
 
+	TextureManager* missSplat;
+	TextureManager* hitSplat;
+
 	bool mouseWasDown;
 
 public:

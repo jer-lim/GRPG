@@ -3,9 +3,15 @@
 #include "mapLoader.h"
 #include <cmath>
 #include <sstream>
-#include "NPC.h"
 #include "UI.h"
 #include "Enemy.h"
+
+namespace entityNS
+{
+	Image miss = Image();
+
+	Image hit = Image();
+}
 
 //=============================================================================
 // constructor
