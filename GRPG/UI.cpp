@@ -45,7 +45,7 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	graphics = gamePtr->getGraphics();
 
 	// 15 pixel high Arial
-	if (uiText->initialize(graphics, uiNS::textSize, true, false, "Arial") == false)
+	if (uiText->initialize(graphics, uiNS::textSize, false, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
 
 	//init texture

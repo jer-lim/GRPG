@@ -9,8 +9,8 @@
 namespace entityNS
 {
 	Image miss = Image();
-
 	Image hit = Image();
+	TextDX splatText = TextDX();
 }
 
 //=============================================================================
@@ -214,9 +214,26 @@ void Entity::draw(Viewport* viewport)
 		}
 		else
 		{
-			entityNS::hit.setX(getX());
-			entityNS::hit.setY(getY());
-			entityNS::hit.draw(viewport);
+			VECTOR2 vpCoord = viewport->getTopLeft();
+			float newX = getX() - vpCoord.x;
+			float newY = getY() - vpCoord.y;
+			entityNS::hit.setX(newX);
+			entityNS::hit.setY(newY);
+			entityNS::hit.draw();
+
+			stringstream ss;
+			ss << damageTaken;
+
+			// Calculate the text side
+			RECT* textRect = new RECT();
+			textRect->left = 0;
+			textRect->top = 0;
+			//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
+			entityNS::splatText.print(ss.str(), *textRect, DT_CALCRECT);
+			newX -= textRect->right/2;
+			newY -= textRect->bottom/2;
+
+			entityNS::splatText.print(ss.str(), newX, newY);
 		}
 	}
 }
@@ -366,7 +383,12 @@ void Entity::update(float frameTime, Game* gamePtr)
 				else
 				{
 					map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
-					victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+					int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+					//We're obviously not going to implement combat styles so I'll just pump everything.
+					skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
+					skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
+					skills->at(skillNS::ID_SKILL_STRENGTH).gainXP(damageDealt * 4);
+					skills->at(skillNS::ID_SKILL_TOUGHNESS).gainXP(damageDealt * 4);
 				}
 				attackCooldown = person->getAttackCooldown();
 				image.setFrames(1, person->getNumOfCols()-1);
@@ -721,15 +743,11 @@ bool Entity::outsideRect(RECT rect)
     return false;
 }
 
-//=============================================================================
-// damage
-// This entity has been damaged by another entity
-// Pass in the other entity's attack and strength.
-// Returns the amount of damage dealt.
-//=============================================================================
-int Entity::damage(int atk, int str)
+void Entity::takeDamage(int atk, int str, int def)
 {
-	int chanceToHit = ((0.5*getRandomNumber() + 0.5)*atk - (0.5*getRandomNumber() + 0.5)*((Enemy*)person)->getdefenseLv()) * 0.8;
+	float attackerR = getRandomNumber();
+	float defenderR = getRandomNumber();
+	float chanceToHit = (ceil((0.5*attackerR + 0.5)*atk) - (0.5*defenderR + 0.5)*def)* 0.8;
 	if (getRandomNumber() < chanceToHit)
 	{
 		damageTaken = ceil((0.5*getRandomNumber() + 0.5)*str);
@@ -740,6 +758,17 @@ int Entity::damage(int atk, int str)
 	}
 	splatTime = entityNS::splatTime;
 	health -= damageTaken;
+}
+
+//=============================================================================
+// damage
+// This entity has been damaged by another entity
+// Pass in the other entity's attack and strength.
+// Returns the amount of damage dealt.
+//=============================================================================
+int Entity::damage(int atk, int str)
+{
+	takeDamage(atk, str, ((Enemy*)person)->getdefenseLv());
 	resetAvailableHealth(oldViewport);
 	displayTime = entityNS::healthDisplay;
 	availableHealth->setVisible(true);

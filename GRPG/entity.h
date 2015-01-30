@@ -27,6 +27,7 @@ namespace entityNS
 	// Blood splat
 	extern Image miss;
 	extern Image hit;
+	extern TextDX splatText;
 	const float splatTime = 1.2;
 }
 
@@ -116,6 +117,8 @@ class Entity : public Destination, public Interactable
 	{
 		return ((float)rand() / (RAND_MAX));
 	}
+
+	void takeDamage(int atk, int str, int def);
 
   public:
     // Constructor
