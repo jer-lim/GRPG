@@ -305,8 +305,10 @@ void MapLoader::update(){
 
 	queue<TileVector> toMove;
 	queue<TileVector> toMoveTo;
-	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
-		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
+	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx)
+	{
+		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity)
+		{
 			// Get coordinates on the map based on tile count
 			int tileX = itx->first;
 			int tileY = ity->first;
@@ -363,9 +365,12 @@ void MapLoader::update(){
 		TileVector oldLocation = toMove.front();
 		ManagedTile* mt = loadedTiles[oldLocation.x][oldLocation.y];
 		TileVector newLocation = toMoveTo.front();
+		
+		//CRIME SCENE
 		loadedTiles[newLocation.x][newLocation.y] = mt;
 		loadedTiles[toMove.front().x].erase(toMove.front().y);
-
+		//END CRIME SCENE
+		
 		char oldTileId = getTileIdAtLocation(oldLocation.x, oldLocation.y);
 		char newTileId = getTileIdAtLocation(newLocation.x, newLocation.y);
 
@@ -374,7 +379,7 @@ void MapLoader::update(){
 
 		tileStruct oldTileInfo = tileset[oldTileId];
 		tileStruct newTileInfo = tileset[newTileId];
-
+		
 		// If they are different tiles or are spawners, need to delete and change it
 		if (newTileId != oldTileId || newTileInfo.type == tileNS::type::SPAWNER){
 
