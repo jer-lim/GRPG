@@ -380,7 +380,12 @@ void Entity::update(float frameTime, Game* gamePtr)
 				else
 				{
 					map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
-					victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+					int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+					//We're obviously not going to implement combat styles so I'll just pump everything.
+					skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
+					skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
+					skills->at(skillNS::ID_SKILL_STRENGTH).gainXP(damageDealt * 4);
+					skills->at(skillNS::ID_SKILL_TOUGHNESS).gainXP(damageDealt * 4);
 				}
 				attackCooldown = person->getAttackCooldown();
 				image.setFrames(1, person->getNumOfCols()-1);
