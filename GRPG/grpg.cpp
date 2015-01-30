@@ -102,7 +102,6 @@ void Grpg::initialize(HWND hwnd)
 //=============================================================================
 void Grpg::update()
 {
-	/*
 	if(!input->getMouseLButton() && mouseWasDown)
 	{
 		if (ui->mouseInside(viewport))
@@ -139,8 +138,9 @@ void Grpg::update()
 	{
 		//it->second.gainXP(rand()%10);
 	}
+	//CRIME SCENE/MEMORY LEAK
 	mapLoader->update();
-	*/
+	//CRIME SCENE/MEMORY LEAK
 	drawManager->updateAll(frameTime);
 	
 	//View is always centered on the player
