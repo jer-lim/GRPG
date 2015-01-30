@@ -118,6 +118,8 @@ class Entity : public Destination, public Interactable
 		return ((float)rand() / (RAND_MAX));
 	}
 
+	void takeDamage(int atk, int str, int def);
+
   public:
     // Constructor
     Entity();

@@ -102,17 +102,7 @@ void Player::update(float frameTime, Game* gamePtr)
 //=============================================================================
 int Player::damage(int atk, int str)
 {
-	int chanceToHit = ((0.5*getRandomNumber() + 0.5)*atk - (0.5*getRandomNumber() + 0.5)*(skills[skillNS::ID_SKILL_DEFENSE].getSkillLevel())) * 0.8;
-	if (getRandomNumber() < chanceToHit)
-	{
-		damageTaken = (0.5*getRandomNumber() + 0.5)*str;
-	}
-	else
-	{
-		damageTaken = 0;
-	}
-	splatTime = entityNS::splatTime;
-	health -= damageTaken;
+	takeDamage(atk, str, skills[skillNS::ID_SKILL_DEFENSE].getSkillLevel());
 	if (health <= 0)
 	{
 		game->getUI()->addChatText("You died!");

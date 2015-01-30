@@ -740,15 +740,9 @@ bool Entity::outsideRect(RECT rect)
     return false;
 }
 
-//=============================================================================
-// damage
-// This entity has been damaged by another entity
-// Pass in the other entity's attack and strength.
-// Returns the amount of damage dealt.
-//=============================================================================
-int Entity::damage(int atk, int str)
+void Entity::takeDamage(int atk, int str, int def)
 {
-	int chanceToHit = ((0.5*getRandomNumber() + 0.5)*atk - (0.5*getRandomNumber() + 0.5)*((Enemy*)person)->getdefenseLv()) * 0.8;
+	int chanceToHit = ceil(((0.5*getRandomNumber() + 0.5)*atk) - (0.5*getRandomNumber() + 0.5)*def)* 0.8;
 	if (getRandomNumber() < chanceToHit)
 	{
 		damageTaken = ceil((0.5*getRandomNumber() + 0.5)*str);
@@ -759,6 +753,17 @@ int Entity::damage(int atk, int str)
 	}
 	splatTime = entityNS::splatTime;
 	health -= damageTaken;
+}
+
+//=============================================================================
+// damage
+// This entity has been damaged by another entity
+// Pass in the other entity's attack and strength.
+// Returns the amount of damage dealt.
+//=============================================================================
+int Entity::damage(int atk, int str)
+{
+	takeDamage(atk, str, ((Enemy*)person)->getdefenseLv());
 	resetAvailableHealth(oldViewport);
 	displayTime = entityNS::healthDisplay;
 	availableHealth->setVisible(true);
