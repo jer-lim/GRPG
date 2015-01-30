@@ -96,6 +96,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 	graphics = gamePtr->getGraphics();
 
 	textureM = new TextureManager();
+	//textureM = whichCharacter->getTextureManager();
 	person = whichCharacter;
 
 	//Set the health if this is not the player

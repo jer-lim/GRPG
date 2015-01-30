@@ -3,6 +3,7 @@
 
 #include "constants.h"
 #include <string>
+#include "textureManager.h"
 
 namespace PersonNS{
 	const std::string spriteDirectory = "assets/npcs/sprites/";
@@ -30,6 +31,7 @@ class Person
 {
 private:
 	string imgFileName;
+	TextureManager* textureManager = nullptr;
 	float movementSpeed;
 	float attackCooldown;
 
@@ -44,6 +46,9 @@ public:
 	static Person* thePlayer;
 
 	Person(){}
+	~Person(){
+		//SAFE_DELETE(textureManager);
+	}
 	Person(string i, float mov, float atk, float h, float w, int cols, float colHeight, float colWidth)
 	{
 		imgFileName = i;
@@ -59,6 +64,8 @@ public:
 	}
 
 	string getImgFileName() { return imgFileName; }
+	TextureManager* getTextureManager() { return textureManager; }
+	void getTextureManager(TextureManager* tm) { textureManager = tm; }
 	float getMovementSpeed() { return movementSpeed; }
 	float getAttackCooldown() { return attackCooldown; }
 	float getHeight() { return height; }

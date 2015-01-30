@@ -31,7 +31,14 @@ private:
 	const std::string shieldsDataLocation = "assets/items/shields.gdef";
 	unordered_map<int, Item> map_items;
 public:
+	ItemLoader(){}
 	void loadAllItems();
+	~ItemLoader(){
+		for (unordered_map<int, Item>::iterator it = map_items.begin(); it != map_items.end(); ++it){
+			it->second.destroy();
+		}
+		map_items.clear();
+	}
 	Item* getItem(int id){
 		return &map_items[id];
 	}

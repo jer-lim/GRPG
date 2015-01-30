@@ -18,7 +18,11 @@ private:
 	unordered_map<int, NPC> map_npcs;
 	//unordered_map<int, Enemy> map_enemies;
 public:
+	PersonLoader(){}
 	void loadAllNPCs();
+	~PersonLoader(){
+
+	}
 
 	//Make sure to use only the IDs for these 2 or else it is likely that an exception is thrown
 	//This is a design choice
