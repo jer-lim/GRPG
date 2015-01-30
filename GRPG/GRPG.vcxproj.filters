@@ -74,6 +74,5 @@
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="mem_leak_debugger.h" />
   </ItemGroup>
 </Project>
