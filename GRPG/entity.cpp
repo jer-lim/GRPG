@@ -168,14 +168,16 @@ void Entity::draw(Viewport* viewport)
 		//Perform a viewport check
 
 		//Check if changes are required
-		if (viewport->getTopLeft() != oldViewport && getVector() != oldLocation)
+		if (viewport->getTopLeft() != oldViewport || getVector() != oldLocation)
 		{
-
+			//Calculate drawing requirements
+			resetAvailableHealth(viewport->getTopLeft());
+			resetHealth(viewport->getTopLeft());
+			//delete oldViewport;
+			//delete oldLocation;
+			oldViewport = viewport->getTopLeft();
+			oldLocation = getVector();
 		}
-
-		//Calculate drawing requirements
-		resetAvailableHealth(viewport);
-		resetHealth(viewport);
 
 		graphics->spriteEnd();
 		graphics->spriteBegin();
@@ -670,6 +672,7 @@ bool Entity::outsideRect(RECT rect)
 void Entity::damage(int d)
 {
 	health -= d;
+	resetAvailableHealth(oldViewport);
 	if (health <= 0)
 	{
 		//TODO: tell draw manager that this is dead
@@ -756,15 +759,14 @@ bool Entity::isEnemy()
 }
 
 // Resets the coordinates of the available health portion of this entity
-void Entity::resetAvailableHealth(Viewport* vp)
+void Entity::resetAvailableHealth(VECTOR2 topLeftViewport)
 {
 	availableHealth->deleteVertexBuffer();
-	VECTOR2 amountToReduce = vp->getTopLeft();
 	float healthWidth = (health / ((NPC*)person)->getmaxhealth()) * entityNS::healthBarWidth;
 
 	if (!availableHealth->initialize(graphics,
-		getX() - amountToReduce.x - entityNS::healthBarWidth / 2,
-		getY() - image.getHeight() / 2 - amountToReduce.y - entityNS::healthBarHeight,
+		getX() - topLeftViewport.x - entityNS::healthBarWidth / 2,
+		getY() - image.getHeight() / 2 - topLeftViewport.y - entityNS::healthBarHeight,
 		healthWidth, entityNS::healthBarHeight, uiNS::healthColor, ""))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
@@ -774,13 +776,12 @@ void Entity::resetAvailableHealth(Viewport* vp)
 // Resets the coordinates of the health portion of this entity
 // Note that this only resets the health part, which is the background of the health
 // To re-draw the red part as well, call resetAvailableHealth.
-void Entity::resetHealth(Viewport* vp)
+void Entity::resetHealth(VECTOR2 topLeftViewport)
 {
 	backHealth->deleteVertexBuffer();
-	VECTOR2 amountToReduce = vp->getTopLeft();
 	if (!backHealth->initialize(graphics,
-		getX() - amountToReduce.x - entityNS::healthBarWidth / 2,
-		getY() - image.getHeight() / 2 - amountToReduce.y - entityNS::healthBarHeight,
+		getX() - topLeftViewport.x - entityNS::healthBarWidth / 2,
+		getY() - image.getHeight() / 2 - topLeftViewport.y - entityNS::healthBarHeight,
 		entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::noHealthColor, ""))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Back Health could not be initalized");

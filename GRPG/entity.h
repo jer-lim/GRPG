@@ -266,12 +266,12 @@ class Entity : public Destination, public Interactable
 	virtual bool isEnemy();
 
 	// Resets the coordinates of the available health portion of this entity
-	virtual void resetAvailableHealth(Viewport* vp);
+	virtual void resetAvailableHealth(VECTOR2 topLeftViewport);
 
 	// Resets the coordinates of the health portion of this entity
 	// Note that this only resets the health part, which is the background of the health
 	// To re-draw the red part as well, call resetAvailableHealth.
-	virtual void resetHealth(Viewport* vp);
+	virtual void resetHealth(VECTOR2 topLeftViewport);
 
 	// Never actually releases the entity because it is likely reused
 	virtual void release(){  }
