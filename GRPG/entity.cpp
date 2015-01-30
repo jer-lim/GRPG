@@ -26,6 +26,7 @@ Entity::Entity()
 	image.setFrameDelay(entityNS::animationWait);
 
 	lastPathfindTime.QuadPart = 0;
+	currentDestination = VECTOR2(-1, -1);
 
 	person = nullptr;
 	backHealth = nullptr;
@@ -235,11 +236,22 @@ void Entity::update(float frameTime, Game* gamePtr)
 			QueryPerformanceCounter(&currentTime);
 			QueryPerformanceFrequency(&timerFreq);
 
-			// Find a path if there's no path
-			if (gamePtr != nullptr && (currentTime.QuadPart - lastPathfindTime.QuadPart) / timerFreq.QuadPart > 0.5){
+			// Find a path if destination is changed and time since last pathfinding is long enough
+			bool requestPath = false;
+			if (currentDestination == VECTOR2(-1, -1)){
+				requestPath = true;
+			}
+			else if (gamePtr != nullptr && currentDestination != destinationVector && (currentTime.QuadPart - lastPathfindTime.QuadPart) / timerFreq.QuadPart > 0.5){
+				requestPath = true;
+			}
+
+			if (requestPath){
 				// Awesome pathfinding here
-				path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
-				QueryPerformanceCounter(&lastPathfindTime);
+				if (gamePtr->getMapLoader()->canRequestPath()){
+					path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
+					currentDestination = destinationVector;
+					QueryPerformanceCounter(&lastPathfindTime);
+				}
 			}
 
 			// While entity has a path to follow, follow path
