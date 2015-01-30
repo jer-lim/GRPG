@@ -212,6 +212,23 @@ void MapLoader::load(){
 	QueryPerformanceCounter(&timeEnd);
 	runtimeLog << "Map startup sequence finished in " << ((float)(timeEnd.QuadPart - timeStart.QuadPart) / (float)timerFreq.QuadPart) << " seconds" << endl;
 
+	/* Memory leak test
+	TextureManager* textureManager;
+	stringstream ss;
+	ss << tileImageFolder << tileset['0'].imageName;
+	textureManager = new TextureManager();
+	textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+	while (true){
+		Tile* t = new Tile();
+		t->initialize(gamePtr, textureManager);
+
+		//Image* t = new Image();
+		//t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
+
+		delete t;
+	}
+	*/
+
 }
 
 char MapLoader::getTileIdAtLocation(int tileX, int tileY){
@@ -390,12 +407,20 @@ void MapLoader::update(){
 				// Clear old data
 				// DEFINITE MEMORY LEAK HERE
 				if (mt->tile != nullptr){
-					delete mt->tile;
+					// WHY ISN'T THIS REALLY DELETED
+					//delete mt->tile;
+
+					Tile* t = mt->tile;
+					delete t;
 					drawManager->removeObject(mt->tile);
 					mt->tile = nullptr;
 				}
 				else {
-					delete mt->image;
+					// WHY ISN'T THIS REALLY DELETED
+					//delete mt->image;
+
+					Image* t = mt->image;
+					delete t;
 					drawManager->removeObject(mt->image);
 					mt->image = nullptr;
 				}
@@ -676,7 +701,6 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
 		AStarNode* n = it->second;
 		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
-		n->~AStarNode();
 		delete n;
 		it->second = nullptr;
 	}
@@ -684,7 +708,6 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
 		AStarNode* n = it->second;
 		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
-		n->~AStarNode();
 		delete n;
 		it->second = nullptr;
 	}
