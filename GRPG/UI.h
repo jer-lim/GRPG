@@ -53,6 +53,7 @@ private:
 	//The images that will draw the tab background onto the screen
 	Image tabImage;
 	TextureManager* tabTexture; // The texture of the tabs
+	TextureManager* uiImgTexture;
 	//The current active tab. From uiNS, either COMBATSTYLE, SKILLS or INVENTORY
 	int activeTab;
 

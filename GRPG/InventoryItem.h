@@ -28,9 +28,9 @@ public:
 	InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
 	void destroy(){
 		//drawmanager->removeObject(entity);
-		item->inventoryItemDestroyed();
-		item = nullptr;
+		SAFE_RELEASE(item);
 		SAFE_DELETE(entity);
+		drawmanager = nullptr;
 	}
 	~InventoryItem(){ 
 		destroy();

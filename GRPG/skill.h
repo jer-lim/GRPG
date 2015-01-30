@@ -1,3 +1,9 @@
+//MATTSCAN: LIKELIHOOD OF MEMORY LEAK: NO WAY
+/*
+	MEMORY LEAK POSSIBILITIES:
+		ALL SKILL POINTERS: DESTRUCTOR CALLED BY ~GRPG
+*/
+
 #ifndef _SKILL_H                 // Prevent multiple definitions if this 
 #define _SKILL_H                 // file is included in more than one place
 
@@ -34,8 +40,6 @@ public:
 	static const Skill* COOKING;
 	static const Skill* MINING;
 
-	static void initSkills();
-
     // constructor
     Skill();
 	Skill(std::string,std::string,int);
@@ -66,13 +70,13 @@ public:
 
 	static void deleteAllSkills()
 	{
-		delete ATTACK;
-		delete STRENGTH;
-		delete DEFENSE;
-		delete TOUGHNESS;
-		delete FISHING;
-		delete COOKING;
-		delete MINING;
+		SAFE_DELETE(ATTACK);
+		SAFE_DELETE(STRENGTH);
+		SAFE_DELETE(DEFENSE);
+		SAFE_DELETE(TOUGHNESS);
+		SAFE_DELETE(FISHING);
+		SAFE_DELETE(COOKING);
+		SAFE_DELETE(MINING);
 	}
 };
 #endif

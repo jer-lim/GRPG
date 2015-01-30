@@ -44,6 +44,9 @@ private:
 public:
     // constructor
     Player();
+	~Player(){
+		inventory.destroy();
+	}
 
 	// Get functions
 

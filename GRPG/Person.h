@@ -3,6 +3,8 @@
 
 #include "constants.h"
 #include <string>
+#include "game.h"
+#include "textureManager.h"
 
 namespace PersonNS{
 	const std::string spriteDirectory = "assets/npcs/sprites/";
@@ -30,6 +32,8 @@ class Person
 {
 private:
 	string imgFileName;
+	int instanceCount = 0;//Keep track for textureManager
+	TextureManager* textureManager = nullptr;
 	float movementSpeed;
 	float attackCooldown;
 
@@ -44,6 +48,10 @@ public:
 	static Person* thePlayer;
 
 	Person(){}
+	void destroy(){ SAFE_DELETE(textureManager); }
+	~Person(){
+		destroy();
+	}
 	Person(string i, float mov, float atk, float h, float w, int cols, float colHeight, float colWidth)
 	{
 		imgFileName = i;
@@ -59,6 +67,26 @@ public:
 	}
 
 	string getImgFileName() { return imgFileName; }
+	void setInstanceCount(int i){ 
+		instanceCount = i;
+		if (instanceCount <= 0)
+		{
+			SAFE_DELETE(textureManager);
+		}
+	}
+	int getInstanceCount(){ return instanceCount; }
+	TextureManager* initializeTexture(Game* gamePtr){
+		if (instanceCount <= 0)
+		{
+			textureManager = new TextureManager();
+			if (!textureManager->initialize(gamePtr->getGraphics(), (PersonNS::spriteDirectory + imgFileName).c_str()))
+			{
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize person texture " + imgFileName));
+			}
+		}
+		instanceCount++;
+		return textureManager;
+	}
 	float getMovementSpeed() { return movementSpeed; }
 	float getAttackCooldown() { return attackCooldown; }
 	float getHeight() { return height; }
@@ -67,6 +95,10 @@ public:
 
 	float getColliHeight() { return colliHeight; }
 	float getColliWidth() { return colliWidth; }
+
+	void Release() {
+		setInstanceCount(instanceCount - 1);
+	}
 };
 
 #endif

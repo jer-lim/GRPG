@@ -19,8 +19,7 @@ MapLoader::MapLoader(){
 MapLoader::~MapLoader(){
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
-			ManagedTile* mt = ity->second;
-			delete mt;
+			delete ity->second;
 			ity->second = nullptr;
 		}
 		loadedTiles[itx->first].clear();
@@ -28,8 +27,7 @@ MapLoader::~MapLoader(){
 	loadedTiles.clear();
 
 	for (unordered_map<int, TextureManager*>::iterator it = tileTms.begin(); it != tileTms.end(); ++it){
-		TextureManager* tm = it->second;
-		delete tm;
+		delete it->second;
 		it->second = nullptr;
 	}
 	tileTms.clear();
@@ -40,13 +38,14 @@ MapLoader::~MapLoader(){
 	worldMap.clear();
 
 	for (unordered_map<char, chunk*>::iterator it = chunks.begin(); it != chunks.end(); ++it){
-		chunk* c = it->second;
-		delete c;
+		delete it->second;
 		it->second = nullptr;
 	}
 	chunks.clear();
 
 	tileset.clear();
+	
+	//delete victim;//victim is always player and player is deleted at the end
 }
 
 void MapLoader::initialize(Game* game){
@@ -211,6 +210,23 @@ void MapLoader::load(){
 
 	QueryPerformanceCounter(&timeEnd);
 	runtimeLog << "Map startup sequence finished in " << ((float)(timeEnd.QuadPart - timeStart.QuadPart) / (float)timerFreq.QuadPart) << " seconds" << endl;
+
+	/* Memory leak test
+	TextureManager* textureManager;
+	stringstream ss;
+	ss << tileImageFolder << tileset['0'].imageName;
+	textureManager = new TextureManager();
+	textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
+	while (true){
+		Tile* t = new Tile();
+		t->initialize(gamePtr, textureManager);
+
+		//Image* t = new Image();
+		//t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
+
+		delete t;
+	}
+	*/
 
 }
 
@@ -390,12 +406,20 @@ void MapLoader::update(){
 				// Clear old data
 				// DEFINITE MEMORY LEAK HERE
 				if (mt->tile != nullptr){
-					delete mt->tile;
+					// WHY ISN'T THIS REALLY DELETED
+					//delete mt->tile;
+
+					Tile* t = mt->tile;
+					delete t;
 					drawManager->removeObject(mt->tile);
 					mt->tile = nullptr;
 				}
 				else {
-					delete mt->image;
+					// WHY ISN'T THIS REALLY DELETED
+					//delete mt->image;
+
+					Image* t = mt->image;
+					delete t;
 					drawManager->removeObject(mt->image);
 					mt->image = nullptr;
 				}
@@ -676,7 +700,6 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
 		AStarNode* n = it->second;
 		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
-		n->~AStarNode();
 		delete n;
 		it->second = nullptr;
 	}
@@ -684,7 +707,6 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
 		AStarNode* n = it->second;
 		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
-		n->~AStarNode();
 		delete n;
 		it->second = nullptr;
 	}

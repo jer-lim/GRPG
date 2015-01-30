@@ -10,6 +10,7 @@
 #include <sstream>
 #include <cmath>
 #include "globals.h"
+#include "constants.h"
 #include "tile.h"
 
 class DrawManager;
@@ -37,10 +38,9 @@ struct ManagedTile {
 
 	ManagedTile(Tile* t){ tile = t; }
 	ManagedTile(Image* i){ image = i; }
-
 	~ManagedTile(){
-		if (tile != nullptr) delete tile;
-		if (image != nullptr) delete image;
+		if (tile != nullptr) SAFE_DELETE(tile);
+		if (image != nullptr) SAFE_DELETE(image);
 	}
 };
 
@@ -60,7 +60,9 @@ struct AStarNode {
 	AStarNode* parent = nullptr;
 
 	AStarNode(TileVector c){ tileCoords = c; }
-	~AStarNode(){ parent = nullptr; }
+	~AStarNode(){ 
+		parent = nullptr;
+	}
 };
 
 class MapLoader {

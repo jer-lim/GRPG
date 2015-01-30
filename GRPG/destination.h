@@ -1,9 +1,12 @@
+//MATTSCAN: LIKELIHOOD OF MEMORY LEAK: VERY UNLIKELY
+
 #ifndef _DESTINATION_H               // Prevent multiple definitions if this 
 #define _DESTINATION_H               // file is included in more than one place
 
 class Destination
 {
 public:
+	Destination() {}
 	virtual ~Destination() {}
     // Get the x location of the destination
 	virtual float getX() = 0;
@@ -20,6 +23,7 @@ class Point : public Destination
 private:
 	D3DXVECTOR2 pointDetails;
 public:
+	Point(){}
 	Point(float x, float y)
 	{
 		pointDetails = VECTOR2(x, y);

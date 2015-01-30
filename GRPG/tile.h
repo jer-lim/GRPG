@@ -33,7 +33,7 @@ public:
 
     // inherited member functions
     virtual void draw(Viewport* viewport);
-	virtual bool initialize(Game *gamePtr, const char image[]);
+	//virtual bool initialize(Game *gamePtr, const char image[]);
 	virtual bool initialize(Game *gamePtr, TextureManager* tm);
     void update(float frameTime);
 };
