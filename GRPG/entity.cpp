@@ -9,8 +9,8 @@
 namespace entityNS
 {
 	Image miss = Image();
-
 	Image hit = Image();
+	TextDX splatText = TextDX();
 }
 
 //=============================================================================

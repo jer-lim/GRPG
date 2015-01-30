@@ -59,9 +59,11 @@ void Grpg::initialize(HWND hwnd)
 	hitSplat->initialize(graphics, HIT_IMAGE);
 	entityNS::hit.initialize(graphics, 0, 0, 0, hitSplat);
 
+	entityNS::splatText.initialize(graphics, 12, false, false, "Arial");
+
 	// initialize DirectX fonts
 	// 15 pixel high Arial
-	if (uiFont->initialize(graphics, 15, true, false, "Arial") == false)
+	if (uiFont->initialize(graphics, 15, false, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
 
 	// Initialise entities

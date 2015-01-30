@@ -27,6 +27,7 @@ namespace entityNS
 	// Blood splat
 	extern Image miss;
 	extern Image hit;
+	extern TextDX splatText;
 	const float splatTime = 1.2;
 }
 
