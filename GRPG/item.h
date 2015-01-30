@@ -79,7 +79,7 @@ public:
 			SAFE_DELETE(textureManager);
 		}
 	}
-	void inventoryItemDestroyed() {
+	void Release() {
 		setInstanceCount(instanceCount - 1);
 	}
 };

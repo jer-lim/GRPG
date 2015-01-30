@@ -13,11 +13,22 @@ private:
 	const int inventoryColumns = 3;
 	const int magicPadding = 5;
 	map<int,InventoryItem*> slotList;
-	InventoryItem* slot_body, slot_hand, slot_offhand;
+	InventoryItem *slot_body, *slot_hand, *slot_offhand;
 
 public:
 	// constructor
 	Inventory();//If you don't have a .cpp, don't put ';', put '{}'
+	void destroy(){
+		for (map<int, InventoryItem*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
+			delete it->second;
+			it->second = nullptr;
+		}
+		slotList.clear();
+		delete slot_body;
+		delete slot_hand;
+		delete slot_offhand;
+	}
+	~Inventory(){ destroy(); }
 	Inventory(int x, int y);
 	bool addInventoryItem(int i, InventoryItem* ii);
 	bool addInventoryItem(InventoryItem* ii);
