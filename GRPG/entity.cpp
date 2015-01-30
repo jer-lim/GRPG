@@ -236,7 +236,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 
 			VECTOR2 destinationVector = destination->getVector();
 			VECTOR2 immediateVector = destinationVector;
-			/*
+			
 			LARGE_INTEGER currentTime;
 			LARGE_INTEGER timerFreq;
 			QueryPerformanceCounter(&currentTime);
@@ -277,7 +277,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 				destination = 0;
 				return;
 			}
-			*/
+			
 			float speed = person->getMovementSpeed();
 			
 			VECTOR2 direction = immediateVector - getVector();
@@ -320,15 +320,15 @@ void Entity::update(float frameTime, Game* gamePtr)
 			VECTOR2 collisionVector;
 			if (this->collidesWith(*victim, collisionVector))
 			{
-				victim->damage(1);
-				attackCooldown = person->getAttackCooldown();
-				image.setFrames(1, person->getNumOfCols()-1);
-				image.setLoop(false);
-
 				// Check if the entity needs to be flipped
 				VECTOR2 destinationVector = victim->getVector();
 				VECTOR2 direction = destinationVector - getVector();
 				image.flipHorizontal(direction.x < 0);
+
+				victim->damage(1);
+				attackCooldown = person->getAttackCooldown();
+				image.setFrames(1, person->getNumOfCols()-1);
+				image.setLoop(false);
 			}
 		}
 	}
@@ -758,11 +758,14 @@ bool Entity::isEnemy()
 // Resets the coordinates of the available health portion of this entity
 void Entity::resetAvailableHealth(Viewport* vp)
 {
+	availableHealth->deleteVertexBuffer();
 	VECTOR2 amountToReduce = vp->getTopLeft();
+	float healthWidth = (health / ((NPC*)person)->getmaxhealth()) * entityNS::healthBarWidth;
+
 	if (!availableHealth->initialize(graphics,
-		getX() - image.getX() / 2 - amountToReduce.x - entityNS::healthBarWidth / 2,
-		getY() - image.getY() / 2 - amountToReduce.y - entityNS::healthBarHeight,
-		entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::healthColor, ""))
+		getX() - amountToReduce.x - entityNS::healthBarWidth / 2,
+		getY() - image.getHeight() / 2 - amountToReduce.y - entityNS::healthBarHeight,
+		healthWidth, entityNS::healthBarHeight, uiNS::healthColor, ""))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
 	}
@@ -773,10 +776,11 @@ void Entity::resetAvailableHealth(Viewport* vp)
 // To re-draw the red part as well, call resetAvailableHealth.
 void Entity::resetHealth(Viewport* vp)
 {
+	backHealth->deleteVertexBuffer();
 	VECTOR2 amountToReduce = vp->getTopLeft();
 	if (!backHealth->initialize(graphics,
-		getX() - image.getX() / 2 - amountToReduce.x - entityNS::healthBarWidth / 2,
-		getY() - image.getY() / 2 - amountToReduce.y - entityNS::healthBarHeight,
+		getX() - amountToReduce.x - entityNS::healthBarWidth / 2,
+		getY() - image.getHeight() / 2 - amountToReduce.y - entityNS::healthBarHeight,
 		entityNS::healthBarWidth, entityNS::healthBarHeight, uiNS::noHealthColor, ""))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Back Health could not be initalized");

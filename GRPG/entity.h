@@ -21,7 +21,7 @@ namespace entityNS
 
 	// Health bar
 	const UINT healthBarWidth = 64;
-	const UINT healthBarHeight = 20;
+	const UINT healthBarHeight = 8;
 }
 
 /*
