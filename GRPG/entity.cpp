@@ -48,7 +48,10 @@ Entity::~Entity()
 		availableHealth->deleteVertexBuffer();
 		availableHealth = nullptr;
 	}
-	person = nullptr;
+	if (person != nullptr)
+	{
+		SAFE_RELEASE(person);
+	}
 }
 
 //=============================================================================
@@ -95,8 +98,9 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
     input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 
-	textureM = new TextureManager();
+	//textureM = new TextureManager();
 	//textureM = whichCharacter->getTextureManager();
+	textureM = whichCharacter->initializeTexture(gamePtr);
 	person = whichCharacter;
 
 	//Set the health if this is not the player
