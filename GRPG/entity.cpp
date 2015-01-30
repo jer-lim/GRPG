@@ -113,6 +113,8 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		//Health bars above the player
 		backHealth = new Button();
 		availableHealth = new Button();
+		backHealth->setVisible(false);
+		availableHealth->setVisible(false);
 	}
 	
 	edge.top = whichCharacter->getColliHeight() / 2;
@@ -166,24 +168,27 @@ void Entity::draw(Viewport* viewport)
 	if (backHealth != nullptr)
 	{
 		//Perform a viewport check
-
-		//Check if changes are required
-		if (viewport->getTopLeft() != oldViewport || getVector() != oldLocation)
+		//Only reset graphics if need to draw the health bar
+		if (availableHealth->getVisible())
 		{
-			//Calculate drawing requirements
-			resetAvailableHealth(viewport->getTopLeft());
-			resetHealth(viewport->getTopLeft());
-			//delete oldViewport;
-			//delete oldLocation;
-			oldViewport = viewport->getTopLeft();
-			oldLocation = getVector();
+			//Check if changes are required
+			if (viewport->getTopLeft() != oldViewport || getVector() != oldLocation)
+			{
+				//Calculate drawing requirements
+				resetAvailableHealth(viewport->getTopLeft());
+				resetHealth(viewport->getTopLeft());
+				//delete oldViewport;
+				//delete oldLocation;
+				oldViewport = viewport->getTopLeft();
+				oldLocation = getVector();
+			}
+
+			graphics->spriteEnd();
+			graphics->spriteBegin();
+
+			backHealth->draw();
+			availableHealth->draw();
 		}
-
-		graphics->spriteEnd();
-		graphics->spriteBegin();
-
-		backHealth->draw();
-		availableHealth->draw();
 	}
 
 	image.setX(getX());
@@ -343,6 +348,17 @@ void Entity::update(float frameTime, Game* gamePtr)
 
     image.update(frameTime);
     rotatedBoxReady = false;    // for rotatedBox collision detection
+	}
+
+	//health bar display
+	if (displayTime > 0)
+	{
+		displayTime -= frameTime;
+		if (displayTime <= 0)
+		{
+			availableHealth->setVisible(false);
+			backHealth->setVisible(false);
+		}
 	}
 }
 
@@ -673,6 +689,9 @@ void Entity::damage(int d)
 {
 	health -= d;
 	resetAvailableHealth(oldViewport);
+	displayTime = entityNS::healthDisplay;
+	availableHealth->setVisible(true);
+	backHealth->setVisible(true);
 	if (health <= 0)
 	{
 		//TODO: tell draw manager that this is dead

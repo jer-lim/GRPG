@@ -22,6 +22,7 @@ namespace entityNS
 	// Health bar
 	const UINT healthBarWidth = 64;
 	const UINT healthBarHeight = 8;
+	const float healthDisplay = 2;
 }
 
 /*
@@ -65,6 +66,7 @@ class Entity : public Destination, public Interactable
 	TextureManager* textureM = nullptr; //This needs to be set on the entity's creation by any entity inheriting from this
 	Button* backHealth = nullptr;			//Vertex data for the entirety of the health bar
 	Button* availableHealth = nullptr;		// Vertex data for only the health that the player has
+	float displayTime;					//How long the health bar is going to be displayed.
 
 	// Pathfinding
 	queue<VECTOR2> path;
