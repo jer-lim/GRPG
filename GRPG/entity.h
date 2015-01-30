@@ -27,6 +27,7 @@ namespace entityNS
 	// Blood splat
 	extern Image miss;
 	extern Image hit;
+	const float splatTime = 1.2;
 }
 
 /*
@@ -71,6 +72,9 @@ class Entity : public Destination, public Interactable
 	Button* backHealth = nullptr;			//Vertex data for the entirety of the health bar
 	Button* availableHealth = nullptr;		// Vertex data for only the health that the player has
 	float displayTime;					//How long the health bar is going to be displayed.
+
+	float splatTime;				//How long the hit splat will stay on the screen
+	int damageTaken;				//How many damage this entity took
 
 	// Pathfinding
 	queue<VECTOR2> path;

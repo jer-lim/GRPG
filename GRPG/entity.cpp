@@ -202,6 +202,23 @@ void Entity::draw(Viewport* viewport)
 	image.setY(getY());
 	if (anchored || viewport == nullptr) image.draw();
 	else image.draw(viewport);
+
+	//Damage splats
+	if (splatTime > 0)
+	{
+		if (damageTaken == 0)
+		{
+			entityNS::miss.setX(getX());
+			entityNS::miss.setY(getY());
+			entityNS::miss.draw(viewport);
+		}
+		else
+		{
+			entityNS::hit.setX(getX());
+			entityNS::hit.setY(getY());
+			entityNS::hit.draw(viewport);
+		}
+	}
 }
 
 //=============================================================================
@@ -374,6 +391,11 @@ void Entity::update(float frameTime, Game* gamePtr)
 			availableHealth->setVisible(false);
 			backHealth->setVisible(false);
 		}
+	}
+
+	if (splatTime > 0)
+	{
+		splatTime -= frameTime;
 	}
 }
 
@@ -705,16 +727,16 @@ bool Entity::outsideRect(RECT rect)
 int Entity::damage(int atk, int str)
 {
 	int chanceToHit = ((0.5*getRandomNumber() + 0.5)*atk - (0.5*getRandomNumber() + 0.5)*((Enemy*)person)->getdefenseLv()) * 0.8;
-	int damage;
 	if (getRandomNumber() < chanceToHit)
 	{
-		damage = ceil((0.5*getRandomNumber() + 0.5)*str);
+		damageTaken = ceil((0.5*getRandomNumber() + 0.5)*str);
 	}
 	else
 	{
-		damage = 0;
+		damageTaken = 0;
 	}
-	health -= damage;
+	splatTime = entityNS::splatTime;
+	health -= damageTaken;
 	resetAvailableHealth(oldViewport);
 	displayTime = entityNS::healthDisplay;
 	availableHealth->setVisible(true);
@@ -725,7 +747,7 @@ int Entity::damage(int atk, int str)
 		//TODO: Tell spawn manager to spawn another one of this dude
 		delete this;
 	}
-	return damage;
+	return damageTaken;
 }
 
 //=============================================================================
