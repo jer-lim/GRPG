@@ -4,6 +4,7 @@
 
 void PersonLoader::loadAllNPCs()
 {
+
 	ifstream characterstream;
 	//Friendly Characters
 	characterstream.open(friendlynpcDataLocation);
