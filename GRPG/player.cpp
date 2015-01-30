@@ -45,6 +45,7 @@ void Player::sayMessage(std::string message, TextDX* font)
 	font->print(textMessage, *textRect, DT_CALCRECT);
 	textSize.x = textRect->right;
 	textSize.y = textRect->bottom;
+	delete textRect;
 	//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162498%28v=vs.85%29.aspx
 }
 
