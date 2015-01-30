@@ -60,6 +60,7 @@ void Grpg::initialize(HWND hwnd)
 	entityNS::hit.initialize(graphics, 0, 0, 0, hitSplat);
 
 	entityNS::splatText.initialize(graphics, 12, false, false, "Arial");
+	entityNS::splatText.setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
 
 	// initialize DirectX fonts
 	// 15 pixel high Arial

@@ -214,9 +214,26 @@ void Entity::draw(Viewport* viewport)
 		}
 		else
 		{
-			entityNS::hit.setX(getX());
-			entityNS::hit.setY(getY());
-			entityNS::hit.draw(viewport);
+			VECTOR2 vpCoord = viewport->getTopLeft();
+			float newX = getX() - vpCoord.x;
+			float newY = getY() - vpCoord.y;
+			entityNS::hit.setX(newX);
+			entityNS::hit.setY(newY);
+			entityNS::hit.draw();
+
+			stringstream ss;
+			ss << damageTaken;
+
+			// Calculate the text side
+			RECT* textRect = new RECT();
+			textRect->left = 0;
+			textRect->top = 0;
+			//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
+			entityNS::splatText.print(ss.str(), *textRect, DT_CALCRECT);
+			newX -= textRect->right/2;
+			newY -= textRect->bottom/2;
+
+			entityNS::splatText.print(ss.str(), newX, newY);
 		}
 	}
 }
