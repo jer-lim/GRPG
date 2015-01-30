@@ -211,13 +211,13 @@ void MapLoader::load(){
 	QueryPerformanceCounter(&timeEnd);
 	runtimeLog << "Map startup sequence finished in " << ((float)(timeEnd.QuadPart - timeStart.QuadPart) / (float)timerFreq.QuadPart) << " seconds" << endl;
 
-	/* Memory leak test
+	/* Memory leak test 
 	TextureManager* textureManager;
 	stringstream ss;
 	ss << tileImageFolder << tileset['0'].imageName;
 	textureManager = new TextureManager();
 	textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
-	while (true){
+	for(int i = 0; i < 1000; ++i){
 		Tile* t = new Tile();
 		t->initialize(gamePtr, textureManager);
 
@@ -227,6 +227,7 @@ void MapLoader::load(){
 		delete t;
 	}
 	*/
+	
 
 }
 
@@ -367,8 +368,18 @@ void MapLoader::update(){
 		TileVector newLocation = toMoveTo.front();
 		
 		//CRIME SCENE
+		if (loadedTiles[newLocation.x].count(newLocation.y)){
+			ManagedTile* m = loadedTiles[newLocation.x][newLocation.y];
+			if (m->tile != nullptr){
+				drawManager->removeObject(m->tile);
+			}
+			else if (m->image != nullptr){
+				drawManager->removeObject(m->image);
+			}
+			delete m;
+		}
 		loadedTiles[newLocation.x][newLocation.y] = mt;
-		loadedTiles[toMove.front().x].erase(toMove.front().y);
+		loadedTiles[oldLocation.x].erase(oldLocation.y);
 		//END CRIME SCENE
 		
 		char oldTileId = getTileIdAtLocation(oldLocation.x, oldLocation.y);
