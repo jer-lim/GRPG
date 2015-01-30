@@ -93,9 +93,9 @@ public:
 	}
 
 	bool getVisible(){ return visible; }
-	bool setVisible(bool b){ visible = b; }
+	void setVisible(bool b){ visible = b; }
 	string getText(){ return text; }
-	bool setText(string b){ text = b; }
+	void setText(string b){ text = b; }
 
 	void draw()
 	{
