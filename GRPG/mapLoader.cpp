@@ -8,7 +8,7 @@ using namespace std;
 MapLoader::MapLoader(){
 	mapFolder = "assets/map/";
 	tileImageFolder = "assets/map/img/";
-	bufferSize = 2;
+	bufferSize = 1;
 
 	tileWidth = ceil(GAME_WIDTH / tileNS::WIDTH) + 2 * bufferSize + 1;
 	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT) + 2 * bufferSize + 1;
