@@ -257,7 +257,7 @@ class Entity : public Destination, public Interactable
 	void attack(Entity* e);
 
 	// Checks if the mouse is inside the sprite of this Entity
-	virtual bool mouseInside(Viewport vp);
+	virtual bool mouseInside(Viewport* vp);
 
 	// Displays the text that will be shown when the mouse is over it
 	virtual string view();

@@ -247,6 +247,7 @@ void UI::drawTabContents(int tabNumber)
 
 			topLeftY += heightAllowed;
 		}
+		//playerSkills = nullptr;
 	}
 	else if (tabNumber == uiNS::INVENTORY)
 	{
@@ -347,7 +348,7 @@ void UI::performClick()
 // Checks if the mouse is currently over any part of the UI.
 // Returns true if mouse is over, false if not
 //=============================================================================
-bool UI::mouseInside(Viewport vp)
+bool UI::mouseInside(Viewport* vp)
 {
 	if (Entity::mouseInside(vp))
 	{

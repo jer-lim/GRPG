@@ -636,7 +636,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 					newNode->estimatedCostToEnd = (abs(x - endNodeTile.x) + abs(y - endNodeTile.y)) * tileNS::WIDTH;
 					newNode->totalCost = newNode->collectiveCost + newNode->estimatedCostToEnd;
 
-					//runtimeLog << "Adding new node at " << x << ", " << y << " with cost " << newNode->totalCost << endl;
+					runtimeLog << "Adding new node at " << x << ", " << y << " with cost " << newNode->totalCost << endl;
 
 					if (toAdd){
 						// Check if the node is already in openList
@@ -645,7 +645,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 
 								// If new node is better, delete old node
 								if (newNode->totalCost < it->second->totalCost){
-									//runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
+									runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
 									AStarNode* n = it->second;
 									n->~AStarNode();
 									delete n;
@@ -699,14 +699,14 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	// MEMORY LEAK PLUGGED
 	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
 		AStarNode* n = it->second;
-		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+		runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
 		delete n;
 		it->second = nullptr;
 	}
 	openList.clear();
 	for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
 		AStarNode* n = it->second;
-		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+		runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
 		delete n;
 		it->second = nullptr;
 	}
