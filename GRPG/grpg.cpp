@@ -156,6 +156,8 @@ void Grpg::update()
 	mapLoader->update();
 	//CRIME SCENE/MEMORY LEAK
 	drawManager->updateAll(frameTime);
+
+	//player->setX(player->getX() + 2);
 	
 	//View is always centered on the player
 	viewport->setX(player->getX());

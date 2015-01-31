@@ -135,6 +135,15 @@ public:
 
 	void setMouseOverEntity(Entity* ent){ mouseOverEntity = ent; }
 	Entity* getMouseOverEntity(){ return mouseOverEntity; }
+
+	void addSpawnLink(string location, Entity* entity){
+		spawnLinks[location] = entity;
+	}
+
+	Entity* getSpawnLink(string location){
+		if (spawnLinks.count(location) > 0) return spawnLinks[location];
+		else return NULL;
+	}
 };
 
 #endif
