@@ -44,6 +44,9 @@
     <ClCompile Include="TradeBehavior.cpp">
       <Filter>Behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="ViewBehaviorItem.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />

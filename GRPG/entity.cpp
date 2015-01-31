@@ -180,7 +180,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 {
 	//setup behaviors
-	viewBehavior = new ViewBehaviorItem(invItem);
+	viewBehavior = new ViewBehaviorItem(invItem, ((Grpg*)gamePtr)->getUI());
 	if (inInventory)
 		dropBehavior = new DropBehavior(this);
 	else

@@ -1,9 +1,0 @@
-#include "talkBehavior.h"
-#include "NPC.h"
-#include "UI.h"
-
-string TalkBehavior::displayText(){ return "Talk to " + ii->getname(); }
-void TalkBehavior::action(){
-	//Type stuff into the chat to say the description
-	ui->addChatText(ii->getdescription());
-}

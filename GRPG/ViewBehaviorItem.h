@@ -4,20 +4,20 @@
 #include "viewbehavior.h"
 #include "InventoryItem.h"
 using namespace std;
+class UI;
 
 class ViewBehaviorItem :public ViewBehavior
 {
 private:
 	InventoryItem* ii;
+	UI* ui;
 public:
-	ViewBehaviorItem(InventoryItem* i){
+	ViewBehaviorItem(InventoryItem* i, UI* u){
 		ii = i;
+		ui = u;
 	}
 	virtual bool exists(){ return true; }
 	virtual string displayText(){ return "Examine "+ii->getItem()->getName(); }
-	virtual void action(){ 
-		//Type stuff into the chat to say the description
-		//ii->getItem()->getDescription();
-	}
+	virtual void action();
 };
 #endif
