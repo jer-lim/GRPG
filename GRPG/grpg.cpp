@@ -42,7 +42,6 @@ void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 	Skill::setupAllSkills();
-	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 2.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
 
 	// Set viewport
 	viewport->setX(startLocation.x);
@@ -85,13 +84,14 @@ void Grpg::initialize(HWND hwnd)
 	player->getInventory()->setXDrawPosition(ui->getTopLeftX());
 	player->getInventory()->setYDrawPosition(ui->getTopLeftY());
 	
-	player->setX(startLocation.x);
-	player->setY(startLocation.y);
 	drawManager->addObject(player,3);
 	drawManager->addObject(ui, 999);
 	// Load and display map, start spawners
 	mapLoader->setVictim(player);
 	mapLoader->load();
+
+	player->setX(startLocation.x);
+	player->setY(startLocation.y);
 
 	leftMouseWasDown = input->getMouseLButton();
 	rightMouseWasDown = input->getMouseRButton();

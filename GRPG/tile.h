@@ -18,6 +18,7 @@ namespace tileNS
 		const int FLOOR = 0;
 		const int WALL = 1;
 		const int SPAWNER = 2;
+		const int SPAWNPOINT = 3;
 	}
 }
 

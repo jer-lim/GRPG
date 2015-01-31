@@ -79,7 +79,13 @@ void MapLoader::load(){
 			tilestream >> tileFileName;
 
 			//Insert into a map
-			tileset[tileId].type = tileType;
+			if (tileType == tileNS::type::SPAWNPOINT){
+				tileset[tileId].type = tileNS::type::FLOOR;
+				spawnTileId = tileId;
+			}
+			else{
+				tileset[tileId].type = tileType;
+			}
 			tileset[tileId].imageName = tileFileName;
 			if (tileType == tileNS::type::SPAWNER){
 				tilestream >> tileset[tileId].spawnId;
@@ -191,6 +197,10 @@ void MapLoader::load(){
 					VECTOR2 vpCoords = viewport->translate(xPos, yPos);
 					float vpXPos = vpCoords.x;
 					float vpYPos = vpCoords.y;
+
+					if (tileId == spawnTileId){
+						gamePtr->setStartLocation(VECTOR2(xPos, yPos));
+					}
 
 					// Is in viewport range
 					if (vpXPos > bufferedTopLeftCoords.x
