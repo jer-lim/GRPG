@@ -58,11 +58,11 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing tabs texture"));
 	if (!uiImgTexture->initialize(graphics, UI_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing ui_image texture"));
-	if (!tabImage.initialize(graphics, 0, 0, 1, tabTexture))
+	if (!tabImage.initialize(graphics, 0, 0, 1, tabTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Tabs image could not be initalized"));
 	if (!windowTexture->initialize(graphics, WINDOW_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing window texture"));
-	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture))
+	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Window image could not be initalized"));
 
 	//Also white cause background black
@@ -206,9 +206,9 @@ void UI::draw(Viewport* viewport)
 	//Draw the window if required
 	if (windowHeader != "")
 	{
-		windowImage.setX(player->getX());
-		windowImage.setY(player->getY());
-		windowImage.draw(viewport);
+		windowImage.setX(GAME_WIDTH/2);
+		windowImage.setY(GAME_HEIGHT/2);
+		windowImage.draw();
 	}
 
 	// Now draw the right click menu
@@ -458,6 +458,16 @@ bool UI::mouseInside(Viewport* vp)
 	if (rightClickBackground.getVisible())
 	{
 		if (rightClickBackground.mouseOver(input->getMouseX(), input->getMouseY()))
+		{
+			return true;
+		}
+	}
+
+	//Check for the window
+	if (windowHeader != "")
+	{
+		if (input->getMouseX() > windowImage.getX() - windowImage.getWidth() / 2 && input->getMouseX() < windowImage.getX() + windowImage.getWidth() / 2 &&
+			input->getMouseY() > windowImage.getY() - windowImage.getHeight() / 2 && input->getMouseY() < windowImage.getY() + windowImage.getHeight() / 2)
 		{
 			return true;
 		}
