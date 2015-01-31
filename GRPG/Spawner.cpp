@@ -15,9 +15,11 @@ Spawner::Spawner(Game* gp, int spawn, int cd, Entity* v) : Tile(){
 void Spawner::spawn(){
 	stringstream ss;
 	ss << getX() << "," << getY();
-	spawnedNPC = NPC::spawn(gamePtr, npcId, VECTOR2(x, y), victim);
-	gamePtr->addSpawnLink(ss.str(), spawnedNPC);
-	timeOfDeath.QuadPart = 0; // 0 = no death
+	if (gamePtr->getSpawnLink(ss.str()) == NULL){
+		spawnedNPC = NPC::spawn(gamePtr, npcId, VECTOR2(x, y), victim);
+		gamePtr->addSpawnLink(ss.str(), spawnedNPC);
+		timeOfDeath.QuadPart = 0; // 0 = no death
+	}
 }
 
 void Spawner::update(){
