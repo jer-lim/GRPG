@@ -24,6 +24,7 @@
 class AttackBehavior;
 class PickupBehavior;
 class DropBehavior;
+class Player;
 
 namespace entityNS
 {
@@ -118,6 +119,9 @@ class Entity : public Destination//, public Interactable
 	Behavior* dropBehavior = nullptr;//Drop name -> drop obj
 	Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
 	vector<Behavior*> vectorActiveBehaviors;
+
+	//To calculate aggro (Range & player's combat level)
+	Player* thePlayer;
 
 
     // --- The following functions are protected because they are not intended to be

@@ -83,6 +83,17 @@ public:
 	// Return whether the entity is an attackable enemy
 	// Overrides the Entity function so that the player is always marked as an ally
 	virtual bool isEnemy() { return false; }
+
+	//Returns the combat level of the player
+	//Calculated by 1/4*(13/10*(ATK + STR + DEF + TOUGH))
+	virtual int calculateCombatLevel()
+	{
+		return 0.25*(1.3*
+			(skills[skillNS::ID_SKILL_ATTACK].getSkillLevel() + 
+			skills[skillNS::ID_SKILL_STRENGTH].getSkillLevel() + 
+			skills[skillNS::ID_SKILL_DEFENSE].getSkillLevel() + 
+			skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel()));
+	}
 };
 #endif
 

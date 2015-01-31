@@ -137,6 +137,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
+		thePlayer = ((Grpg*)gamePtr)->getPlayer();
 	}
 	setupVectorActiveBehaviors();
 
@@ -307,6 +308,37 @@ void Entity::update(float frameTime, Game* gamePtr)
 	//temp fix
 	if (person != nullptr)
 	{
+		if (victim == nullptr && destination == nullptr)
+		{
+			//Check if I am able to aggro to the player to start a fight
+			bool canAggro = false;
+			if (person->getType() == "ENEMY" && thePlayer->calculateCombatLevel() <= ((Enemy*)person)->getAggro())
+			{
+				//Check if the player is nearby
+				//Going to do simple distance checking here because using A*Star is going to be too performance intensive
+				//Especially when executed every frame
+				VECTOR2 diff = getVector() - thePlayer->getVector();
+				float distance = diff.x * diff.x + diff.y * diff.y;
+				if (distance < enemyNS::aggroRangeNonSqrt)
+				{
+					victim = thePlayer;
+					canAggro = true;
+				}
+			}
+			if (!canAggro)
+			{
+				//Just wander around, I guess?
+				if (destination == nullptr && person != Person::thePlayer)
+				{
+					//20% chance, otherwise it stands still
+					if (getRandomNumber() > 0.8)
+					{
+						destination = new Point(rand() % 500 - 250 + getX(), rand() % 500 - 250 + getY());
+					}
+				}
+			}
+		}
+
 	VECTOR2 collisionVector;
 
 	// Is there a victim? If so, set as destination
@@ -384,6 +416,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 			}
 			else{
 				// Can't go there
+				destination->release();
 				destination = 0;
 				return;
 			}
@@ -454,6 +487,8 @@ void Entity::update(float frameTime, Game* gamePtr)
 				{
 					if (victim->getPerson()->getType() == "ENEMY")
 					{
+						//Victim should retaliate
+						victim->setVictim(this);
 						int victimHealth = victim->getHealth();
 						map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
 						int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());

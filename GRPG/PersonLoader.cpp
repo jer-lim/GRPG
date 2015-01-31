@@ -26,14 +26,14 @@ void PersonLoader::loadAllNPCs()
 	characterstream.open(enemyDataLocation);
 	if (characterstream.is_open()){
 		string name, img_filename, description;
-		int id, atk, str, def, hp, cols;
+		int id, atk, str, def, hp, cols, aggro;
 		float movementspd, attackcd, dmg_red, width, height, colHeight, colWidth;
 		while (!characterstream.eof()){
 			characterstream >> id >> name >> img_filename >> movementspd >> attackcd>> height >> width >> cols >> colHeight >> colWidth
-				>>  description >> atk >> str >> def >> hp >> dmg_red;
+				>>  description >> atk >> str >> def >> hp >> dmg_red >> aggro;
 			std::replace(name.begin(), name.end(), '_', ' ');
 			std::replace(description.begin(), description.end(), '_', ' ');
-			Enemy* myChar = new Enemy(img_filename, movementspd, attackcd, height, width, cols, colHeight, colWidth, name, description, hp, atk, str, def, dmg_red);
+			Enemy* myChar = new Enemy(img_filename, movementspd, attackcd, height, width, cols, colHeight, colWidth, name, description, hp, atk, str, def, dmg_red, aggro);
 			map_npcs[id] = myChar;
 		}
 		characterstream.close();
