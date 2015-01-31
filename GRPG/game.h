@@ -11,6 +11,7 @@
 #include "globals.h"
 #include "gameError.h"
 #include <map>
+#include <vector>
 
 class Entity;
 class DrawManager;
@@ -40,6 +41,7 @@ protected:
 	MapLoader* mapLoader;
 	PersonLoader* personLoader;
 	Entity* mouseOverEntity = nullptr;
+	vector<Entity*> mouseOverEntities;
 
 	// Spawning handling
 	// We give each spawner an ID
@@ -135,6 +137,16 @@ public:
 
 	void setMouseOverEntity(Entity* ent){ mouseOverEntity = ent; }
 	Entity* getMouseOverEntity(){ return mouseOverEntity; }
+
+	void addMouseOverEntity(Entity* item)
+	{
+		mouseOverEntities.push_back(item);
+	}
+
+	void deleteAllMouseOverEntities()
+	{
+		mouseOverEntities.clear();
+	}
 
 	void addSpawnLink(string location, Entity* entity){
 		spawnLinks[location] = entity;

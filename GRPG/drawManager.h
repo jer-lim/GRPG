@@ -40,6 +40,8 @@ public:
 
 	void removeObject(Entity* ent);
 	void removeObject(Image* img);
+
+	map<int, ManagedObject*> getDrawnObjects() { return objects; }
 };
 
 #endif

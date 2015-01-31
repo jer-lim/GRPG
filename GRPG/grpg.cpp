@@ -156,8 +156,33 @@ void Grpg::update()
 		//Show right click popup
 		if(mouseOverEntity != nullptr)
 		{
-			ui->setRightClickMenu(mouseOverEntity->getVectorActiveBehaviors());
+			//Find all the entities that the mouse is currently over
+			map<int, ManagedObject*> allEntities = drawManager->getDrawnObjects();
+			for (map<int, ManagedObject*>::reverse_iterator it = allEntities.rbegin(); it != allEntities.rend(); ++it){
+				if (it->second->entity != nullptr)
+				{
+					if (it->second->entity->getPerson() != Person::thePlayer && it->second->entity->getType() != "UI")
+					{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
+						if (it->second->entity->mouseInside(viewport))
+						{
+							addMouseOverEntity(it->second->entity);
+						}
+					}
+				}
+			}
+			//Build a list of vector<Behavior*> that is a combination o all the items
+			//that the user is currently moused over
+			vector<Behavior*> behaviors;
+			for (std::vector<Entity*>::iterator it = mouseOverEntities.begin(); it != mouseOverEntities.end(); ++it) {
+				Entity* item = *it;
+				vector<Behavior*>behaviorsToAdd = item->getVectorActiveBehaviors();
+				//Can't shortcut the above code and the below code, otherwise you get Vector Iterators Incompatible
+				//https://stackoverflow.com/questions/8421623/vector-iterators-incompatible
+				behaviors.insert(behaviors.end(), behaviorsToAdd.begin(), behaviorsToAdd.end());
+			}
+			ui->setRightClickMenu(behaviors);
 			rightMouseWasDown = false;
+			deleteAllMouseOverEntities();
 		}
 	}
 	
