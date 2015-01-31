@@ -171,11 +171,14 @@ void Grpg::update()
 		rightMouseWasDown = true;
 	}
 	
-	map<int, PlayerSkill>::iterator it;
-	map<int, PlayerSkill>* playerSkills = player->getSkills();
-	for (it = playerSkills->begin(); it != playerSkills->end(); it++)
+	if (pro)
 	{
-		//it->second.gainXP(rand()%10);
+		map<int, PlayerSkill>::iterator it;
+		map<int, PlayerSkill>* playerSkills = player->getSkills();
+		for (it = playerSkills->begin(); it != playerSkills->end(); it++)
+		{
+			it->second.gainXP(rand() % 10);
+		}
 	}
 	//CRIME SCENE/MEMORY LEAK
 	mapLoader->update();
@@ -271,7 +274,9 @@ void Grpg::resetAll()
 //=============================================================================
 bool Grpg::processCommand(std::string command)
 {
-	if (command.substr(0, 5) == "spawn")
+	if (command == "pro")
+		pro = true;
+	else if (command.substr(0, 5) == "spawn")
 	{
 
 		std::string enemyToSpawn = command.substr(6);
