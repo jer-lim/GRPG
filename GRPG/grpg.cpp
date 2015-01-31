@@ -43,6 +43,8 @@ void Grpg::initialize(HWND hwnd)
     Game::initialize(hwnd); // throws GameError
 	Skill::setupAllSkills();
 
+	mapLoader->loadData();
+
 	// Set viewport
 	viewport->setX(startLocation.x);
 	viewport->setY(startLocation.y);
@@ -88,7 +90,7 @@ void Grpg::initialize(HWND hwnd)
 	drawManager->addObject(ui, 999);
 	// Load and display map, start spawners
 	mapLoader->setVictim(player);
-	mapLoader->load();
+	mapLoader->loadMap();
 
 	player->setX(startLocation.x);
 	player->setY(startLocation.y);

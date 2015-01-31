@@ -54,9 +54,8 @@ void MapLoader::initialize(Game* game){
 	viewport = gamePtr->getViewport();
 }
 
-void MapLoader::load(){
+void MapLoader::loadData(){
 
-	LARGE_INTEGER timeStart, timeEnd, timerFreq;
 	QueryPerformanceCounter(&timeStart);
 	QueryPerformanceFrequency(&timerFreq);
 
@@ -152,7 +151,8 @@ void MapLoader::load(){
 			if (tempChar == '\n'){
 				y++;
 				x = 0;
-			}else if (tempChar != EOF){ // not EOF character
+			}
+			else if (tempChar != EOF){ // not EOF character
 				worldMap[x++][y] = tempChar;
 			}
 		}
@@ -166,6 +166,40 @@ void MapLoader::load(){
 	}
 
 	runtimeLog << "Finished loading map" << endl;
+
+	// Set spawn point
+	for (int x = 0; x < worldMap.size(); ++x){
+		for (int y = 0; y < worldMap[x].size(); ++y){
+
+			// Load tiles in chunk
+			char chunkId = worldMap[x][y];
+			for (int cx = 0; cx < tileNS::CHUNK_WIDTH; ++cx){
+				for (int cy = 0; cy < tileNS::CHUNK_HEIGHT; ++cy){
+
+					// Load tiles
+					char tileId = chunks[chunkId]->tile[cx][cy];
+
+					int tileX = x * tileNS::CHUNK_WIDTH + cx;
+					int tileY = y * tileNS::CHUNK_HEIGHT + cy;
+
+					float xPos = tileNS::WIDTH / 2 + tileX * tileNS::WIDTH;
+					float yPos = tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT;
+
+					VECTOR2 vpCoords = viewport->translate(xPos, yPos);
+					float vpXPos = vpCoords.x;
+					float vpYPos = vpCoords.y;
+
+					if (tileId == spawnTileId){
+						gamePtr->setStartLocation(VECTOR2(xPos, yPos));
+					}
+				}
+			}
+		}
+	}
+
+}
+
+void MapLoader::loadMap(){
 
 	runtimeLog << "Starting initial scene build" << endl;
 

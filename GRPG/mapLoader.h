@@ -72,6 +72,9 @@ struct AStarNode {
 class MapLoader {
 
 private:
+	// Statistics
+	LARGE_INTEGER timeStart, timeEnd, timerFreq;
+
 	Game* gamePtr;
 	DrawManager* drawManager;
 	Viewport* viewport;
@@ -117,7 +120,8 @@ public:
 	~MapLoader();
 	void initialize(Game* game);
 	void setVictim(Entity* v){ victim = v; }
-	void load();
+	void loadData();
+	void loadMap();
 	void update();
 	bool canRequestPath(){
 		return !pathRequestedThisFrame;
