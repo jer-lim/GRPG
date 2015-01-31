@@ -721,13 +721,15 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 		it->second = nullptr;
 	}
 	openList.clear();
-	for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
-		AStarNode* n = it->second;
-		runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
-		delete n;
-		it->second = nullptr;
+	if (closedList.size() > 0){
+		for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
+			AStarNode* n = it->second;
+			runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+			delete n;
+			it->second = nullptr;
+		}
+		closedList.clear();
 	}
-	closedList.clear();
 
 	QueryPerformanceCounter(&pfEnd);
 
