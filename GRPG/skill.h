@@ -57,6 +57,8 @@ public:
 		return description;
 	}
 
+	void setupAllSkills();
+
 	//Uses runescape's xp formula currently
 	static int calculateXPRequired(float level)
 	{
