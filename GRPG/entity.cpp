@@ -49,6 +49,7 @@ Entity::Entity()
 
 	oldViewport = VECTOR2(-1, -1);
 	oldLocation = VECTOR2(-1, -1);
+	spawnLocation = new VECTOR2(-1, -1);
 }
 
 //=============================================================================
@@ -85,6 +86,7 @@ Entity::~Entity()
 	{
 		SAFE_DELETE(inventoryItem);
 	}
+	SAFE_DELETE(spawnLocation);
 }
 
 //=============================================================================
@@ -330,10 +332,16 @@ void Entity::update(float frameTime, Game* gamePtr)
 				//Just wander around, I guess?
 				if (destination == nullptr && person != Person::thePlayer)
 				{
+					//Set spawn location if it hasn't been set
+					if (spawnLocation->x == -1 && spawnLocation->y == -1)
+					{
+						spawnLocation->x = getX();
+						spawnLocation->y = getY();
+					}
 					//20% chance, otherwise it stands still
 					if (getRandomNumber() > 0.8)
 					{
-						destination = new Point(rand() % 500 - 250 + getX(), rand() % 500 - 250 + getY());
+						destination = new Point(rand() % 500 - 250 + spawnLocation->x, rand() % 500 - 250 + spawnLocation->y);
 					}
 				}
 			}

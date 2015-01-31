@@ -125,6 +125,8 @@ class Entity : public Destination//, public Interactable
 
 	//To calculate aggro (Range & player's combat level)
 	Player* thePlayer;
+	//The entity can never move too far from the spawn location
+	VECTOR2* spawnLocation;
 
 
     // --- The following functions are protected because they are not intended to be
