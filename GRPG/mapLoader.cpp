@@ -358,6 +358,12 @@ void MapLoader::update(){
 					toMoveTo.push(TileVector(newTileX, newTileY));
 				}
 			}
+
+			// Handle spawners
+			if (ity->second->spawner != nullptr){
+				Spawner* s = ity->second->spawner;
+				s->update();
+			}
 		}
 	}
 
@@ -411,10 +417,13 @@ void MapLoader::update(){
 					tileTms[newTileId] = textureManager;
 				}
 
-				if (mt->tile != nullptr){
+				if (mt->spawner != nullptr){
+					mt->spawner->getImage()->setTextureManager(textureManager);
+				}
+				else if (mt->tile != nullptr){
 					mt->tile->getImage()->setTextureManager(textureManager);
 				}
-				else{
+				else if(mt->image != nullptr){
 					mt->image->setTextureManager(textureManager);
 				}
 			}
@@ -422,7 +431,16 @@ void MapLoader::update(){
 			else{
 				// Clear old data
 				// DEFINITE MEMORY LEAK HERE
-				if (mt->tile != nullptr){
+				if (mt->spawner != nullptr){
+					// WHY ISN'T THIS REALLY DELETED
+					//delete mt->spawner;
+
+					Spawner* t = mt->spawner;
+					delete t;
+					drawManager->removeObject(mt->spawner);
+					mt->spawner = nullptr;
+				}
+				else if (mt->tile != nullptr){
 					// WHY ISN'T THIS REALLY DELETED
 					//delete mt->tile;
 
@@ -431,7 +449,7 @@ void MapLoader::update(){
 					drawManager->removeObject(mt->tile);
 					mt->tile = nullptr;
 				}
-				else {
+				else if(mt->image != nullptr) {
 					// WHY ISN'T THIS REALLY DELETED
 					//delete mt->image;
 
@@ -487,11 +505,15 @@ void MapLoader::update(){
 		}
 
 		// Move actual location of tile
-		if (mt->tile != nullptr){
+		if (mt->spawner != nullptr){
+			mt->spawner->setX(tilePos.x);
+			mt->spawner->setY(tilePos.y);
+		}
+		else if (mt->tile != nullptr){
 			mt->tile->setX(tilePos.x);
 			mt->tile->setY(tilePos.y);
 		}
-		else{
+		else if(mt->image != nullptr){
 			mt->image->setX(tilePos.x);
 			mt->image->setY(tilePos.y);
 		}
