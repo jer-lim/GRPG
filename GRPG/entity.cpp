@@ -435,31 +435,50 @@ void Entity::update(float frameTime, Game* gamePtr)
 				VECTOR2 direction = destinationVector - getVector();
 				image.flipHorizontal(direction.x < 0);
 
+				bool attackPerformed = true;
+
 				if (person != Person::thePlayer)
 				{
-					victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
+					if (person->getType() == "ENEMY")
+					{
+						victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
+					}
+					else
+					{
+						attackPerformed = false;
+					}
 				}
 				else
 				{
-					int victimHealth = victim->getHealth();
-					map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
-					int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
-					//We're obviously not going to implement combat styles so I'll just pump everything.
-					skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
-					skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
-					skills->at(skillNS::ID_SKILL_STRENGTH).gainXP(damageDealt * 4);
-					skills->at(skillNS::ID_SKILL_TOUGHNESS).gainXP(damageDealt * 4);
-
-					//Victim is now dead and deleted
-					if (damageDealt >= victimHealth)
+					if (victim->getPerson()->getType() == "ENEMY")
 					{
-						victim = 0;
-						destination = 0;
+						int victimHealth = victim->getHealth();
+						map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
+						int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+						//We're obviously not going to implement combat styles so I'll just pump everything.
+						skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
+						skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
+						skills->at(skillNS::ID_SKILL_STRENGTH).gainXP(damageDealt * 4);
+						skills->at(skillNS::ID_SKILL_TOUGHNESS).gainXP(damageDealt * 4);
+
+						//Victim is now dead and deleted
+						if (damageDealt >= victimHealth)
+						{
+							victim = 0;
+							destination = 0;
+						}
+					}
+					else
+					{
+						attackPerformed = false;
 					}
 				}
-				attackCooldown = person->getAttackCooldown();
-				image.setFrames(1, person->getNumOfCols()-1);
-				image.setLoop(false);
+				if (attackPerformed)
+				{
+					attackCooldown = person->getAttackCooldown();
+					image.setFrames(1, person->getNumOfCols() - 1);
+					image.setLoop(false);
+				}
 			}
 		}
 	}
