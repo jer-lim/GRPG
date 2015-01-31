@@ -5,14 +5,17 @@
 #include "entity.h"
 class NPC;
 using namespace std;
+class Player;
 
 class AttackBehavior :public Behavior
 {
 private:
 	Entity* entity;
 	NPC* npc;
+	Player* player;
 public:
-	AttackBehavior(Entity* e,NPC* n){ 
+	AttackBehavior(Player* p, Entity* e,NPC* n){ 
+		player = p;
 		entity = e;
 		npc = n;
 	}
