@@ -9,6 +9,7 @@ Spawner::Spawner(Game* gp, int spawn, int cd, Entity* v) : Tile(){
 	cooldown = cd;
 	victim = v;
 	timeOfDeath.QuadPart = 0;
+	collisionType = entityNS::NONE;
 	Tile(false);
 }
 
