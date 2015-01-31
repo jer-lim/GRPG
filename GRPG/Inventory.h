@@ -24,9 +24,9 @@ public:
 			it->second = nullptr;
 		}
 		slotList.clear();
-		delete slot_body;
-		delete slot_hand;
-		delete slot_offhand;
+		SAFE_DELETE(slot_body);
+		SAFE_DELETE(slot_hand);
+		SAFE_DELETE(slot_offhand);
 	}
 	~Inventory(){ destroy(); }
 	Inventory(int x, int y);
