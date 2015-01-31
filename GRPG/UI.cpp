@@ -35,6 +35,7 @@ UI::~UI()
 	SAFE_DELETE(uiText);
 	SAFE_DELETE(tabTexture);
 	SAFE_DELETE(uiImgTexture);
+	SAFE_DELETE(windowTexture);
 }
 
 //=============================================================================
