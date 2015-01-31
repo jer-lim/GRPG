@@ -38,6 +38,12 @@
     <ClCompile Include="EatBehavior.cpp">
       <Filter>Behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="TalkBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
