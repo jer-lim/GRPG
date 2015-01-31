@@ -108,8 +108,8 @@ private:
 	// Get the tile-based coordinates from raw coordinates
 	TileVector getNearestTile(VECTOR2 coords);
 
-	TileVector getBufferedTopLeftCoords(){ return TileVector(0 - tileNS::WIDTH * (bufferSize + 1) - tileNS::WIDTH / 2, 0 - tileNS::HEIGHT * (bufferSize) - tileNS::HEIGHT / 2); }
-	TileVector getBufferedBottomRightCoords(){ return TileVector(GAME_WIDTH + tileNS::WIDTH * (bufferSize) + tileNS::WIDTH / 2, GAME_HEIGHT + tileNS::HEIGHT * (bufferSize - 1) + tileNS::HEIGHT / 2); }
+	TileVector getBufferedTopLeftCoords(){ return TileVector(0 - tileNS::WIDTH * (bufferSize) - tileNS::WIDTH / 2, 0 - tileNS::HEIGHT * (bufferSize) - tileNS::HEIGHT / 2); }
+	TileVector getBufferedBottomRightCoords(){ return TileVector(GAME_WIDTH + tileNS::WIDTH * (bufferSize) + tileNS::WIDTH / 2, GAME_HEIGHT + tileNS::HEIGHT * (bufferSize) + tileNS::HEIGHT / 2); }
 public:
 	MapLoader();
 	~MapLoader();

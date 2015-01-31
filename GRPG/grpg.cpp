@@ -42,7 +42,7 @@ void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 	Skill::setupAllSkills();
-	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 4.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
+	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 2.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
 
 	// Set viewport
 	viewport->setX(startLocation.x);
