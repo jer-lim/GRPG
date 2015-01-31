@@ -53,10 +53,10 @@ class Image
     virtual bool  getVisible()  {return visible;}
 
     // Return X position.
-	virtual float getX()        { return spriteData.x + spriteData.width / 2; }
+    virtual float getX()        {return spriteData.x;}
 
     // Return Y position.
-	virtual float getY()        { return spriteData.y + spriteData.height / 2; }
+    virtual float getY()        {return spriteData.y;}
 
     // Return scale factor.
     virtual float getScale()    {return spriteData.scale;}
