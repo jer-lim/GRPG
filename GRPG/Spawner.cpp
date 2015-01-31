@@ -42,5 +42,3 @@ void Spawner::update(){
 		}
 	}
 }
-
-// Can't do respawning yet because NPC can't die yet
