@@ -31,6 +31,11 @@ Game::~Game()
 {
     deleteAll();                // free all reserved memory
     ShowCursor(true);           // show cursor
+
+	//Safe delete all the enemies that are still alive and walking around in the game
+	for (map<string, Entity*>::iterator it = spawnLinks.begin(); it != spawnLinks.end(); ++it){
+		SAFE_DELETE(it->second);
+	}
 }
 
 //=============================================================================
@@ -241,6 +246,49 @@ void Game::run(HWND hwnd)
     // Clear input
     // Call this after all key checks are done
     input->clear(inputNS::KEYS_PRESSED);
+}
+
+//=============================================================================
+// Deletes the entity object that is passed in
+// And removes it from draw manager as well as the internal map
+//=============================================================================
+void Game::deleteEntity(Entity* e)
+{
+	// Tell draw manager
+	drawManager->removeObject(e);
+
+	//Remove from spawn links if there
+	//Safe delete the entity that is still alive
+	for (map<string, Entity*>::iterator it = spawnLinks.begin(); it != spawnLinks.end(); ++it){
+		if (it->second == e)
+		{
+			SAFE_DELETE(it->second);
+			e = nullptr;
+			break;
+		}
+	}
+	SAFE_DELETE(e);
+
+	mouseOverEntity = nullptr;
+	// e now has it's memory freed and points to 0
+}
+
+//=============================================================================
+// Searches the internal map to see if an entity exists
+// which has it's spawner marked in the map
+// Returns nullptr if no such entity exists
+// And returns the pointer to the Entity if it exists
+//=============================================================================
+Entity* Game::spawnerCheck(string id)
+{
+	if (spawnLinks.count(id) == 0)
+	{
+		return nullptr;
+	}
+	else
+	{
+		return spawnLinks[id];
+	}
 }
 
 //=============================================================================

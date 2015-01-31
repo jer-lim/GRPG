@@ -77,6 +77,8 @@ class Entity : public Destination, public Interactable
 	float splatTime;				//How long the hit splat will stay on the screen
 	int damageTaken;				//How many damage this entity took
 
+	Game* theGame;					// Reference to the game so Entity can inform it when it dies
+
 	// Pathfinding
 	queue<VECTOR2> path;
 	LARGE_INTEGER lastPathfindTime;
