@@ -108,7 +108,12 @@ public:
 	virtual void addChatText(const std::string &str);     // add text to console
 
 	//Draws a right click 
+	//See removeRightClickMenu
 	virtual void setRightClickMenu(vector<Behavior*> behaviors);
+
+	//Stop drawing the right click menu
+	//See setRightClickMenu
+	virtual void removeRightClickMenu() { rightClickBackground.setVisible(false); }
 
 	// Release resources
 	virtual void onLostDevice();
