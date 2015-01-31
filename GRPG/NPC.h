@@ -38,6 +38,7 @@ public:
 	int getmaxhealth() { return maxHealth; }
 
 	bool getIsEnemy() { return isEnemy; }
+	virtual string getType() { return "NPC"; }
 };
 
 #endif

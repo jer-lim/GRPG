@@ -4,10 +4,12 @@
 class Interactable
 {
 private:
-	DWORD player_actions = 0x00000;
+	//DWORD player_actions = 0x00000;
 	/*
-		000000000
-		IHGFEDCBA, where:
+		00000000000
+		HJIHGFEDCBA, where:
+		H: Can Drop
+		J: Can Pickup
 		I: Can Smith (Blacksmith system)
 		H: Can Trade (Trade with interactable - store system)
 		G: Can Talk (Talk with interactable)
@@ -26,7 +28,7 @@ public:
 	virtual void fish(){}
 	virtual void attack(){}
 	virtual void cook(){}
-	virtual string view(){ return "Move Here"; }//returns a string tht is displayed when mouse overed
+	//virtual string view(){ return "Move Here"; }//returns a string tht is displayed when mouse overed
 };
 
 #endif

@@ -29,6 +29,8 @@ public:
 	//void setdefenseLv(int i){ defenseLv = i; }
 	int getstrengthLv(){ return strengthLv; }
 	//void setstrengthLv(int i){ strengthLv = i; }
+
+	virtual string getType(){ return "ENEMY"; }
 };
 
 #endif

@@ -110,9 +110,9 @@ public:
 	//Causes the UI to update as if a click had been performed
 	void performClick();
 
-	string view();
-
 	float getTopLeftX(){ return getX() - uiNS::WIDTH / 2; }
 	float getTopLeftY(){ return getY() - uiNS::HEIGHT / 2; }
+
+	virtual string getType(){ return "UI"; }
 };
 #endif

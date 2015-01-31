@@ -5,6 +5,9 @@
 #include <sstream>
 #include "UI.h"
 #include "Enemy.h"
+#include "AttackBehavior.h"
+#include "PickupBehavior.h"
+#include "DropBehavior.h"
 
 namespace entityNS
 {
@@ -36,6 +39,7 @@ Entity::Entity()
 	currentDestination = VECTOR2(-1, -1);
 
 	person = nullptr;
+	inventoryItem = nullptr;
 	backHealth = nullptr;
 	availableHealth = nullptr;
 	theGame = nullptr;
@@ -49,6 +53,15 @@ Entity::Entity()
 //=============================================================================
 Entity::~Entity()
 {
+	//Destroy all behaviors
+	SAFE_DELETE(viewBehavior);//View name -> display description
+	SAFE_DELETE(blacksmithBehavior);//Blacksmith popup
+	SAFE_DELETE(tradeBehavior);//store popup
+	SAFE_DELETE(attackBehavior);//Attack name -> perform attack
+	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
+	SAFE_DELETE(dropBehavior);//Drop name -> drop obj
+	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
+	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{
 		backHealth->deleteVertexBuffer();
@@ -62,6 +75,10 @@ Entity::~Entity()
 	if (person != nullptr)
 	{
 		SAFE_RELEASE(person);
+	}
+	if (inventoryItem != nullptr)
+	{
+		SAFE_DELETE(inventoryItem);
 	}
 }
 
@@ -104,6 +121,15 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
 //=============================================================================
 bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 {
+	//setup behaviors
+	if (whichCharacter->getType() == "NPC" || whichCharacter->getType() == "ENEMY")
+	{
+		if (whichCharacter->getType() == "ENEMY")//Attack enemy
+			attackBehavior = new AttackBehavior(this);
+		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter);
+	}
+	setupVectorActiveBehaviors();
+
 	anchored = anc;
 
     input = gamePtr->getInput();                // the input system
@@ -137,6 +163,29 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *path.c_str()));
 
     return image.initialize(gamePtr->getGraphics(), whichCharacter->getWidth(), whichCharacter->getHeight(), whichCharacter->getNumOfCols(), textureM, anc);
+}
+
+//Initialize entity via inventoryitem
+bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
+{
+	//setup behaviors
+	viewBehavior = new ViewBehaviorItem(invItem);
+	if (inInventory)
+		dropBehavior = new DropBehavior(this);
+	else
+		pickupBehavior = new PickupBehavior(this);
+	setupVectorActiveBehaviors();
+
+	anchored = inInventory;//anchored = true = inInventory
+
+	input = gamePtr->getInput();                // the input system
+	graphics = gamePtr->getGraphics();
+	invItem->initialize(gamePtr);
+	Item* item = invItem->getItem();
+	textureM = item->getTextureManager();
+	inventoryItem = invItem;
+
+	return image.initialize(gamePtr->getGraphics(), item->getSpriteWidth(), item->getSpriteHeight(), item->getSpriteColumns(), item->getTextureManager(), anchored);
 }
 
 
@@ -845,6 +894,7 @@ bool Entity::mouseInside(Viewport* vp)
 	return false;
 }
 
+/*
 string Entity::view()
 {
 	if (person != nullptr)
@@ -855,7 +905,7 @@ string Entity::view()
 	{
 		return "Move here";
 	}
-}
+}*/
 
 bool Entity::isEnemy()
 {

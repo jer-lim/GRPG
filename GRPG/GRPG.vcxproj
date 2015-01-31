@@ -12,8 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
+    <ClInclude Include="AttackBehavior.h" />
+    <ClInclude Include="Behavior.h" />
+    <ClInclude Include="BlacksmithBehavior.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="CookBehavior.h" />
+    <ClInclude Include="DropBehavior.h" />
+    <ClInclude Include="FishBehavior.h" />
     <ClInclude Include="Interactable.h" />
+    <ClInclude Include="MineBehavior.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
     <ClInclude Include="constants.h" />
@@ -40,6 +47,7 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="mapLoader.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="PickupBehavior.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="Quest.h" />
@@ -48,15 +56,21 @@
     <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="string_functions.h" />
+    <ClInclude Include="TalkBehavior.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="tile.h" />
+    <ClInclude Include="TradeBehavior.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="ViewBehavior.h" />
+    <ClInclude Include="ViewBehaviorItem.h" />
+    <ClInclude Include="ViewBehaviorNPC.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Armor.cpp" />
+    <ClCompile Include="AttackBehavior.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PersonLoader.cpp" />
@@ -82,6 +96,7 @@
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="ViewBehaviorNPC.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
