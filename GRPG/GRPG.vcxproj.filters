@@ -35,6 +35,9 @@
     <ClCompile Include="AttackBehavior.cpp">
       <Filter>Behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="EatBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -119,6 +122,9 @@
       <Filter>Behaviors</Filter>
     </ClInclude>
     <ClInclude Include="ViewBehaviorNPC.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="EatBehavior.h">
       <Filter>Behaviors</Filter>
     </ClInclude>
   </ItemGroup>

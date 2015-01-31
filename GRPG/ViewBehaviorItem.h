@@ -14,7 +14,7 @@ public:
 		ii = i;
 	}
 	virtual bool exists(){ return true; }
-	virtual string displayText(){ return "View "+ii->getItem()->getName(); }
+	virtual string displayText(){ return "Examine "+ii->getItem()->getName(); }
 	virtual void action(){ 
 		//Type stuff into the chat to say the description
 		//ii->getItem()->getDescription();

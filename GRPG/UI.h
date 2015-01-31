@@ -7,6 +7,7 @@
 #include "textDX.h"
 #include "player.h"
 #include "Button.h"
+#include "Behavior.h"
 
 namespace uiNS
 {
@@ -35,6 +36,8 @@ namespace uiNS
 	const float healthWidth = (GAME_WIDTH / 2 - uiNS::chatWidth) * 2;
 	const COLOR_ARGB healthColor = SETCOLOR_ARGB(180, 255, 0, 0);
 	const COLOR_ARGB noHealthColor = SETCOLOR_ARGB(180, 0, 0, 0);
+
+	const COLOR_ARGB rightClickBG = SETCOLOR_ARGB(255, 0, 0, 0);
 }
 
 // inherits from Entity class
@@ -71,6 +74,8 @@ private:
 
 	// Right click menu
 	vector<Behavior*> menus;
+	VECTOR2 menuTop;
+	Button rightClickBackground;	// Vertex data for drawing the background
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -103,10 +108,7 @@ public:
 	virtual void addChatText(const std::string &str);     // add text to console
 
 	//Draws a right click 
-	virtual void setRightClickMenu(vector<Behavior*> behaviors)
-	{
-
-	}
+	virtual void setRightClickMenu(vector<Behavior*> behaviors);
 
 	// Release resources
 	virtual void onLostDevice();
