@@ -21,6 +21,7 @@ public:
 	}
 	virtual bool exists(){ return true; }
 	virtual string displayText();
-	virtual void action();//player attacks enemy, and not anything else (is NOT a replacement for entity::attack)
+	//player attacks enemy, and not anything else (is NOT a replacement for entity::attack)
+	virtual void action();
 };
 #endif

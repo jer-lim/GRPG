@@ -26,7 +26,8 @@ private:
 	TextureManager* missSplat;
 	TextureManager* hitSplat;
 
-	bool mouseWasDown;
+	bool leftMouseWasDown;
+	bool rightMouseWasDown;
 
 public:
     // Constructor

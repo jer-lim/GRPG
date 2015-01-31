@@ -68,6 +68,9 @@ private:
 	// HEALTH BAR
 	Button health;				//Vertex data for the entirety of the health bar
 	Button availableHealth;		// Vertex data for only the health that the player has
+
+	// Right click menu
+	vector<Behavior*> menus;
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -98,6 +101,12 @@ public:
 	// Add text to console
 	// Only the first line of text in str will be displayed.
 	virtual void addChatText(const std::string &str);     // add text to console
+
+	//Draws a right click 
+	virtual void setRightClickMenu(vector<Behavior*> behaviors)
+	{
+
+	}
 
 	// Release resources
 	virtual void onLostDevice();
