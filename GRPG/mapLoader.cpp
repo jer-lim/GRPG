@@ -375,6 +375,7 @@ void MapLoader::update(){
 				vpCoords = viewport->translate(t->getX(), t->getY());
 				xPos = t->getX();
 				yPos = t->getY();
+				t->update();
 				//runtimeLog << "ENTITY is at " << vpCoords.x << ", " << vpCoords.y << endl;
 			}
 			else if (mt->tile != nullptr){
@@ -422,12 +423,6 @@ void MapLoader::update(){
 					toMove.push(TileVector(tileX, tileY));
 					toMoveTo.push(TileVector(newTileX, newTileY));
 				}
-			}
-
-			// Handle spawners
-			if (ity->second->spawner != nullptr){
-				Spawner* s = ity->second->spawner;
-				s->update();
 			}
 		}
 	}
@@ -546,7 +541,7 @@ void MapLoader::update(){
 					t->setY(tilePos.y);
 					t->spawn();
 					drawManager->addObject(t, tileNS::ZINDEX);
-					mt->tile = t;
+					mt->spawner = t;
 				}
 				if (newTileInfo.type == tileNS::type::WALL){
 
