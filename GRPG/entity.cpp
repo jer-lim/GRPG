@@ -447,6 +447,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					if (damageDealt >= victimHealth)
 					{
 						victim = 0;
+						destination = 0;
 					}
 				}
 				attackCooldown = person->getAttackCooldown();

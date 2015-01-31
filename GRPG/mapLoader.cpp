@@ -8,7 +8,7 @@ using namespace std;
 MapLoader::MapLoader(){
 	mapFolder = "assets/map/";
 	tileImageFolder = "assets/map/img/";
-	bufferSize = 1;
+	bufferSize = 0;
 
 	tileWidth = ceil(GAME_WIDTH / tileNS::WIDTH) + 2 * bufferSize + 1;
 	tileHeight = ceil(GAME_HEIGHT / tileNS::HEIGHT) + 2 * bufferSize + 1;
@@ -166,8 +166,11 @@ void MapLoader::load(){
 	// Display world map
 	// Load each chunk
 
-	VECTOR2 vpTopLeft = viewport->getTopLeft();
-	VECTOR2 vpBottomRight = viewport->getBottomRight();
+	TileVector bufferedTopLeftCoords = getBufferedTopLeftCoords();
+	TileVector bufferedBottomRightCoords = getBufferedBottomRightCoords();
+
+	runtimeLog << "Top Left: " << bufferedTopLeftCoords.x << ", " << bufferedTopLeftCoords.y << endl;
+	runtimeLog << "Bottom Right: " << bufferedBottomRightCoords.x << ", " << bufferedBottomRightCoords.y << endl;
 	for (int x = 0; x < worldMap.size(); ++x){
 		for (int y = 0; y < worldMap[x].size(); ++y){
 
@@ -189,15 +192,13 @@ void MapLoader::load(){
 					float vpXPos = vpCoords.x;
 					float vpYPos = vpCoords.y;
 
-					TileVector bufferedTopLeftCoords = getBufferedTopLeftCoords();
-					TileVector bufferedBottomRightCoords = getBufferedBottomRightCoords();
-
 					// Is in viewport range
 					if (vpXPos > bufferedTopLeftCoords.x
 						&& vpYPos > bufferedTopLeftCoords.y
 						&& vpXPos < bufferedBottomRightCoords.x
 						&& vpYPos < bufferedBottomRightCoords.y){
 
+						//runtimeLog << "Loading tile " << tileX << ", " << tileY << " (chunk " << x+1 << ", " << y+1 << ") with coords " << xPos << ", " << yPos << " at vp coords " << vpXPos << ", " << vpYPos << endl;
 						loadedTiles[tileX][tileY] = loadTile(tileX, tileY);
 					}
 				}
@@ -286,6 +287,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
 		drawManager->addObject(t, tileNS::ZINDEX);
+		VECTOR2 v = viewport->translate(tilePos.x, tilePos.y);
+		//runtimeLog << "ENTITY " << v.x << ", " << v.y << endl;
 		return new ManagedTile(t);
 	}
 	else if (tileset[tileId].type == tileNS::type::FLOOR){
@@ -296,6 +299,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
 		drawManager->addObject(t, tileNS::ZINDEX);
+		VECTOR2 v = viewport->translate(tilePos.x, tilePos.y);
+		//runtimeLog << "IMAGE " << v.x << ", " << v.y << endl;
 		return new ManagedTile(t);
 	}
 }
@@ -317,15 +322,30 @@ void MapLoader::update(){
 			int changeX = 0, changeY = 0;
 
 			VECTOR2 vpCoords;
+			int xPos, yPos;
 			
 			ManagedTile* mt = ity->second;
-			if (mt->tile != nullptr){
+			
+			if (mt->spawner != nullptr){
+				Spawner* t = mt->spawner;
+				vpCoords = viewport->translate(t->getX(), t->getY());
+				xPos = t->getX();
+				yPos = t->getY();
+				//runtimeLog << "ENTITY is at " << vpCoords.x << ", " << vpCoords.y << endl;
+			}
+			else if (mt->tile != nullptr){
 				Tile* t = mt->tile;
 				vpCoords = viewport->translate(t->getX(), t->getY());
+				xPos = t->getX();
+				yPos = t->getY();
+				//runtimeLog << "ENTITY is at " << vpCoords.x << ", " << vpCoords.y << endl;
 			}
 			else if (mt->image != nullptr){
 				Image* t = mt->image;
 				vpCoords = viewport->translate(t->getX(), t->getY());
+				xPos = t->getX();
+				yPos = t->getY();
+				//runtimeLog << "IMAGE is at " << vpCoords.x << ", " << vpCoords.y << endl;
 			}
 
 			TileVector bufferedTopLeftCoords = getBufferedTopLeftCoords();
@@ -354,6 +374,7 @@ void MapLoader::update(){
 				int newTileY = tileY + changeY;
 				if (newTileX >= 0 && newTileY >= 0
 					&& newTileX < worldMap.size() * tileNS::CHUNK_WIDTH && newTileY < worldMap[0].size() * tileNS::CHUNK_HEIGHT){
+					runtimeLog << "Moving tile " << tileX << ", " << tileY << " (chunk " << (tileX / 16 + 1) << ", " << (tileY / 16 + 1) << ") with coords " << xPos << ", " << yPos << " at vp coords " << vpCoords.x << ", " << vpCoords.y << endl;
 					toMove.push(TileVector(tileX, tileY));
 					toMoveTo.push(TileVector(newTileX, newTileY));
 				}
@@ -376,13 +397,11 @@ void MapLoader::update(){
 		//CRIME SCENE
 		if (loadedTiles[newLocation.x].count(newLocation.y)){
 			ManagedTile* m = loadedTiles[newLocation.x][newLocation.y];
-			if (m->tile != nullptr){
-				drawManager->removeObject(m->tile);
-			}
-			else if (m->image != nullptr){
-				drawManager->removeObject(m->image);
-			}
+			if (m->spawner != nullptr) drawManager->removeObject(m->spawner);
+			else if (m->tile != nullptr) drawManager->removeObject(m->tile);
+			else if (m->image != nullptr) drawManager->removeObject(m->image);
 			delete m;
+			loadedTiles[newLocation.x].erase(newLocation.y);
 		}
 		loadedTiles[newLocation.x][newLocation.y] = mt;
 		loadedTiles[oldLocation.x].erase(oldLocation.y);
@@ -559,8 +578,8 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	AStarNode* currentNode = openList[0];
 	map<int, AStarNode*>::iterator currentNodeIt;
 
-	runtimeLog << "Start node is " << startNodeTile.x << ", " << startNodeTile.y << endl;
-	runtimeLog << "End node is " << endNodeTile.x << ", " << endNodeTile.y << endl;
+	//runtimeLog << "Start node is " << startNodeTile.x << ", " << startNodeTile.y << endl;
+	//runtimeLog << "End node is " << endNodeTile.x << ", " << endNodeTile.y << endl;
 
 	// While there are tiles to find or path is not found, find path
 	while (!openList.empty() && !pathFound && endTileInfo.type != tileNS::type::WALL){
@@ -675,7 +694,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 					newNode->estimatedCostToEnd = (abs(x - endNodeTile.x) + abs(y - endNodeTile.y)) * tileNS::WIDTH;
 					newNode->totalCost = newNode->collectiveCost + newNode->estimatedCostToEnd;
 
-					runtimeLog << "Adding new node at " << x << ", " << y << " with cost " << newNode->totalCost << endl;
+					//runtimeLog << "Adding new node at " << x << ", " << y << " with cost " << newNode->totalCost << endl;
 
 					if (toAdd){
 						// Check if the node is already in openList
@@ -684,7 +703,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 
 								// If new node is better, delete old node
 								if (newNode->totalCost < it->second->totalCost){
-									runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
+									//runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
 									AStarNode* n = it->second;
 									n->~AStarNode();
 									delete n;
@@ -738,7 +757,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	// MEMORY LEAK PLUGGED
 	for (map<int, AStarNode*>::iterator it = openList.begin(); it != openList.end(); ++it){
 		AStarNode* n = it->second;
-		runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+		//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
 		delete n;
 		it->second = nullptr;
 	}
@@ -746,7 +765,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	if (closedList.size() > 0){
 		for (map<int, AStarNode*>::iterator it = closedList.begin(); it != closedList.end(); ++it){
 			AStarNode* n = it->second;
-			runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
+			//runtimeLog << "Deleting " << n->tileCoords.x << ", " << n->tileCoords.y << endl;
 			delete n;
 			it->second = nullptr;
 		}
@@ -758,7 +777,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	runtimeLog << "Nodes explored: " << nodesExplored << endl;
 	if (pathFound){
 		runtimeLog << "Path length: " << path.size() << endl;
-		runtimeLog << "First node: " << path.front().x << ", " << path.front().y << endl;
+		//runtimeLog << "First node: " << path.front().x << ", " << path.front().y << endl;
 	}
 	runtimeLog << "Time taken: " << ((float)(pfEnd.QuadPart - pfStart.QuadPart) / (float)pfFreq.QuadPart) << " seconds" << endl;
 	runtimeLog << endl;

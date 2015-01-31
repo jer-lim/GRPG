@@ -42,7 +42,7 @@ void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 	Skill::setupAllSkills();
-	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 4.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
+	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 2.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
 
 	// Set viewport
 	viewport->setX(startLocation.x);
@@ -93,7 +93,8 @@ void Grpg::initialize(HWND hwnd)
 	mapLoader->setVictim(player);
 	mapLoader->load();
 
-	mouseWasDown = input->getMouseLButton();
+	leftMouseWasDown = input->getMouseLButton();
+	rightMouseWasDown = input->getMouseRButton();
 
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* e = new Entity();
@@ -121,7 +122,7 @@ void Grpg::initialize(HWND hwnd)
 //=============================================================================
 void Grpg::update()
 {
-	if(!input->getMouseLButton() && mouseWasDown)
+	if (!input->getMouseLButton() && leftMouseWasDown)
 	{
 		if (ui->mouseInside(viewport))
 		{
@@ -146,12 +147,23 @@ void Grpg::update()
 				player->setVictim(0);
 			}
 		}
-		mouseWasDown = false;
+		leftMouseWasDown = false;
+	}
+
+	if (!input->getMouseRButton() && rightMouseWasDown)
+	{
+		//Show right click popup
+
 	}
 	
 	if (input->getMouseLButton())
 	{
-		mouseWasDown = true;
+		leftMouseWasDown = true;
+	}
+
+	if (input->getMouseRButton())
+	{
+		rightMouseWasDown = true;
 	}
 	
 	map<int, PlayerSkill>::iterator it;

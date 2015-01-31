@@ -106,7 +106,7 @@ void Image::draw(Viewport* viewport, COLOR_ARGB color)
 	//{
 	SpriteData drawnSpriteData = spriteData;
 	if (viewport != nullptr && !anchored){
-		VECTOR2 vpCoords = viewport->translate(getX(), getY());
+		VECTOR2 vpCoords = viewport->translate(spriteData.x, spriteData.y);
 		drawnSpriteData.x = vpCoords.x;
 		drawnSpriteData.y = vpCoords.y;
 	}
