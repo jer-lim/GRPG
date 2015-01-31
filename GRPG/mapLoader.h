@@ -109,7 +109,7 @@ private:
 	TileVector getNearestTile(VECTOR2 coords);
 
 	TileVector getBufferedTopLeftCoords(){ return TileVector(0 - tileNS::WIDTH * (bufferSize) - tileNS::WIDTH / 2, 0 - tileNS::HEIGHT * (bufferSize) - tileNS::HEIGHT / 2); }
-	TileVector getBufferedBottomRightCoords(){ return TileVector(GAME_WIDTH + tileNS::WIDTH * (bufferSize) + tileNS::WIDTH / 2, GAME_HEIGHT + tileNS::HEIGHT * (bufferSize) + tileNS::HEIGHT / 2); }
+	TileVector getBufferedBottomRightCoords(){ return TileVector(GAME_WIDTH + tileNS::WIDTH * (bufferSize) + tileNS::WIDTH / 2 - 1, GAME_HEIGHT + tileNS::HEIGHT * (bufferSize) + tileNS::HEIGHT / 2 - 1); }
 public:
 	MapLoader();
 	~MapLoader();
