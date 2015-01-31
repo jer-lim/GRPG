@@ -99,6 +99,8 @@ public:
 	void Release() {
 		setInstanceCount(instanceCount - 1);
 	}
+
+	virtual string getType(){ return "PERSON"; }
 };
 
 #endif

@@ -23,9 +23,9 @@ DrawManager::~DrawManager(){
 }
 
 void DrawManager::updateAll(float frameTime){
-	//check if mouse over entity still working
+
 	if (gamePtr->getMouseOverEntity() != nullptr)
-	{
+	{	//check if mouse is still over the entity we identified
 		if (!gamePtr->getMouseOverEntity()->mouseInside(viewport))
 		{
 			gamePtr->setMouseOverEntity(nullptr);
@@ -37,10 +37,13 @@ void DrawManager::updateAll(float frameTime){
 		{
 			it->second->entity->update(frameTime, gamePtr);
 			if (gamePtr->getMouseOverEntity() == nullptr)
-			{//already have an existing mouse over
-				if (it->second->entity->mouseInside(viewport))
-				{
-					gamePtr->setMouseOverEntity(it->second->entity);
+			{//if don't have an existing mouse over
+				if (it->second->entity->getPerson() != Person::thePlayer && it->second->entity->getType() != "UI")
+				{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
+					if (it->second->entity->mouseInside(viewport))
+					{
+						gamePtr->setMouseOverEntity(it->second->entity);
+					}
 				}
 			}
 		}

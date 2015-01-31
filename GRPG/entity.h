@@ -3,15 +3,27 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <queue>
+#include <vector>
 
 #include "image.h"
 #include "input.h"
 #include "game.h"
 #include "destination.h"
 #include "Person.h"
+#include "InventoryItem.h"
 #include "Viewport.h"
-#include "Interactable.h"
+//#include "Interactable.h"
+//#include "Behavior.h"
+//#include "ViewBehavior.h"
+//#include "PickupBehavior.h"
+//#include "DropBehavior.h"
+#include "ViewBehaviorNPC.h"
+#include "ViewBehaviorItem.h"
 #include "Button.h"
+
+class AttackBehavior;
+class PickupBehavior;
+class DropBehavior;
 
 namespace entityNS
 {
@@ -38,7 +50,7 @@ If the entity is moving, then constantly swap between the 1st and 2nd frame
 If the entity is attacking, then constantly swpa between the 2nd all the way to the last frame
 */
 
-class Entity : public Destination, public Interactable
+class Entity : public Destination//, public Interactable
 {
     // Entity properties
   protected:
@@ -86,8 +98,24 @@ class Entity : public Destination, public Interactable
 
 	Destination* destination = nullptr;			//The destination of movement
 	Person* person = nullptr;	// Reference to the character that this entity refers to (NPC? Enemy? etc.
+	InventoryItem* inventoryItem = nullptr;
 	Entity* victim = nullptr;	//If this entity is attacking someone, victim is that poor entity
 	float attackCooldown; //How long more before the entity can attack again
+
+	//Behaviors
+	Behavior* viewBehavior = nullptr;//View name -> display description
+	//NPC
+	Behavior* blacksmithBehavior = nullptr;//Blacksmith popup
+	Behavior* tradeBehavior = nullptr;//store popup
+	//Enemy
+	Behavior* attackBehavior = nullptr;//Attack name -> perform attack
+							//Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
+	//Item
+	Behavior* pickupBehavior = nullptr;//Pickup name -> pickup obj
+	Behavior* dropBehavior = nullptr;//Drop name -> drop obj
+	Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
+	vector<Behavior*> vectorActiveBehaviors;
+
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
@@ -176,6 +204,8 @@ class Entity : public Destination, public Interactable
 
 	// Returns the character that this entity refers to
 	virtual Person* getPerson() { return person; }
+	// Returns the character that this entity refers to
+	virtual InventoryItem* getInventoryItem() { return inventoryItem; }
 
 	// Returns the current destination that this entity is heading towards
 	// Returns a pointer to 0 if no current destination
@@ -241,7 +271,7 @@ class Entity : public Destination, public Interactable
 	//		anc = twhether this entity is anchored or not (Changes drawing x and y location based on viewport)
 	// Post: returns true if successful, false if failed
 	virtual bool initialize(Game *gamePtr, Person* character, bool anc = false);
-
+	virtual bool initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory = false);
 	// Initialize entity using a pre-initialized TextureManager
 	// Pre: *gamePtr = pointer to Game object
 	//      width = width of Image in pixels  (0 = use full texture width)
@@ -280,22 +310,47 @@ class Entity : public Destination, public Interactable
 	// Checks if the mouse is inside the sprite of this Entity
 	virtual bool mouseInside(Viewport* vp);
 
-	// Displays the text that will be shown when the mouse is over it
-	virtual string view();
-
 	// Return whether the entity is an attackable enemy
-	virtual bool isEnemy();
-
+	virtual string getType(){ return "ENTITY"; }
+	bool isEnemy();
 	// Resets the coordinates of the available health portion of this entity
 	virtual void resetAvailableHealth(VECTOR2 topLeftViewport);
-
 	// Resets the coordinates of the health portion of this entity
 	// Note that this only resets the health part, which is the background of the health
 	// To re-draw the red part as well, call resetAvailableHealth.
 	virtual void resetHealth(VECTOR2 topLeftViewport);
-
 	// Never actually releases the entity because it is likely reused
 	virtual void release(){  }
+
+	//Behavior related
+	void setupVectorActiveBehaviors()
+	{//Must be in order, as they will be displayed in this order 
+		if (cookBehavior)
+			vectorActiveBehaviors.push_back(cookBehavior);
+		if (dropBehavior)
+			vectorActiveBehaviors.push_back(dropBehavior);
+		if (pickupBehavior)
+			vectorActiveBehaviors.push_back(pickupBehavior);
+		if (attackBehavior)
+			vectorActiveBehaviors.push_back(attackBehavior);
+		if (tradeBehavior)
+			vectorActiveBehaviors.push_back(tradeBehavior);
+		if (blacksmithBehavior)
+			vectorActiveBehaviors.push_back(blacksmithBehavior);
+		if (viewBehavior)
+			vectorActiveBehaviors.push_back(viewBehavior);
+	}
+	vector<Behavior*> getVectorActiveBehaviors(){ return vectorActiveBehaviors; }
+	// Displays the text that will be shown when the mouse is over it
+	string topMostDisplayText()
+	{
+		if (vectorActiveBehaviors.size() > 0)
+		{
+			return vectorActiveBehaviors.at(0)->displayText();
+		}
+		return "";
+	}
+
 };
 
 #endif

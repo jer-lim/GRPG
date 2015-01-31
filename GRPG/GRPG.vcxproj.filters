@@ -29,6 +29,12 @@
     <ClCompile Include="PersonLoader.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="ViewBehaviorNPC.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -71,8 +77,54 @@
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
     <ClInclude Include="string_functions.h" />
-    <ClInclude Include="Interactable.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Behavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactable.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="CookBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="DropBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="MineBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FishBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="PickupBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="TalkBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="BlacksmithBehavior.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewBehaviorItem.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewBehaviorNPC.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Behaviors">
+      <UniqueIdentifier>{cc765b90-afc1-44c0-8138-a3291a6a90cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

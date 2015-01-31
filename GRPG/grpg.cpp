@@ -96,17 +96,22 @@ void Grpg::initialize(HWND hwnd)
 	mouseWasDown = input->getMouseLButton();
 
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
-	y->initialize(this, true);
-	player->getInventory()->addInventoryItem(y);
+	Entity* e = new Entity();
+	e->initialize(this, y, true);//anchored if its an inventory
+	//y->initialize(this, true);
+	player->getInventory()->addEntityInventoryItem(e);
 	//ml free
 
 	//Object test
 	//CRIME SCENE
+	
 	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
-	x->initialize(this, false);
-	x->getEntity()->setX(startLocation.x);
-	x->getEntity()->setY(startLocation.y);
-	drawManager->addObject(x->getEntity(), 1);
+	Entity* newObj = new Entity();
+	newObj->initialize(this, x, false);
+	//x->initialize(this, false);
+	newObj->setX(startLocation.x);
+	newObj->setY(startLocation.y);
+	drawManager->addObject(newObj, 1);
 	//END SCENE
 	return;
 }
@@ -194,7 +199,7 @@ void Grpg::render()
 	if (mouseOverEntity != nullptr)
 	{
 		//do a proper interface check here for the name
-		uiFont->print(mouseOverEntity->view(), 5, 20);
+		uiFont->print(mouseOverEntity->topMostDisplayText(), 5, 20);
 	}
 
     graphics->spriteEnd();                  // end drawing sprites

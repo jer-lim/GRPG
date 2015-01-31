@@ -6,7 +6,7 @@
 #include <sstream>
 #include "item.h"
 #include "game.h"
-#include "entity.h"
+//#include "entity.h"
 #include "drawManager.h"
 
 class InventoryItem
@@ -15,21 +15,19 @@ private:
 	Item* item=nullptr;
 	int currentStackCount=-1;
 	string currentStackCountString;
-	Entity* entity = nullptr;
+	//Entity* entity = nullptr;
 	DrawManager* drawmanager;
 public:
-	void initialize(Game* gamePtr, bool anchor)
+	void initialize(Game* gamePtr)
 	{
 		item->initializeTexture(gamePtr);
-		entity = new Entity();
-		entity->initialize(gamePtr, item->getSpriteWidth(), item->getSpriteHeight(), item->getSpriteColumns(), item->getTextureManager(), anchor);
 	}
 	// constructor
 	InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
 	void destroy(){
 		//drawmanager->removeObject(entity);
 		SAFE_RELEASE(item);
-		SAFE_DELETE(entity);
+		//SAFE_DELETE(entity);
 		drawmanager = nullptr;
 	}
 	~InventoryItem(){ 
@@ -50,7 +48,7 @@ public:
 	}
 	string getCurrentStackCountString() { return currentStackCountString; }
 
-	Entity* getEntity(){ return entity; }
-	void setEntity(Entity* e){ entity = e; }
+	//Entity* getEntity(){ return entity; }
+	//void setEntity(Entity* e){ entity = e; }
 };
 #endif

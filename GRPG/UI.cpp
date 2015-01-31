@@ -253,14 +253,15 @@ void UI::drawTabContents(int tabNumber)
 	{
 		//Temporary text
 		uiText->print("Inventory", topLeftX + 5, topLeftY + 5);
-		map<int, InventoryItem*>* slotList = player->getInventory()->getSlotList();
-		for (std::map<int, InventoryItem*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
+		map<int, Entity*>* slotList = player->getInventory()->getSlotList();
+		for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
 		{
-			it->second->getEntity()->draw(nullptr);
+			it->second->draw(nullptr);
 			//draw stack here using uiText
-			if (it->second->getCurrentStackCount() > 1)//draw stack count
+			InventoryItem* ii = it->second->getInventoryItem();
+			if (ii->getCurrentStackCount() > 1)//draw stack count
 			{
-				uiText->print(it->second->getCurrentStackCountString(), (int)(it->second->getEntity()->getX()), (int)(it->second->getEntity()->getY()));
+				uiText->print(ii->getCurrentStackCountString(), (int)(it->second->getX()), (int)(it->second->getY()));
 			}
 		}
 		(slotList) = nullptr;
@@ -408,5 +409,3 @@ void UI::onResetDevice()
 	health.onResetDevice();
 	availableHealth.onResetDevice();
 }
-
-string UI::view(){ return "User Interface"; }
