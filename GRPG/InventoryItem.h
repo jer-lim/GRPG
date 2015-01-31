@@ -15,7 +15,7 @@ private:
 	Item* item=nullptr;
 	int currentStackCount=-1;
 	string currentStackCountString;
-	Entity* entity;
+	Entity* entity = nullptr;
 	DrawManager* drawmanager;
 public:
 	void initialize(Game* gamePtr, bool anchor)
