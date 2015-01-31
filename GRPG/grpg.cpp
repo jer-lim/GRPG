@@ -158,19 +158,23 @@ void Grpg::update()
 		if(mouseOverEntity != nullptr)
 		{
 			//Find all the entities that the mouse is currently over
-			map<int, ManagedObject*> allEntities = drawManager->getDrawnObjects();
-			for (map<int, ManagedObject*>::reverse_iterator it = allEntities.rbegin(); it != allEntities.rend(); ++it){
-				if (it->second->entity != nullptr)
-				{
-					if (it->second->entity->getPerson() != Person::thePlayer && it->second->entity->getType() != "UI")
-					{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
-						if (it->second->entity->mouseInside(viewport))
-						{
-							addMouseOverEntity(it->second->entity);
+			map<int, map<int, ManagedObject*>> allEntities = drawManager->getDrawnObjects();
+			for (map<int, map<int, ManagedObject*>>::reverse_iterator it = allEntities.rbegin(); it != allEntities.rend(); ++it){
+				int zi = it->first;
+				for (map<int, ManagedObject*>::reverse_iterator it2 = allEntities[zi].rbegin(); it2 != allEntities[zi].rend(); ++it2){
+					if (it2->second->entity != nullptr)
+					{
+						if (it2->second->entity->getPerson() != Person::thePlayer && it2->second->entity->getType() != "UI")
+						{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
+							if (it2->second->entity->mouseInside(viewport))
+							{
+								addMouseOverEntity(it2->second->entity);
+							}
 						}
 					}
 				}
 			}
+
 			//Build a list of vector<Behavior*> that is a combination o all the items
 			//that the user is currently moused over
 			vector<Behavior*> behaviors;

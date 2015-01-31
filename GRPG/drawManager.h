@@ -9,18 +9,17 @@ class Entity;
 class Viewport;
 
 struct ManagedObject {
-	int zindex = 1;
 	Entity* entity = nullptr;
 	Image* image = nullptr;
 };
 
 class DrawManager {
 private:
-	map<int, ManagedObject*> objects;
+	map<int, map<int, ManagedObject*>> objects;
 	Viewport* viewport;
 	Game* gamePtr;
 
-	void addManagedObject(ManagedObject* mo);
+	void addManagedObject(int zi, ManagedObject* mo);
 
 public:
 
@@ -41,7 +40,7 @@ public:
 	void removeObject(Entity* ent);
 	void removeObject(Image* img);
 
-	map<int, ManagedObject*> getDrawnObjects() { return objects; }
+	map<int, map<int, ManagedObject*>> getDrawnObjects() { return objects; }
 };
 
 #endif
