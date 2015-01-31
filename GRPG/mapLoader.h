@@ -78,6 +78,8 @@ private:
 
 	Entity* victim;
 
+	char spawnTileId;
+
 	string mapFolder;
 	string tileImageFolder;
 	int bufferSize; // width of tiles beyond the border to load

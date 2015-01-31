@@ -43,6 +43,8 @@ protected:
 	Entity* mouseOverEntity = nullptr;
 	vector<Entity*> mouseOverEntities;
 
+	VECTOR2 startLocation;
+
 	// Spawning handling
 	// We give each spawner an ID
 	// and a map is stored which asssociates each spawner ID with their own enemy object?
@@ -155,6 +157,10 @@ public:
 	Entity* getSpawnLink(string location){
 		if (spawnLinks.count(location) > 0) return spawnLinks[location];
 		else return NULL;
+	}
+
+	void setStartLocation(VECTOR2 sl){
+		startLocation = sl;
 	}
 };
 
