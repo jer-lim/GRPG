@@ -314,7 +314,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		tileTms[tileId] = textureManager;
 	}
 	if (tileset[tileId].type == tileNS::type::SPAWNER){
-		Spawner* t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, victim);
+		Spawner* t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
 
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
@@ -534,7 +534,7 @@ void MapLoader::update(){
 				}
 
 				if (newTileInfo.type == tileNS::type::SPAWNER){
-					Spawner* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, victim);
+					Spawner* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
 
 					t->initialize(gamePtr, textureManager);
 					t->setX(tilePos.x);

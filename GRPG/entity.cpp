@@ -495,6 +495,13 @@ void Entity::update(float frameTime, Game* gamePtr)
 
     image.update(frameTime);
     rotatedBoxReady = false;    // for rotatedBox collision detection
+	//Exception for friendly NPCs - they only have one sprite
+	if (person->getType() == "NPC")
+	{
+		image.setFrames(0, 0);
+		image.setCurrentFrame(0);
+	}
+
 	}
 
 	//health bar display
