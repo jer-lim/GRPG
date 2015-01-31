@@ -201,7 +201,11 @@ void Grpg::render()
 	if (mouseOverEntity != nullptr)
 	{
 		//do a proper interface check here for the name
-		uiFont->print(mouseOverEntity->topMostDisplayText(), 5, 20);
+		Behavior* topMostBehavior = mouseOverEntity->getTopMostBehavior();
+		if (topMostBehavior != nullptr)
+		{
+			uiFont->print(topMostBehavior->displayText(), 5, 20);
+		}
 	}
 
     graphics->spriteEnd();                  // end drawing sprites
