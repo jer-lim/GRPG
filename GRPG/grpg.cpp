@@ -146,6 +146,7 @@ void Grpg::update()
 				player->move(p);
 				player->setVictim(0);
 			}
+			ui->removeWindow();
 		}
 		leftMouseWasDown = false;
 		ui->removeRightClickMenu();
@@ -215,7 +216,6 @@ void Grpg::update()
 	//View is always centered on the player
 	viewport->setX(player->getX());
 	viewport->setY(player->getY());
-	
 }
 
 //=============================================================================
@@ -300,7 +300,15 @@ void Grpg::resetAll()
 bool Grpg::processCommand(std::string command)
 {
 	if (command == "pro")
+	{
 		pro = true;
+		return true;
+	}
+	else if (command == "shop")
+	{
+		ui->drawWindow("Solomon's General Store");
+		return true;
+	}
 	else if (command.substr(0, 5) == "spawn")
 	{
 

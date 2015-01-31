@@ -19,6 +19,7 @@ UI::UI() : Entity()
 	uiText = new TextDX();
 	tabTexture = new TextureManager();
 	uiImgTexture = new TextureManager();
+	windowTexture = new TextureManager();
 	activeTab = uiNS::SKILLS;
 
 	//Not visible till you right click
@@ -58,6 +59,10 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing ui_image texture"));
 	if (!tabImage.initialize(graphics, 0, 0, 1, tabTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Tabs image could not be initalized"));
+	if (!windowTexture->initialize(graphics, WINDOW_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing window texture"));
+	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Window image could not be initalized"));
 
 	//Also white cause background black
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
@@ -71,7 +76,6 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
 	}
-
 	if (!chatRect.initialize(graphics, 0, GAME_HEIGHT - uiNS::chatHeight, uiNS::chatWidth, uiNS::chatHeight, uiNS::chatColour, ""))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Chat background could not be initalized");
@@ -197,6 +201,14 @@ void UI::draw(Viewport* viewport)
 
 	//Draw all text here so that the image properly appears below them
 	drawTabContents(activeTab);
+
+	//Draw the window if required
+	if (windowHeader != "")
+	{
+		windowImage.setX(player->getX());
+		windowImage.setY(player->getY());
+		windowImage.draw(viewport);
+	}
 
 	// Now draw the right click menu
 	if (rightClickBackground.getVisible())
@@ -386,6 +398,17 @@ void UI::performClick()
 				differenceFromTop -= textRect->bottom;
 			}
 			delete textRect;
+		}
+	}
+
+	//Check for over X icon in window store
+	if (windowHeader != "")
+	{
+		VECTOR2 topRightWindow = VECTOR2(windowImage.getX() + windowImage.getWidth() / 2, windowImage.getY() - windowImage.getHeight() / 2);
+		if (input->getMouseX() > topRightWindow.x - uiNS::windowXWidth && input->getMouseX() < topRightWindow.x &&
+			input->getMouseY() > topRightWindow.y && input->getMouseY() < topRightWindow.y + uiNS::windowXHeight)
+		{
+			windowHeader = "";
 		}
 	}
 }

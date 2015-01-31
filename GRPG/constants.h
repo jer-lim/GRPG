@@ -54,8 +54,9 @@ const float GRAVITY = 6.67428e-11f;             // gravitational constant
 const char TEXTURES_IMAGE[] = "player.png";  // game textures, path is defined in personNS
 const char UI_IMAGE[] = "assets/ui/bottomrightbackground.png"; //UI texture
 const char TAB_IMAGE[] = "assets/ui/tabs.png"; //UI tabs texture
-const char HIT_IMAGE[] = "assets/ui/hit.png"; //UI tabs texture
-const char MISS_IMAGE[] = "assets/ui/miss.png"; //UI tabs texture
+const char HIT_IMAGE[] = "assets/ui/hit.png"; //Hit splat hit texture
+const char MISS_IMAGE[] = "assets/ui/miss.png"; //Hit splat miss texture
+const char WINDOW_IMAGE[] = "assets/ui/windowBackground.png"; // Window background texture
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used

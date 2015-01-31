@@ -41,6 +41,11 @@ namespace uiNS
 	const COLOR_ARGB noHealthColor = SETCOLOR_ARGB(180, 0, 0, 0);
 
 	const COLOR_ARGB rightClickBG = SETCOLOR_ARGB(255, 0, 0, 0);
+
+	// Coordindates referring to the height and width of the X icon at the top left
+	// of the window texture
+	const UINT windowXWidth = 28;
+	const UINT windowXHeight = 17;
 }
 
 // inherits from Entity class
@@ -79,6 +84,15 @@ private:
 	vector<Behavior*> menus;
 	VECTOR2 menuTop;
 	Button rightClickBackground;	// Vertex data for drawing the background
+
+	// WINDOW SYSTEM
+
+	// The background of the big window that appears in the middle of the game
+	//Used for store, quests etc.
+	TextureManager* windowTexture;
+	Image windowImage; // The window image that is drawn in the middle
+	// The header text in the window. If empty, signifies no window and no window will be drawn
+	string windowHeader;
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -133,5 +147,15 @@ public:
 	float getTopLeftY(){ return getY() - uiNS::HEIGHT / 2; }
 
 	virtual string getType(){ return "UI"; }
+
+	// Start drawing the window in the middle of the screen, with the specified header
+	// that is shown at the top of the window
+	// Warning: You MUST specify a header, or the window won't be drawn
+	virtual void drawWindow(string header)
+	{
+		windowHeader = header;
+	}
+
+	virtual void removeWindow() { windowHeader = ""; }
 };
 #endif
