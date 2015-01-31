@@ -130,15 +130,17 @@ void Grpg::update()
 		}
 		else
 		{
+			bool actionSuccess = false;
 			if (mouseOverEntity != nullptr)
 			{
 				Behavior* topBehavior = mouseOverEntity->getTopMostBehavior();
 				if (topBehavior != nullptr)
 				{
 					mouseOverEntity->getTopMostBehavior()->action();
+					actionSuccess = true;
 				}
 			}
-			else
+			if (!actionSuccess)
 			{
 				VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
 
