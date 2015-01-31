@@ -7,8 +7,7 @@ void TalkBehavior::action(){
 	VECTOR2 collisionVector;
 	if (entity->collidesWith(*thePlayer, collisionVector))
 	{
-		ui->addChatText(ii->getname() + ": Hello! Would you like to trade? ");
-		ui->addChatText("(To trade, right click on the " + ii->getname() + ", then select 'Trade with " + ii->getname() + "')");
+		ui->addChatText(ii->getname() + ": " + message);
 	}
 	else
 	{

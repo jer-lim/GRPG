@@ -136,7 +136,8 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		else
 		{
 			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this);
-			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this);
+			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this, 
+				"Hello! Would you like to trade?");
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
 		thePlayer = ((Grpg*)gamePtr)->getPlayer();
@@ -366,7 +367,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 	//is still at an attacking state
 	if (attackCooldown > person->getAttackCooldown() - ((person->getNumOfCols() - 1) * entityNS::animationWait))
 	{
-		//Do nothing, plasyer is effectively "stunned" for this duration
+		//Do nothing, player is effectively "stunned" for this duration
 	}
 	else
 	{
