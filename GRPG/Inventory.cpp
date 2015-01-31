@@ -38,7 +38,7 @@ bool Inventory::addEntityInventoryItem(Entity* ii)
 		result = IMPOSSIBLE;
 		merge(it->second, ii);
 		if (result == SUCCESSFUL)
-			return;//already deleted entity inside merge and no need to add item since its merged
+			return true;//already deleted entity inside merge and no need to add item since its merged
 	}
 	//If incomplete / impossible, proceed
 	if (result == IMPOSSIBLE || result == INCOMPLETE)

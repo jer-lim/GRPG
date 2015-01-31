@@ -67,5 +67,4 @@ public:
 	Entity* getEntityInventoryItem(int i);
 	map<int, Entity*>* getSlotList(){ return &slotList; }
 };
-enum ITEM_MERGE { IMPOSSIBLE, INCOMPLETE, SUCCESSFUL };
 #endif
