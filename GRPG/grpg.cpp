@@ -23,14 +23,18 @@ Grpg::~Grpg()
 	SAFE_DELETE(ui);
 	SAFE_DELETE(drawManager);
 	SAFE_DELETE(mapLoader);
-	SAFE_DELETE(personLoader);
 	SAFE_DELETE(hitSplat);
 	SAFE_DELETE(missSplat);
 	SAFE_DELETE(viewport);
 	Skill::deleteAllSkills();
 	SAFE_DELETE(player);
-	SAFE_DELETE(Person::thePlayer);
-	SAFE_DELETE(itemLoader);
+	SAFE_DELETE(Person::thePlayer);//Must be called only _after_ player is deleted
+	//Safe delete all the enemies that are still alive and walking around in the game
+	for (map<string, Entity*>::iterator it = spawnLinks.begin(); it != spawnLinks.end(); ++it){
+		SAFE_DELETE(it->second);
+	}
+	SAFE_DELETE(itemLoader);//Needs to be called only _after_ all items are deleted
+	SAFE_DELETE(personLoader);//Needs to be called only _after_ all persons & their entities are deleted
 	//~Game() called afterward
 }
 

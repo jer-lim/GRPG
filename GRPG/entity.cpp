@@ -76,7 +76,7 @@ Entity::~Entity()
 	{
 		//If NPC/Enemy: will be deleted in PersonLoader destructor
 		//If Player: will be deleted in Grpg destructor
-		//SAFE_RELEASE(person);
+		SAFE_RELEASE(person);
 	}
 	if (inventoryItem != nullptr)
 	{
