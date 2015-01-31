@@ -74,7 +74,9 @@ Entity::~Entity()
 	}
 	if (person != nullptr)
 	{
-		SAFE_RELEASE(person);
+		//If NPC/Enemy: will be deleted in PersonLoader destructor
+		//If Player: will be deleted in Grpg destructor
+		//SAFE_RELEASE(person);
 	}
 	if (inventoryItem != nullptr)
 	{
@@ -158,9 +160,6 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 	edge.right = whichCharacter->getColliWidth() / 2;
 
 	string path = PersonNS::spriteDirectory + person->getImgFileName();
-	//init texture
-	if (!textureM->initialize(graphics, path.c_str()))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing " + *path.c_str()));
 
     return image.initialize(gamePtr->getGraphics(), whichCharacter->getWidth(), whichCharacter->getHeight(), whichCharacter->getNumOfCols(), textureM, anc);
 }
