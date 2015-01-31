@@ -20,11 +20,14 @@ namespace uiNS
 	const int COMBATSTYLE = 1;
 	const int SKILLS = 2;
 	const int INVENTORY = 3;
+	const int EQUIPS = 4;
+	const int QUESTS = 5;
+	const int totalTabs = 5;
 
-	const int tabWIDTH = 53;
+	const int tabWIDTH = 34;
 	const int tabHEIGHT = 40;
-	const int tabLMargin = 15;
-	const int tabMargin = 5;
+	const int tabLMargin = 7;
+	const int tabMargin = 2;
 
 	const UINT chatHeight = 200;
 	const UINT chatWidth = 500;

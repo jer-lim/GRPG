@@ -169,6 +169,10 @@ void UI::draw(Viewport* viewport)
 		drawTab(uiNS::SKILLS);
 	if (uiNS::INVENTORY != activeTab)
 		drawTab(uiNS::INVENTORY);
+	if (uiNS::EQUIPS != activeTab)
+		drawTab(uiNS::EQUIPS);
+	if (uiNS::QUESTS != activeTab)
+		drawTab(uiNS::QUESTS);
 
 	//Now draw the required stuff for the health bar
 	//Calculate how much health the player has left
@@ -275,6 +279,16 @@ void UI::drawTabContents(int tabNumber)
 		}
 		(slotList) = nullptr;
 	}
+	else if (tabNumber == uiNS::EQUIPS)
+	{
+		//Temporary text
+		uiText->print("Equipment", topLeftX + 5, topLeftY + 5);
+	}
+	else if (tabNumber == uiNS::QUESTS)
+	{
+		//Temporary text
+		uiText->print("Quests", topLeftX + 5, topLeftY + 5);
+	}
 }
 
 //=============================================================================
@@ -336,21 +350,16 @@ void UI::performClick()
 	if (input->getMouseY() >= tabTopLeftY && input->getMouseY() <= tabBottomLeftY)
 	{
 		float tabTopLeftX = getX() - uiNS::WIDTH / 2 + uiNS::tabLMargin;
+		for (int i = 0; i < uiNS::totalTabs; i++)
+		{
+			if (input->getMouseX() >= tabTopLeftX && input->getMouseX() <= tabTopLeftX + uiNS::tabWIDTH)
+			{
+				//Assuming uiNS active tabs possibility are from 1 to totalTabs
+				activeTab = i+1;
+			}
+			tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
+		}
 		// Increase in tab: (tabNumber - 1)*(uiNS::tabWIDTH + uiNS::tabMargin) + uiNS::tabWIDTH / 2);
-		if (input->getMouseX() >= tabTopLeftX && input->getMouseX() <= tabTopLeftX + uiNS::tabWIDTH)
-		{
-			activeTab = uiNS::COMBATSTYLE;
-		}
-		tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
-		if (input->getMouseX() >= tabTopLeftX && input->getMouseX() <= tabTopLeftX + uiNS::tabWIDTH)
-		{
-			activeTab = uiNS::SKILLS;
-		}
-		tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
-		if (input->getMouseX() >= tabTopLeftX && input->getMouseX() <= tabTopLeftX + uiNS::tabWIDTH)
-		{
-			activeTab = uiNS::INVENTORY;
-		}
 	}
 
 	//Check for right click menu
@@ -401,7 +410,7 @@ bool UI::mouseInside(Viewport* vp)
 	if (input->getMouseY() > tabTopLeftY && input->getMouseY() < tabBottomLeftY)
 	{
 		float tabTopLeftX = getX() - uiNS::WIDTH / 2 + uiNS::tabLMargin;
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < uiNS::totalTabs; i++)
 		{
 			// Increase in tab: (tabNumber - 1)*(uiNS::tabWIDTH + uiNS::tabMargin) + uiNS::tabWIDTH / 2);
 			if (input->getMouseX() >= tabTopLeftX && input->getMouseX() <= tabTopLeftX + uiNS::tabWIDTH)
