@@ -12,9 +12,9 @@ private:
 	Entity* entity;
 	NPC* npc;
 public:
-	AttackBehavior(Entity* e){ 
+	AttackBehavior(Entity* e,NPC* n){ 
 		entity = e;
-		npc = (NPC*)(e->getPerson());
+		npc = n;
 	}
 	virtual bool exists(){ return true; }
 	virtual string displayText();

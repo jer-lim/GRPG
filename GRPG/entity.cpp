@@ -127,7 +127,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 	if (whichCharacter->getType() == "NPC" || whichCharacter->getType() == "ENEMY")
 	{
 		if (whichCharacter->getType() == "ENEMY")//Attack enemy
-			attackBehavior = new AttackBehavior(this);
+			attackBehavior = new AttackBehavior(this,(NPC*)whichCharacter);
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter);
 	}
 	setupVectorActiveBehaviors();
