@@ -32,7 +32,7 @@ bool Inventory::addEntityInventoryItem(int i, Entity* ii)
 bool Inventory::addEntityInventoryItem(Entity* ii)
 {
 	//First check if can merge
-	int result;
+	int result = IMPOSSIBLE;
 	for (std::map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it)
 	{
 		result = IMPOSSIBLE;
