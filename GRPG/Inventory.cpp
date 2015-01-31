@@ -31,21 +31,34 @@ bool Inventory::addEntityInventoryItem(int i, Entity* ii)
 
 bool Inventory::addEntityInventoryItem(Entity* ii)
 {
-	if (slotList.size() == 0)
-	{//everything is empty
-		addEntityInventoryItem(0, ii);
+	//First check if can merge
+	int result;
+	for (std::map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it)
+	{
+		result = IMPOSSIBLE;
+		merge(it->second, ii);
+		if (result == SUCCESSFUL)
+			return;//already deleted entity inside merge and no need to add item since its merged
 	}
-	else if (slotList.size() < maxSlotListCount)
-	{//Find an empty spot and slot the item in
-		int prevIndex = 0;
-		for (std::map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it)
-		{
-			if (it->first > prevIndex + 1) {
-				addEntityInventoryItem(prevIndex + 1, ii);
-				return true;
-			}
-			else {
-				prevIndex = it->first;
+	//If incomplete / impossible, proceed
+	if (result == IMPOSSIBLE || result == INCOMPLETE)
+	{
+		if (slotList.size() == 0)
+		{//everything is empty
+			addEntityInventoryItem(0, ii);
+		}
+		else if (slotList.size() < maxSlotListCount)
+		{//Find an empty spot and slot the item in
+			int prevIndex = 0;
+			for (std::map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it)
+			{
+				if (it->first > prevIndex + 1) {
+					addEntityInventoryItem(prevIndex + 1, ii);
+					return true;
+				}
+				else {
+					prevIndex = it->first;
+				}
 			}
 		}
 	}

@@ -34,6 +34,30 @@ public:
 	bool addEntityInventoryItem(Entity* ii);
 	bool destroyEntityInventoryItem(int i);
 	bool hasEntityInventoryItem(int i);
+	ITEM_MERGE merge(Entity* a, Entity* b)
+	{//merge in terms of stackcount
+		if (a->getInventoryItem()->getItem() != b->getInventoryItem()->getItem() || 
+			a->getInventoryItem()->getItem()->getMaxStackCount() <= a->getInventoryItem()->getCurrentStackCount())
+		{//a is already filled or different item
+			return IMPOSSIBLE;
+		}
+		else {
+			int totalStack = a->getInventoryItem()->getCurrentStackCount() + b->getInventoryItem()->getCurrentStackCount();
+			if (totalStack <= a->getInventoryItem()->getItem()->getMaxStackCount())
+			{//enough space for complete merge
+				a->getInventoryItem()->setCurrentStackCount(totalStack);
+				SAFE_DELETE(b);//b should have already been removed from draw manager before adding into inventory
+				return SUCCESSFUL;
+			}
+			else
+			{
+				a->getInventoryItem()->setCurrentStackCount(a->getInventoryItem()->getItem()->getMaxStackCount());
+				totalStack -= a->getInventoryItem()->getItem()->getMaxStackCount();
+				b->getInventoryItem()->setCurrentStackCount(totalStack);
+				return INCOMPLETE;
+			}
+		}
+	}
 
 	int getXDrawPosition(){ return xDrawPosition; }
 	void setXDrawPosition(int x){ xDrawPosition = x; }
@@ -43,4 +67,5 @@ public:
 	Entity* getEntityInventoryItem(int i);
 	map<int, Entity*>* getSlotList(){ return &slotList; }
 };
+enum ITEM_MERGE { IMPOSSIBLE, INCOMPLETE, SUCCESSFUL };
 #endif
