@@ -42,6 +42,7 @@ Entity::Entity()
 	inventoryItem = nullptr;
 	backHealth = nullptr;
 	availableHealth = nullptr;
+	theGame = nullptr;
 
 	oldViewport = VECTOR2(-1, -1);
 	oldLocation = VECTOR2(-1, -1);
@@ -133,6 +134,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 
     input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
+	theGame = gamePtr;
 
 	//textureM = new TextureManager();
 	//textureM = whichCharacter->getTextureManager();
@@ -204,6 +206,7 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 	input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
 	textureM = tm;
+	theGame = gamePtr;
 
 	return image.initialize(gamePtr->getGraphics(), width, height, ncols, textureM, anc);
 }
@@ -431,6 +434,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 				}
 				else
 				{
+					int victimHealth = victim->getHealth();
 					map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
 					int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
 					//We're obviously not going to implement combat styles so I'll just pump everything.
@@ -438,6 +442,12 @@ void Entity::update(float frameTime, Game* gamePtr)
 					skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
 					skills->at(skillNS::ID_SKILL_STRENGTH).gainXP(damageDealt * 4);
 					skills->at(skillNS::ID_SKILL_TOUGHNESS).gainXP(damageDealt * 4);
+
+					//Victim is now dead and deleted
+					if (damageDealt >= victimHealth)
+					{
+						victim = 0;
+					}
 				}
 				attackCooldown = person->getAttackCooldown();
 				image.setFrames(1, person->getNumOfCols()-1);
@@ -822,13 +832,13 @@ int Entity::damage(int atk, int str)
 	displayTime = entityNS::healthDisplay;
 	availableHealth->setVisible(true);
 	backHealth->setVisible(true);
+	//Just in case of death
+	int oldDamage = damageTaken;
 	if (health <= 0)
 	{
-		//TODO: tell draw manager that this is dead
-		//TODO: Tell spawn manager to spawn another one of this dude
-		delete this;
+		theGame->deleteEntity(this);
 	}
-	return damageTaken;
+	return oldDamage;
 }
 
 //=============================================================================
