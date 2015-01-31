@@ -8,6 +8,7 @@
 #include "AttackBehavior.h"
 #include "PickupBehavior.h"
 #include "DropBehavior.h"
+#include "grpg.h"
 
 namespace entityNS
 {
@@ -127,7 +128,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 	if (whichCharacter->getType() == "NPC" || whichCharacter->getType() == "ENEMY")
 	{
 		if (whichCharacter->getType() == "ENEMY")//Attack enemy
-			attackBehavior = new AttackBehavior(this,(NPC*)whichCharacter);
+			attackBehavior = new AttackBehavior(((Grpg*)gamePtr)->getPlayer(),this,(NPC*)whichCharacter);
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter);
 	}
 	setupVectorActiveBehaviors();

@@ -47,6 +47,7 @@ public:
 	bool processCommand(std::string command);
 
 	UI* getUI() { return ui; }
+	Player* getPlayer() { return player; }
 };
 
 #endif
