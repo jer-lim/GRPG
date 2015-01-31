@@ -555,7 +555,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 
 	queue<VECTOR2> path; // The actual path of coordinates to follow
 	stack<VECTOR2> reversePath; // Reverse path to use to trace route back to start from end
-	map<int, AStarNode*> openList; // Open list, ordered by f score
+	map<int, AStarNode*> openList; // Open list
 	map<int, AStarNode*> closedList; // Closed list, don't consider these nodes
 	bool pathFound = false;
 	int nodesExplored = 0;
