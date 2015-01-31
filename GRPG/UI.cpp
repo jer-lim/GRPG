@@ -20,6 +20,9 @@ UI::UI() : Entity()
 	tabTexture = new TextureManager();
 	uiImgTexture = new TextureManager();
 	activeTab = uiNS::SKILLS;
+
+	//Not visible till you right click
+	rightClickBackground.setVisible(false);
 }
 
 //=============================================================================
@@ -190,6 +193,12 @@ void UI::draw(Viewport* viewport)
 
 	//Draw all text here so that the image properly appears below them
 	drawTabContents(activeTab);
+
+	// Now draw the right click menu
+	if (rightClickBackground.getVisible())
+	{
+		rightClickBackground.draw(uiText);
+	}
 }
 
 //=============================================================================
@@ -386,6 +395,41 @@ bool UI::mouseInside(Viewport* vp)
 	}*/
 
 	return false;
+}
+
+
+//Draws a right click 
+void UI::setRightClickMenu(vector<Behavior*> behaviors)
+{
+	menus = behaviors;
+	menuTop.x = input->getMouseX();
+	menuTop.y = input->getMouseY();
+
+	// Decide how much text should be shown onto the screen
+	// Find out the longest text of any behavior
+	// The total height
+	// And group all the text into a string to be shown
+	RECT* textRect = new RECT();
+	textRect->left = 0;
+	textRect->top = 0;
+	int totalHeight = 0;
+	int maximumWidth = 0;
+	std::string completeText = "";
+
+	for (std::vector<Behavior*>::iterator it = menus.begin(); it != menus.end(); ++it) {
+		Behavior* item = *it;
+		uiText->print(item->displayText(), *textRect, DT_CALCRECT);
+		if (maximumWidth < textRect->right)
+		{
+			maximumWidth = textRect->right;
+		}
+		totalHeight += textRect->bottom;
+		completeText += item->displayText() + "\n";
+	}
+	delete textRect;
+
+	rightClickBackground.initialize(graphics, menuTop.x, menuTop.y, maximumWidth, totalHeight, uiNS::rightClickBG, completeText);
+	rightClickBackground.setVisible(true);
 }
 
 //=============================================================================

@@ -153,7 +153,8 @@ void Grpg::update()
 	if (!input->getMouseRButton() && rightMouseWasDown)
 	{
 		//Show right click popup
-
+		ui->setRightClickMenu(mouseOverEntity->getVectorActiveBehaviors());
+		rightMouseWasDown = false;
 	}
 	
 	if (input->getMouseLButton())
