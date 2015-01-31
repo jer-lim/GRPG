@@ -131,7 +131,11 @@ void Grpg::update()
 		{
 			if (mouseOverEntity != nullptr)
 			{
-				mouseOverEntity->getTopMostBehavior()->action();
+				Behavior* topBehavior = mouseOverEntity->getTopMostBehavior();
+				if (topBehavior != nullptr)
+				{
+					mouseOverEntity->getTopMostBehavior()->action();
+				}
 			}
 			else
 			{
