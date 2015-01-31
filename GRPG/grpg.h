@@ -28,6 +28,7 @@ private:
 
 	bool leftMouseWasDown;
 	bool rightMouseWasDown;
+	bool pro;//for cheaters
 
 public:
     // Constructor

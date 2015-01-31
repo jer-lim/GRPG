@@ -250,9 +250,10 @@ void Game::run(HWND hwnd)
 //=============================================================================
 void Game::deleteEntity(Entity* e)
 {
+	
 	// Tell draw manager
 	drawManager->removeObject(e);
-
+	
 	//Remove from spawn links if there
 	//Safe delete the entity that is still alive
 	for (map<string, Entity*>::iterator it = spawnLinks.begin(); it != spawnLinks.end(); ++it){
