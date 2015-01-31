@@ -94,9 +94,11 @@
     <ClCompile Include="QuestCondition.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="TalkBehavior.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tile.cpp" />
+    <ClCompile Include="TradeBehavior.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="ViewBehaviorNPC.cpp" />
     <ClCompile Include="Weapon.cpp" />

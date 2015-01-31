@@ -108,6 +108,7 @@ class Entity : public Destination//, public Interactable
 	Behavior* viewBehavior = nullptr;//View name -> display description
 	//NPC
 	Behavior* blacksmithBehavior = nullptr;//Blacksmith popup
+	Behavior* talkBehavior = nullptr; //Ability to talk
 	Behavior* tradeBehavior = nullptr;//store popup
 	//Enemy
 	Behavior* attackBehavior = nullptr;//Attack name -> perform attack
@@ -333,6 +334,8 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(dropBehavior);
 		if (pickupBehavior)
 			vectorActiveBehaviors.push_back(pickupBehavior);
+		if (talkBehavior)
+			vectorActiveBehaviors.push_back(talkBehavior);
 		if (attackBehavior)
 			vectorActiveBehaviors.push_back(attackBehavior);
 		if (tradeBehavior)

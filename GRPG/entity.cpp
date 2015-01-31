@@ -8,6 +8,8 @@
 #include "AttackBehavior.h"
 #include "PickupBehavior.h"
 #include "DropBehavior.h"
+#include "TradeBehavior.h"
+#include "TalkBehavior.h"
 #include "grpg.h"
 
 namespace entityNS
@@ -129,6 +131,11 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 	{
 		if (whichCharacter->getType() == "ENEMY")//Attack enemy
 			attackBehavior = new AttackBehavior(((Grpg*)gamePtr)->getPlayer(),this,(NPC*)whichCharacter);
+		else
+		{
+			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
+			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
+		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
 	}
 	setupVectorActiveBehaviors();
