@@ -93,6 +93,7 @@ private:
 	Image windowImage; // The window image that is drawn in the middle
 	// The header text in the window. If empty, signifies no window and no window will be drawn
 	string windowHeader;
+	RECT* shopRect; // The rectangle used for drawing the shop text
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location

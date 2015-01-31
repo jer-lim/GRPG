@@ -36,6 +36,7 @@ UI::~UI()
 	SAFE_DELETE(tabTexture);
 	SAFE_DELETE(uiImgTexture);
 	SAFE_DELETE(windowTexture);
+	SAFE_DELETE(shopRect);
 }
 
 //=============================================================================
@@ -64,6 +65,15 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing window texture"));
 	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Window image could not be initalized"));
+
+	//Initalize the shop rectangle that will be used to draw the text at the top of the shop interface
+	windowImage.setX(GAME_WIDTH / 2);
+	windowImage.setY(GAME_HEIGHT / 2);
+	shopRect = new RECT();
+	shopRect->left = windowImage.getX() - windowImage.getWidth() / 2;
+	shopRect->top = windowImage.getY() - windowImage.getHeight() / 2;
+	shopRect->right = shopRect->left + windowImage.getWidth();
+	shopRect->bottom = shopRect->top + uiNS::windowXHeight;
 
 	//Also white cause background black
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
@@ -206,9 +216,9 @@ void UI::draw(Viewport* viewport)
 	//Draw the window if required
 	if (windowHeader != "")
 	{
-		windowImage.setX(GAME_WIDTH/2);
-		windowImage.setY(GAME_HEIGHT/2);
 		windowImage.draw();
+		//And draw the text over it
+		uiText->print(windowHeader, *shopRect, DT_BOTTOM | DT_CENTER);
 	}
 
 	// Now draw the right click menu
