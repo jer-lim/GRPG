@@ -124,7 +124,6 @@ void Grpg::update()
 {
 	if (!input->getMouseLButton() && leftMouseWasDown)
 	{
-		ui->removeRightClickMenu();
 		if (ui->mouseInside(viewport))
 		{
 			ui->performClick();
@@ -149,6 +148,7 @@ void Grpg::update()
 			}
 		}
 		leftMouseWasDown = false;
+		ui->removeRightClickMenu();
 	}
 
 	if (!input->getMouseRButton() && rightMouseWasDown)

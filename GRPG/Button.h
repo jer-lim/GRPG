@@ -97,6 +97,8 @@ public:
 	string getText(){ return text; }
 	void setText(string b){ text = b; }
 
+	VertexC* getVtx() { return vtx; }
+
 	void draw()
 	{
 		if (!visible || !initialized)

@@ -352,6 +352,33 @@ void UI::performClick()
 			activeTab = uiNS::INVENTORY;
 		}
 	}
+
+	//Check for right click menu
+	if (rightClickBackground.getVisible())
+	{
+		if (rightClickBackground.mouseOver(input->getMouseX(), input->getMouseY()))
+		{
+			//Find the behavior option that corresponds to that click
+			//And execute that action
+			int differenceFromTop = input->getMouseY() - rightClickBackground.getVtx()[0].y;
+			RECT* textRect = new RECT();
+			textRect->left = 0;
+			textRect->top = 0;
+
+			for (std::vector<Behavior*>::iterator it = menus.begin(); it != menus.end(); ++it) {
+				Behavior* item = *it;
+				uiText->print(item->displayText(), *textRect, DT_CALCRECT);
+				if (differenceFromTop <= textRect->bottom)
+				{
+					//User clicked on this option!
+					item->action();
+					break;
+				}
+				differenceFromTop -= textRect->bottom;
+			}
+			delete textRect;
+		}
+	}
 }
 
 //=============================================================================
@@ -393,6 +420,15 @@ bool UI::mouseInside(Viewport* vp)
 	{
 		return true;
 	}*/
+
+	//Check if the mouse is over the right click menu
+	if (rightClickBackground.getVisible())
+	{
+		if (rightClickBackground.mouseOver(input->getMouseX(), input->getMouseY()))
+		{
+			return true;
+		}
+	}
 
 	return false;
 }

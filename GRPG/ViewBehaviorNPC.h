@@ -6,13 +6,16 @@
 using namespace std;
 
 class NPC;//Entity imports enemy which is a subclass if NPC, so circular loop inbound
+class UI;
 class ViewBehaviorNPC :public ViewBehavior
 {
 private:
 	NPC* ii;
+	UI* ui;
 public:
-	ViewBehaviorNPC(NPC* i){ 
+	ViewBehaviorNPC(NPC* i, UI* u){ 
 		ii = i; 
+		ui = u;
 	}
 	virtual bool exists(){ return true; }
 	virtual string displayText();
