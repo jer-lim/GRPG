@@ -133,8 +133,8 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			attackBehavior = new AttackBehavior(((Grpg*)gamePtr)->getPlayer(),this,(NPC*)whichCharacter);
 		else
 		{
-			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
-			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
+			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this);
+			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this);
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
 		thePlayer = ((Grpg*)gamePtr)->getPlayer();
@@ -508,7 +508,9 @@ void Entity::update(float frameTime, Game* gamePtr)
 					else
 					{
 						//Collision with friendly NPC, talk? Trade?
-
+						npcAction->action();
+						victim = 0;
+						destination = 0;
 						attackPerformed = false;
 					}
 				}

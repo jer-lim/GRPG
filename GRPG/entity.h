@@ -120,6 +120,9 @@ class Entity : public Destination//, public Interactable
 	Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
 	vector<Behavior*> vectorActiveBehaviors;
 
+	//To know what to do when the player is near an NPC
+	Behavior* npcAction = nullptr;
+
 	//To calculate aggro (Range & player's combat level)
 	Player* thePlayer;
 
@@ -360,6 +363,7 @@ class Entity : public Destination//, public Interactable
 		return nullptr;
 	}
 
+	void setNPCAction(Behavior* b) { npcAction = b; }
 };
 
 #endif
