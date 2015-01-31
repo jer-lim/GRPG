@@ -445,6 +445,8 @@ void Entity::update(float frameTime, Game* gamePtr)
 					}
 					else
 					{
+						// Do nothing, I'm not an enemy, why would I attack
+						//Why do I even have a victim anyway?
 						attackPerformed = false;
 					}
 				}
@@ -470,6 +472,8 @@ void Entity::update(float frameTime, Game* gamePtr)
 					}
 					else
 					{
+						//Collision with friendly NPC, talk? Trade?
+
 						attackPerformed = false;
 					}
 				}
