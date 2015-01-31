@@ -344,13 +344,13 @@ class Entity : public Destination//, public Interactable
 	}
 	vector<Behavior*> getVectorActiveBehaviors(){ return vectorActiveBehaviors; }
 	// Displays the text that will be shown when the mouse is over it
-	string topMostDisplayText()
+	Behavior* getTopMostBehavior()
 	{
 		if (vectorActiveBehaviors.size() > 0)
 		{
-			return vectorActiveBehaviors.at(0)->displayText();
+			return vectorActiveBehaviors.at(0);
 		}
-		return "";
+		return nullptr;
 	}
 
 };

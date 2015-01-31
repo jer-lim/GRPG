@@ -31,11 +31,7 @@ Game::~Game()
 {
     deleteAll();                // free all reserved memory
     ShowCursor(true);           // show cursor
-
-	//Safe delete all the enemies that are still alive and walking around in the game
-	for (map<string, Entity*>::iterator it = spawnLinks.begin(); it != spawnLinks.end(); ++it){
-		SAFE_DELETE(it->second);
-	}
+	//Try not to delete anything here, delete at grpg.cpp
 }
 
 //=============================================================================
