@@ -46,6 +46,11 @@ public:
     Player();
 	~Player(){
 		inventory.destroy();
+		for (map<int, PlayerSkill>::iterator it = skills.begin(); it != skills.end(); ++it){
+			it->second.destroy();
+		}
+		skills.clear();
+		game = NULL;
 	}
 
 	// Get functions

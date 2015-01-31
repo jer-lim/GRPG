@@ -101,7 +101,7 @@ LRESULT Game::messageHandler( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam 
 // throws GameError on error
 //=============================================================================
 void Game::initialize(HWND hw)
-{
+{//MEM LEAK CLEAN
     hwnd = hw;                                  // save window handle
 
     // initialize graphics
@@ -111,7 +111,7 @@ void Game::initialize(HWND hw)
 
     // initialize input, do not capture mouse
     input->initialize(hwnd, false);             // throws GameError
-	
+
 	viewport = new Viewport(this, GAME_WIDTH/2, GAME_HEIGHT/2, GAME_WIDTH, GAME_HEIGHT);
 
 	drawManager = new DrawManager();

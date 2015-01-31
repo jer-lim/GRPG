@@ -25,13 +25,14 @@ private:
 	//The player that has this skill and it's corresponding XP
 	Player* thePlayer;
 	//The skill that this refers to
-	const Skill* skill;
+	Skill* skill;
 public:
 	// default constructor
 	PlayerSkill();
 	// constructor
-	PlayerSkill(Player* referencedPlayer, const Skill* s);
+	PlayerSkill(Player* referencedPlayer, Skill* s);
 
+	void destroy();
 	~PlayerSkill();
 
 	//Get functions

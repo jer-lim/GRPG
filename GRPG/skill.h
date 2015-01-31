@@ -32,14 +32,14 @@ private:
 	int exp_gain;//skill gain per action done
 public:
 	//Skill names and what they do. These skills are defined in the cpp file
-	static const Skill* ATTACK;
-	static const Skill* STRENGTH;
-	static const Skill* DEFENSE;
-	static const Skill* TOUGHNESS;
-	static const Skill* FISHING;
-	static const Skill* COOKING;
-	static const Skill* MINING;
-
+	static Skill* ATTACK;
+	static Skill* STRENGTH;
+	static Skill* DEFENSE;
+	static Skill* TOUGHNESS;
+	static Skill* FISHING;
+	static Skill* COOKING;
+	static Skill* MINING;
+	static void setupAllSkills();
     // constructor
     Skill();
 	Skill(std::string,std::string,int);

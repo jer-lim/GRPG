@@ -55,8 +55,8 @@ public:
 		spriteHeight = itemNS::spriteHeight;
 		spriteColumns = sprCol;
 	}
-	void destroy(){ SAFE_DELETE(textureManager); }
-	~Item(){ destroy(); }
+	virtual void destroy(){ SAFE_DELETE(textureManager); }
+	virtual ~Item(){ destroy(); }
 
 	string getName(){ return name; }
 	void setName(string s){ name = s; }

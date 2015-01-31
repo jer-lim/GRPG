@@ -14,7 +14,10 @@ void ItemLoader::loadAllItems()
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
 			Item* myItem = new Item(name, descript, img_filename, stackcount, cost, itemNS::spriteColForMisc);
-			map_items[id] = myItem;
+			if (!map_items.count(id))
+				map_items[id] = myItem;
+			else
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Misc Item with same ID " + id));
 		}
 		itemstream.close();
 	}
@@ -31,7 +34,10 @@ void ItemLoader::loadAllItems()
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
 			Item* myItem = new Food(name, descript, img_filename, stackcount, cost, health_gain, levelReq_for_50, level_deviation);
-			map_items[id] = myItem;
+			if (!map_items.count(id))
+				map_items[id] = myItem;
+			else
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Food Item with same ID " + id));
 		}
 		itemstream.close();
 	}
@@ -47,10 +53,14 @@ void ItemLoader::loadAllItems()
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
 			Item* myItem = new Smithing_Material(name, descript, img_filename, stackcount, cost, strMultiplier, defMultiplier, spdMultiplier);
-			map_items[id] = myItem;
+			if (!map_items.count(id))
+				map_items[id] = myItem;
+			else
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Smithing Item with same ID " + id));
 		}
 		itemstream.close();
 	}
+
 	//Weapon items
 	index_weapons_start = map_items.size() + 1;
 	itemstream.open(weaponsDataLocation);
@@ -62,8 +72,14 @@ void ItemLoader::loadAllItems()
 			itemstream >> id >> name >> img_filename >> descript >> strMultiplier >> spdMultiplier >> costMultiplier;
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
-			Item* myItem = new Weapon(name, descript, img_filename, stackcount, cost, strMultiplier, spdMultiplier, costMultiplier);
-			map_items[id] = myItem;
+			//CRIME SCENE: ACQUITTED
+			Item* myItem = new Weapon(name, descript, img_filename, stackcount, cost, strMultiplier, spdMultiplier, costMultiplier, WeaponNS::wpnEqSlot);
+			//END CRIME SCENE
+			//Item* myItem = new Equipment("fuck", "fuck", "fuck", 0, 0, 2.0f, 0);
+			if (!map_items.count(id))
+				map_items[id] = myItem;
+			else
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Weapon Item with same ID " + id));
 		}
 		itemstream.close();
 	}
@@ -79,7 +95,10 @@ void ItemLoader::loadAllItems()
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
 			Item* myItem = new Armor(name, descript, img_filename, stackcount, cost, DEF_MULTIPLIER, DMG_REDUCTION, costMultiplier, 1);//1 -> 001
-			map_items[id] = myItem;
+			if (!map_items.count(id))
+				map_items[id] = myItem;
+			else
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Armor Item with same ID " + id));
 		}
 		itemstream.close();
 	}
@@ -95,7 +114,10 @@ void ItemLoader::loadAllItems()
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
 			Item* myItem = new Armor(name, descript, img_filename, stackcount, cost, DEF_MULTIPLIER, DMG_REDUCTION, costMultiplier, 2);//2 -> 010
-			map_items[id] = myItem;
+			if (!map_items.count(id))
+				map_items[id] = myItem;
+			else
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Shield Item with same ID " + id));
 		}
 		itemstream.close();
 	}

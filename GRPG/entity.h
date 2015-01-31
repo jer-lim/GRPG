@@ -55,7 +55,7 @@ class Entity : public Destination, public Interactable
     float   edge01Min, edge01Max, edge03Min, edge03Max; // min and max projections
     float   health;         // current health from 0 to Character's max health
     float   rr;             // Radius squared variable
-    Input   *input;         // pointer to the input system
+    Input   *input = nullptr;         // pointer to the input system
     HRESULT hr;             // standard return type
     bool    active;         // only active entities may collide
     bool    rotatedBoxReady;    // true when rotated collision box is ready
@@ -84,9 +84,9 @@ class Entity : public Destination, public Interactable
 
 	// New Entity variables specific to GRPG
 
-	Destination* destination;			//The destination of movement
-	Person* person;	// Reference to the character that this entity refers to (NPC? Enemy? etc.
-	Entity* victim;	//If this entity is attacking someone, victim is that poor entity
+	Destination* destination = nullptr;			//The destination of movement
+	Person* person = nullptr;	// Reference to the character that this entity refers to (NPC? Enemy? etc.
+	Entity* victim = nullptr;	//If this entity is attacking someone, victim is that poor entity
 	float attackCooldown; //How long more before the entity can attack again
 
     // --- The following functions are protected because they are not intended to be

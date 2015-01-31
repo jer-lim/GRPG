@@ -17,7 +17,7 @@ public:
 	Viewport(Game* g, float x2, float y2, int w, int h){
 		gamePtr = g; x = x2; y = y2; width = w; height = h;
 	}
-	~Viewport(){}
+	~Viewport(){ gamePtr = nullptr; }
 
 	float getX(){ return x; }
 	float getY(){ return y; }

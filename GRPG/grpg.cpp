@@ -9,7 +9,7 @@
 // Constructor
 //=============================================================================
 Grpg::Grpg()
-{
+{//Mem leak free
 	uiFont = new TextDX();
 }
 
@@ -27,7 +27,9 @@ Grpg::~Grpg()
 	SAFE_DELETE(personLoader);
 	SAFE_DELETE(hitSplat);
 	SAFE_DELETE(missSplat);
+	SAFE_DELETE(viewport);
 	Skill::deleteAllSkills();
+	SAFE_DELETE(player);
 	SAFE_DELETE(Person::thePlayer);
 	//~Game() called afterward
 }
@@ -39,7 +41,7 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-
+	Skill::setupAllSkills();
 	VECTOR2 startLocation = VECTOR2(4.5*tileNS::CHUNK_WIDTH*tileNS::WIDTH, 4.5*tileNS::CHUNK_HEIGHT*tileNS::HEIGHT);
 
 	// Set viewport
@@ -49,7 +51,7 @@ void Grpg::initialize(HWND hwnd)
 	// Load data
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
-	personLoader->loadAllNPCs();
+	personLoader->loadAllNPCs();//ml free
 
 	missSplat = new TextureManager();
 	missSplat->initialize(graphics, MISS_IMAGE);
@@ -66,7 +68,7 @@ void Grpg::initialize(HWND hwnd)
 	// 15 pixel high Arial
 	if (uiFont->initialize(graphics, 15, false, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
-
+	//ml free
 	// Initialise entities
 	player = new Player();
 	ui = new UI();
@@ -85,16 +87,14 @@ void Grpg::initialize(HWND hwnd)
 	
 	player->setX(startLocation.x);
 	player->setY(startLocation.y);
-
 	drawManager->addObject(player,3);
 	drawManager->addObject(ui, 999);
-
 	// Load and display map, start spawners
 	mapLoader->setVictim(player);
 	mapLoader->load();
-
 	//Object test
-	
+	//ml free
+	return;
 	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
 	x->initialize(this, false);
 	x->getEntity()->setX(startLocation.x);
@@ -106,8 +106,6 @@ void Grpg::initialize(HWND hwnd)
 	player->getInventory()->addInventoryItem(y);
 
 	mouseWasDown = input->getMouseLButton();
-	
-    return;
 }
 
 //=============================================================================
@@ -181,7 +179,6 @@ void Grpg::collisions()
 //=============================================================================
 void Grpg::render()
 {
-	
     graphics->spriteBegin();                // begin drawing sprites
 
 	drawManager->renderAll();
