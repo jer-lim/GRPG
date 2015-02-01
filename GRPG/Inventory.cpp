@@ -36,7 +36,7 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 	for (std::map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it)
 	{
 		result = IMPOSSIBLE;
-		merge(it->second, ii);
+		result =	merge(it->second, ii);
 		if (result == SUCCESSFUL)
 			return MERGED;//already deleted entity inside merge and no need to add item since its merged
 	}

@@ -150,6 +150,7 @@ void Grpg::update()
 				{
 					mouseOverEntity->getTopMostBehavior()->action();
 					actionSuccess = true;
+					mouseOverEntity = nullptr;
 				}
 			}
 			if (!actionSuccess)
