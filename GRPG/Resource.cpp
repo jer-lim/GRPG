@@ -11,12 +11,12 @@ bool Resource::initialize(Game *gamePtr, int type, TextureManager* tm)
 {
 	if (type == resourceNS::FISHING)
 	{
-		fishBehavior = new FishBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+		fishBehavior = new FishBehavior(((Grpg*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI());
 		viewBehavior = new ViewBehavior("Fish", "A school of fishes", ((Grpg*)gamePtr)->getUI());
 	}
 	else
 	{
-		mineBehavior = new MineBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+		mineBehavior = new MineBehavior(((Grpg*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI());
 		viewBehavior = new ViewBehavior("Ore", "Some ores", ((Grpg*)gamePtr)->getUI());
 	}
 	setupVectorActiveBehaviors();

@@ -31,6 +31,9 @@ public:
 	// Pre: *gamePtr = pointer to Game object
 	//		type = which type (from resourceNS) this resource should be
 	virtual bool initialize(Game *gamePtr, int type, TextureManager* tm);
+
+	// Overrides from tile so it does nothing
+	virtual bool initialize(Game *gamePtr, TextureManager* tm) { return true; }
 };
 
 #endif
