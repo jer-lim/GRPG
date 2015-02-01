@@ -147,15 +147,21 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
 bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 {
 	//setup behaviors
+	Grpg* grpgPointer = (Grpg*)gamePtr;
 	if (whichCharacter->getType() == "NPC" || whichCharacter->getType() == "ENEMY")
 	{
 		if (whichCharacter->getType() == "ENEMY")//Attack enemy
-			attackBehavior = new AttackBehavior(((Grpg*)gamePtr)->getPlayer(),this,(NPC*)whichCharacter);
+			attackBehavior = new AttackBehavior(grpgPointer->getPlayer(), this, (NPC*)whichCharacter);
 		else
 		{
-			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this);
-			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this,
+			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
+			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this,
 				"Hello! Would you like to trade?");
+			InventoryItem* y = new InventoryItem(grpgPointer->getItemLoader()->getItem(0), 9);
+			Entity* e = new Entity();
+			e->initialize(gamePtr, y, true);//anchored if its an inventory
+			//y->initialize(this, true);
+			inventory->addEntityInventoryItem(e);
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
 		thePlayer = ((Grpg*)gamePtr)->getPlayer();
