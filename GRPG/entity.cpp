@@ -194,7 +194,7 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 	if (inInventory)
 		dropBehavior = new DropBehavior(this);
 	else
-		pickupBehavior = new PickupBehavior(this);
+		pickupBehavior = new PickupBehavior(gamePtr->getDrawManager(), this, ((Grpg*)gamePtr)->getPlayer());
 	setupVectorActiveBehaviors();
 
 	anchored = inInventory;//anchored = true = inInventory
@@ -511,7 +511,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 				}
 				else
 				{
-					if (victim->getPerson()->getType() == "ENEMY")
+					if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY")
 					{
 						//Victim should retaliate
 						victim->setVictim(this);
@@ -533,7 +533,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					}
 					else
 					{
-						//Collision with friendly NPC, talk? Trade?
+						//Collision with non enemy. What to do depends on behavior set.
 						npcAction->action();
 						victim = 0;
 						destination = 0;

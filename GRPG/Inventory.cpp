@@ -29,7 +29,7 @@ bool Inventory::addEntityInventoryItem(int i, Entity* ii)
 	return false;
 }
 
-bool Inventory::addEntityInventoryItem(Entity* ii)
+ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 {
 	//First check if can merge
 	int result = IMPOSSIBLE;
@@ -38,7 +38,7 @@ bool Inventory::addEntityInventoryItem(Entity* ii)
 		result = IMPOSSIBLE;
 		merge(it->second, ii);
 		if (result == SUCCESSFUL)
-			return true;//already deleted entity inside merge and no need to add item since its merged
+			return MERGED;//already deleted entity inside merge and no need to add item since its merged
 	}
 	//If incomplete / impossible, proceed
 	if (result == IMPOSSIBLE || result == INCOMPLETE)
@@ -54,7 +54,7 @@ bool Inventory::addEntityInventoryItem(Entity* ii)
 			{
 				if (it->first > prevIndex + 1) {
 					addEntityInventoryItem(prevIndex + 1, ii);
-					return true;
+					return ADDED;
 				}
 				else {
 					prevIndex = it->first;
@@ -62,7 +62,8 @@ bool Inventory::addEntityInventoryItem(Entity* ii)
 			}
 		}
 	}
-	return false;
+	if (result == IMPOSSIBLE) return FAILED;
+	if (result == INCOMPLETE) return PARTIAL_MERGE;
 }
 
 bool Inventory::destroyEntityInventoryItem(int i)
