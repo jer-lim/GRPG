@@ -292,6 +292,7 @@ void UI::drawTabContents(int tabNumber)
 		map<int, Entity*>* slotList = player->getInventory()->getSlotList();
 		for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
 		{
+			//this is actually being drawn twice, once by drawmanager
 			it->second->draw(nullptr);
 			//draw stack here using uiText
 			InventoryItem* ii = it->second->getInventoryItem();
@@ -378,7 +379,8 @@ void UI::performClick()
 			if (input->getMouseX() >= tabTopLeftX && input->getMouseX() <= tabTopLeftX + uiNS::tabWIDTH)
 			{
 				//Assuming uiNS active tabs possibility are from 1 to totalTabs
-				activeTab = i+1;
+				setActiveTab(i + 1);//to add special code
+				//activeTab = i+1;
 			}
 			tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
 		}
