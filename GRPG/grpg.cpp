@@ -170,21 +170,33 @@ void Grpg::update()
 	if (!input->getMouseRButton() && rightMouseWasDown)
 	{
 		//Show right click popup
-		if(mouseOverEntity != nullptr)
+		//if(mouseOverEntity != nullptr)
 		{
 			//Find all the entities that the mouse is currently over
 			map<int, map<int, ManagedObject*>> allEntities = drawManager->getDrawnObjects();
 			for (map<int, map<int, ManagedObject*>>::reverse_iterator it = allEntities.rbegin(); it != allEntities.rend(); ++it){
 				int zi = it->first;
 				for (map<int, ManagedObject*>::reverse_iterator it2 = allEntities[zi].rbegin(); it2 != allEntities[zi].rend(); ++it2){
-					if (it2->second->entity != nullptr)
+					if (it2->second->entity != nullptr && it2->second->entity->getPerson() != Person::thePlayer)
 					{
-						if (it2->second->entity->getPerson() != Person::thePlayer && it2->second->entity->getType() != "UI")
-						{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
-							if (it2->second->entity->mouseInside(viewport))
+						if (it2->second->entity->getType() == "UI")
+						{//check inventory items
+							if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
 							{
-								addMouseOverEntity(it2->second->entity);
+								map<int, Entity*>* slotList = player->getInventory()->getSlotList();
+								for (std::map<int, Entity*>::iterator it3 = slotList->begin(); it3 != slotList->end(); ++it3)
+								{
+									if (it3->second->mouseInside(viewport))
+									{
+										addMouseOverEntity(it3->second);
+										break; //The player can only mouse over only 1 item in his inventory at a time
+									}
+								}
 							}
+						}
+						else if (it2->second->entity->mouseInside(viewport))
+						{
+							addMouseOverEntity(it2->second->entity);
 						}
 					}
 				}
