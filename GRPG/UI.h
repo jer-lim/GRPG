@@ -46,6 +46,11 @@ namespace uiNS
 	// of the window texture
 	const UINT windowXWidth = 28;
 	const UINT windowXHeight = 17;
+
+	//Coordindates for shop
+	const int shopColMax = 9;
+	const int shopLMargin = 20;
+	const int shopMargin = 6;
 }
 
 // inherits from Entity class

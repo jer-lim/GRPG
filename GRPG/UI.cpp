@@ -219,6 +219,12 @@ void UI::draw(Viewport* viewport)
 		windowImage.draw();
 		//And draw the text over it
 		uiText->print(windowHeader, *shopRect, DT_BOTTOM | DT_CENTER);
+		//Draw shop items, if any
+		for (vector<Entity* >::iterator it = items.begin(); it != items.end(); ++it)
+		{
+			Entity* theItem = *it;
+		
+		}
 	}
 
 	// Now draw the right click menu
