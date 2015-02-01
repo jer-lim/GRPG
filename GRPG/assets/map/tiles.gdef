@@ -1,5 +1,6 @@
 0 0 grass.png 0 0
 1 0 dirt.png 0 0
+2 1 water.png 0 0
 x 1 border.png 0 0
 c 2 grass.png 15 3
 g 2 dirt.png 1 0
