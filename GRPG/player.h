@@ -22,6 +22,8 @@ namespace playerNS
     const int   TEXTURE_COLS = 8;           // texture has 8 columns
 
 	const float textTimeDisplay = 3;
+
+	const float startingRegnerationTime = 60;
 }
 
 class Grpg;
@@ -40,6 +42,8 @@ private:
 	TextDX* fontToUse;
 	float timeLeft;
 	VECTOR2 textSize;
+
+	float regenerationDelay;
 	
 public:
     // constructor
