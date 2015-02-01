@@ -121,8 +121,8 @@ void MapLoader::loadData(){
 			getline(chunkstream, trash);
 			chunkId = (int)chunkId;
 			chunk *tempChunk = new chunk;
-			runtimeLog << "Created chunk1" << endl;
-			runtimeLog << "New memory allocation at 0x" << tempChunk << endl; // NEWLOGGING
+			//runtimeLog << "Created chunk1" << endl;
+			//runtimeLog << "New memory allocation at 0x" << tempChunk << endl; // NEWLOGGING
 			for (int y = 0; y < 16; ++y){
 				for (int x = 0; x < 16; ++x){
 					tempChunk->tile[x][y] = chunkstream.get();
@@ -251,8 +251,8 @@ void MapLoader::loadMap(){
 
 						//runtimeLog << "Loading tile " << tileX << ", " << tileY << " (chunk " << x+1 << ", " << y+1 << ") with coords " << xPos << ", " << yPos << " at vp coords " << vpXPos << ", " << vpYPos << endl;
 						ManagedTile* mt = loadTile(tileX, tileY);
-						runtimeLog << "Created ManagedTile1" << endl;
-						runtimeLog << "New memory allocation at 0x" << mt << endl; // NEWLOGGING
+						//runtimeLog << "Created ManagedTile1" << endl;
+						//runtimeLog << "New memory allocation at 0x" << mt << endl; // NEWLOGGING
 						loadedTiles[tileX][tileY] = mt;
 					}
 				}
@@ -318,16 +318,16 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	}
 	else{
 		textureManager = new TextureManager();
-		runtimeLog << "Created TM1" << endl;
-		runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
+		//runtimeLog << "Created TM1" << endl;
+		//runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
 		textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 		tileTms[tileId] = textureManager;
 	}
 
 	if (tileset[tileId].type == tileNS::type::FISHINGSPOT) {
 		Tile* t = new Resource();
-		runtimeLog << "Created resource1" << endl;
-		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+		//runtimeLog << "Created resource1" << endl;
+		//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 		((Resource*) t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 		t->setX(tilePos.x);
@@ -339,14 +339,14 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		Tile* t = nullptr;
 		if (tileset[tileId].type == tileNS::type::SPAWNER){
 			t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
-			runtimeLog << "Created spawner1" << endl;
-			runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+			//runtimeLog << "Created spawner1" << endl;
+			//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 		}
 		else if (tileset[tileId].type == tileNS::type::WALL){
 
 			t = new Tile();
-			runtimeLog << "Created tile1" << endl;
-			runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+			//runtimeLog << "Created tile1" << endl;
+			//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 		}
 
 		t->spawn();
@@ -359,8 +359,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	else if (tileset[tileId].type == tileNS::type::FLOOR){
 
 		Image* t = new Image();
-		runtimeLog << "Created image1" << endl;
-		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+		//runtimeLog << "Created image1" << endl;
+		//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 		t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
 		t->setX(tilePos.x);
@@ -485,8 +485,8 @@ void MapLoader::update(){
 				}
 				else{
 					textureManager = new TextureManager();
-					runtimeLog << "Created TM2" << endl;
-					runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
+					//runtimeLog << "Created TM2" << endl;
+					//runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
 					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 					tileTms[newTileId] = textureManager;
 				}
@@ -532,8 +532,8 @@ void MapLoader::update(){
 				}
 				else{
 					textureManager = new TextureManager();
-					runtimeLog << "Created TM3" << endl;
-					runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
+					//runtimeLog << "Created TM3" << endl;
+					//runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
 					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 					tileTms[newTileId] = textureManager;
 				}
@@ -541,14 +541,14 @@ void MapLoader::update(){
 					Tile* t = nullptr;
 					if (newTileInfo.type == tileNS::type::SPAWNER){
 						t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
-						runtimeLog << "Created Spawner2" << endl;
-						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+						//runtimeLog << "Created Spawner2" << endl;
+						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 					else if (newTileInfo.type == tileNS::type::WALL){
 
 						t = new Tile();
-						runtimeLog << "Created Tile2" << endl;
-						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+						//runtimeLog << "Created Tile2" << endl;
+						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 
 					t->initialize(gamePtr, textureManager);
@@ -562,8 +562,8 @@ void MapLoader::update(){
 				else if (newTileInfo.type == tileNS::type::FLOOR){
 
 					Image* t = new Image();
-					runtimeLog << "Created Image2" << endl;
-					runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+					//runtimeLog << "Created Image2" << endl;
+					//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 					t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
 					drawManager->addObject(t, tileNS::ZINDEX);
@@ -718,7 +718,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 				}
 
 				// If tile is walkable and is not on closed list, add it to open list
-				if ((tileInfo.type == tileNS::type::FLOOR || tileInfo.type == tileNS::type::SPAWNER) && !isOnClosedList){
+				if ((tileInfo.type != tileNS::type::WALL) && !isOnClosedList){
 					AStarNode newNode = AStarNode(TileVector(x, y));
 					newNode.parent = &closedList[currNodeOnClosedList];
 
@@ -818,12 +818,12 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 
 	QueryPerformanceCounter(&pfEnd);
 
-	//runtimeLog << "Nodes explored: " << nodesExplored << endl;
+	runtimeLog << "Nodes explored: " << nodesExplored << endl;
 	if (pathFound){
-		//runtimeLog << "Path length: " << path.size() << endl;
-		//runtimeLog << "First node: " << path.front().x << ", " << path.front().y << endl;
+		runtimeLog << "Path length: " << path.size() << endl;
+		runtimeLog << "First node: " << path.front().x << ", " << path.front().y << endl;
 	}
-	//runtimeLog << "Time taken: " << ((float)(pfEnd.QuadPart - pfStart.QuadPart) / (float)pfFreq.QuadPart) << " seconds" << endl;
+	runtimeLog << "Time taken: " << ((float)(pfEnd.QuadPart - pfStart.QuadPart) / (float)pfFreq.QuadPart) << " seconds" << endl;
 	runtimeLog << endl;
 	
 	return path;
