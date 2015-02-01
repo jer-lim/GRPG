@@ -419,7 +419,7 @@ void MapLoader::update(){
 				int newTileY = tileY + changeY;
 				if (newTileX >= 0 && newTileY >= 0
 					&& newTileX < worldMap.size() * tileNS::CHUNK_WIDTH && newTileY < worldMap[0].size() * tileNS::CHUNK_HEIGHT){
-					runtimeLog << "Moving tile " << tileX << ", " << tileY << " (chunk " << (tileX / 16 + 1) << ", " << (tileY / 16 + 1) << ") with coords " << xPos << ", " << yPos << " at vp coords " << vpCoords.x << ", " << vpCoords.y << endl;
+					//runtimeLog << "Moving tile " << tileX << ", " << tileY << " (chunk " << (tileX / 16 + 1) << ", " << (tileY / 16 + 1) << ") with coords " << xPos << ", " << yPos << " at vp coords " << vpCoords.x << ", " << vpCoords.y << endl;
 					toMove.push(TileVector(tileX, tileY));
 					toMoveTo.push(TileVector(newTileX, newTileY));
 				}
@@ -744,9 +744,8 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 								if (newNode->totalCost < it->second->totalCost){
 									//runtimeLog << "Replacing node at " << x << ", " << y << " with cost " << it->second->totalCost << " for cost " << newNode->totalCost << endl;
 									AStarNode* n = it->second;
-									n->~AStarNode();
 									delete n;
-									it->second = 0;
+									it->second = nullptr;
 									it = openList.erase(it);
 									break;
 								}
@@ -765,6 +764,10 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 							int key = lastIt->first;
 							openList[++key] = newNode;
 						}
+					}
+
+					if (!toAdd){
+						delete newNode;
 					}
 				}
 			}
