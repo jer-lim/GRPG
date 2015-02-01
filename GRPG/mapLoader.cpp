@@ -537,7 +537,8 @@ void MapLoader::update(){
 					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 					tileTms[newTileId] = textureManager;
 				}
-				if (newTileInfo.type == tileNS::type::SPAWNER || newTileInfo.type == tileNS::type::WALL){
+				if (newTileInfo.type == tileNS::type::SPAWNER || newTileInfo.type == tileNS::type::WALL ||
+					newTileInfo.type == tileNS::type::FISHINGSPOT || newTileInfo.type == tileNS::type::MININGSPOT){
 					Tile* t = nullptr;
 					if (newTileInfo.type == tileNS::type::SPAWNER){
 						t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
@@ -549,6 +550,18 @@ void MapLoader::update(){
 						t = new Tile();
 						//runtimeLog << "Created Tile2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+					}
+					else if(newTileInfo.type == tileNS::type::FISHINGSPOT){
+						t = new Resource();
+						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
+						runtimeLog << "Created Fishing2" << endl;
+						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+					}
+					else if(newTileInfo.type == tileNS::type::MININGSPOT){
+						t = new Resource();
+						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
+						runtimeLog << "Created Mining2" << endl;
+						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 
 					t->initialize(gamePtr, textureManager);
