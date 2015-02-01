@@ -322,31 +322,27 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 		tileTms[tileId] = textureManager;
 	}
-	if (tileset[tileId].type == tileNS::type::SPAWNER){
-		Tile* t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
-		runtimeLog << "Created spawner1" << endl;
-		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
-		t->initialize(gamePtr, textureManager);
-		t->setX(tilePos.x);
-		t->setY(tilePos.y);
-		((Spawner*) t)->spawn();
-		drawManager->addObject(t, tileNS::ZINDEX);
-		return new ManagedTile(t, tileNS::type::SPAWNER);
-	}
-	else if (tileset[tileId].type == tileNS::type::WALL){
+	if (tileset[tileId].type == tileNS::type::SPAWNER || tileset[tileId].type == tileNS::type::WALL){
+		Tile* t = nullptr;
+		if (tileset[tileId].type == tileNS::type::SPAWNER){
+			t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
+			runtimeLog << "Created spawner1" << endl;
+			runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+		}
+		else if (tileset[tileId].type == tileNS::type::WALL){
 
-		Tile* t = new Tile();
-		runtimeLog << "Created tile1" << endl;
-		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+			t = new Tile();
+			runtimeLog << "Created tile1" << endl;
+			runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+		}
 
+		t->spawn();
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
 		drawManager->addObject(t, tileNS::ZINDEX);
-		VECTOR2 v = viewport->translate(tilePos.x, tilePos.y);
-		//runtimeLog << "ENTITY " << v.x << ", " << v.y << endl;
-		return new ManagedTile(t, tileNS::type::WALL);
+		return new ManagedTile(t, tileset[tileId].type);
 	}
 	else if (tileset[tileId].type == tileNS::type::FLOOR){
 
@@ -358,8 +354,6 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
 		drawManager->addObject(t, tileNS::ZINDEX);
-		VECTOR2 v = viewport->translate(tilePos.x, tilePos.y);
-		//runtimeLog << "IMAGE " << v.x << ", " << v.y << endl;
 		return new ManagedTile(t, tileNS::type::FLOOR);
 	}
 }
@@ -531,28 +525,27 @@ void MapLoader::update(){
 					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 					tileTms[newTileId] = textureManager;
 				}
+				if (newTileInfo.type == tileNS::type::SPAWNER || newTileInfo.type == tileNS::type::WALL){
+					Tile* t = nullptr;
+					if (newTileInfo.type == tileNS::type::SPAWNER){
+						t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
+						runtimeLog << "Created Spawner2" << endl;
+						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+					}
+					else if (newTileInfo.type == tileNS::type::WALL){
 
-				if (newTileInfo.type == tileNS::type::SPAWNER){
-					Tile* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
-					runtimeLog << "Created Spawner2" << endl;
-					runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+						t = new Tile();
+						runtimeLog << "Created Tile2" << endl;
+						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+					}
 
 					t->initialize(gamePtr, textureManager);
 					t->setX(tilePos.x);
 					t->setY(tilePos.y);
-					((Spawner*) t)->spawn();
+					t->spawn();
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
-				}
-				if (newTileInfo.type == tileNS::type::WALL){
-
-					Tile* t = new Tile();
-					runtimeLog << "Created Tile2" << endl;
-					runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
-
-					t->initialize(gamePtr, textureManager);
-					drawManager->addObject(t, tileNS::ZINDEX);
-					mt->tile = t;
+					mt->type = newTileInfo.type;
 				}
 				else if (newTileInfo.type == tileNS::type::FLOOR){
 
@@ -563,6 +556,7 @@ void MapLoader::update(){
 					t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->image = t;
+					mt->type = tileNS::type::FLOOR;
 				}
 			}
 		}
