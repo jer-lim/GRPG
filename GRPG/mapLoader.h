@@ -34,15 +34,13 @@ struct tileStruct {
 
 // Stores a tile, which can be either an entity or an image
 struct ManagedTile {
-	Spawner* spawner = nullptr;
+	int type;
 	Tile* tile = nullptr;
 	Image* image = nullptr;
 
-	ManagedTile(Spawner* t){ spawner = t; }
-	ManagedTile(Tile* t){ tile = t; }
-	ManagedTile(Image* i){ image = i; }
+	ManagedTile(Tile* t, int ty){ tile = t; type = ty; }
+	ManagedTile(Image* i, int ty){ image = i; type = ty; }
 	void destroy(){
-		if (spawner != nullptr) SAFE_DELETE(spawner);
 		if (tile != nullptr) SAFE_DELETE(tile);
 		if (image != nullptr) SAFE_DELETE(image);
 	}
