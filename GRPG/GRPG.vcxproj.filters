@@ -143,6 +143,7 @@
     <ClInclude Include="EatBehavior.h">
       <Filter>Behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="InventoryEquipment.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>

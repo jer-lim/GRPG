@@ -49,7 +49,7 @@ public:
 
 	Person(){}
 	void destroy(){ SAFE_DELETE(textureManager); }
-	~Person(){
+	virtual ~Person(){
 		destroy();
 	}
 	Person(string i, float mov, float atk, float h, float w, int cols, float colHeight, float colWidth)

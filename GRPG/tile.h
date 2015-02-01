@@ -40,6 +40,8 @@ public:
 	virtual bool initialize(Game *gamePtr, TextureManager* tm);
 	virtual void update();
     void update(float frameTime);
+
+	virtual void spawn(){} // only activated for Spawner
 };
 #endif
 

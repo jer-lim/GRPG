@@ -62,7 +62,7 @@ void Grpg::initialize(HWND hwnd)
 	// Load data
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
-	personLoader->loadAllNPCs();//ml free
+	personLoader->loadAllNPCs(itemLoader);//ml free
 
 	missSplat = new TextureManager();
 	missSplat->initialize(graphics, MISS_IMAGE);
