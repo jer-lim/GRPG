@@ -16,7 +16,7 @@ public:
 	Spawner(Game* gp, int spawn, int cd, Entity* v);
 
 	void spawn();
-	void update(); // Handles respawning
+	virtual void update(); // Handles respawning
 };
 
 #endif

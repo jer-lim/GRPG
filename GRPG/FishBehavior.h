@@ -8,9 +8,10 @@ class FishBehavior :public Behavior
 {
 private:
 public:
-	FishBehavior(){}
+	virtual ~FishBehavior() {  }
+	FishBehavior();
 	virtual bool exists(){ return false; }
-	virtual string displayText(){ return ""; }
-	virtual void action(){}
+	virtual string displayText();
+	virtual void action();
 };
 #endif
