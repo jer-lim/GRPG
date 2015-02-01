@@ -446,8 +446,7 @@ void MapLoader::update(){
 		TileVector oldLocation = toMove.front();
 		ManagedTile* mt = loadedTiles[oldLocation.x][oldLocation.y];
 		TileVector newLocation = toMoveTo.front();
-		
-		//CRIME SCENE
+
 		if (loadedTiles[newLocation.x].count(newLocation.y)){
 			ManagedTile* m = loadedTiles[newLocation.x][newLocation.y];
 			if (m->tile != nullptr) drawManager->removeObject(m->tile);
@@ -458,8 +457,6 @@ void MapLoader::update(){
 		}
 		loadedTiles[newLocation.x][newLocation.y] = mt;
 		loadedTiles[oldLocation.x].erase(oldLocation.y);
-		//END CRIME SCENE
-		//VERDICT: NOT GUILTY
 		
 		char oldTileId = getTileIdAtLocation(oldLocation.x, oldLocation.y);
 		char newTileId = getTileIdAtLocation(newLocation.x, newLocation.y);
