@@ -63,6 +63,7 @@ struct AStarNode {
 	float totalCost;
 	AStarNode* parent = nullptr;
 
+	AStarNode(){}
 	AStarNode(TileVector c){ tileCoords = c; }
 	~AStarNode(){ 
 		parent = nullptr;

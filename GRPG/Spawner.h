@@ -8,7 +8,6 @@ protected:
 
 	Game* gamePtr;
 	Entity* victim;
-	Entity* spawnedNPC;
 
 	int npcId;
 	int cooldown;

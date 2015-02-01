@@ -98,6 +98,8 @@ void DrawManager::resetAll(){
 
 void DrawManager::addObject(Entity* ent, int zi){
 	ManagedObject* mo = new ManagedObject();
+	runtimeLog << "Created ManagedObject" << endl;
+	runtimeLog << "New memory allocation at 0x" << mo << endl; // NEWLOGGING
 	mo->entity = ent;
 	
 	addManagedObject(zi, mo);
@@ -105,6 +107,8 @@ void DrawManager::addObject(Entity* ent, int zi){
 
 void DrawManager::addObject(Image* img, int zi){
 	ManagedObject* mo = new ManagedObject();
+	runtimeLog << "Created ManagedObject2" << endl;
+	runtimeLog << "New memory allocation at 0x" << mo << endl; // NEWLOGGING
 	mo->image = img;
 
 	addManagedObject(zi, mo);
@@ -114,13 +118,20 @@ void DrawManager::addManagedObject(int zi, ManagedObject* mo){
 	bool added = false;
 
 	// Compare z-index with existing elements, insert into appropriate position
-	if (objects[zi].size() == 0) objects[zi][0] = mo;
+	if (objects[zi].size() == 0){
+		objects[zi][0] = mo;
+		added = true;
+	}
 	else {
 		map<int, ManagedObject*>::iterator it = objects[zi].end();
 		it--;
 		int key = it->first + 1;
 		objects[zi][key] = mo;
+
+		added = true;
 	}
+
+	if (!added) throw new exception;
 }
 
 void DrawManager::removeObject(Entity* ent){
@@ -139,6 +150,8 @@ void DrawManager::removeObject(Entity* ent){
 
 	while (!toErase.empty()){
 		pair<int, int> p = toErase.front();
+		ManagedObject* mo = objects[p.first][p.second];
+		delete mo;
 		objects[p.first].erase(p.second);
 		toErase.pop();
 	}
@@ -160,6 +173,8 @@ void DrawManager::removeObject(Image* img){
 
 	while (!toErase.empty()){
 		pair<int, int> p = toErase.front();
+		ManagedObject* mo = objects[p.first][p.second];
+		delete mo;
 		objects[p.first].erase(p.second);
 		toErase.pop();
 	}
