@@ -212,6 +212,9 @@ public:
 		items = i;
 	}
 
+	//Gets the items shown in the shop. If empty, no items are shown
+	virtual vector<Entity*> getShopItems() { return items; }
+
 	// Gets the string shown in the window header
 	// If string is an empty string ("") no window is currently open
 	virtual string getWindowHeader() { return windowHeader; }

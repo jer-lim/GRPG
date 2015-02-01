@@ -108,7 +108,6 @@ void Grpg::initialize(HWND hwnd)
 	leftMouseWasDown = input->getMouseLButton();
 	rightMouseWasDown = input->getMouseRButton();
 	
-	//STILL LEAKING
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* e = new Entity();
 	e->initialize(this, y, true);//anchored if its an inventory
@@ -192,6 +191,17 @@ void Grpg::update()
 										addMouseOverEntity(it3->second);
 										break; //The player can only mouse over only 1 item in his inventory at a time
 									}
+								}
+							}
+							//Check shop items
+							vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
+							for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+							{
+								Entity* theItem = *it3;
+								if (theItem->mouseInside(viewport))
+								{
+									addMouseOverEntity(theItem);
+									break;
 								}
 							}
 						}

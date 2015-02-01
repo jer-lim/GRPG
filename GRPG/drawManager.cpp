@@ -58,8 +58,7 @@ void DrawManager::updateAll(float frameTime){
 					if (it2->second->entity->getPerson() != Person::thePlayer)
 					{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
 						if (it2->second->entity->getType() == "UI")
-						{//check inventory items
-							
+						{//check inventory items	
 							if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
 							{
 								map<int, Entity*>* slotList = ((Grpg*)gamePtr)->getPlayer()->getInventory()->getSlotList();
@@ -70,6 +69,17 @@ void DrawManager::updateAll(float frameTime){
 										gamePtr->setMouseOverEntity(it3->second);
 										break;
 									}
+								}
+							}
+							//Check shop items
+							vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
+							for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+							{
+								Entity* theItem = *it3;
+								if (theItem->mouseInside(viewport))
+								{
+									gamePtr->setMouseOverEntity(theItem);
+									break;
 								}
 							}
 						}
