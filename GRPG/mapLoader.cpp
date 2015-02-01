@@ -324,27 +324,27 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		tileTms[tileId] = textureManager;
 	}
 	if (tileset[tileId].type == tileNS::type::FISHINGSPOT) {
-		Resource* t = new Resource();
+		Tile* t = new Resource();
 		runtimeLog << "Created resource1" << endl;
 		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
-		t->initialize(gamePtr, resourceNS::FISHING, textureManager);
+		((Resource*) t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
 		drawManager->addObject(t, tileNS::ZINDEX);
-		return new ManagedTile(t);
+		return new ManagedTile(t, tileNS::type::FISHINGSPOT);
 	}
 	else if (tileset[tileId].type == tileNS::type::SPAWNER){
-		Spawner* t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
+		Tile* t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
 		runtimeLog << "Created spawner1" << endl;
 		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
-		t->spawn();
+		((Spawner*) t)->spawn();
 		drawManager->addObject(t, tileNS::ZINDEX);
-		return new ManagedTile(t);
+		return new ManagedTile(t, tileNS::type::SPAWNER);
 	}
 	else if (tileset[tileId].type == tileNS::type::WALL){
 
@@ -358,7 +358,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		drawManager->addObject(t, tileNS::ZINDEX);
 		VECTOR2 v = viewport->translate(tilePos.x, tilePos.y);
 		//runtimeLog << "ENTITY " << v.x << ", " << v.y << endl;
-		return new ManagedTile(t);
+		return new ManagedTile(t, tileNS::type::WALL);
 	}
 	else if (tileset[tileId].type == tileNS::type::FLOOR){
 
@@ -372,7 +372,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		drawManager->addObject(t, tileNS::ZINDEX);
 		VECTOR2 v = viewport->translate(tilePos.x, tilePos.y);
 		//runtimeLog << "IMAGE " << v.x << ", " << v.y << endl;
-		return new ManagedTile(t);
+		return new ManagedTile(t, tileNS::type::FLOOR);
 	}
 }
 
@@ -397,19 +397,12 @@ void MapLoader::update(){
 			
 			ManagedTile* mt = ity->second;
 			
-			if (mt->spawner != nullptr){
-				Spawner* t = mt->spawner;
-				vpCoords = viewport->translate(t->getX(), t->getY());
-				xPos = t->getX();
-				yPos = t->getY();
-				t->update();
-				//runtimeLog << "ENTITY is at " << vpCoords.x << ", " << vpCoords.y << endl;
-			}
-			else if (mt->tile != nullptr){
+			if (mt->tile != nullptr){
 				Tile* t = mt->tile;
 				vpCoords = viewport->translate(t->getX(), t->getY());
 				xPos = t->getX();
 				yPos = t->getY();
+				t->update();
 				//runtimeLog << "ENTITY is at " << vpCoords.x << ", " << vpCoords.y << endl;
 			}
 			else if (mt->image != nullptr){
@@ -463,8 +456,7 @@ void MapLoader::update(){
 		//CRIME SCENE
 		if (loadedTiles[newLocation.x].count(newLocation.y)){
 			ManagedTile* m = loadedTiles[newLocation.x][newLocation.y];
-			if (m->spawner != nullptr) drawManager->removeObject(m->spawner);
-			else if (m->tile != nullptr) drawManager->removeObject(m->tile);
+			if (m->tile != nullptr) drawManager->removeObject(m->tile);
 			else if (m->image != nullptr) drawManager->removeObject(m->image);
 			m->destroy();
 			delete m;
@@ -505,10 +497,7 @@ void MapLoader::update(){
 					tileTms[newTileId] = textureManager;
 				}
 
-				if (mt->spawner != nullptr){
-					mt->spawner->getImage()->setTextureManager(textureManager);
-				}
-				else if (mt->tile != nullptr){
+				if (mt->tile != nullptr){
 					mt->tile->getImage()->setTextureManager(textureManager);
 				}
 				else if(mt->image != nullptr){
@@ -518,17 +507,7 @@ void MapLoader::update(){
 			// Incompatible types, need new Entity / Image to store
 			else{
 				// Clear old data
-				// DEFINITE MEMORY LEAK HERE
-				if (mt->spawner != nullptr){
-					// WHY ISN'T THIS REALLY DELETED
-					//delete mt->spawner;
-
-					Spawner* t = mt->spawner;
-					delete t;
-					drawManager->removeObject(mt->spawner);
-					mt->spawner = nullptr;
-				}
-				else if (mt->tile != nullptr){
+				if (mt->tile != nullptr){
 					// WHY ISN'T THIS REALLY DELETED
 					//delete mt->tile;
 
@@ -566,16 +545,16 @@ void MapLoader::update(){
 				}
 
 				if (newTileInfo.type == tileNS::type::SPAWNER){
-					Spawner* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
+					Tile* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
 					runtimeLog << "Created Spawner2" << endl;
 					runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 					t->initialize(gamePtr, textureManager);
 					t->setX(tilePos.x);
 					t->setY(tilePos.y);
-					t->spawn();
+					((Spawner*) t)->spawn();
 					drawManager->addObject(t, tileNS::ZINDEX);
-					mt->spawner = t;
+					mt->tile = t;
 				}
 				if (newTileInfo.type == tileNS::type::WALL){
 
@@ -601,11 +580,7 @@ void MapLoader::update(){
 		}
 
 		// Move actual location of tile
-		if (mt->spawner != nullptr){
-			mt->spawner->setX(tilePos.x);
-			mt->spawner->setY(tilePos.y);
-		}
-		else if (mt->tile != nullptr){
+		if (mt->tile != nullptr){
 			mt->tile->setX(tilePos.x);
 			mt->tile->setY(tilePos.y);
 		}

@@ -3,7 +3,7 @@
 
 //Ignore this file for now, it is never ever used
 
-#include "entity.h"
+#include "Tile.h"
 #include "FishBehavior.h"
 #include "MineBehavior.h"
 
@@ -13,7 +13,7 @@ namespace resourceNS
 	const int MINING = 2;
 }
 
-class Resource : public Entity
+class Resource : public Tile
 {
 private:
 public:
