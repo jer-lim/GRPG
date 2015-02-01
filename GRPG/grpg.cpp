@@ -20,27 +20,27 @@ Grpg::~Grpg()
 {
     releaseAll();           // call onLostDevice() for every graphics item
 	SAFE_DELETE(uiFont);
-	SAFE_DELETE(ui);
-	SAFE_DELETE(drawManager);
-	SAFE_DELETE(mapLoader);
+	//SAFE_DELETE(ui);//handled by drawmanager
 	SAFE_DELETE(hitSplat);
 	SAFE_DELETE(missSplat);
 	SAFE_DELETE(viewport);
 	Skill::deleteAllSkills();
 	player->releaseDestination();
+	SAFE_DELETE(drawManager);
+	SAFE_DELETE(mapLoader);
 	//Delete all the enemies that have been spawned
+	/*//handled by drawmanager
 	for (map<string, Entity*>::iterator it = spawnLinks.begin(); it != spawnLinks.end(); ++it)
 	{
 		if (it->second != nullptr)
 		{
 			SAFE_DELETE(it->second);
 		}
-	}
-	SAFE_DELETE(personLoader); 
-	SAFE_DELETE(player);
+	}*/
+	SAFE_DELETE(personLoader);//to be called after all person entities are gone
+	//SAFE_DELETE(player);//handled by drawmanager
 	SAFE_DELETE(Person::thePlayer);
-	SAFE_DELETE(itemLoader);
-
+	SAFE_DELETE(itemLoader);//to be called after all item entities are gone
 	//~Game() called afterward
 }
 
@@ -108,14 +108,14 @@ void Grpg::initialize(HWND hwnd)
 	leftMouseWasDown = input->getMouseLButton();
 	rightMouseWasDown = input->getMouseRButton();
 
-	
+	/*
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* e = new Entity();
 	e->initialize(this, y, true);//anchored if its an inventory
 	//y->initialize(this, true);
 	player->getInventory()->addEntityInventoryItem(e);
 	//ml free
-
+	*/
 	//Object test
 	//CRIME SCENE
 	
@@ -125,7 +125,8 @@ void Grpg::initialize(HWND hwnd)
 	//x->initialize(this, false);
 	newObj->setX(startLocation.x);
 	newObj->setY(startLocation.y);
-	drawManager->addObject(newObj, 1);
+	drawManager->addObject(newObj, 77);
+	
 	//END SCENE
 	return;
 }

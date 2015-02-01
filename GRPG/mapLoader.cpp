@@ -17,6 +17,7 @@ MapLoader::MapLoader(){
 }
 
 MapLoader::~MapLoader(){
+	
 	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx){
 		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity){
 			delete ity->second;
@@ -25,13 +26,16 @@ MapLoader::~MapLoader(){
 		loadedTiles[itx->first].clear();
 	}
 	loadedTiles.clear();
+	
 
+	
 	for (unordered_map<int, TextureManager*>::iterator it = tileTms.begin(); it != tileTms.end(); ++it){
 		delete it->second;
 		it->second = nullptr;
 	}
 	tileTms.clear();
 
+	
 	for (unordered_map<int, unordered_map<int, char>>::iterator it = worldMap.begin(); it != worldMap.end(); ++it){
 		worldMap[it->first].clear();
 	}
@@ -450,6 +454,7 @@ void MapLoader::update(){
 			if (m->spawner != nullptr) drawManager->removeObject(m->spawner);
 			else if (m->tile != nullptr) drawManager->removeObject(m->tile);
 			else if (m->image != nullptr) drawManager->removeObject(m->image);
+			m->destroy();
 			delete m;
 			loadedTiles[newLocation.x].erase(newLocation.y);
 		}
