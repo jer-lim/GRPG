@@ -31,6 +31,8 @@ struct tileStruct {
 	string imageName;
 	int spawnId;
 	int spawnCooldown;
+	int numFrames;
+	double frameTime;
 };
 
 // Stores a tile, which can be either an entity or an image
