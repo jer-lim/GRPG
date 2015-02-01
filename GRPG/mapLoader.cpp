@@ -464,14 +464,13 @@ void MapLoader::update(){
 		// New tile location
 		VECTOR2 tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
 
-		tileStruct oldTileInfo = tileset[oldTileId];
 		tileStruct newTileInfo = tileset[newTileId];
 		
-		// If they are different tiles or are spawners, need to delete and change it
-		if (newTileId != oldTileId || newTileInfo.type == tileNS::type::SPAWNER){
+		// If they are different tiles or are unique entities (not floors and walls), need to delete and change it
+		if (newTileId != oldTileId || (newTileInfo.type != tileNS::type::FLOOR && newTileInfo.type != tileNS::type::WALL)){
 
-			// If both are the same class, just change textureManagers
-			if (newTileInfo.type == oldTileInfo.type){
+			// If both are the same class, just change textureManagers (Floors and walls only, others need to be recreated)
+			if (newTileInfo.type == mt->type && (newTileInfo.type == tileNS::type::FLOOR || newTileInfo.type == tileNS::type::WALL)){
 				TextureManager* textureManager;
 				stringstream ss;
 				ss << tileImageFolder << newTileInfo.imageName;
@@ -499,18 +498,12 @@ void MapLoader::update(){
 			else{
 				// Clear old data
 				if (mt->tile != nullptr){
-					// WHY ISN'T THIS REALLY DELETED
-					//delete mt->tile;
-
 					Tile* t = mt->tile;
 					delete t;
 					drawManager->removeObject(mt->tile);
 					mt->tile = nullptr;
 				}
 				else if(mt->image != nullptr) {
-					// WHY ISN'T THIS REALLY DELETED
-					//delete mt->image;
-
 					Image* t = mt->image;
 					delete t;
 					drawManager->removeObject(mt->image);
