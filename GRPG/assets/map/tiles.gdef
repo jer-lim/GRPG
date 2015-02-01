@@ -2,7 +2,7 @@
 1 0 dirt.png 0 0
 2 1 water.png 0 0
 x 1 border.png 0 0
-c 2 grass.png 15 3
+c 2 grass.png 15 10
 g 2 woodhouse_floor.png 1 0
 s 3 spawn.png 0 0
 A 0 castle_floor.png 0 0
