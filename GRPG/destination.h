@@ -15,6 +15,7 @@ public:
 	// Get the vector that stores the destination
 	virtual D3DXVECTOR2 getVector() = 0;
 	// Release this destination if it is unlikely to be used otherwise
+	// See also releaseDestination in entity.cpp
 	virtual void release() = 0;
 };
 

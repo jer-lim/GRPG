@@ -258,6 +258,10 @@ class Entity : public Destination//, public Interactable
     // Set radius of collision circle.
     virtual void setCollisionRadius(float r)    {radius = r;}
 
+	// Set which NPC's behavior action() function will be called
+	//once the player hits the npc
+	void setNPCAction(Behavior* b) { npcAction = b; }
+
     ////////////////////////////////////////
     //         Other functions            //
     ////////////////////////////////////////
@@ -365,7 +369,16 @@ class Entity : public Destination//, public Interactable
 		return nullptr;
 	}
 
-	void setNPCAction(Behavior* b) { npcAction = b; }
+	// Releases the destination held by this entity, if any
+	// And then sets it to 0
+	virtual void releaseDestination()
+	{
+		if (destination != nullptr)
+		{
+			destination->release();
+			destination = nullptr;
+		}
+	}
 };
 
 #endif

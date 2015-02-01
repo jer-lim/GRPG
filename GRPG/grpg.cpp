@@ -27,6 +27,7 @@ Grpg::~Grpg()
 	SAFE_DELETE(missSplat);
 	SAFE_DELETE(viewport);
 	Skill::deleteAllSkills();
+	player->releaseDestination();
 	//Delete all the enemies that have been spawned
 	for (map<string, Entity*>::iterator it = spawnLinks.begin(); it != spawnLinks.end(); ++it)
 	{
@@ -107,6 +108,7 @@ void Grpg::initialize(HWND hwnd)
 	leftMouseWasDown = input->getMouseLButton();
 	rightMouseWasDown = input->getMouseRButton();
 
+	
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* e = new Entity();
 	e->initialize(this, y, true);//anchored if its an inventory
