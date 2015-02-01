@@ -136,6 +136,7 @@
     <ClInclude Include="EatBehavior.h">
       <Filter>Behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="InventoryEquipment.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Behaviors">

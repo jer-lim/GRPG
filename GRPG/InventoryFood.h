@@ -7,19 +7,16 @@
 class InventoryFood : public InventoryItem
 {
 private:
-	bool isCooked, isDelicious;
+	int foodState;
 public:
 	// constructor
 	InventoryFood():InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
-	InventoryFood(Item &item, int csc,bool isC,bool isD)
+	InventoryFood(Item* item, int csc,int state)
 		:InventoryItem(item, csc)
 	{
-		isCooked = isC;
-		isDelicious = isD;
+		foodState = state;
 	}
-	bool isDelicious(){ return isCooked; }
-	void setisDelicious(bool s){ isCooked = s; }
-	bool isDelicious(){ return isDelicious; }
-	void setisDelicious(bool s){ isDelicious = s; }
+	int getFoodState(){ return foodState; }
+	int setFoodState(int i){ foodState = i; }
 };
 #endif
