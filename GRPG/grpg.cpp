@@ -170,7 +170,7 @@ void Grpg::update()
 	if (!input->getMouseRButton() && rightMouseWasDown)
 	{
 		//Show right click popup
-		//if(mouseOverEntity != nullptr)
+		if(mouseOverEntity != nullptr)
 		{
 			//Find all the entities that the mouse is currently over
 			map<int, map<int, ManagedObject*>> allEntities = drawManager->getDrawnObjects();
