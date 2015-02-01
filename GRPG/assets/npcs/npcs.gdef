@@ -1,13 +1,13 @@
-3 Skeleton skeleton.png 60 1 64 64 4 38 38 Flimsy_pieces_of_bone_held_together_with_magic. 3 2 3 5 1.0 3 {0:10}
-4 Skeleton_King_Aboilath skeleton_king.png 60 1 64 64 4 38 38 The_king_of_skeletons._Walks_like_a_drunkard. 15 10 5 15 0.9 15 {0:100}
-5 Goblin goblin.png 60 1 64 64 4 38 38 The_lousiest_(and_smelliest)_of_monsters. 1 1 2 5 0.9 5 {F2:1:0}
-6 Goblin_Chieftain_Ugu goblin_chieftain.png 80 1 64 64 4 38 38 The_chief_of_goblins._Can_be_smelt_from_miles_away. 5 4 5 10 0.9 20 {F2:1:0,E14:1:10}
-7 Undead undead.png 60 1 64 64 4 38 38 Undead_Soldier. 15 4 15 15 0.8 10 {F3:1:0,0:10}
-8 Undead_Commander_Qeim undead_commander.png 3 1 64 64 4 38 38 The_leader_of_undead._Has_a_crown. 20 4 10 20 0.8 25 {F3:1:0,F3:1:0,F3:1:0,E18:1:10}
-9 Ogre ogre.png 90 0.7 64 64 4 64 64 Big_giant_and_huge_monsters_that_are_strong_but_slow. 2 7 15 20 0.9 15 {9:1,F4:1:0,0:30}
-10 Ogre_Ogur ogre_boss.png 100 0.7 64 64 4 64 64 A_cannibalizing_Ogre._Scary,_even_to_other_ogres. 15 6 15 25 0.9 30 {9:1,F4:1:0,E16:1:9}
-11 Golem golem.png 90 0.7 64 64 4 64 64 Monster_made_of_mystical_stone. 15 6 5 10 0.25 20 {11:1,F1:1:0}
-12 Earth_Guardian_Agroet golem_guardian.png 100 0.7 64 64 4 64 64 Protector_of_the_Earth._He_doesn't_like_competition. 20 5 5 15 0.25 999 {11:1,11:1,11:1,F1:1:0}
-13 Dragon dragon.png 140 1 128 128 5 128 128 Dragon! 20 8 10 25 0.7 999 {F6:1:0,F6:1:0,F6:1:0}
-14 Doombreather_Aildiuln aidiluin.png 140 1 128 128 5 128 128 A_dragon._A_very_evil_and_terrifying_dragon. 10 8 15 35 0.7 999 {F6:1:0,F6:1:0,F6:1:0}
-15 Chicken chicken.png 40 2 64 64 4 20 20 A_Chicken. 1 1 1 3 1 -1 {F3:1:0}
+3 Skeleton skeleton.png 60 1 64 64 4 38 38 Flimsy_pieces_of_bone_held_together_with_magic. 3 2 3 5 1.0 3 250 {0:10}
+4 Skeleton_King_Aboilath skeleton_king.png 60 1 64 64 4 38 38 The_king_of_skeletons._Walks_like_a_drunkard. 15 10 5 15 0.9 15 50 {0:100}
+5 Goblin goblin.png 60 1 64 64 4 38 38 The_lousiest_(and_smelliest)_of_monsters. 1 1 2 5 0.9 5 250 {F2:1:0}
+6 Goblin_Chieftain_Ugu goblin_chieftain.png 80 1 64 64 4 38 38 The_chief_of_goblins._Can_be_smelt_from_miles_away. 5 4 5 10 0.9 20 50 {F2:1:0,E14:1:10}
+7 Undead undead.png 60 1 64 64 4 38 38 Undead_Soldier. 15 4 15 15 0.8 10 250 {F3:1:0,0:10}
+8 Undead_Commander_Qeim undead_commander.png 3 1 64 64 4 38 38 The_leader_of_undead._Has_a_crown. 20 4 10 20 0.8 25 50 {F3:1:0,F3:1:0,F3:1:0,E18:1:10}
+9 Ogre ogre.png 90 0.7 64 64 4 64 64 Big_giant_and_huge_monsters_that_are_strong_but_slow. 2 7 15 20 0.9 15 250 {9:1,F4:1:0,0:30}
+10 Ogre_Ogur ogre_boss.png 100 0.7 64 64 4 64 64 A_cannibalizing_Ogre._Scary,_even_to_other_ogres. 15 6 15 25 0.9 30 50 {9:1,F4:1:0,E16:1:9}
+11 Golem golem.png 90 0.7 64 64 4 64 64 Monster_made_of_mystical_stone. 15 6 5 10 0.25 20 250 {11:1,F1:1:0}
+12 Earth_Guardian_Agroet golem_guardian.png 100 0.7 64 64 4 64 64 Protector_of_the_Earth._He_doesn't_like_competition. 20 5 5 15 0.25 999 50 {11:1,11:1,11:1,F1:1:0}
+13 Dragon dragon.png 140 1 128 128 5 128 128 Dragon! 20 8 10 25 0.7 999 250 {F6:1:0,F6:1:0,F6:1:0}
+14 Doombreather_Aildiuln aidiluin.png 140 1 128 128 5 128 128 A_dragon._A_very_evil_and_terrifying_dragon. 10 8 15 35 0.7 999 50 {F6:1:0,F6:1:0,F6:1:0}
+15 Chicken chicken.png 40 2 64 64 4 20 20 A_Chicken. 1 1 1 3 1 -1 100 {F3:1:0}
