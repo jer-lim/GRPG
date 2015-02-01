@@ -69,5 +69,6 @@ const UCHAR ENTER_KEY    = VK_RETURN;       // Enter key
 // weapon types
 enum WEAPON {TORPEDO, SHIP, PLANET};
 enum ITEM_MERGE { IMPOSSIBLE, INCOMPLETE, SUCCESSFUL };
+enum FOOD_STATE { RAW, COOKED, BURNT, DELICIOUS };
 
 #endif

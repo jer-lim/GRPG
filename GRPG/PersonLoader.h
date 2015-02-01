@@ -9,6 +9,10 @@
 #include <string>
 #include <unordered_map>
 #include "string_functions.h"
+#include <stdlib.h>     /* atoi */
+#include "itemLoader.h"
+#include "InventoryFood.h"
+#include "InventoryEquipment.h"
 
 class PersonLoader
 {
@@ -19,7 +23,7 @@ private:
 	//unordered_map<int, Enemy> map_enemies;
 public:
 	PersonLoader(){}
-	void loadAllNPCs();
+	void loadAllNPCs(ItemLoader* itemLoader);
 	~PersonLoader(){
 		for (unordered_map<int, NPC*>::iterator it = map_npcs.begin(); it != map_npcs.end(); ++it){
 			SAFE_DELETE(it->second);

@@ -21,6 +21,7 @@
     <ClInclude Include="EatBehavior.h" />
     <ClInclude Include="FishBehavior.h" />
     <ClInclude Include="Interactable.h" />
+    <ClInclude Include="InventoryEquipment.h" />
     <ClInclude Include="MineBehavior.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
