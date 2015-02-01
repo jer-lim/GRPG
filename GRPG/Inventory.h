@@ -31,7 +31,7 @@ public:
 	~Inventory(){ destroy(); }
 	Inventory(int x, int y);
 	bool addEntityInventoryItem(int i, Entity* ii);
-	bool addEntityInventoryItem(Entity* ii);
+	ITEM_ADD addEntityInventoryItem(Entity* ii);
 	bool destroyEntityInventoryItem(int i);
 	bool hasEntityInventoryItem(int i);
 	ITEM_MERGE merge(Entity* a, Entity* b)
@@ -46,7 +46,7 @@ public:
 			if (totalStack <= a->getInventoryItem()->getItem()->getMaxStackCount())
 			{//enough space for complete merge
 				a->getInventoryItem()->setCurrentStackCount(totalStack);
-				SAFE_DELETE(b);//b should have already been removed from draw manager before adding into inventory
+				//SAFE_DELETE(b);
 				return SUCCESSFUL;
 			}
 			else
