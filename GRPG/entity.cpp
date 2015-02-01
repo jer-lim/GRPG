@@ -343,8 +343,9 @@ void Entity::update(float frameTime, Game* gamePtr)
 			if (!canAggro)
 			{
 				//Just wander around, I guess?
-				if (destination == nullptr && person != Person::thePlayer)
+				if (destination == nullptr && person != Person::thePlayer && person->getType() == "ENEMY")
 				{
+					int aggroRadius = ((Enemy*)person)->getWanderRange();
 					//Set spawn location if it hasn't been set
 					if (spawnLocation->x == -1 && spawnLocation->y == -1)
 					{
@@ -354,7 +355,8 @@ void Entity::update(float frameTime, Game* gamePtr)
 					//20% chance, otherwise it stands still
 					if (getRandomNumber() > 0.8)
 					{
-						destination = new Point(rand() % 500 - 250 + spawnLocation->x, rand() % 500 - 250 + spawnLocation->y);
+						destination = new Point((rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->x, 
+												(rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->y);
 					}
 				}
 			}

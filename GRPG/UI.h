@@ -94,6 +94,7 @@ private:
 	// The header text in the window. If empty, signifies no window and no window will be drawn
 	string windowHeader;
 	RECT* shopRect; // The rectangle used for drawing the shop text
+	vector<Entity* > items; //The list of items that will be sold in the shop
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -191,7 +192,16 @@ public:
 	}
 
 	// Removes the shop window, if any, is being drawn on the screen
-	virtual void removeWindow() { windowHeader = ""; }
+	virtual void removeWindow() 
+	{
+		windowHeader = ""; 
+		items.clear();
+	}
+
+	virtual void setShopItems(vector<Entity* > i)
+	{
+		items = i;
+	}
 
 	// Gets the string shown in the window header
 	// If string is an empty string ("") no window is currently open
