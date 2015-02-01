@@ -61,7 +61,8 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 				}
 			}
 			//Failed to add so far? add it at the end then
-			addEntityInventoryItem(slotList.size(), ii);
+			if(addEntityInventoryItem(slotList.size(), ii))
+				return ADDED;
 		}
 	}
 	if (result == IMPOSSIBLE) return FAILED;
