@@ -1,6 +1,13 @@
 0 0 grass.png 0 0
 1 0 dirt.png 0 0
 x 1 border.png 0 0
-s 2 grass.png 15 3
+c 2 grass.png 15 3
 g 2 dirt.png 1 0
-a 3 spawn.png 0 0
+s 3 spawn.png 0 0
+A 0 stonefloor.png 0 0
+B 1 stonewall_topleftcorner.png 0 0
+C 1 stonewall_toprightcorner.png 0 0
+D 1 stonewall_left.png 0 0
+E 1 stonewall_right.png 0 0
+F 1 stonewall_front.png 0 0
+G 0 stonewall_entrance.png 0 0
