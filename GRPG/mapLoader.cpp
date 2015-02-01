@@ -116,6 +116,8 @@ void MapLoader::loadData(){
 			getline(chunkstream, trash);
 			chunkId = (int)chunkId;
 			chunk *tempChunk = new chunk;
+			runtimeLog << "Created chunk1" << endl;
+			runtimeLog << "New memory allocation at 0x" << tempChunk << endl; // NEWLOGGING
 			for (int y = 0; y < 16; ++y){
 				for (int x = 0; x < 16; ++x){
 					tempChunk->tile[x][y] = chunkstream.get();
@@ -243,7 +245,10 @@ void MapLoader::loadMap(){
 						&& vpYPos < bufferedBottomRightCoords.y){
 
 						//runtimeLog << "Loading tile " << tileX << ", " << tileY << " (chunk " << x+1 << ", " << y+1 << ") with coords " << xPos << ", " << yPos << " at vp coords " << vpXPos << ", " << vpYPos << endl;
-						loadedTiles[tileX][tileY] = loadTile(tileX, tileY);
+						ManagedTile* mt = loadTile(tileX, tileY);
+						runtimeLog << "Created ManagedTile1" << endl;
+						runtimeLog << "New memory allocation at 0x" << mt << endl; // NEWLOGGING
+						loadedTiles[tileX][tileY] = mt;
 					}
 				}
 			}
@@ -272,8 +277,6 @@ void MapLoader::loadMap(){
 		delete t;
 	}
 	*/
-	
-
 }
 
 char MapLoader::getTileIdAtLocation(int tileX, int tileY){
@@ -310,11 +313,15 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	}
 	else{
 		textureManager = new TextureManager();
+		runtimeLog << "Created TM1" << endl;
+		runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
 		textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 		tileTms[tileId] = textureManager;
 	}
 	if (tileset[tileId].type == tileNS::type::SPAWNER){
 		Spawner* t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
+		runtimeLog << "Created spawner1" << endl;
+		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
@@ -326,6 +333,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	else if (tileset[tileId].type == tileNS::type::WALL){
 
 		Tile* t = new Tile();
+		runtimeLog << "Created tile1" << endl;
+		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
@@ -338,6 +347,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	else if (tileset[tileId].type == tileNS::type::FLOOR){
 
 		Image* t = new Image();
+		runtimeLog << "Created image1" << endl;
+		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 		t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
 		t->setX(tilePos.x);
@@ -471,6 +482,8 @@ void MapLoader::update(){
 				}
 				else{
 					textureManager = new TextureManager();
+					runtimeLog << "Created TM2" << endl;
+					runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
 					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 					tileTms[newTileId] = textureManager;
 				}
@@ -529,12 +542,16 @@ void MapLoader::update(){
 				}
 				else{
 					textureManager = new TextureManager();
+					runtimeLog << "Created TM3" << endl;
+					runtimeLog << "New memory allocation at 0x" << textureManager << endl; // NEWLOGGING
 					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 					tileTms[newTileId] = textureManager;
 				}
 
 				if (newTileInfo.type == tileNS::type::SPAWNER){
 					Spawner* t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
+					runtimeLog << "Created Spawner2" << endl;
+					runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 					t->initialize(gamePtr, textureManager);
 					t->setX(tilePos.x);
@@ -546,6 +563,8 @@ void MapLoader::update(){
 				if (newTileInfo.type == tileNS::type::WALL){
 
 					Tile* t = new Tile();
+					runtimeLog << "Created Tile2" << endl;
+					runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 					t->initialize(gamePtr, textureManager);
 					drawManager->addObject(t, tileNS::ZINDEX);
@@ -554,6 +573,8 @@ void MapLoader::update(){
 				else if (newTileInfo.type == tileNS::type::FLOOR){
 
 					Image* t = new Image();
+					runtimeLog << "Created Image2" << endl;
+					runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 					t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
 					drawManager->addObject(t, tileNS::ZINDEX);
