@@ -192,7 +192,7 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 	if (inInventory)
 		dropBehavior = new DropBehavior(this);
 	else
-		pickupBehavior = new PickupBehavior(this);
+		pickupBehavior = new PickupBehavior(gamePtr->getDrawManager(), this, ((Grpg*)gamePtr)->getPlayer());
 	setupVectorActiveBehaviors();
 
 	anchored = inInventory;//anchored = true = inInventory

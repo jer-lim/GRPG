@@ -343,8 +343,20 @@ class Entity : public Destination//, public Interactable
 	virtual void release(){  }
 
 	//Behavior related
+	//void setCookBehavior
+	void setDropBehavior(Behavior* b) {
+		if (dropBehavior != nullptr)
+			SAFE_DELETE(dropBehavior);
+		dropBehavior = b;
+	}
+	void setPickupBehavior(Behavior* b) {
+		if (pickupBehavior != nullptr)
+			SAFE_DELETE(pickupBehavior);
+		pickupBehavior = b;
+	}
 	void setupVectorActiveBehaviors()
 	{//Must be in order, as they will be displayed in this order 
+		vectorActiveBehaviors.clear();
 		if (cookBehavior)
 			vectorActiveBehaviors.push_back(cookBehavior);
 		if (dropBehavior)

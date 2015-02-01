@@ -92,6 +92,7 @@
     <ClCompile Include="itemLoader.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="mapLoader.cpp" />
+    <ClCompile Include="PickupBehavior.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
