@@ -1,6 +1,8 @@
 #include "drawManager.h"
 #include "Viewport.h"
 #include "entity.h"
+#include "grpg.h"
+#include "UI.h"
 #include <queue>
 
 using namespace std;
@@ -53,11 +55,28 @@ void DrawManager::updateAll(float frameTime){
 				it2->second->entity->update(frameTime, gamePtr);
 				if (gamePtr->getMouseOverEntity() == nullptr)
 				{//if don't have an existing mouse over
-					if (it2->second->entity->getPerson() != Person::thePlayer && it2->second->entity->getType() != "UI")
+					if (it2->second->entity->getPerson() != Person::thePlayer)
 					{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
-						if (it2->second->entity->mouseInside(viewport))
+						if (it2->second->entity->getType() == "UI")
+						{//check inventory items
+							
+							if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
+							{
+								map<int, Entity*>* slotList = ((Grpg*)gamePtr)->getPlayer()->getInventory()->getSlotList();
+								for (std::map<int, Entity*>::iterator it3 = slotList->begin(); it3 != slotList->end(); ++it3)
+								{
+									if (it3->second->mouseInside(viewport))
+									{
+										gamePtr->setMouseOverEntity(it3->second);
+										break;
+									}
+								}
+							}
+						}
+						else if (it2->second->entity->mouseInside(viewport))
 						{
 							gamePtr->setMouseOverEntity(it2->second->entity);
+							break;
 						}
 					}
 				}
