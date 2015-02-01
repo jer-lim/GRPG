@@ -1,0 +1,97 @@
+diff --git a/GRPG/game.cpp b/GRPG/game.cpp
+index d1e5c83..6cefe3e 100644
+--- a/GRPG/game.cpp
++++ b/GRPG/game.cpp
+@@ -118,8 +118,8 @@ void Game::initialize(HWND hw)
+ 	drawManager = new DrawManager();
+ 	drawManager->initialize(this,viewport);
+ 
+-	mapLoader = new MapLoader();
+-	mapLoader->initialize(this);
++	//mapLoader = new MapLoader();
++	//mapLoader->initialize(this);
+ 
+ 	personLoader = new PersonLoader();
+ 
+diff --git a/GRPG/grpg.cpp b/GRPG/grpg.cpp
+index eab8f7e..c2e47f5 100755
+--- a/GRPG/grpg.cpp
++++ b/GRPG/grpg.cpp
+@@ -43,7 +43,7 @@ void Grpg::initialize(HWND hwnd)
+     Game::initialize(hwnd); // throws GameError
+ 	Skill::setupAllSkills();
+ 
+-	mapLoader->loadData();
++	//mapLoader->loadData();
+ 
+ 	// Set viewport
+ 	viewport->setX(startLocation.x);
+@@ -89,8 +89,8 @@ void Grpg::initialize(HWND hwnd)
+ 	drawManager->addObject(player,3);
+ 	drawManager->addObject(ui, 999);
+ 	// Load and display map, start spawners
+-	mapLoader->setVictim(player);
+-	mapLoader->loadMap();
++	//mapLoader->setVictim(player);
++	//mapLoader->loadMap();
+ 
+ 	player->setX(startLocation.x);
+ 	player->setY(startLocation.y);
+@@ -98,23 +98,23 @@ void Grpg::initialize(HWND hwnd)
+ 	leftMouseWasDown = input->getMouseLButton();
+ 	rightMouseWasDown = input->getMouseRButton();
+ 
+-	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
+-	Entity* e = new Entity();
+-	e->initialize(this, y, true);//anchored if its an inventory
++//	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
++//	Entity* e = new Entity();
++//	e->initialize(this, y, true);//anchored if its an inventory
+ 	//y->initialize(this, true);
+-	player->getInventory()->addEntityInventoryItem(e);
++	//player->getInventory()->addEntityInventoryItem(e);
+ 	//ml free
+ 
+ 	//Object test
+ 	//CRIME SCENE
+ 	
+-	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
+-	Entity* newObj = new Entity();
+-	newObj->initialize(this, x, false);
++//	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
++//	Entity* newObj = new Entity();
++//	newObj->initialize(this, x, false);
+ 	//x->initialize(this, false);
+-	newObj->setX(startLocation.x);
+-	newObj->setY(startLocation.y);
+-	drawManager->addObject(newObj, 1);
++//	newObj->setX(startLocation.x);
++//	newObj->setY(startLocation.y);
++	//drawManager->addObject(newObj, 1);
+ 	//END SCENE
+ 	return;
+ }
+@@ -215,7 +215,7 @@ void Grpg::update()
+ 		}
+ 	}
+ 	//CRIME SCENE/MEMORY LEAK
+-	mapLoader->update();
++	//mapLoader->update();
+ 	//CRIME SCENE/MEMORY LEAK
+ 	drawManager->updateAll(frameTime);
+ 
+
+
+NO LEAK at UI
+NO LEAK at drawManager
+NO LEAK at Skills
+NO LEAK at PersonLoader load all npc
+NO LEAK at ItemLoader load all items
+Removing Player ADDS LEAKS
+Later: NO LEAKS at Player (After commenting out Inventory management code)
+LEAKS at Inventory
+LEAKS at Maploader (duh)
+	NO LEAKS At Maploader loading
+	mapLoader->loadMap(); LEAKS
+NO LEAK on typing in messages for player to say
+NO LEAK for commands (PRO)

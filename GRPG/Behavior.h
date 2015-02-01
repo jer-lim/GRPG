@@ -9,6 +9,7 @@ class Behavior
 private:
 public:
 	Behavior(){}
+	virtual ~Behavior() {}
 	virtual bool exists(){ return false; }
 	virtual string displayText(){ return ""; }
 	virtual void action(){}

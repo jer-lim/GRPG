@@ -23,14 +23,23 @@ Grpg::~Grpg()
 	SAFE_DELETE(ui);
 	SAFE_DELETE(drawManager);
 	SAFE_DELETE(mapLoader);
-	SAFE_DELETE(personLoader);
 	SAFE_DELETE(hitSplat);
 	SAFE_DELETE(missSplat);
 	SAFE_DELETE(viewport);
 	Skill::deleteAllSkills();
+	//Delete all the enemies that have been spawned
+	for (map<string, Entity*>::iterator it = spawnLinks.begin(); it != spawnLinks.end(); ++it)
+	{
+		if (it->second != nullptr)
+		{
+			SAFE_DELETE(it->second);
+		}
+	}
+	SAFE_DELETE(personLoader); 
 	SAFE_DELETE(player);
 	SAFE_DELETE(Person::thePlayer);
 	SAFE_DELETE(itemLoader);
+
 	//~Game() called afterward
 }
 

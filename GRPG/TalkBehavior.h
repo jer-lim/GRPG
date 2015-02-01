@@ -18,6 +18,7 @@ private:
 
 	string message;
 public:
+	virtual ~TalkBehavior() {}
 	TalkBehavior(NPC* i, UI* u, Player* p, Entity* e, string m){
 		ii = i;
 		ui = u;

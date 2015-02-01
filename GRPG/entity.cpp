@@ -60,6 +60,7 @@ Entity::~Entity()
 	//Destroy all behaviors
 	SAFE_DELETE(viewBehavior);//View name -> display description
 	SAFE_DELETE(blacksmithBehavior);//Blacksmith popup
+	SAFE_DELETE(talkBehavior);//Talking
 	SAFE_DELETE(tradeBehavior);//store popup
 	SAFE_DELETE(attackBehavior);//Attack name -> perform attack
 	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
@@ -69,11 +70,13 @@ Entity::~Entity()
 	if (backHealth != nullptr)
 	{
 		backHealth->deleteVertexBuffer();
+		delete backHealth;
 		backHealth = nullptr;
 	}
 	if (availableHealth != nullptr)
 	{
 		availableHealth->deleteVertexBuffer();
+		delete availableHealth;
 		availableHealth = nullptr;
 	}
 	if (person != nullptr)
@@ -141,7 +144,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		else
 		{
 			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this);
-			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this, 
+			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this,
 				"Hello! Would you like to trade?");
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
@@ -301,6 +304,8 @@ void Entity::draw(Viewport* viewport)
 			newX -= textRect->right/2;
 			newY -= textRect->bottom/2;
 
+			delete textRect;
+
 			entityNS::splatText.print(ss.str(), newX, newY);
 		}
 	}
@@ -358,6 +363,10 @@ void Entity::update(float frameTime, Game* gamePtr)
 	// Is there a victim? If so, set as destination
 	if (victim != 0)
 	{
+		if (destination != nullptr)
+		{
+			destination->release();
+		}
 		if (!this->collidesWith(*victim, collisionVector))
 		{
 			destination = victim;
@@ -406,9 +415,10 @@ void Entity::update(float frameTime, Game* gamePtr)
 
 			// Uncomment this and comment the next block to not use pathfinding
 			//path.push(immediateVector);
-
+			
 			if (requestPath){
 				// Awesome pathfinding here
+				// Awesome memory leak here
 				if (gamePtr->getMapLoader()->canRequestPath()){
 					path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
 					currentDestination = destinationVector;
@@ -921,7 +931,7 @@ int Entity::damage(int atk, int str)
 	displayTime = entityNS::healthDisplay;
 	availableHealth->setVisible(true);
 	backHealth->setVisible(true);
-	//Just in case of death
+	//Just in case of death, so we have something to return
 	int oldDamage = damageTaken;
 	if (health <= 0)
 	{
