@@ -15,6 +15,7 @@ Player::Player() : Entity()
     radius = playerNS::WIDTH/2.0;
     collisionType = entityNS::BOX;
 	health = 10;
+	regenerationDelay = playerNS::startingRegnerationTime;
 
 	//skills
 	skills[skillNS::ID_SKILL_ATTACK] = PlayerSkill(this, Skill::ATTACK);
@@ -90,6 +91,14 @@ void Player::draw(Viewport* viewport)
 //=============================================================================
 void Player::update(float frameTime, Game* gamePtr)
 {
+	regenerationDelay -= frameTime;
+	if (regenerationDelay <= 0)
+	{
+		if (health < skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel())
+			health++;
+		regenerationDelay += playerNS::startingRegnerationTime;
+	}
+
 	Entity::update(frameTime, gamePtr);
 
 	timeLeft -= frameTime;
