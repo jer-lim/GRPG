@@ -49,8 +49,12 @@ namespace uiNS
 
 	//Coordindates for shop
 	const int shopColMax = 9;
+	//Margins from the edges of the image
 	const int shopLMargin = 20;
-	const int shopMargin = 6;
+	const int shopTMargin = 41;
+	// Margins between shop items
+	const int shopWMargin = 6;
+	const int shopHMargin = 15;
 }
 
 // inherits from Entity class

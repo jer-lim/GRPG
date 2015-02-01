@@ -14,7 +14,7 @@ private:
 	NPC* ii;
 	UI* ui;
 	Player* thePlayer;
-	Entity* entity; //The entity to talk to
+	Entity* entity; //The entity to trade with to
 public:
 	TradeBehavior(NPC* i, UI* u, Player* p, Entity* e){
 		ii = i;

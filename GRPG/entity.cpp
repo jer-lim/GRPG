@@ -50,6 +50,7 @@ Entity::Entity()
 	oldViewport = VECTOR2(-1, -1);
 	oldLocation = VECTOR2(-1, -1);
 	spawnLocation = new VECTOR2(-1, -1);
+	inventory = new Inventory();
 }
 
 //=============================================================================
@@ -89,13 +90,20 @@ Entity::~Entity()
 	}
 	if (inventoryItem != nullptr)
 	{
+		inventoryItem->destroy();
 		SAFE_DELETE(inventoryItem);
 	}
 	if (destination != nullptr)
 	{
 		destination->release();
 	}
-	
+
+	if (inventory != nullptr)
+	{
+		inventory->destroy();
+		SAFE_DELETE(inventory);
+	}
+
 	SAFE_DELETE(spawnLocation);
 }
 

@@ -33,7 +33,6 @@ class Player : public Entity
 {
 private:
 	map <int, PlayerSkill> skills;
-	Inventory inventory;
 
 	Grpg* game;
 
@@ -49,7 +48,6 @@ public:
     // constructor
     Player();
 	~Player(){
-		inventory.destroy();
 		for (map<int, PlayerSkill>::iterator it = skills.begin(); it != skills.end(); ++it){
 			it->second.destroy();
 		}
@@ -77,8 +75,6 @@ public:
 	// Pass in the other entity's attack and strength.
 	// Returns the amount of damage dealt.
 	virtual int damage(int atk, int str);
-
-	Inventory* getInventory(){ return &inventory; }
 
 	// Displays the text that will be shown when the mouse is over it
 	// Overrides the Entity function so that nothing is shown on mouse over the player

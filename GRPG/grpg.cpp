@@ -107,7 +107,8 @@ void Grpg::initialize(HWND hwnd)
 
 	leftMouseWasDown = input->getMouseLButton();
 	rightMouseWasDown = input->getMouseRButton();
-
+	
+	//STILL LEAKING
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* e = new Entity();
 	e->initialize(this, y, true);//anchored if its an inventory
