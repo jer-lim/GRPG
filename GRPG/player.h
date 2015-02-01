@@ -98,6 +98,11 @@ public:
 			skills[skillNS::ID_SKILL_DEFENSE].getSkillLevel() + 
 			skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel()));
 	}
+
+	//Starts the player fishing
+	//flip defines if the player's avatar should be flipped horizontally
+	//If true, player is facing left, otherwise facing right
+	virtual void startFishing(bool flip);
 };
 #endif
 

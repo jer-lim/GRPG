@@ -118,3 +118,19 @@ int Player::damage(int atk, int str)
 	}
 	return damageTaken;
 }
+
+//=============================================================================
+//Starts the player fishing
+//flip defines if the player's avatar should be flipped horizontally
+//If true, player is facing left, otherwise facing right
+//=============================================================================
+void Player::startFishing(bool flip)
+{
+	image.flipHorizontal(flip);
+
+	InventoryItem* fish = new InventoryItem(game->getItemLoader()->getItem(5), 9);
+	Entity* e = new Entity();
+	e->initialize(game, fish, true);//anchored if its an inventory
+	//y->initialize(this, true);
+	inventory.addEntityInventoryItem(e);
+}

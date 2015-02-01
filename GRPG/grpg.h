@@ -50,6 +50,7 @@ public:
 
 	UI* getUI() { return ui; }
 	Player* getPlayer() { return player; }
+	ItemLoader* getItemLoader() { return itemLoader; }
 };
 
 #endif
