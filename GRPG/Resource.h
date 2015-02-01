@@ -17,9 +17,9 @@ class Resource : public Tile
 {
 private:
 public:
-	Resource() { };
+	Resource();
 
-	virtual ~Resource() {};
+	virtual ~Resource();
 
 	// Update Entity.
 	// typically called once per frame
@@ -30,20 +30,7 @@ public:
 	// Initialize resource by specifying which type it should be
 	// Pre: *gamePtr = pointer to Game object
 	//		type = which type (from resourceNS) this resource should be
-	virtual bool initialize(Game *gamePtr, int type, TextureManager* tm)
-	{
-		if (type == resourceNS::FISHING)
-		{
-			fishBehavior = new FishBehavior();
-			viewBehavior = new ViewBehavior("A school of fishes");
-		}
-		else
-		{
-			mineBehavior = new MineBehavior();
-			viewBehavior = new ViewBehavior("Some ores");
-		}
-		return Entity::initialize(gamePtr, 0, 0, 0, tm, false);
-	}
+	virtual bool initialize(Game *gamePtr, int type, TextureManager* tm);
 };
 
 #endif

@@ -355,6 +355,10 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(talkBehavior);
 		if (attackBehavior)
 			vectorActiveBehaviors.push_back(attackBehavior);
+		if (fishBehavior)
+			vectorActiveBehaviors.push_back(fishBehavior);
+		if (mineBehavior)
+			vectorActiveBehaviors.push_back(mineBehavior);
 		if (tradeBehavior)
 			vectorActiveBehaviors.push_back(tradeBehavior);
 		if (blacksmithBehavior)

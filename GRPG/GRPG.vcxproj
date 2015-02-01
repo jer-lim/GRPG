@@ -94,6 +94,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="Resource.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="TalkBehavior.cpp" />
@@ -102,6 +103,7 @@
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="TradeBehavior.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="ViewBehavior.cpp" />
     <ClCompile Include="ViewBehaviorItem.cpp" />
     <ClCompile Include="ViewBehaviorNPC.cpp" />
     <ClCompile Include="Weapon.cpp" />

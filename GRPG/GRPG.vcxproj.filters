@@ -50,6 +50,10 @@
     <ClCompile Include="FishBehavior.cpp">
       <Filter>Behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="ViewBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
