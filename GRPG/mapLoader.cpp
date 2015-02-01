@@ -554,14 +554,14 @@ void MapLoader::update(){
 					else if(newTileInfo.type == tileNS::type::FISHINGSPOT){
 						t = new Resource();
 						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
-						runtimeLog << "Created Fishing2" << endl;
-						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+						//runtimeLog << "Created Fishing2" << endl;
+						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 					else if(newTileInfo.type == tileNS::type::MININGSPOT){
 						t = new Resource();
 						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
-						runtimeLog << "Created Mining2" << endl;
-						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+						//runtimeLog << "Created Mining2" << endl;
+						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 
 					t->initialize(gamePtr, textureManager);
