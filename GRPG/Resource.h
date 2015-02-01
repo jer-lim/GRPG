@@ -17,9 +17,9 @@ class Resource : public Tile
 {
 private:
 public:
-	Resource();
+	Resource() { };
 
-	virtual ~Resource();
+	virtual ~Resource() {};
 
 	// Update Entity.
 	// typically called once per frame
