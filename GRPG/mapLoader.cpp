@@ -2,6 +2,7 @@
 #include "drawManager.h"
 #include "Viewport.h"
 #include "Spawner.h"
+#include "Resource.h"
 
 using namespace std;
 
@@ -323,7 +324,18 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		tileTms[tileId] = textureManager;
 	}
 
-	if (tileset[tileId].type == tileNS::type::SPAWNER || tileset[tileId].type == tileNS::type::WALL){
+	if (tileset[tileId].type == tileNS::type::FISHINGSPOT) {
+		Tile* t = new Resource();
+		runtimeLog << "Created resource1" << endl;
+		runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+
+		((Resource*) t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
+		t->setX(tilePos.x);
+		t->setY(tilePos.y);
+		drawManager->addObject(t, tileNS::ZINDEX);
+		return new ManagedTile(t, tileNS::type::FISHINGSPOT);
+	}
+	else if (tileset[tileId].type == tileNS::type::SPAWNER || tileset[tileId].type == tileNS::type::WALL){
 		Tile* t = nullptr;
 		if (tileset[tileId].type == tileNS::type::SPAWNER){
 			t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);

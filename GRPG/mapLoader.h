@@ -16,6 +16,7 @@
 
 class DrawManager;
 class Viewport;
+class Resource;
 
 using namespace std;
 
@@ -37,12 +38,14 @@ struct ManagedTile {
 	int type;
 	Tile* tile = nullptr;
 	Image* image = nullptr;
+	Entity* entity = nullptr;
 
 	ManagedTile(Tile* t, int ty){ tile = t; type = ty; }
 	ManagedTile(Image* i, int ty){ image = i; type = ty; }
 	void destroy(){
 		if (tile != nullptr) SAFE_DELETE(tile);
 		if (image != nullptr) SAFE_DELETE(image);
+		if (entity != nullptr) SAFE_DELETE(entity);
 	}
 	~ManagedTile(){
 		//handled by draw manager

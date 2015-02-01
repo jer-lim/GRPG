@@ -19,6 +19,8 @@ namespace tileNS
 		const int WALL = 1;
 		const int SPAWNER = 2;
 		const int SPAWNPOINT = 3;
+		const int FISHINGSPOT = 4;
+		const int MININGSPOT = 5;
 	}
 }
 
