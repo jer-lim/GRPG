@@ -61,6 +61,8 @@ Entity::~Entity()
 	SAFE_DELETE(viewBehavior);//View name -> display description
 	SAFE_DELETE(blacksmithBehavior);//Blacksmith popup
 	SAFE_DELETE(talkBehavior);//Talking
+	SAFE_DELETE(fishBehavior);
+	SAFE_DELETE(mineBehavior);
 	SAFE_DELETE(tradeBehavior);//store popup
 	SAFE_DELETE(attackBehavior);//Attack name -> perform attack
 	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
