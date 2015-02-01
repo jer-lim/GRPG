@@ -3,7 +3,7 @@
 2 1 water.png 0 0
 x 1 border.png 0 0
 c 2 grass.png 15 3
-g 2 dirt.png 1 0
+g 2 stonefloor.png 1 0
 s 3 spawn.png 0 0
 A 0 stonefloor.png 0 0
 B 1 stonewall_topleftcorner.png 0 0
