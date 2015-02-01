@@ -86,6 +86,11 @@ Entity::~Entity()
 	{
 		SAFE_DELETE(inventoryItem);
 	}
+	if (destination != nullptr)
+	{
+		destination->release();
+	}
+	
 	SAFE_DELETE(spawnLocation);
 }
 
