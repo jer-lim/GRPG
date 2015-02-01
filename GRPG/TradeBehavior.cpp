@@ -8,7 +8,7 @@ void TradeBehavior::action(){
 	VECTOR2 collisionVector;
 	if (entity->collidesWith(*thePlayer, collisionVector))
 	{
-		ui->drawWindow("Grocer's Store");
+		ui->drawWindow(ii->getname() + "'s Store");
 	}
 	else
 	{
