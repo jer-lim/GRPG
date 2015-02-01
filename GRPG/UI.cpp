@@ -224,6 +224,9 @@ void UI::draw(Viewport* viewport)
 	// Now draw the right click menu
 	if (rightClickBackground.getVisible())
 	{
+		graphics->spriteEnd();
+		graphics->spriteBegin();
+
 		rightClickBackground.draw(uiText);
 	}
 }

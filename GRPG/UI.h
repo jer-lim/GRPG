@@ -186,6 +186,8 @@ public:
 	virtual void drawWindow(string header)
 	{
 		windowHeader = header;
+		//Make the player's active tab the inventory
+		activeTab = uiNS::INVENTORY;
 	}
 
 	// Removes the shop window, if any, is being drawn on the screen
