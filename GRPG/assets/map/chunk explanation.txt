@@ -1,0 +1,13 @@
+x : border chunk, all black, edges of map
+t : testing chunk, will delete later
+0 : all grass
+1 : all water
+A : spawn chunk with castle
+$ : shop
+C : chicken pen (fence tba)
+D : dirt pool in grass
+E : right side of lake
+F : left side of lake
+G : top side of lake
+H : bottom side of lake
++ : hospital
