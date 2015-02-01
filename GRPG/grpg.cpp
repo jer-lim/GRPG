@@ -108,14 +108,12 @@ void Grpg::initialize(HWND hwnd)
 	leftMouseWasDown = input->getMouseLButton();
 	rightMouseWasDown = input->getMouseRButton();
 
-	/*
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* e = new Entity();
 	e->initialize(this, y, true);//anchored if its an inventory
 	//y->initialize(this, true);
 	player->getInventory()->addEntityInventoryItem(e);
 	//ml free
-	*/
 	//Object test
 	//CRIME SCENE
 	

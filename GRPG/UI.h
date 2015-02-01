@@ -157,6 +157,11 @@ public:
 		windowHeader = header;
 	}
 
+	// Removes the shop window, if any, is being drawn on the screen
 	virtual void removeWindow() { windowHeader = ""; }
+
+	// Gets the string shown in the window header
+	// If string is an empty string ("") no window is currently open
+	virtual string getWindowHeader() { return windowHeader; }
 };
 #endif
