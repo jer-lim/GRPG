@@ -41,10 +41,16 @@ struct ManagedTile {
 	ManagedTile(Spawner* t){ spawner = t; }
 	ManagedTile(Tile* t){ tile = t; }
 	ManagedTile(Image* i){ image = i; }
-	~ManagedTile(){
+	void destroy(){
 		if (spawner != nullptr) SAFE_DELETE(spawner);
 		if (tile != nullptr) SAFE_DELETE(tile);
 		if (image != nullptr) SAFE_DELETE(image);
+	}
+	~ManagedTile(){
+		//handled by draw manager
+		//if (spawner != nullptr) SAFE_DELETE(spawner);
+		//if (tile != nullptr) SAFE_DELETE(tile);
+		//if (image != nullptr) SAFE_DELETE(image);
 	}
 };
 

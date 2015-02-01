@@ -19,6 +19,15 @@ DrawManager::~DrawManager(){
 		int zi = it->first;
 		for (map<int, ManagedObject*>::iterator it2 = objects[zi].begin(); it2 != objects[zi].end(); ++it2){
 			ManagedObject* mo = it2->second;
+			
+			if (it2->second->entity)
+			{
+				SAFE_DELETE(it2->second->entity);
+			}
+			else if (it2->second->image)
+			{
+				SAFE_DELETE(it2->second->image);
+			}
 			delete mo;
 			it2->second = nullptr;
 		}
