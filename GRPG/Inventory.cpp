@@ -60,6 +60,8 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 					prevIndex = it->first;
 				}
 			}
+			//Failed to add so far? add it at the end then
+			addEntityInventoryItem(slotList.size(), ii);
 		}
 	}
 	if (result == IMPOSSIBLE) return FAILED;
