@@ -107,8 +107,8 @@ void DrawManager::resetAll(){
 
 void DrawManager::addObject(Entity* ent, int zi){
 	ManagedObject* mo = new ManagedObject();
-	runtimeLog << "Created ManagedObject" << endl;
-	runtimeLog << "New memory allocation at 0x" << mo << endl; // NEWLOGGING
+	//runtimeLog << "Created ManagedObject" << endl;
+	//runtimeLog << "New memory allocation at 0x" << mo << endl; // NEWLOGGING
 	mo->entity = ent;
 	
 	addManagedObject(zi, mo);
@@ -116,8 +116,8 @@ void DrawManager::addObject(Entity* ent, int zi){
 
 void DrawManager::addObject(Image* img, int zi){
 	ManagedObject* mo = new ManagedObject();
-	runtimeLog << "Created ManagedObject2" << endl;
-	runtimeLog << "New memory allocation at 0x" << mo << endl; // NEWLOGGING
+	//runtimeLog << "Created ManagedObject2" << endl;
+	//runtimeLog << "New memory allocation at 0x" << mo << endl; // NEWLOGGING
 	mo->image = img;
 
 	addManagedObject(zi, mo);

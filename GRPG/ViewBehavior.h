@@ -4,20 +4,26 @@
 #include "Behavior.h"
 using namespace std;
 
+class UI;
+
 class ViewBehavior:public Behavior
 {
 private:
+	string name;
 	string examineText;
+	UI* ui;
 public:
 	ViewBehavior() {
 		examineText = "";
 	}
-	ViewBehavior(string et){
+	ViewBehavior(string n, string et, UI* u){
+		name = n;
 		examineText = et;
+		ui = u;
 	}
 	virtual ~ViewBehavior() {}
 	virtual bool exists(){ return false; }
-	virtual string displayText(){ return examineText; }
-	virtual void action(){}
+	virtual string displayText();
+	virtual void action();
 };
 #endif

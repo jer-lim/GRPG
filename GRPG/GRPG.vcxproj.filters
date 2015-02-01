@@ -2,9 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Armor.cpp" />
-    <ClCompile Include="AttackBehavior.cpp" />
-    <ClCompile Include="EatBehavior.cpp" />
-    <ClCompile Include="FishBehavior.cpp" />
+    <ClCompile Include="AttackBehavior.cpp" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="EatBehavior.cpp" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="FishBehavior.cpp" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PersonLoader.cpp" />
@@ -26,31 +32,90 @@
     <ClCompile Include="QuestCondition.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
-    <ClCompile Include="TalkBehavior.cpp" />
+    <ClCompile Include="TalkBehavior.cpp" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tile.cpp" />
-    <ClCompile Include="TradeBehavior.cpp" />
+    <ClCompile Include="TradeBehavior.cpp" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClCompile Include="UI.cpp" />
-    <ClCompile Include="ViewBehaviorItem.cpp" />
-    <ClCompile Include="ViewBehaviorNPC.cpp" />
+    <ClCompile Include="ViewBehaviorItem.cpp" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewBehaviorNPC.cpp" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="winmain.cpp" />
-    <ClCompile Include="PickupBehavior.cpp" />
+    <ClCompile Include="PickupBehavior.cpp" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Armor.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Person.cpp" />
+    <ClCompile Include="PersonLoader.cpp" />
+    <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="ViewBehaviorNPC.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="EatBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="TalkBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewBehaviorItem.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="FishBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewBehavior.cpp">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
-    <ClInclude Include="AttackBehavior.h" />
-    <ClInclude Include="Behavior.h" />
-    <ClInclude Include="BlacksmithBehavior.h" />
+    <ClInclude Include="AttackBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClInclude Include="Behavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClInclude Include="BlacksmithBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClInclude Include="Button.h" />
-    <ClInclude Include="CookBehavior.h" />
-    <ClInclude Include="DropBehavior.h" />
-    <ClInclude Include="EatBehavior.h" />
-    <ClInclude Include="FishBehavior.h" />
+    <ClInclude Include="CookBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClInclude Include="DropBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClInclude Include="EatBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClInclude Include="FishBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InventoryEquipment.h" />
-    <ClInclude Include="MineBehavior.h" />
+    <ClInclude Include="MineBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
     <ClInclude Include="constants.h" />
@@ -77,7 +142,9 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="mapLoader.h" />
     <ClInclude Include="NPC.h" />
-    <ClInclude Include="PickupBehavior.h" />
+    <ClInclude Include="PickupBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="Quest.h" />
@@ -87,15 +154,25 @@
     <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="string_functions.h" />
-    <ClInclude Include="TalkBehavior.h" />
+    <ClInclude Include="TalkBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="tile.h" />
-    <ClInclude Include="TradeBehavior.h" />
+    <ClInclude Include="TradeBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClInclude Include="UI.h" />
-    <ClInclude Include="ViewBehavior.h" />
-    <ClInclude Include="ViewBehaviorItem.h" />
-    <ClInclude Include="ViewBehaviorNPC.h" />
+    <ClInclude Include="ViewBehavior.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClInclude Include="ViewBehaviorItem.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClInclude Include="ViewBehaviorNPC.h" >
+      <Filter>Behaviors</Filter>
+    </ClCompile>
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>

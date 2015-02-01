@@ -61,6 +61,8 @@ Entity::~Entity()
 	SAFE_DELETE(viewBehavior);//View name -> display description
 	SAFE_DELETE(blacksmithBehavior);//Blacksmith popup
 	SAFE_DELETE(talkBehavior);//Talking
+	SAFE_DELETE(fishBehavior);
+	SAFE_DELETE(mineBehavior);
 	SAFE_DELETE(tradeBehavior);//store popup
 	SAFE_DELETE(attackBehavior);//Attack name -> perform attack
 	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
@@ -509,7 +511,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 				}
 				else
 				{
-					if (victim->getPerson()->getType() == "ENEMY")
+					if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY")
 					{
 						//Victim should retaliate
 						victim->setVictim(this);
@@ -531,7 +533,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					}
 					else
 					{
-						//Collision with friendly NPC, talk? Trade?
+						//Collision with non enemy. What to do depends on behavior set.
 						npcAction->action();
 						victim = 0;
 						destination = 0;

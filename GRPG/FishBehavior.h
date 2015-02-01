@@ -4,12 +4,24 @@
 #include "Behavior.h"
 using namespace std;
 
+class Player;
+class Entity;
+class UI;
+
 class FishBehavior :public Behavior
 {
 private:
+	Player* thePlayer;
+	Entity* fishes;
+	UI* ui;
 public:
 	virtual ~FishBehavior() {  }
-	FishBehavior();
+	FishBehavior(Player* p, Entity* f, UI* u)
+	{
+		thePlayer = p;
+		fishes = f;
+		ui = u;
+	}
 	virtual bool exists(){ return false; }
 	virtual string displayText();
 	virtual void action();
