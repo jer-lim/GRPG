@@ -40,6 +40,8 @@ void Tile::draw(Viewport* viewport)
 	Entity::draw(viewport);
 }
 
+void Tile::update(){}
+
 //=============================================================================
 // update
 // typically called once per frame

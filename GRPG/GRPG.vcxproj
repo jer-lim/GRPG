@@ -54,6 +54,7 @@
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestCondition.h" />
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="Spawner.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="AttackBehavior.cpp" />
     <ClCompile Include="EatBehavior.cpp" />
+    <ClCompile Include="FishBehavior.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PersonLoader.cpp" />

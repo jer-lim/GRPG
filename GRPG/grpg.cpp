@@ -77,7 +77,7 @@ void Grpg::initialize(HWND hwnd)
 
 	// initialize DirectX fonts
 	// 15 pixel high Arial
-	if (uiFont->initialize(graphics, 15, false, false, "Arial") == false)
+	if (uiFont->initialize(graphics, 20, true, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
 	//ml free
 	// Initialise entities

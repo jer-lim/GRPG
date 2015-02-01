@@ -118,6 +118,10 @@ class Entity : public Destination//, public Interactable
 	Behavior* pickupBehavior = nullptr;//Pickup name -> pickup obj
 	Behavior* dropBehavior = nullptr;//Drop name -> drop obj
 	Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
+	
+	//Resource
+	Behavior* fishBehavior = nullptr; //Fishing
+	Behavior* mineBehavior = nullptr; //Mining
 	vector<Behavior*> vectorActiveBehaviors;
 
 	//To know what to do when the player is near an NPC

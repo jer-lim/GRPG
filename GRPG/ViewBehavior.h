@@ -7,10 +7,17 @@ using namespace std;
 class ViewBehavior:public Behavior
 {
 private:
+	string examineText;
 public:
-	ViewBehavior(){}
+	ViewBehavior() {
+		examineText = "";
+	}
+	ViewBehavior(string et){
+		examineText = et;
+	}
+	virtual ~ViewBehavior() {}
 	virtual bool exists(){ return false; }
-	virtual string displayText(){ return ""; }
+	virtual string displayText(){ return examineText; }
 	virtual void action(){}
 };
 #endif

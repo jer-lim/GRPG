@@ -19,6 +19,8 @@ namespace tileNS
 		const int WALL = 1;
 		const int SPAWNER = 2;
 		const int SPAWNPOINT = 3;
+		const int FISHINGSPOT = 4;
+		const int MININGSPOT = 5;
 	}
 }
 
@@ -36,7 +38,10 @@ public:
     virtual void draw(Viewport* viewport);
 	//virtual bool initialize(Game *gamePtr, const char image[]);
 	virtual bool initialize(Game *gamePtr, TextureManager* tm);
+	virtual void update();
     void update(float frameTime);
+
+	virtual void spawn(){} // only activated for Spawner
 };
 #endif
 
