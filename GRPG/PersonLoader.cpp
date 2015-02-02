@@ -11,10 +11,11 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 	characterstream.open(friendlynpcDataLocation);
 	if (characterstream.is_open()){
 		string name, img_filename, description, talk, dropsData;
+		char tileID;
 		int id, cols;
 		float movementspd, attackcd, height, width, colHeight, colWidth;
 		while (!characterstream.eof()){
-			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> height >> width >> cols >> colHeight >> colWidth >> description >> talk >> dropsData;
+			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> height >> width >> cols >> colHeight >> colWidth >> description >> talk >> tileID >> dropsData;
 			std::replace(name.begin(), name.end(), '_', ' ');
 			std::replace(description.begin(), description.end(), '_', ' ');
 			std::replace(talk.begin(), talk.end(), '_', ' ');
@@ -57,6 +58,7 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 
 			NPC* myChar = new NPC(img_filename, movementspd, attackcd, height, width, cols, colHeight, colWidth, name, description, 9999, false, dropsList);//almost infinite health
 			myChar->setTalkText(talk);
+			myChar->setTeleportID(tileID);
 			map_npcs[id] = myChar;
 		}
 		characterstream.close();

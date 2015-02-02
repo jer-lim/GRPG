@@ -12,17 +12,14 @@ class TeleportBehavior : public Behavior
 private:
 	Player* player;
 	NPC* npc;
-	VECTOR2 coordinates;
+	char tileID;
+	MapLoader* ml;
 public:
-	TeleportBehavior(Player* p, NPC* n, VECTOR2 coord){
+	TeleportBehavior(Player* p, NPC* n, MapLoader* m, char tid){
 		player = p;
 		npc = n;
-		coordinates = coord;
-	}
-	TeleportBehavior(Player* p, NPC* n, float x, float y){
-		player = p;
-		npc = n;
-		coordinates = VECTOR2(x, y);
+		ml = m;
+		tileID = tid;
 	}
 	virtual ~TeleportBehavior() {}
 	virtual bool exists(){ return true; }

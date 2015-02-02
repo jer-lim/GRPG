@@ -10,6 +10,7 @@
 #include "DropBehavior.h"
 #include "TradeBehavior.h"
 #include "TalkBehavior.h"
+#include "TeleportBehavior.h";
 #include "grpg.h"
 
 namespace entityNS
@@ -171,6 +172,10 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 					e->initialize(gamePtr, shopItemsList.at(i), true);//anchored if its an inventory
 					inventory->addEntityInventoryItem(e);
 				}
+			}
+			if (((NPC*)whichCharacter)->getTeleportID() != '0')
+			{
+				teleportBehavior = new TeleportBehavior(grpgPointer->getPlayer(), (NPC*)whichCharacter, grpgPointer->getMapLoader(), ((NPC*)whichCharacter)->getTeleportID());
 			}
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
