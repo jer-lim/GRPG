@@ -138,10 +138,11 @@ void Player::update(float frameTime, Game* gamePtr)
 					InventoryItem* fish = new InventoryItem(game->getItemLoader()->getItem(5), 1);
 					Entity* e = new Entity();
 					e->initialize(game, fish, false);//anchored if its in an inventory (like it is now)
+					//inventory->addEntityInventoryItem(e);
 					e->setX(x);
-					e->setY(y+20);
+					e->setY(y);
 					theGame->getDrawManager()->addObject(e, 2);
-					//e->getTopMostBehavior()->action();
+					e->getTopMostBehavior()->action();
 					//game->getDrawManager()->addObject(e);
 					//ITEM_ADD result = inventory->addEntityInventoryItem(e);
 					/*

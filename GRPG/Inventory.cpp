@@ -66,19 +66,21 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 		}
 		else if (slotList.size() < maxSlotListCount)
 		{//Find an empty spot and slot the item in
-			int prevIndex = 0;
+			int prevIndex = 0;//start at index 0
 			for (std::map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it)
 			{
-				if (it->first > prevIndex + 1) {
-					addEntityInventoryItem(prevIndex + 1, ii);
+				if (it->first > prevIndex) {//check if prevIndex less than index 
+					//E.G. prevIndex: 0, first: 0, failed, so prevIndex = first+1 = 1
+					//but if prevIndex:0, first: 1 (first object), so add in index 0
+					addEntityInventoryItem(prevIndex, ii);
 					return ADDED;
 				}
 				else {
-					prevIndex = it->first;
+					prevIndex = it->first+1;
 				}
 			}
-			//Failed to add so far? add it at the end then
-			if(addEntityInventoryItem(slotList.size(), ii))
+			//add at lastIndex
+			if (addEntityInventoryItem(prevIndex, ii))
 				return ADDED;
 		}
 	}
