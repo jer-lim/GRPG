@@ -48,7 +48,7 @@ namespace uiNS
 	const UINT windowXHeight = 17;
 
 	//Coordindates for shop
-	const int shopColMax = 9;
+	const int shopColMax = 12;
 	//Margins from the edges of the image
 	const int shopLMargin = 20;
 	const int shopTMargin = 41;

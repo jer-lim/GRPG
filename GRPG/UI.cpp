@@ -233,8 +233,11 @@ void UI::draw(Viewport* viewport)
 				theItem->setX(coordinates.x);
 				theItem->setY(coordinates.y);
 				theItem->draw(nullptr);
+				//Draw price
+				uiText->print(theItem->getInventoryItem()->getItem()->getDisplayCost(),
+					theItem->getX() - theItem->getImage()->getHeight()/2, theItem->getY() + theItem->getImage()->getHeight() / 2);
 				coordinates.x += itemNS::spriteWidth + uiNS::shopWMargin;
-				if (++count % 9 == 0)
+				if (++count % uiNS::shopColMax == 0)
 				{
 					coordinates.x = originalX;
 					coordinates.y += itemNS::spriteHeight + uiNS::shopHMargin;
