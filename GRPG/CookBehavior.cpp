@@ -8,5 +8,7 @@ string CookBehavior::displayText(){
 
 void CookBehavior::action()
 {
-
+	//check proximity
+	((InventoryFood*)food->getInventoryItem())->cook(player->getSkills()->at(skillNS::ID_SKILL_COOKING).getSkillLevel());
+	//check food state and set behaviors
 }

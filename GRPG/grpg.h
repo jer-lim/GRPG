@@ -10,6 +10,8 @@
 #include "UI.h"
 #include "textDX.h"
 #include "Enemy.h"
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 //=============================================================================
 // This class is the core of the game
