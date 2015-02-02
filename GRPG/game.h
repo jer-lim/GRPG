@@ -159,6 +159,8 @@ public:
 		else return NULL;
 	}
 
+	VECTOR2 getStartLocation() { return startLocation; }
+
 	void setStartLocation(VECTOR2 sl){
 		startLocation = sl;
 	}

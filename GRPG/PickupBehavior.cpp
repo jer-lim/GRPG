@@ -14,8 +14,8 @@ void PickupBehavior::action(){
 			entity->setPickupBehavior(nullptr);//change behaviors
 			entity->setDropBehavior(new DropBehavior(gamePtr,drawManager, entity, player));
 			entity->setupVectorActiveBehaviors();
-			if (!player->getInventory()->getByDrawnManager())//if its not the inventory tab, and thus it's not supposed to be drawn now
-				drawManager->removeObject(entity);//remove from drawmanager (will be added back later when on inventory tab)
+			//if (!player->getInventory()->getByDrawnManager())//if its not the inventory tab, and thus it's not supposed to be drawn now
+			drawManager->removeObject(entity);//remove from drawmanager (will be added back later when on inventory tab)
 			gamePtr->setMouseOverEntity(nullptr);
 			delete this;
 			break;

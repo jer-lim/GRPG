@@ -122,7 +122,7 @@ void Player::update(float frameTime, Game* gamePtr)
 	//Stop fishing and mining if you're doing something else
 	if (destination != nullptr || victim != nullptr)
 	{
-		actionDelay = -1;
+		actionDelay = 0;
 	}
 
 	timeLeft -= frameTime;
@@ -154,7 +154,11 @@ void Player::update(float frameTime, Game* gamePtr)
 					{*/
 					skills[skillNS::ID_SKILL_FISHING].gainXP(30);
 				}
-				restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+				//Check if activity can continue
+				if (inventory->hasSpaceInInventory())
+				{
+					restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+				}
 			}
 		}
 	}
@@ -171,6 +175,10 @@ int Player::damage(int atk, int str)
 	if (health <= 0)
 	{
 		game->getUI()->addChatText("You died!");
+		setX(game->getStartLocation().x);
+		setY(game->getStartLocation().y);
+		health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
+		//TODO: Strip all items from player
 	}
 	return damageTaken;
 }
@@ -184,8 +192,16 @@ void Player::startFishing(bool flip)
 {
 	image.flipHorizontal(flip);
 
-	currentAction = resourceNS::FISHING;
-	restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+	//Check if activity can continue
+	if (inventory->hasSpaceInInventory())
+	{
+		currentAction = resourceNS::FISHING;
+		restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+	}
+	else
+	{
+		game->getUI()->addChatText("Your inventory is full!");
+	}
 }
 
 //=============================================================================

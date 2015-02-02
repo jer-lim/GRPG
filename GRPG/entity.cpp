@@ -155,8 +155,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		else
 		{
 			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
-			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this,
-				"Hello! Would you like to trade?");
+			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
 			InventoryItem* y = new InventoryItem(grpgPointer->getItemLoader()->getItem(0), 9);
 			Entity* e = new Entity();
 			e->initialize(gamePtr, y, true);//anchored if its an inventory

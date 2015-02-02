@@ -10,14 +10,16 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 	//Friendly Characters
 	characterstream.open(friendlynpcDataLocation);
 	if (characterstream.is_open()){
-		string name, img_filename, description;
+		string name, img_filename, description, talk;
 		int id, cols;
 		float movementspd, attackcd, height, width, colHeight, colWidth;
 		while (!characterstream.eof()){
-			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> height >> width >> cols >> colHeight >> colWidth >> description;
+			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> height >> width >> cols >> colHeight >> colWidth >> description >> talk;
 			std::replace(name.begin(), name.end(), '_', ' ');
 			std::replace(description.begin(), description.end(), '_', ' ');
+			std::replace(talk.begin(), talk.end(), '_', ' ');
 			NPC* myChar = new NPC(img_filename, movementspd, attackcd, height, width, cols, colHeight, colWidth, name, description, 9999, false);//almost infinite health
+			myChar->setTalkText(talk);
 			map_npcs[id] = myChar;
 		}
 		characterstream.close();

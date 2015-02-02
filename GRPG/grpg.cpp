@@ -356,6 +356,11 @@ bool Grpg::processCommand(std::string command)
 		ui->drawWindow("Solomon's General Store");
 		return true;
 	}
+	else if (command == "more")
+	{
+		drawManager->addObject(player, 3);
+		return true;
+	}
 	else if (command.substr(0, 5) == "spawn")
 	{
 

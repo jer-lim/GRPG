@@ -55,7 +55,6 @@ private:
 	// The resource image that is drawn above hte player
 	Image fishingImage;
 	TextureManager* tm;
-
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
