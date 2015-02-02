@@ -52,5 +52,7 @@ public:
 	Entity* getEntityInventoryItem(int i);
 	map<int, Entity*>* getSlotList(){ return &slotList; }
 	vector<Entity*> getVectorItems();
+
+	bool hasSpaceInInventory() { return slotList.size() < maxSlotListCount; }
 };
 #endif
