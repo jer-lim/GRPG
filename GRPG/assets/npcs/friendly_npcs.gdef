@@ -1,4 +1,4 @@
 0 Doctor doctor.png 0 0 64 64 1 38 38 Heals_you_to_good_health. Hello!_I_can_heal_you! {}
 1 Shopkeeper grocer.png 0 0 64 64 1 38 38 Sells_you_good_food. Hello!_Would_you_like_to_trade? {F2:1:0,F2:1:1,F3:1:0,F3:1:1,F5:1:0,F5:1:1}
 2 Blacksmith blacksmith.png 0 0 64 64 1 38 38 Makes_you_weapons_and_armor. Hello!_I_can_smith_items_for_you {E14:1:7,E15:1:8,E14:1:10,E15:1:10,E15:1:12,E16:1:12,E17:1:7,E18:1:8,E19:1:10,E17:1:10,E18:1:12,E19:1:12,E20:1:7,E21:1:8,E22:1:10,E20:1:10,E21:1:12,E22:1:12}
-16 Captain_Start grocer.png 0 0 64 64 1 38 38 Brings_you_to_start_your_adventure! Ahoy!_Right_click_me_and_select_"Teleport"_to_start_your_adventure! {}
+16 Captain_Start grocer.png 0 0 64 64 1 38 38 Brings_you_to_start_your_adventure! Ahoy!_Right_click_me_and_select_"Teleport"\nto_start_your_adventure! {}

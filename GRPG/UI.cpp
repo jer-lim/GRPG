@@ -379,7 +379,22 @@ bool UI::processCommand(const std::string commandStr)
 //=============================================================================
 void UI::addChatText(const std::string &str)     // add text to console
 {
-	text.push_front(str);                       // add str to deque of text
+	stringstream ss;
+	string line = "";
+	char tempChar;
+	ss << str;
+	tempChar = ss.get();
+	while (tempChar != EOF){
+		if (tempChar == '\n'){
+			text.push_front(line);
+			line = "";
+		}
+		else{
+			line += tempChar;
+		}
+		tempChar = ss.get();
+	}
+	text.push_front(line);
 	while (text.size() > rows)
 		text.pop_back();                        // delete oldest line
 }
