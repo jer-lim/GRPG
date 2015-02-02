@@ -248,9 +248,7 @@ void Grpg::update()
 			it->second.gainXP(rand() % 10);
 		}
 	}
-	//CRIME SCENE/MEMORY LEAK
-	mapLoader->update();
-	//CRIME SCENE/MEMORY LEAK
+	mapLoader->update(frameTime);
 	drawManager->updateAll(frameTime);
 
 	//player->setX(player->getX() + 2);
