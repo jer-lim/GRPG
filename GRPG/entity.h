@@ -232,6 +232,7 @@ class Entity : public Destination//, public Interactable
 	virtual Person* getPerson() { return person; }
 	// Returns the character that this entity refers to
 	virtual InventoryItem* getInventoryItem() { return inventoryItem; }
+	virtual void setInventoryItem(InventoryItem* i) { inventoryItem = i; }
 
 	// Returns the current destination that this entity is heading towards
 	// Returns a pointer to 0 if no current destination
@@ -248,6 +249,7 @@ class Entity : public Destination//, public Interactable
 	virtual RECT getEdge() { return edge; }
 
 	Inventory* getInventory(){ return inventory; }
+	virtual void setInventory(Inventory* i) { inventory = i; }
 
     ////////////////////////////////////////
     //           Set functions            //
