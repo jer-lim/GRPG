@@ -12,15 +12,17 @@ void PickupBehavior::action(){
 			//if add, set it as anchored - the position would have been already updated in addentity
 			entity->setAnchored(true);
 			entity->setPickupBehavior(nullptr);//change behaviors
-			entity->setDropBehavior(new DropBehavior(drawManager, entity, player));
+			entity->setDropBehavior(new DropBehavior(gamePtr,drawManager, entity, player));
 			entity->setupVectorActiveBehaviors();
 			if (!player->getInventory()->getByDrawnManager())//if its not the inventory tab, and thus it's not supposed to be drawn now
 				drawManager->removeObject(entity);//remove from drawmanager (will be added back later when on inventory tab)
+			gamePtr->setMouseOverEntity(nullptr);
 			delete this;
 			break;
 		case MERGED:
 			//if merged, we don't need the entity because 2 entities have already become 1
 			//so delete itself
+			gamePtr->setMouseOverEntity(nullptr);
 			drawManager->removeObject(entity);
 			SAFE_DELETE(entity);
 			break;

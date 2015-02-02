@@ -21,6 +21,8 @@ public:
 	Smithing_Material* getSmithingMaterial() { return smithingMaterial; }
 	void setSmithingMaterial(Smithing_Material* mat){ smithingMaterial = mat; }
 
+	virtual string getType() { return "INVENTORYEQUIPMENT"; }
+
 	virtual InventoryEquipment* clone() {
 		return new InventoryEquipment(*this);
 	}
