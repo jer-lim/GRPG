@@ -6,5 +6,5 @@
 18 Hardy_Wijaja grocer.png 0 0 64 64 1 38 38 He's_a_lover_not_a_fighter. So_you_want_to_fight?_Fighting_is_easy!_Just_click_on\nthe_monster_to_fight,_but_be_careful_not_to_die!_Practice_makes\nperfect._Train_more_and_you'll_get_stronger!_Give_it_a_try_on_the\nchicken_on_the_left. 0 {}
 20 El_Leot grocer.png 0 0 64 64 1 38 38 Not_Albert_Einstein. Traveller!_Do_you_know_who_I_am?_I_am_El_Leot,_the_smartest\nperson_within_4.0k_tiles_of_here!_Before_you_depart_on_your\nadventure,_let_me_leave_you_with_the_most_important_knowledge_-_the\nknowledge_of_right-click!_Right-click_anything_to_find_more_things_you\ncan_do!_That's_all,_good_luck_on_your_travels! 0 {}
 21 Matthew_Lee blacksmith.png 0 0 64 64 1 38 38 A_creator_of_the_game. PENIS. 0 {}
-22 Jeremy_Choo doctor.png 0 0 64 64 1 38 38 A_creator_of_the_game. I_will_say_something_eventually. 0 {}
-23 Jeremy_Lim grocer.png 0 0 64 64 1 38 38 A_creator_of_the_game. I_will_say_something_eventually. 0 {}
+22 Jeremy_Choo doctor.png 0 0 64 64 1 38 38 A_creator_of_the_game. is_a 0 {}
+23 Jeremy_Lim grocer.png 0 0 64 64 1 38 38 A_creator_of_the_game. Jeremy_Lim 0 {}
