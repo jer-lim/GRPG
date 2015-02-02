@@ -183,8 +183,11 @@ public:
 		{
 			//Setup behaviors
 			Entity* theItem = *it;
+			//Ensure you can't go and mess around with items in the Shopkeeper's inventory
 			SAFE_DELETE(theItem->dropBehavior);
 			SAFE_DELETE(theItem->pickupBehavior);
+			SAFE_DELETE(theItem->eatBehavior);
+			SAFE_DELETE(theItem->cookBehavior);
 			if (theItem->buyBehavior == nullptr)
 			{
 				theItem->buyBehavior = new BuyBehavior(player, theItem);
@@ -192,6 +195,11 @@ public:
 			theItem->setupVectorActiveBehaviors();
 		}
 		items = i;
+
+		//Add sell behavior to the player's inventory
+		//We can leave the rest there, why not allow the player to eat, drop or whatever
+		//while shopping?
+		
 	}
 
 	//Gets the items shown in the shop. If empty, no items are shown

@@ -181,7 +181,8 @@ void Image::draw(SpriteData sd, Viewport* viewport, COLOR_ARGB color)
 //=============================================================================
 void Image::update(float frameTime)
 {
-    if (endFrame - startFrame > 0)          // if animated sprite
+	// if animated sprite and animation is not set to no animate
+    if (endFrame - startFrame > 0 && frameDelay >= 0)
     {
         animTimer += frameTime;             // total elapsed time
         if (animTimer > frameDelay)

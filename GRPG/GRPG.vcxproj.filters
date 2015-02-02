@@ -43,6 +43,7 @@
     <ClCompile Include="DropBehavior.cpp" />
     <ClCompile Include="CookBehavior.cpp" />
     <ClCompile Include="BuyBehavior.cpp" />
+    <ClCompile Include="SellBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -105,5 +106,6 @@
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="BuyBehavior.h" />
+    <ClInclude Include="SellBehavior.h" />
   </ItemGroup>
 </Project>

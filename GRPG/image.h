@@ -25,7 +25,7 @@ class Image
     int     startFrame;     // first frame of current animation
     int     endFrame;       // end frame of current animation
     int     currentFrame;   // current frame of animation
-    float   frameDelay;     // how long between frames of animation
+    float   frameDelay;     // how long between frames of animation (-1 = forever)
     float   animTimer;      // animation timer
     HRESULT hr;             // standard return type
     bool    loop;           // true to loop frames
@@ -124,6 +124,7 @@ class Image
     virtual void setVisible(bool v) {visible = v;}
 
     // Set delay between frames of animation.
+	// Set to -1 to infinite delay (never animate)
     virtual void setFrameDelay(float d) {frameDelay = d;}
 
     // Set starting and ending frames of animation.
