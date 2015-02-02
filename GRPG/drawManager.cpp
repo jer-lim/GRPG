@@ -58,7 +58,7 @@ void DrawManager::updateAll(float frameTime){
 					if (it2->second->entity->getPerson() != Person::thePlayer)
 					{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
 						if (it2->second->entity->getType() == "UI")
-						{//check inventory items	
+						{//check inventory items							
 							if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
 							{
 								map<int, Entity*>* slotList = ((Grpg*)gamePtr)->getPlayer()->getInventory()->getSlotList();

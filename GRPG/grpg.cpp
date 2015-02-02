@@ -107,23 +107,25 @@ void Grpg::initialize(HWND hwnd)
 
 	leftMouseWasDown = input->getMouseLButton();
 	rightMouseWasDown = input->getMouseRButton();
-	
+
+	/*
 	InventoryItem* y = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* e = new Entity();
 	e->initialize(this, y, true);//anchored if its an inventory
 	//y->initialize(this, true);
 	player->getInventory()->addEntityInventoryItem(e);
+	
 	//ml free
 	//Object test
 	//CRIME SCENE
-	
+	*/
 	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* newObj = new Entity();
 	newObj->initialize(this, x, false);
 	//x->initialize(this, false);
 	newObj->setX(startLocation.x);
 	newObj->setY(startLocation.y);
-	drawManager->addObject(newObj, 77);
+	drawManager->addObject(newObj, 2);
 	
 	//END SCENE
 	return;
@@ -136,33 +138,35 @@ void Grpg::update()
 {
 	if (!input->getMouseLButton() && leftMouseWasDown)
 	{
+		bool inUI = false;
 		if (ui->mouseInside(viewport))
 		{
 			ui->performClick();
+			inUI = true;
 		}
-		else
+		//else
+		//{
+		bool actionSuccess = false;
+		if (mouseOverEntity != nullptr)
 		{
-			bool actionSuccess = false;
-			if (mouseOverEntity != nullptr)
+			Behavior* topBehavior = mouseOverEntity->getTopMostBehavior();
+			if (topBehavior != nullptr)
 			{
-				Behavior* topBehavior = mouseOverEntity->getTopMostBehavior();
-				if (topBehavior != nullptr)
-				{
-					mouseOverEntity->getTopMostBehavior()->action();
-					actionSuccess = true;
-					mouseOverEntity = nullptr;
-				}
+				mouseOverEntity->getTopMostBehavior()->action();
+				actionSuccess = true;
+				mouseOverEntity = nullptr;
 			}
-			if (!actionSuccess)
-			{
-				VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
-
-				Point* p = new Point(vpCoords.x, vpCoords.y);
-				player->move(p);
-				player->setVictim(0);
-			}
-			ui->removeWindow();
 		}
+		if (!inUI && !actionSuccess)
+		{
+			VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
+
+			Point* p = new Point(vpCoords.x, vpCoords.y);
+			player->move(p);
+			player->setVictim(0);
+		}
+		ui->removeWindow();
+		//}
 		leftMouseWasDown = false;
 		ui->removeRightClickMenu();
 	}
