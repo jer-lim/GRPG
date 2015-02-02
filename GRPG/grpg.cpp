@@ -144,6 +144,10 @@ void Grpg::update()
 			ui->performClick();
 			inUI = true;
 		}
+		else
+		{
+			ui->removeWindow();
+		}
 		//else
 		//{
 		bool actionSuccess = false;
@@ -153,7 +157,7 @@ void Grpg::update()
 			if (topBehavior != nullptr)
 			{
 				mouseOverEntity->getTopMostBehavior()->action();
-				mouseOverEntity = nullptr;
+				//mouseOverEntity = nullptr;
 				actionSuccess = true;
 			}
 		}
@@ -165,7 +169,6 @@ void Grpg::update()
 			player->move(p);
 			player->setVictim(0);
 		}
-		ui->removeWindow();
 		//}
 		leftMouseWasDown = false;
 		ui->removeRightClickMenu();

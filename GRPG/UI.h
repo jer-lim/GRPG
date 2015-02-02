@@ -201,8 +201,8 @@ public:
 			for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
 			{
 				this->game->getDrawManager()->removeObject(it->second);
-				player->getInventory()->setByDrawnManager(false);
 			}
+			player->getInventory()->setByDrawnManager(false);
 			break;
 			}
 
@@ -213,8 +213,8 @@ public:
 			for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
 			{
 				this->game->getDrawManager()->addObject(it->second);
-				player->getInventory()->setByDrawnManager(true);
 			}
+			player->getInventory()->setByDrawnManager(true);
 			break;
 			}
 			
