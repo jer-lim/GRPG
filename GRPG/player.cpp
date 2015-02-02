@@ -57,6 +57,13 @@ void Player::sayMessage(std::string message, TextDX* font)
 bool Player::initialize(Game *gamePtr)
 {
 	game = (Grpg*) gamePtr;
+	tm = new TextureManager();
+	if (!tm->initialize(gamePtr->getGraphics(), FISHING_IMAGE))
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Error initalizing Fishing texture");
+
+	if (!fishingImage.initialize(gamePtr->getGraphics(), 0, 0, 1, tm))
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Error initalizing fishing image");
+	
     return(Entity::initialize(gamePtr, Person::thePlayer));
 }
 
@@ -82,6 +89,18 @@ void Player::draw(Viewport* viewport)
 
 		fontToUse->setFontColor(oldColor);
 	}
+
+	//Show that the player is fishing 
+	if (actionDelay > 0)
+	{
+		//Draw the relevant image above the player
+		if (currentAction == resourceNS::FISHING)
+		{
+			fishingImage.setX(getX());
+			fishingImage.setY(getY() - edge.top / 2 - fishingImage.getHeight() / 2);
+			fishingImage.draw(viewport);
+		}
+	}
 }
 
 //=============================================================================
@@ -100,8 +119,37 @@ void Player::update(float frameTime, Game* gamePtr)
 	}
 
 	Entity::update(frameTime, gamePtr);
+	//Stop fishing and mining if you're doing something else
+	if (destination != nullptr || victim != nullptr)
+	{
+		actionDelay = -1;
+	}
 
 	timeLeft -= frameTime;
+	if (actionDelay > 0)
+	{
+		actionDelay -= frameTime;
+		if (actionDelay <= 0)
+		{
+			if (currentAction == resourceNS::FISHING)
+			{
+				InventoryItem* fish = new InventoryItem(game->getItemLoader()->getItem(5), 1);
+				Entity* e = new Entity();
+				e->initialize(game, fish, false);//anchored if its an inventory
+				ITEM_ADD result = inventory->addEntityInventoryItem(e);
+				if (result != ITEM_ADD::ADDED && result != ITEM_ADD::MERGED)
+				{
+					//halp what should I do here
+					delete e;
+				}
+				else
+				{
+					skills[skillNS::ID_SKILL_FISHING].gainXP(4);
+				}
+				restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+			}
+		}
+	}
 }
 //=============================================================================
 // damage
@@ -128,8 +176,16 @@ void Player::startFishing(bool flip)
 {
 	image.flipHorizontal(flip);
 
-	InventoryItem* fish = new InventoryItem(game->getItemLoader()->getItem(5), 9);
-	Entity* e = new Entity();
-	e->initialize(game, fish, true);//anchored if its an inventory
-	inventory->addEntityInventoryItem(e);
+	currentAction = resourceNS::FISHING;
+	restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+}
+
+//=============================================================================
+//Restarts the player internals's current item
+//The player starts gaining a resource once the counter reaches 0
+//Takes in the starting time it is originally and the skill level used for that resource
+//=============================================================================
+void Player::restartCounter(int startingTime, int skilLevel)
+{
+	actionDelay += startingTime - (skilLevel * 0.1);
 }

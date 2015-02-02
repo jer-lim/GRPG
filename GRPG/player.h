@@ -9,6 +9,7 @@
 #include "Inventory.h"
 #include <map>
 #include "textDX.h"
+#include "Resource.h"
 
 using namespace std;
 
@@ -24,6 +25,8 @@ namespace playerNS
 	const float textTimeDisplay = 3;
 
 	const float startingRegnerationTime = 60;
+	const float fishingWaitTime = 10;
+	const float miningWaitTime = 10;
 }
 
 class Grpg;
@@ -43,7 +46,19 @@ private:
 	VECTOR2 textSize;
 
 	float regenerationDelay;
-	
+
+	// The current action of the player, if skilling
+	// Refers to either of the values in Resource
+	int currentAction;
+	// How long before the player gets the next skill item
+	float actionDelay;
+	// The resource image that is drawn above hte player
+	Image fishingImage;
+	TextureManager* tm;
+
+protected:
+	void restartCounter(int startingTime, int skilLevel);
+
 public:
     // constructor
     Player();
@@ -52,6 +67,7 @@ public:
 			it->second.destroy();
 		}
 		skills.clear();
+		SAFE_DELETE(tm);
 		game = NULL;
 	}
 
@@ -70,7 +86,8 @@ public:
     // inherited member functions
 	virtual void draw(Viewport* viewport);
     virtual bool initialize(Game *gamePtr);
-	virtual void Player::update(float frameTime, Game* gamePtr);
+	virtual void update(float frameTime, Game* gamePtr);
+
 	// This entity has been damaged by another entity
 	// Pass in the other entity's attack and strength.
 	// Returns the amount of damage dealt.
