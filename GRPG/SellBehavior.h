@@ -1,5 +1,5 @@
-#ifndef _BUYBEHAVIOR_H
-#define _BUYBEHAVIOR_H
+#ifndef _SELLBEHAVIOR_H
+#define _SELLBEHAVIOR_H
 
 #include "Behavior.h"
 #include "entity.h"

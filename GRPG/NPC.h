@@ -67,9 +67,12 @@ public:
 	vector<InventoryItem*>* getShopItemsList(){ return shopItemsList; }
 	vector<InventoryItem*> getShopItemsListCopy(){
 		vector<InventoryItem*> shopList;
-		for (int i = 0, l = shopItemsList->size(); i < l; ++i)
+		if (shopItemsList != nullptr)
 		{
-			shopList.push_back(shopItemsList->at(i)->clone());
+			for (int i = 0, l = shopItemsList->size(); i < l; ++i)
+			{
+				shopList.push_back(shopItemsList->at(i)->clone());
+			}
 		}
 		return shopList;
 	}
