@@ -20,7 +20,7 @@ bool Resource::initialize(Game *gamePtr, int type, TextureManager* tm)
 		viewBehavior = new ViewBehavior("Ore", "Some ores", ((Grpg*)gamePtr)->getUI());
 	}
 	setupVectorActiveBehaviors();
-	if (Entity::initialize(gamePtr, 0, 0, 0, tm, false))
+	if (Entity::initialize(gamePtr, tileNS::HEIGHT, tileNS::WIDTH, 0, tm, false))
 	{
 		edge.top = image.getHeight() / 2;
 		edge.bottom = image.getHeight() / 2;
