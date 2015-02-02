@@ -380,6 +380,8 @@ bool Grpg::processCommand(std::string command)
 			coordinates = mapLoader->translateIdToCoords('$');
 		else if (location == "doctor")
 			coordinates = mapLoader->translateIdToCoords('+');
+		else if (location == "stove")
+			coordinates = mapLoader->translateIdToCoords('b'); 
 		else
 			coordinates = mapLoader->translateIdToCoords(*(location.c_str()));
 

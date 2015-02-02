@@ -8,7 +8,7 @@ void FishBehavior::action(){
 	if (fishes->collidesWith(*thePlayer, collisionVector))
 	{
 		//Time to start fishing!
-		ui->addChatText("You need a fishing net to fish!");
+		//ui->addChatText("You need a fishing net to fish!");
 		thePlayer->startFishing(true);
 	}
 	else
