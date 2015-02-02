@@ -42,6 +42,7 @@ public:
 	bool hasEntityInventoryItem(int i);
 	ITEM_MERGE merge(Entity* a, Entity* b);
 
+	int getMaxSlotCount() { return maxSlotListCount; }
 	int getXDrawPosition(){ return xDrawPosition; }
 	void setXDrawPosition(int x){ xDrawPosition = x; }
 	int getYDrawPosition(){ return yDrawPosition; }
