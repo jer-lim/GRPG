@@ -133,17 +133,25 @@ void Player::update(float frameTime, Game* gamePtr)
 		{
 			if (currentAction == resourceNS::FISHING)
 			{
-				InventoryItem* fish = new InventoryItem(game->getItemLoader()->getItem(5), 1);
-				Entity* e = new Entity();
-				e->initialize(game, fish, false);//anchored if its an inventory
-				ITEM_ADD result = inventory->addEntityInventoryItem(e);
-				if (result != ITEM_ADD::ADDED && result != ITEM_ADD::MERGED)
+				if (inventory->getSlotList()->size() < inventory->getMaxSlotCount())
 				{
-					//halp what should I do here
-					delete e;
-				}
-				else
-				{
+					InventoryItem* fish = new InventoryItem(game->getItemLoader()->getItem(5), 1);
+					Entity* e = new Entity();
+					e->initialize(game, fish, false);//anchored if its in an inventory (like it is now)
+					e->setX(x);
+					e->setY(y+20);
+					theGame->getDrawManager()->addObject(e, 2);
+					//e->getTopMostBehavior()->action();
+					//game->getDrawManager()->addObject(e);
+					//ITEM_ADD result = inventory->addEntityInventoryItem(e);
+					/*
+					if (result != ITEM_ADD::ADDED && result != ITEM_ADD::MERGED)
+					{
+						//halp what should I do here
+						delete e;
+					}
+					else
+					{*/
 					skills[skillNS::ID_SKILL_FISHING].gainXP(30);
 				}
 				restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
