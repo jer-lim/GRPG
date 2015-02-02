@@ -5,6 +5,7 @@
 #include <string>
 #include "game.h"
 #include "textureManager.h"
+#include <sstream>
 
 namespace itemNS
 {
@@ -27,6 +28,7 @@ private:
 	float spriteWidth, spriteHeight, spriteColumns;
 	int maxStackCount;//maximum times item can stack at a slot
 	int cost;
+	string displayCost;
 	int instanceCount = 0;//Keep track for texturemanager
 	TextureManager* textureManager = nullptr;
 public:
@@ -54,6 +56,9 @@ public:
 		spriteWidth = itemNS::spriteWidth;
 		spriteHeight = itemNS::spriteHeight;
 		spriteColumns = sprCol;
+		stringstream ss;
+		ss << "$" << cost;
+		displayCost = ss.str();
 	}
 	virtual void destroy(){ SAFE_DELETE(textureManager); }
 	virtual ~Item(){ destroy(); }
@@ -66,7 +71,7 @@ public:
 	void setItemImgFileName(string s){ itemImgFileName = s; }
 	int getMaxStackCount(){ return maxStackCount; }
 	void setMaxStackCount(int i){ maxStackCount = i; }
-	int getCost() { return cost; }
+	//virtual int getCost() { return cost; } //Singled out and specfied below
 	void setCost(int i) {cost = i;}
 	TextureManager* getTextureManager() { return textureManager; }
 	float getSpriteWidth() { return spriteWidth; }
@@ -83,5 +88,9 @@ public:
 	void Release() {
 		setInstanceCount(instanceCount - 1);
 	}
+
+	virtual int getCost() { return cost; }
+	virtual string getDisplayCost() { return displayCost; }
+	virtual int getSellingCost() { return floor(cost / 10); }
 };
 #endif
