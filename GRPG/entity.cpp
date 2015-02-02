@@ -71,6 +71,7 @@ Entity::~Entity()
 	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
 	SAFE_DELETE(eatBehavior);
 	SAFE_DELETE(buyBehavior);
+	SAFE_DELETE(sellBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{

@@ -170,6 +170,7 @@ class Entity : public Destination//, public Interactable
 	  Behavior* dropBehavior = nullptr;//Drop name -> drop obj
 	  Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
 	  Behavior* buyBehavior = nullptr;
+	  Behavior* sellBehavior = nullptr;
 	  Behavior* eatBehavior = nullptr;
 	  //Resource
 	  Behavior* fishBehavior = nullptr; //Fishing
@@ -373,6 +374,8 @@ class Entity : public Destination//, public Interactable
 		vectorActiveBehaviors.clear();
 		if (buyBehavior)
 			vectorActiveBehaviors.push_back(buyBehavior);
+		if (sellBehavior)
+			vectorActiveBehaviors.push_back(sellBehavior);
 		if (eatBehavior)
 			vectorActiveBehaviors.push_back(eatBehavior);
 		if (cookBehavior)
