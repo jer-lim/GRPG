@@ -5,7 +5,7 @@ x 1 1 1 border.png 0 0
 m 2 4 0.5 grass.png 15 10
 $ 2 1 1 woodhouse_floor.png 1 0
 + 2 1 1 woodhouse_floor.png 0 0
-s 3 1 1 spawn.png 0 0
+! 3 1 1 spawn.png 0 0
 n 4 7 0.18 fish.png 0 0
 A 0 1 1 castle_floor.png 0 0
 B 1 1 1 castle_topleftcorner.png 0 0
