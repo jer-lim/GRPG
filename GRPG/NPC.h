@@ -16,6 +16,7 @@ private:
 	string name;
 	string description;
 	int maxHealth;
+	string talkText;
 
 	bool isEnemy;
 
@@ -29,6 +30,7 @@ public:
 		description = desc;
 		maxHealth = maxhp;
 		isEnemy = enemy;
+		talkText = "";
 	}
 
 	static Entity* spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim = nullptr);
@@ -38,6 +40,8 @@ public:
 	int getmaxhealth() { return maxHealth; }
 
 	bool getIsEnemy() { return isEnemy; }
+	string getTalkText() { return talkText; }
+	void setTalkText(string txt) { talkText = txt; }
 	virtual string getType() { return "NPC"; }
 };
 

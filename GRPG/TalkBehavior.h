@@ -15,16 +15,13 @@ private:
 	UI* ui;
 	Player* thePlayer;
 	Entity* entity; //The entity to talk to
-
-	string message;
 public:
 	virtual ~TalkBehavior() {}
-	TalkBehavior(NPC* i, UI* u, Player* p, Entity* e, string m){
+	TalkBehavior(NPC* i, UI* u, Player* p, Entity* e){
 		ii = i;
 		ui = u;
 		thePlayer = p;
 		entity = e;
-		message = m;
 	}
 	virtual bool exists(){ return false; }
 	virtual string displayText();

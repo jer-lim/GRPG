@@ -7,7 +7,7 @@ void TalkBehavior::action(){
 	VECTOR2 collisionVector;
 	if (entity->collidesWith(*thePlayer, collisionVector))
 	{
-		ui->addChatText(ii->getname() + ": " + message);
+		ui->addChatText(ii->getname() + ": " + ii->getTalkText());
 	}
 	else
 	{

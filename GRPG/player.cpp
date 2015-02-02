@@ -167,6 +167,10 @@ int Player::damage(int atk, int str)
 	if (health <= 0)
 	{
 		game->getUI()->addChatText("You died!");
+		setX(game->getStartLocation().x);
+		setY(game->getStartLocation().y);
+		health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
+		//TODO: Strip all items from player
 	}
 	return damageTaken;
 }
