@@ -75,6 +75,7 @@
   <ItemGroup>
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="AttackBehavior.cpp" />
+    <ClCompile Include="CookBehavior.cpp" />
     <ClCompile Include="BuyBehavior.cpp" />
     <ClCompile Include="DropBehavior.cpp" />
     <ClCompile Include="EatBehavior.cpp" />

@@ -41,6 +41,7 @@
     <ClCompile Include="winmain.cpp" />
     <ClCompile Include="InventoryItem.cpp" />
     <ClCompile Include="DropBehavior.cpp" />
+    <ClCompile Include="CookBehavior.cpp" />
     <ClCompile Include="BuyBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -69,6 +69,7 @@ Entity::~Entity()
 	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
 	SAFE_DELETE(dropBehavior);//Drop name -> drop obj
 	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
+	SAFE_DELETE(buyBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{
@@ -156,12 +157,11 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		{
 			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
 			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 20; i++)
 			{
 				InventoryItem* y = new InventoryItem(grpgPointer->getItemLoader()->getItem(5), 9);
 				Entity* e = new Entity();
 				e->initialize(gamePtr, y, true);//anchored if its an inventory
-				//y->initialize(this, true);
 				inventory->addEntityInventoryItem(e);
 			}
 		}
@@ -210,6 +210,21 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 	if (inInventory)
 	{
 		dropBehavior = new DropBehavior(gamePtr,gamePtr->getDrawManager(), this, ((Grpg*)gamePtr)->getPlayer());
+		if (invItem->getType() == "INVENTORYFOOD")
+		{
+			switch (((InventoryFood*)invItem)->getFoodState())
+			{
+			case RAW:
+				cookBehavior = new CookBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+				break;
+			case COOKED:
+			case DELICIOUS:
+				eatBehavior = new EatBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+				break;
+			case BURNT://nth
+				break;
+			}
+		}
 	}
 	else
 	{
