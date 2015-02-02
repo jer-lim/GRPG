@@ -16,6 +16,7 @@
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="BlacksmithBehavior.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="BuyBehavior.h" />
     <ClInclude Include="CookBehavior.h" />
     <ClInclude Include="DropBehavior.h" />
     <ClInclude Include="EatBehavior.h" />
@@ -74,6 +75,7 @@
   <ItemGroup>
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="AttackBehavior.cpp" />
+    <ClCompile Include="BuyBehavior.cpp" />
     <ClCompile Include="DropBehavior.cpp" />
     <ClCompile Include="EatBehavior.cpp" />
     <ClCompile Include="FishBehavior.cpp" />

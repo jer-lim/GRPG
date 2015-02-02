@@ -8,6 +8,7 @@
 #include "player.h"
 #include "Button.h"
 #include "Behavior.h"
+#include "BuyBehavior.h"
 
 namespace uiNS
 {
@@ -178,6 +179,15 @@ public:
 
 	virtual void setShopItems(vector<Entity* > i)
 	{
+		for (vector<Entity*>::iterator it = i.begin(); it != i.end(); ++it)
+		{
+			//Setup behaviors
+			Entity* theItem = *it;
+			SAFE_DELETE(theItem->dropBehavior);
+			SAFE_DELETE(theItem->pickupBehavior);
+			theItem->buyBehavior = new BuyBehavior(player, theItem);
+			theItem->setupVectorActiveBehaviors();
+		}
 		items = i;
 	}
 
