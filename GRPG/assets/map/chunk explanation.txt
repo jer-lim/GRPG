@@ -2,7 +2,8 @@ x : border chunk, all black, edges of map
 t : testing chunk, will delete later
 0 : all grass
 1 : all water
-A : spawn chunk with castle
+A : spawn chunk
+B : castle
 $ : shop
 C : chicken pen (fence tba)
 D : dirt pool in grass
@@ -19,4 +20,4 @@ O : flat bottom side of lake with dock
 P : bottom left corner of lake
 + : hospital
 I : cookhouse
-* : Town "Spawn" point
+* : Town "Spawn" point beside the water
