@@ -232,7 +232,7 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 				break;
 			case COOKED:
 			case DELICIOUS:
-				eatBehavior = new EatBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+				eatBehavior = new EatBehavior(gamePtr, this,((Grpg*)gamePtr)->getPlayer());
 				break;
 			case BURNT://nth
 				break;
