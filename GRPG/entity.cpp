@@ -154,15 +154,19 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		if (whichCharacter->getType() == "ENEMY")//Attack enemy
 			attackBehavior = new AttackBehavior(grpgPointer->getPlayer(), this, (NPC*)whichCharacter);
 		else
-		{
-			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
+		{//if npc
 			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
-			for (int i = 0; i < 20; i++)
+			//initialize shop items
+			if (((NPC*)whichCharacter)->getShopItemsList() != nullptr)
 			{
-				InventoryItem* y = new InventoryItem(grpgPointer->getItemLoader()->getItem(5), 9);
-				Entity* e = new Entity();
-				e->initialize(gamePtr, y, true);//anchored if its an inventory
-				inventory->addEntityInventoryItem(e);
+				tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
+				vector<InventoryItem*> shopItemsList = ((NPC*)whichCharacter)->getShopItemsListCopy();
+				for (int i = 0, l = shopItemsList.size(); i < l; ++i)
+				{
+					Entity* e = new Entity();
+					e->initialize(gamePtr, shopItemsList.at(i), true);//anchored if its an inventory
+					inventory->addEntityInventoryItem(e);
+				}
 			}
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
