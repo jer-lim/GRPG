@@ -12,13 +12,15 @@ class TeleportBehavior : public Behavior
 private:
 	Player* player;
 	NPC* npc;
+	Entity* guyDoingTeleport;
 	char tileID;
 	MapLoader* ml;
 public:
-	TeleportBehavior(Player* p, NPC* n, MapLoader* m, char tid){
+	TeleportBehavior(Player* p, NPC* n, MapLoader* m, Entity* e, char tid){
 		player = p;
 		npc = n;
 		ml = m;
+		guyDoingTeleport = e;
 		tileID = tid;
 	}
 	virtual ~TeleportBehavior() {}

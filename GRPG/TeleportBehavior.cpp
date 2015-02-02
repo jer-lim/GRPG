@@ -9,7 +9,18 @@ string TeleportBehavior::displayText(){
 
 void TeleportBehavior::action()
 {
-	VECTOR2 coordinates = ml->translateIdToCoords(tileID);
-	player->setX(coordinates.x);
-	player->setY(coordinates.y);
+	VECTOR2 collisionVector;
+	if (guyDoingTeleport->collidesWith(*player, collisionVector))
+	{
+		VECTOR2 coordinates = ml->translateIdToCoords(tileID);
+		player->setX(coordinates.x);
+		player->setY(coordinates.y);
+		player->setVictim(0);
+		player->releaseDestination();
+	}
+	else
+	{
+		player->setVictim(guyDoingTeleport);
+		player->setNPCAction(this);
+	}
 }
