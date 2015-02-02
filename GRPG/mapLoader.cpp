@@ -877,3 +877,33 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 	
 	return path;
 }
+
+VECTOR2 MapLoader::translateIdToCoords(char id){
+	for (int x = 0; x < worldMap.size(); ++x){
+		for (int y = 0; y < worldMap[x].size(); ++y){
+
+			// Load tiles in chunk
+			char chunkId = worldMap[x][y];
+			for (int cx = 0; cx < tileNS::CHUNK_WIDTH; ++cx){
+				for (int cy = 0; cy < tileNS::CHUNK_HEIGHT; ++cy){
+
+					// Load tiles
+					char tileId = chunks[chunkId]->tile[cx][cy];
+
+					if (tileId == id){
+
+						int tileX = x * tileNS::CHUNK_WIDTH + cx;
+						int tileY = y * tileNS::CHUNK_HEIGHT + cy;
+
+						float xPos = tileNS::WIDTH / 2 + tileX * tileNS::WIDTH;
+						float yPos = tileNS::HEIGHT / 2 + tileY * tileNS::HEIGHT;
+
+						return VECTOR2(xPos, yPos);
+					}
+				}
+			}
+		}
+	}
+
+	return VECTOR2(-1, -1);
+}
