@@ -12,7 +12,7 @@ class Inventory
 private:
 	int xDrawPosition, yDrawPosition;//positions for drawing the item objects
 	const int maxSlotListCount = 20;
-	const int inventoryColumns = 3;
+	const int inventoryColumns = 4;
 	const int magicPadding = 5;
 	map<int,Entity*> slotList;
 	Entity *slot_body, *slot_hand, *slot_offhand;
