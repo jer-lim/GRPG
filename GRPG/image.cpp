@@ -96,6 +96,9 @@ bool Image::initialize(Graphics *g, int width, int height, int ncols, double fd,
         textureManager = textureM;                  // pointer to texture object
 
 		frameDelay = fd;
+		startFrame = 0;
+		endFrame = ncols - 1;
+		currentFrame = rand() % ncols;
 
         spriteData.texture = textureManager->getTexture();
         if(width == 0)
@@ -115,10 +118,6 @@ bool Image::initialize(Graphics *g, int width, int height, int ncols, double fd,
         spriteData.rect.top = (currentFrame / cols) * spriteData.height;
         // bottom edge + 1
         spriteData.rect.bottom = spriteData.rect.top + spriteData.height;
-
-		startFrame = 0;
-		endFrame = ncols - 1;
-		currentFrame = rand() % ncols;
     }
     catch(...) {return false;}
     initialized = true;                                // successfully initialized

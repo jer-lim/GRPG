@@ -129,6 +129,10 @@ class Image
     // Set starting and ending frames of animation.
     virtual void setFrames(int s, int e){startFrame = s; endFrame = e;}
 
+	virtual void setCols(int c){
+		cols = c;
+	}
+
     // Set current frame of animation.
     virtual void setCurrentFrame(int c);
 

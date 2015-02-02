@@ -361,6 +361,13 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
+
+		// Image things
+		t->getImage()->setFrames(0, tileset[tileId].numFrames - 1);
+		t->getImage()->setFrameDelay(tileset[tileId].frameTime);
+		t->getImage()->setCols(tileset[tileId].numFrames);
+		t->getImage()->setCurrentFrame(0);
+
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t, tileset[tileId].type);
 	}
@@ -499,12 +506,14 @@ void MapLoader::update(){
 					mt->tile->getImage()->setTextureManager(textureManager);
 					mt->tile->getImage()->setFrames(0, newTileInfo.numFrames - 1);
 					mt->tile->getImage()->setFrameDelay(newTileInfo.frameTime);
+					mt->tile->getImage()->setCols(newTileInfo.numFrames);
 					mt->tile->getImage()->setCurrentFrame(0);
 				}
 				else if(mt->image != nullptr){
 					mt->image->setTextureManager(textureManager);
 					mt->image->setFrames(0, newTileInfo.numFrames - 1);
 					mt->image->setFrameDelay(newTileInfo.frameTime);
+					mt->image->setCols(newTileInfo.numFrames);
 					mt->image->setCurrentFrame(0);
 				}
 			}
@@ -572,6 +581,13 @@ void MapLoader::update(){
 					t->setX(tilePos.x);
 					t->setY(tilePos.y);
 					t->spawn();
+
+					// Image things
+					t->getImage()->setFrames(0, newTileInfo.numFrames - 1);
+					t->getImage()->setFrameDelay(newTileInfo.frameTime);
+					t->getImage()->setCols(newTileInfo.numFrames);
+					t->getImage()->setCurrentFrame(0);
+
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
 					mt->type = newTileInfo.type;

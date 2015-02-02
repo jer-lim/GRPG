@@ -47,7 +47,6 @@ void Tile::update(){}
 // typically called once per frame
 // frameTime is used to regulate the speed of movement and animation
 //=============================================================================
-void Tile::update(float frameTime)
-{
-	//Entity::update(frameTime);
+void Tile::update(float frameTime, Game* gamePtr){
+	image.update(frameTime);
 }
