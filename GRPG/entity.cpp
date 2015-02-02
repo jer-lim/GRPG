@@ -957,6 +957,17 @@ int Entity::damage(int atk, int str)
 	int oldDamage = damageTaken;
 	if (health <= 0)
 	{
+		//drop loot
+		
+		vector<InventoryItem*> vector_ii = ((Enemy*)person)->getDropsListCopy();
+		for (int i = 0, l = vector_ii.size(); i < l; ++i)
+		{
+			Entity* newObj = new Entity();//create new object
+			newObj->initialize(theGame, vector_ii.at(i), false);
+			newObj->setX(x);
+			newObj->setY(y);
+			theGame->getDrawManager()->addObject(newObj, 2);
+		}
 		theGame->deleteEntity(this);
 	}
 	return oldDamage;
