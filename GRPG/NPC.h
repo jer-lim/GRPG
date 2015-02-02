@@ -35,6 +35,9 @@ public:
 		talkText = "";
 		shopItemsList = shopItems;
 	}
+	~NPC(){
+		SAFE_DELETE(shopItemsList);
+	}
 
 	static Entity* spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim = nullptr);
 
