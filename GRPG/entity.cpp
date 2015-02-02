@@ -72,6 +72,7 @@ Entity::~Entity()
 	SAFE_DELETE(eatBehavior);
 	SAFE_DELETE(buyBehavior);
 	SAFE_DELETE(sellBehavior);
+	SAFE_DELETE(teleportBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{
