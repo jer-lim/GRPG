@@ -15,13 +15,13 @@ Inventory::Inventory(int x,int y){
 
 void Inventory::destroy()
 {
-	if (!drawnByDrawManager)
-	{
-		for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
-			delete it->second;
-			it->second = nullptr;
-		}
+	//if (!drawnByDrawManager)
+	//{
+	for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
+		delete it->second;
+		it->second = nullptr;
 	}
+	//}
 	slotList.clear();
 	SAFE_DELETE(slot_body);
 	SAFE_DELETE(slot_hand);

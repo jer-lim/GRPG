@@ -69,6 +69,7 @@ Entity::~Entity()
 	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
 	SAFE_DELETE(dropBehavior);//Drop name -> drop obj
 	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
+	SAFE_DELETE(eatBehavior);
 	SAFE_DELETE(buyBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)

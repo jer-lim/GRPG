@@ -16,7 +16,7 @@ private:
 	const int magicPadding = 5;
 	map<int,Entity*> slotList;
 	Entity *slot_body, *slot_hand, *slot_offhand;
-	bool drawnByDrawManager = false;
+	//bool drawnByDrawManager = false;
 	/*
 	Drawmanager x Inventory magic
 
@@ -47,8 +47,8 @@ public:
 	void setXDrawPosition(int x){ xDrawPosition = x; }
 	int getYDrawPosition(){ return yDrawPosition; }
 	void setYDrawPosition(int x){ yDrawPosition = x; }
-	bool getByDrawnManager(){ return drawnByDrawManager; }
-	void setByDrawnManager(bool b){ drawnByDrawManager = b; }
+	//bool getByDrawnManager(){ return drawnByDrawManager; }
+	//void setByDrawnManager(bool b){ drawnByDrawManager = b; }
 
 	Entity* getEntityInventoryItem(int i);
 	map<int, Entity*>* getSlotList(){ return &slotList; }
