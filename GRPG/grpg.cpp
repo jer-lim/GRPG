@@ -368,6 +368,24 @@ bool Grpg::processCommand(std::string command)
 		player->startFishing(false);
 		return true;
 	}
+	else if (command.substr(0, 2) == "tp")
+	{
+		std::string location = command.substr(3);
+		VECTOR2 coordinates;
+		if (location == "shop")
+			coordinates = mapLoader->translateIdToCoords('$');
+		else if (location == "doctor")
+			coordinates = mapLoader->translateIdToCoords('+');
+		else
+			coordinates = mapLoader->translateIdToCoords(*(location.c_str()));
+
+		player->setX(coordinates.x);
+		player->setY(coordinates.y);
+		player->setVictim(0);
+		player->releaseDestination();
+
+		return true;
+	}
 	else if (command.substr(0, 5) == "spawn")
 	{
 
