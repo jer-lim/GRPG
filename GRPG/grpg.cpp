@@ -114,11 +114,11 @@ void Grpg::initialize(HWND hwnd)
 	e->initialize(this, y, true);//anchored if its an inventory
 	//y->initialize(this, true);
 	player->getInventory()->addEntityInventoryItem(e);
-	*/
+	
 	//ml free
 	//Object test
 	//CRIME SCENE
-	
+	*/
 	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 9);
 	Entity* newObj = new Entity();
 	newObj->initialize(this, x, false);
