@@ -175,7 +175,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			}
 			if (((NPC*)whichCharacter)->getTeleportID() != '0')
 			{
-				teleportBehavior = new TeleportBehavior(grpgPointer->getPlayer(), (NPC*)whichCharacter, grpgPointer->getMapLoader(), ((NPC*)whichCharacter)->getTeleportID());
+				teleportBehavior = new TeleportBehavior(grpgPointer->getPlayer(), (NPC*)whichCharacter, grpgPointer->getMapLoader(), this, ((NPC*)whichCharacter)->getTeleportID());
 			}
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
