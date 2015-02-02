@@ -19,3 +19,4 @@ O : flat bottom side of lake with dock
 P : bottom left corner of lake
 + : hospital
 I : cookhouse
+* : Town "Spawn" point

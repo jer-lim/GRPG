@@ -1,6 +1,7 @@
 0 0 4 0.5 grass.png 0 0
 1 0 1 1 dirt.png 0 0
 2 1 7 0.18 water.png 0 0
+* 0 1 1 grass.png 0 0
 x 1 1 1 border.png 0 0
 $ 2 1 1 woodhouse_floor.png 1 0
 + 2 1 1 woodhouse_floor.png 0 0
@@ -50,3 +51,4 @@ p 1 8 0.25 tree_top.png 0 0
 q 2 4 0.5 grass.png 16 0
 r 2 4 0.5 grass.png 17 0
 s 2 4 0.5 grass.png 18 0
+t 2 4 0.5 grass.png 19 15
