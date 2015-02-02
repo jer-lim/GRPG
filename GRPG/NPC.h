@@ -7,6 +7,7 @@
 #include "entity.h"
 #include <vector>
 #include <string>
+#include <queue>
 
 class PersonLoader;
 class DrawManager;
@@ -55,7 +56,7 @@ public:
 
 	bool getIsEnemy() { return isEnemy; }
 	string getTalkText() { return talkText; }
-	void setTalkText(string txt) { talkText = txt; }
+	void setTalkText(string txt);
 	virtual string getType() { return "NPC"; }
 	vector<InventoryItem*>* getShopItemsList(){ return shopItemsList; }
 	vector<InventoryItem*> getShopItemsListCopy(){
