@@ -113,37 +113,6 @@ protected:
 	//Draws the specified tab contents onto the screen on the correct location
 	//Also see drawTab
 	void drawTabContents(int tabNumber);
-
-	void setActiveTab(int i)
-	{
-		if (activeTab != i)
-		{
-			/*
-			switch (activeTab)
-			{
-			case uiNS::INVENTORY:
-				map<int, Entity*>* slotList = player->getInventory()->getSlotList();
-				for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
-				{
-					this->game->getDrawManager()->removeObject(it->second);
-				}
-				break;
-			}
-
-			switch (i)
-			{
-			case uiNS::INVENTORY:
-				map<int, Entity*>* slotList = player->getInventory()->getSlotList();
-				for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
-				{
-					this->game->getDrawManager()->addObject(it->second);
-				}
-				break;
-			}
-			*/
-			activeTab = i;
-		}
-	}
 public:
 	// constructor
 	UI();
@@ -220,5 +189,37 @@ public:
 	virtual string getWindowHeader() { return windowHeader; }
 
 	int getActiveTab(){ return activeTab; }
+	void setActiveTab(int i)
+	{
+		if (activeTab != i)
+		{
+			
+			switch (activeTab)
+			{
+			case uiNS::INVENTORY:
+			map<int, Entity*>* slotList = player->getInventory()->getSlotList();
+			for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
+			{
+				this->game->getDrawManager()->removeObject(it->second);
+				player->getInventory()->setByDrawnManager(false);
+			}
+			break;
+			}
+
+			switch (i)
+			{
+			case uiNS::INVENTORY:
+			map<int, Entity*>* slotList = player->getInventory()->getSlotList();
+			for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
+			{
+				this->game->getDrawManager()->addObject(it->second);
+				player->getInventory()->setByDrawnManager(true);
+			}
+			break;
+			}
+			
+			activeTab = i;
+		}
+	}
 };
 #endif

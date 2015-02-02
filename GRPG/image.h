@@ -133,6 +133,10 @@ class Image
 		cols = c;
 	}
 
+	virtual void setAnimTimer(float at){
+		animTimer = at;
+	}
+
     // Set current frame of animation.
     virtual void setCurrentFrame(int c);
 

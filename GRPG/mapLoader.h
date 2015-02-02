@@ -33,6 +33,8 @@ struct tileStruct {
 	int spawnCooldown;
 	int numFrames;
 	double frameTime;
+	float globalFrameTime;
+	int currentFrame = 0;
 };
 
 // Stores a tile, which can be either an entity or an image
@@ -132,7 +134,7 @@ public:
 	void setVictim(Entity* v){ victim = v; }
 	void loadData();
 	void loadMap();
-	void update();
+	void update(float frameTime);
 	bool canRequestPath(){
 		return !pathRequestedThisFrame;
 	}

@@ -81,32 +81,35 @@ void MapLoader::loadData(){
 		while (!tilestream.eof()){
 
 			tilestream >> tileId;
-			tilestream >> tileType;
-			tilestream >> numFrames;
-			tilestream >> frameTime;
-			tilestream >> tileFileName;
+			if (tileId != EOF && tileId != '\0'){
+				tilestream >> tileType;
+				tilestream >> numFrames;
+				tilestream >> frameTime;
+				tilestream >> tileFileName;
 
-			//Insert into a map
-			if (tileType == tileNS::type::SPAWNPOINT){
-				tileset[tileId].type = tileNS::type::FLOOR;
-				spawnTileId = tileId;
-			}
-			else{
-				tileset[tileId].type = tileType;
-			}
+				//Insert into a map
+				if (tileType == tileNS::type::SPAWNPOINT){
+					tileset[tileId].type = tileNS::type::FLOOR;
+					spawnTileId = tileId;
+				}
+				else{
+					tileset[tileId].type = tileType;
+				}
 
-			tileset[tileId].imageName = tileFileName;
-			tileset[tileId].numFrames = numFrames;
-			tileset[tileId].frameTime = frameTime;
+				tileset[tileId].imageName = tileFileName;
+				tileset[tileId].numFrames = numFrames;
+				tileset[tileId].frameTime = frameTime;
+				tileset[tileId].globalFrameTime = 0.0f;
 
-			if (tileType == tileNS::type::SPAWNER){
-				tilestream >> tileset[tileId].spawnId;
-				tilestream >> tileset[tileId].spawnCooldown;
+				if (tileType == tileNS::type::SPAWNER){
+					tilestream >> tileset[tileId].spawnId;
+					tilestream >> tileset[tileId].spawnCooldown;
+				}
+				else{
+					tilestream >> trash >> trash;
+				}
+				runtimeLog << "Loaded tile " << tileId << endl;
 			}
-			else{
-				tilestream >> trash >> trash;
-			}
-			runtimeLog << "Loaded tile " << tileId << endl;
 		}
 
 		tilestream.close();
@@ -366,7 +369,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		t->getImage()->setFrames(0, tileset[tileId].numFrames - 1);
 		t->getImage()->setFrameDelay(tileset[tileId].frameTime);
 		t->getImage()->setCols(tileset[tileId].numFrames);
-		t->getImage()->setCurrentFrame(0);
+		t->getImage()->setCurrentFrame(tileset[tileId].currentFrame);
+		t->getImage()->setAnimTimer(tileset[tileId].globalFrameTime);
 
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t, tileset[tileId].type);
@@ -378,6 +382,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 		t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, tileset[tileId].numFrames, tileset[tileId].frameTime, textureManager);
+		t->setCurrentFrame(tileset[tileId].currentFrame);
+		t->setAnimTimer(tileset[tileId].globalFrameTime);
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
 		drawManager->addObject(t, tileNS::ZINDEX);
@@ -385,7 +391,19 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	}
 }
 
-void MapLoader::update(){
+void MapLoader::update(float frameTime){
+
+	for (auto it = tileset.begin(); it != tileset.end(); ++it){
+		tileStruct* ts = &it->second;
+		ts->globalFrameTime += frameTime;
+		if (ts->globalFrameTime > ts->frameTime){
+			ts->globalFrameTime -= ts->frameTime;
+			ts->currentFrame++;
+			if (ts->currentFrame < 0 || ts->currentFrame > ts->numFrames - 1){
+				ts->currentFrame = 0;
+			}
+		}
+	}
 
 	pathRequestedThisFrame = false;
 
@@ -507,14 +525,16 @@ void MapLoader::update(){
 					mt->tile->getImage()->setFrames(0, newTileInfo.numFrames - 1);
 					mt->tile->getImage()->setFrameDelay(newTileInfo.frameTime);
 					mt->tile->getImage()->setCols(newTileInfo.numFrames);
-					mt->tile->getImage()->setCurrentFrame(0);
+					mt->tile->getImage()->setCurrentFrame(newTileInfo.currentFrame);
+					mt->tile->getImage()->setAnimTimer(newTileInfo.globalFrameTime);
 				}
 				else if(mt->image != nullptr){
 					mt->image->setTextureManager(textureManager);
 					mt->image->setFrames(0, newTileInfo.numFrames - 1);
 					mt->image->setFrameDelay(newTileInfo.frameTime);
 					mt->image->setCols(newTileInfo.numFrames);
-					mt->image->setCurrentFrame(0);
+					mt->image->setCurrentFrame(newTileInfo.currentFrame);
+					mt->image->setAnimTimer(newTileInfo.globalFrameTime);
 				}
 			}
 			// Otherwise need a new object
@@ -586,7 +606,8 @@ void MapLoader::update(){
 					t->getImage()->setFrames(0, newTileInfo.numFrames - 1);
 					t->getImage()->setFrameDelay(newTileInfo.frameTime);
 					t->getImage()->setCols(newTileInfo.numFrames);
-					t->getImage()->setCurrentFrame(0);
+					t->getImage()->setCurrentFrame(newTileInfo.currentFrame);
+					t->getImage()->setAnimTimer(newTileInfo.globalFrameTime);
 
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
@@ -599,6 +620,8 @@ void MapLoader::update(){
 					//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
 					t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, newTileInfo.numFrames, newTileInfo.frameTime, textureManager);
+					t->setCurrentFrame(newTileInfo.currentFrame);
+					t->setAnimTimer(newTileInfo.globalFrameTime);
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->image = t;
 					mt->type = tileNS::type::FLOOR;
