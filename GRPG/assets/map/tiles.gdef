@@ -1,7 +1,7 @@
 0 0 4 0.5 grass.png 0 0
 1 0 1 1 dirt.png 0 0
 2 1 7 0.18 water.png 0 0
-* 0 1 1 grass.png 0 0
+* 0 1 1 dock_endbottomleft.png 0 0
 x 1 1 1 border.png 0 0
 $ 2 1 1 woodhouse_floor.png 1 0
 + 2 1 1 woodhouse_floor.png 0 0
