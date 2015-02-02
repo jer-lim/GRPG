@@ -45,3 +45,5 @@ k 0 1 1 dock_shipleft.png 0 0
 l 0 1 1 dock_shipright.png 0 0
 m 2 4 0.5 grass.png 15 10
 n 4 7 0.18 fish.png 0 0
+o 1 1 1 tree_bottom.png 0 0
+p 1 8 0.25 tree_top.png 0 0

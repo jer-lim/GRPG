@@ -16,5 +16,6 @@ L : flat left side of lake
 M : flat right side of lake
 N : flat top side of lake with dock
 O : flat bottom side of lake with dock
+P : bottom left corner of lake
 + : hospital
 I : cookhouse
