@@ -23,12 +23,15 @@ public:
 
 	Enemy() : NPC() { }
 	~Enemy(){
-		for (int i = 0, l = dropsList->size(); i < l;++i) {
-			InventoryItem* ii = dropsList->at(i);
-			SAFE_DELETE(ii);
+		if (dropsList != nullptr)
+		{
+			for (int i = 0, l = dropsList->size(); i < l;++i) {
+				InventoryItem* ii = dropsList->at(i);
+				SAFE_DELETE(ii);
+			}
+			dropsList->clear();
+			SAFE_DELETE(dropsList);
 		}
-		dropsList->clear();
-		SAFE_DELETE(dropsList);
 	}
 
 	Enemy(string i, float mov, float atkSpd, float h, float w, float cols, float colHeight, float colWidth, string nama, string desc, int maxhp, int atkLv, int defLv, int strLv, float dmgReduction, int a, int range, vector<InventoryItem*>* drops)
