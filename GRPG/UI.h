@@ -185,7 +185,10 @@ public:
 			Entity* theItem = *it;
 			SAFE_DELETE(theItem->dropBehavior);
 			SAFE_DELETE(theItem->pickupBehavior);
-			theItem->buyBehavior = new BuyBehavior(player, theItem);
+			if (theItem->buyBehavior == nullptr)
+			{
+				theItem->buyBehavior = new BuyBehavior(player, theItem);
+			}
 			theItem->setupVectorActiveBehaviors();
 		}
 		items = i;
