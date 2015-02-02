@@ -135,7 +135,7 @@ void Player::update(float frameTime, Game* gamePtr)
 			{
 				if (inventory->getSlotList()->size() < inventory->getMaxSlotCount())
 				{
-					InventoryItem* fish = new InventoryItem(game->getItemLoader()->getItem(5), 1);
+					InventoryItem* fish = new InventoryFood(game->getItemLoader()->getItem(5), 1,RAW);
 					Entity* e = new Entity();
 					e->initialize(game, fish, false);//anchored if its in an inventory (like it is now)
 					//inventory->addEntityInventoryItem(e);

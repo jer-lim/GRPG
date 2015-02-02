@@ -40,6 +40,8 @@
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="winmain.cpp" />
     <ClCompile Include="InventoryItem.cpp" />
+    <ClCompile Include="DropBehavior.cpp" />
+    <ClCompile Include="CookBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
