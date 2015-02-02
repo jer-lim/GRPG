@@ -26,5 +26,13 @@ public:
 	virtual InventoryEquipment* clone() {
 		return new InventoryEquipment(*this);
 	}
+
+	virtual int getCost(){
+		return item->getCost()*smithingMaterial->getCost();
+	}
+
+	virtual int getSellingCost(){
+		return item->getSellingCost()*smithingMaterial->getCost();
+	}
 };
 #endif

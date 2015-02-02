@@ -5,6 +5,7 @@
 #include "Person.h"
 #include "graphics.h"
 #include "entity.h"
+#include <vector>
 #include <string>
 
 class PersonLoader;
@@ -17,13 +18,14 @@ private:
 	string description;
 	int maxHealth;
 	string talkText;
+	vector<InventoryItem*>* shopItemsList;
 
 	bool isEnemy;
 
 public:
 
 	NPC() : Person() {}
-	NPC(string i, float mov, float atk, float h, float w, int cols, int colHeight, int colWidth, string nama,string desc,int maxhp, bool enemy)
+	NPC(string i, float mov, float atk, float h, float w, int cols, int colHeight, int colWidth, string nama, string desc, int maxhp, bool enemy, vector<InventoryItem*>* shopItems)
 		: Person(i, mov, atk, h, w, cols, colHeight, colWidth)
 	{
 		name = nama;
@@ -31,6 +33,7 @@ public:
 		maxHealth = maxhp;
 		isEnemy = enemy;
 		talkText = "";
+		shopItemsList = shopItems;
 	}
 
 	static Entity* spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim = nullptr);

@@ -4,6 +4,11 @@
 #include "constants.h"
 #include "InventoryItem.h"
 
+namespace InventoryFoodNS
+{
+	const float foodStateCost[]{ 1, 2, 0, 3};
+}
+
 class InventoryFood : public InventoryItem
 {
 private:
@@ -23,6 +28,14 @@ public:
 
 	virtual InventoryFood* clone() {
 		return new InventoryFood(*this);
+	}
+
+	virtual int getCost(){
+		return item->getCost()*InventoryFoodNS::foodStateCost[foodState];
+	}
+
+	virtual int getSellingCost(){
+		return item->getSellingCost()*InventoryFoodNS::foodStateCost[foodState];
 	}
 };
 #endif

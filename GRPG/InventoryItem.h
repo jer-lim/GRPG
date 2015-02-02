@@ -11,7 +11,7 @@
 
 class InventoryItem
 {
-private:
+protected:
 	Item* item=nullptr;
 	int currentStackCount=-1;
 	string currentStackCountString;
@@ -52,6 +52,14 @@ public:
 
 	virtual InventoryItem* clone() {
 		return new InventoryItem(*this);
+	}
+
+	virtual int getCost(){
+		return item->getCost();
+	}
+
+	virtual int getSellingCost(){
+		return item->getSellingCost();
 	}
 	//Entity* getEntity(){ return entity; }
 	//void setEntity(Entity* e){ entity = e; }
