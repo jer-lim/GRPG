@@ -106,23 +106,6 @@ class Entity : public Destination//, public Interactable
 	Entity* victim = nullptr;	//If this entity is attacking someone, victim is that poor entity
 	float attackCooldown; //How long more before the entity can attack again
 
-	//Behaviors
-	Behavior* viewBehavior = nullptr;//View name -> display description
-	//NPC
-	Behavior* blacksmithBehavior = nullptr;//Blacksmith popup
-	Behavior* talkBehavior = nullptr; //Ability to talk
-	Behavior* tradeBehavior = nullptr;//store popup
-	//Enemy
-	Behavior* attackBehavior = nullptr;//Attack name -> perform attack
-							//Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
-	//Item
-	Behavior* pickupBehavior = nullptr;//Pickup name -> pickup obj
-	Behavior* dropBehavior = nullptr;//Drop name -> drop obj
-	Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
-	
-	//Resource
-	Behavior* fishBehavior = nullptr; //Fishing
-	Behavior* mineBehavior = nullptr; //Mining
 	vector<Behavior*> vectorActiveBehaviors;
 
 	//To know what to do when the player is near an NPC
@@ -169,6 +152,24 @@ class Entity : public Destination//, public Interactable
 	void takeDamage(int atk, int str, int def);
 
   public:
+	  //Behaviors
+	  Behavior* viewBehavior = nullptr;//View name -> display description
+	  //NPC
+	  Behavior* blacksmithBehavior = nullptr;//Blacksmith popup
+	  Behavior* talkBehavior = nullptr; //Ability to talk
+	  Behavior* tradeBehavior = nullptr;//store popup
+	  //Enemy
+	  Behavior* attackBehavior = nullptr;//Attack name -> perform attack
+	  //Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
+	  //Item
+	  Behavior* pickupBehavior = nullptr;//Pickup name -> pickup obj
+	  Behavior* dropBehavior = nullptr;//Drop name -> drop obj
+	  Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
+	  Behavior* buyBehavior = nullptr;
+	  //Resource
+	  Behavior* fishBehavior = nullptr; //Fishing
+	  Behavior* mineBehavior = nullptr; //Mining
+
     // Constructor
     Entity();
     // Destructor
@@ -363,6 +364,8 @@ class Entity : public Destination//, public Interactable
 	void setupVectorActiveBehaviors()
 	{//Must be in order, as they will be displayed in this order 
 		vectorActiveBehaviors.clear();
+		if (buyBehavior)
+			vectorActiveBehaviors.push_back(buyBehavior);
 		if (cookBehavior)
 			vectorActiveBehaviors.push_back(cookBehavior);
 		if (dropBehavior)

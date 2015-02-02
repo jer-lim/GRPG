@@ -156,11 +156,14 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		{
 			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
 			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
-			InventoryItem* y = new InventoryItem(grpgPointer->getItemLoader()->getItem(0), 9);
-			Entity* e = new Entity();
-			e->initialize(gamePtr, y, true);//anchored if its an inventory
-			//y->initialize(this, true);
-			inventory->addEntityInventoryItem(e);
+			for (int i = 0; i < 100; i++)
+			{
+				InventoryItem* y = new InventoryItem(grpgPointer->getItemLoader()->getItem(5), 9);
+				Entity* e = new Entity();
+				e->initialize(gamePtr, y, true);//anchored if its an inventory
+				//y->initialize(this, true);
+				inventory->addEntityInventoryItem(e);
+			}
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
 		thePlayer = ((Grpg*)gamePtr)->getPlayer();

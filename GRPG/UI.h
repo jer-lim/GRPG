@@ -8,6 +8,7 @@
 #include "player.h"
 #include "Button.h"
 #include "Behavior.h"
+#include "BuyBehavior.h"
 
 namespace uiNS
 {
@@ -48,7 +49,7 @@ namespace uiNS
 	const UINT windowXHeight = 17;
 
 	//Coordindates for shop
-	const int shopColMax = 9;
+	const int shopColMax = 12;
 	//Margins from the edges of the image
 	const int shopLMargin = 20;
 	const int shopTMargin = 41;
@@ -178,6 +179,15 @@ public:
 
 	virtual void setShopItems(vector<Entity* > i)
 	{
+		for (vector<Entity*>::iterator it = i.begin(); it != i.end(); ++it)
+		{
+			//Setup behaviors
+			Entity* theItem = *it;
+			SAFE_DELETE(theItem->dropBehavior);
+			SAFE_DELETE(theItem->pickupBehavior);
+			theItem->buyBehavior = new BuyBehavior(player, theItem);
+			theItem->setupVectorActiveBehaviors();
+		}
 		items = i;
 	}
 
