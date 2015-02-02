@@ -57,6 +57,15 @@ public:
 	string getTalkText() { return talkText; }
 	void setTalkText(string txt) { talkText = txt; }
 	virtual string getType() { return "NPC"; }
+	vector<InventoryItem*>* getShopItemsList(){ return shopItemsList; }
+	vector<InventoryItem*> getShopItemsListCopy(){
+		vector<InventoryItem*> shopList;
+		for (int i = 0, l = shopItemsList->size(); i < l; ++i)
+		{
+			shopList.push_back(shopItemsList->at(i)->clone());
+		}
+		return shopList;
+	}
 };
 
 #endif
