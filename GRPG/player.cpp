@@ -144,7 +144,7 @@ void Player::update(float frameTime, Game* gamePtr)
 				}
 				else
 				{
-					skills[skillNS::ID_SKILL_FISHING].gainXP(4);
+					skills[skillNS::ID_SKILL_FISHING].gainXP(30);
 				}
 				restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
 			}
