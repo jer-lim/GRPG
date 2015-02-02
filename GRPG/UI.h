@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "Behavior.h"
 #include "BuyBehavior.h"
+#include "SellBehavior.h"
 
 namespace uiNS
 {
@@ -175,6 +176,15 @@ public:
 	{
 		windowHeader = ""; 
 		items.clear();
+		//Remove sell behavior if required
+		vector<Entity*> playerInventory = player->getInventory()->getVectorItems();
+		for (vector<Entity*>::iterator it = playerInventory.begin(); it != playerInventory.end(); ++it)
+		{
+			Entity* theItem = *it;
+			SAFE_DELETE(theItem->sellBehavior);
+			theItem->setupVectorActiveBehaviors();
+		}
+
 	}
 
 	virtual void setShopItems(vector<Entity* > i)
@@ -199,7 +209,13 @@ public:
 		//Add sell behavior to the player's inventory
 		//We can leave the rest there, why not allow the player to eat, drop or whatever
 		//while shopping?
-		
+		vector<Entity*> playerInventory = player->getInventory()->getVectorItems();
+		for (vector<Entity*>::iterator it = playerInventory.begin(); it != playerInventory.end(); ++it)
+		{
+			Entity* theItem = *it;
+			theItem->sellBehavior = new SellBehavior(player, theItem);
+			theItem->setupVectorActiveBehaviors();
+		}
 	}
 
 	//Gets the items shown in the shop. If empty, no items are shown
