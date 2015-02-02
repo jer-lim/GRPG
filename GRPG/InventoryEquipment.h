@@ -17,6 +17,10 @@ public:
 	{
 		smithingMaterial = material;
 	}
+	virtual ~InventoryEquipment()
+	{
+		SAFE_RELEASE(smithingMaterial);
+	}
 
 	Smithing_Material* getSmithingMaterial() { return smithingMaterial; }
 	void setSmithingMaterial(Smithing_Material* mat){ smithingMaterial = mat; }

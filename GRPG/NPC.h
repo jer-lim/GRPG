@@ -36,7 +36,15 @@ public:
 		shopItemsList = shopItems;
 	}
 	~NPC(){
-		SAFE_DELETE(shopItemsList);
+		if (shopItemsList != nullptr)
+		{
+			for (int i = 0, l = shopItemsList->size(); i < l; ++i) {
+				InventoryItem* ii = shopItemsList->at(i);
+				SAFE_DELETE(ii);
+			}
+			shopItemsList->clear();
+			SAFE_DELETE(shopItemsList);
+		}
 	}
 
 	static Entity* spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim = nullptr);

@@ -24,13 +24,13 @@ public:
 	}
 	// constructor
 	InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
-	void destroy(){
+	virtual void destroy(){
 		//drawmanager->removeObject(entity);
 		SAFE_RELEASE(item);
 		//SAFE_DELETE(entity);
 		drawmanager = nullptr;
 	}
-	~InventoryItem(){ 
+	virtual ~InventoryItem(){ 
 		destroy();
 	}// don't destroy the item because it's used by multiple inventoryitems
 	InventoryItem(Item *itm, int stack){
