@@ -355,11 +355,17 @@ bool Grpg::processCommand(std::string command)
 	else if (command == "shop")
 	{
 		ui->drawWindow("Solomon's General Store");
+		ui->setShopItems(player->getInventory()->getVectorItems());
 		return true;
 	}
 	else if (command == "more")
 	{
 		drawManager->addObject(player, 3);
+		return true;
+	}
+	else if (command == "fish")
+	{
+		player->startFishing(false);
 		return true;
 	}
 	else if (command.substr(0, 5) == "spawn")
