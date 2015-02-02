@@ -21,12 +21,6 @@ public:
 
 	virtual ~Resource();
 
-	// Update Entity.
-	// typically called once per frame
-	// frameTime is used to regulate the speed of movement and animation
-	// Left empty in resource to save processing power (No need to call Entity::update())
-	virtual void update(float frameTime, Game* gamePtr = nullptr) { };
-
 	// Initialize resource by specifying which type it should be
 	// Pre: *gamePtr = pointer to Game object
 	//		type = which type (from resourceNS) this resource should be

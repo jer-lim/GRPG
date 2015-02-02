@@ -54,6 +54,14 @@ public:
 	int getWanderRange() { return wanderRange; }
 
 	vector<InventoryItem*>* getDropsList() { return dropsList; }
+	vector<InventoryItem*> getDropsListCopy() { 
+		vector<InventoryItem*> dropsListCopy;
+		for (int i = 0, l = dropsList->size(); i < l; ++i)
+		{
+			dropsListCopy.push_back(dropsList->at(i)->clone());
+		}
+		return dropsListCopy;
+	}
 
 	virtual string getType(){ return "ENEMY"; }
 };
