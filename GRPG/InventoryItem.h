@@ -48,6 +48,8 @@ public:
 	}
 	string getCurrentStackCountString() { return currentStackCountString; }
 
+	virtual string getType() { return "INVENTORYITEM"; }
+
 	virtual InventoryItem* clone() {
 		return new InventoryItem(*this);
 	}

@@ -317,7 +317,7 @@ void UI::drawTabContents(int tabNumber)
 		map<int, Entity*>* slotList = player->getInventory()->getSlotList();
 		for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
 		{
-			//this is actually being drawn twice, once by drawmanager, but i'm drawing here to make it appear above UI
+			//this is actually being drawn twice, once by drawmanager
 			it->second->draw(nullptr);
 			//draw stack here using uiText
 			InventoryItem* ii = it->second->getInventoryItem();

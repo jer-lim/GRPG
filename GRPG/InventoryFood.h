@@ -19,6 +19,8 @@ public:
 	int getFoodState(){ return foodState; }
 	int setFoodState(int i){ foodState = i; }
 
+	virtual string getType() { return "INVENTORYFOOD"; }
+
 	virtual InventoryFood* clone() {
 		return new InventoryFood(*this);
 	}
