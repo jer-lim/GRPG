@@ -345,13 +345,13 @@ class Entity : public Destination//, public Interactable
 	//Behavior related
 	//void setCookBehavior
 	void setDropBehavior(Behavior* b) {
-		if (dropBehavior != nullptr)
-			SAFE_DELETE(dropBehavior);
+		//if (dropBehavior != nullptr)//should be handled outside
+			//SAFE_DELETE(dropBehavior);
 		dropBehavior = b;
 	}
 	void setPickupBehavior(Behavior* b) {
-		if (pickupBehavior != nullptr)
-			SAFE_DELETE(pickupBehavior);
+		//if (pickupBehavior != nullptr)
+			//SAFE_DELETE(pickupBehavior);
 		pickupBehavior = b;
 	}
 	void setupVectorActiveBehaviors()
@@ -398,6 +398,11 @@ class Entity : public Destination//, public Interactable
 			destination->release();
 			destination = nullptr;
 		}
+	}
+
+	void setAnchored(bool b)
+	{
+		anchored = b;
 	}
 };
 

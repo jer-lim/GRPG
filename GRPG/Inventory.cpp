@@ -46,6 +46,7 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 		if (slotList.size() == 0)
 		{//everything is empty
 			addEntityInventoryItem(0, ii);
+			return ADDED;
 		}
 		else if (slotList.size() < maxSlotListCount)
 		{//Find an empty spot and slot the item in
@@ -67,6 +68,20 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 	}
 	if (result == IMPOSSIBLE) return FAILED;
 	if (result == INCOMPLETE) return PARTIAL_MERGE;
+}
+
+bool Inventory::removeEntityInventoryItem(Entity * entity)
+{
+	// Iterate to element to remove it
+	for (map<int,Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
+		if (it->second == entity){
+			//SAFE_DELETE(it->second);
+			slotList.erase(it->first);
+			return true;
+		}
+	}
+
+	return false; 
 }
 
 bool Inventory::destroyEntityInventoryItem(int i)

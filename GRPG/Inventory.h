@@ -20,7 +20,7 @@ public:
 	Inventory();//If you don't have a .cpp, don't put ';', put '{}'
 	void destroy(){
 		for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
-			delete it->second;
+			//delete it->second;
 			it->second = nullptr;
 		}
 		slotList.clear();
@@ -32,6 +32,7 @@ public:
 	Inventory(int x, int y);
 	bool addEntityInventoryItem(int i, Entity* ii);
 	ITEM_ADD addEntityInventoryItem(Entity* ii);
+	bool removeEntityInventoryItem(Entity* entity);
 	bool destroyEntityInventoryItem(int i);
 	bool hasEntityInventoryItem(int i);
 	ITEM_MERGE merge(Entity* a, Entity* b)
