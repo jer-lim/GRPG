@@ -8,11 +8,13 @@ using namespace std;
 class PickupBehavior :public Behavior
 {
 private:
+	Game* gamePtr;
 	DrawManager* drawManager;
 	Entity* entity;
 	Player* player;
 public:
-	PickupBehavior(DrawManager* drawMngr,Entity* e,Player* plyr){ 
+	PickupBehavior(Game* game,DrawManager* drawMngr,Entity* e,Player* plyr){ 
+		gamePtr = game;
 		drawManager = drawMngr;
 		entity = e;
 		player = plyr;

@@ -8,11 +8,13 @@ using namespace std;
 class DropBehavior : public Behavior
 {
 private:
+	Game* gamePtr;
 	DrawManager* drawManager;
 	Player* player;
 	Entity* entity;
 public:
-	DropBehavior(DrawManager* drawMngr, Entity* e, Player* plyr){
+	DropBehavior(Game* game, DrawManager* drawMngr, Entity* e, Player* plyr){
+		gamePtr = game;
 		drawManager = drawMngr;
 		entity = e;
 		player = plyr;
