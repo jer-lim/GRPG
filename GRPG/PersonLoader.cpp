@@ -38,7 +38,7 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 					{//Food "id:count:food_state"
 						vector_drop[0].erase(0,1);
 						iiPtr = new InventoryFood(itemLoader->getItem(atoi(vector_drop[0].c_str())), atoi(vector_drop[1].c_str()),
-							atoi(vector_drop[2].c_str()));
+							static_cast<FOOD_STATE>(atoi(vector_drop[2].c_str())));
 					}
 					else if (vector_drop[0].at(0) == 'E')
 					{//Equipment "id:count:smithing_material"
@@ -94,7 +94,7 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 					{//Food "id:count:food_state"
 						vector_drop[0].erase(0, 1);
 						iiPtr = new InventoryFood(itemLoader->getItem(atoi(vector_drop[0].c_str())), atoi(vector_drop[1].c_str()),
-							atoi(vector_drop[2].c_str()));
+							static_cast<FOOD_STATE>(atoi(vector_drop[2].c_str())));
 					}
 					else if (vector_drop[0].at(0) == 'E')
 					{//Equipment "id:count:smithing_material"

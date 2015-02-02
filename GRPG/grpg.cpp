@@ -51,6 +51,10 @@ Grpg::~Grpg()
 void Grpg::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
+
+	/* initialize random seed: */
+	srand(time(NULL));
+
 	Skill::setupAllSkills();
 
 	mapLoader->loadData();

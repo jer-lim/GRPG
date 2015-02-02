@@ -2,6 +2,13 @@
 #define _FOOD_H		             // file is included in more than one place
 
 #include "item.h"
+#include <stdlib.h>     /* srand, rand */
+
+namespace FoodNS
+{
+	const float DELICIOUS_CHANCE_DIFFERENCE = 100;
+	const float DELICIOUS_HP_MULTIPLIER = 2;
+}
 
 class Food : public Item
 {
