@@ -56,9 +56,12 @@ public:
 	vector<InventoryItem*>* getDropsList() { return dropsList; }
 	vector<InventoryItem*> getDropsListCopy() { 
 		vector<InventoryItem*> dropsListCopy;
-		for (int i = 0, l = dropsList->size(); i < l; ++i)
+		if (dropsList != nullptr)
 		{
-			dropsListCopy.push_back(dropsList->at(i)->clone());
+			for (int i = 0, l = dropsList->size(); i < l; ++i)
+			{
+				dropsListCopy.push_back(dropsList->at(i)->clone());
+			}
 		}
 		return dropsListCopy;
 	}
