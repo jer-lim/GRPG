@@ -48,6 +48,9 @@ public:
 	}
 	string getCurrentStackCountString() { return currentStackCountString; }
 
+	virtual InventoryItem* clone() {
+		return new InventoryItem(*this);
+	}
 	//Entity* getEntity(){ return entity; }
 	//void setEntity(Entity* e){ entity = e; }
 };
