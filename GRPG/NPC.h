@@ -19,6 +19,8 @@ private:
 	string description;
 	int maxHealth;
 	string talkText;
+	//Which tile to teleport to. 0 means none
+	char teleportTIleID;
 	vector<InventoryItem*>* shopItemsList;
 
 	bool isEnemy;
@@ -34,6 +36,7 @@ public:
 		maxHealth = maxhp;
 		isEnemy = enemy;
 		talkText = "";
+		teleportTIleID = '0';
 		shopItemsList = shopItems;
 	}
 	~NPC(){
@@ -57,6 +60,9 @@ public:
 	bool getIsEnemy() { return isEnemy; }
 	string getTalkText() { return talkText; }
 	void setTalkText(string txt);
+	// Get which tile to teleport to. 0 means none
+	char getTeleportID() { return teleportTIleID; }
+	void setTeleportID(char t) { teleportTIleID = t; }
 	virtual string getType() { return "NPC"; }
 	vector<InventoryItem*>* getShopItemsList(){ return shopItemsList; }
 	vector<InventoryItem*> getShopItemsListCopy(){

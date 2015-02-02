@@ -1,6 +1,6 @@
-0 Doctor doctor.png 0 0 64 64 1 38 38 Heals_you_to_good_health. Hello!_I_can_heal_you! {}
-1 Shopkeeper grocer.png 0 0 64 64 1 38 38 Sells_you_good_food. Hello!_Would_you_like_to_trade? {F2:1:0,F2:1:1,F3:1:0,F3:1:1,F5:1:0,F5:1:1}
-2 Blacksmith blacksmith.png 0 0 64 64 1 38 38 Makes_you_weapons_and_armor. Hello!_I_can_smith_items_for_you {E14:1:7,E15:1:8,E14:1:10,E15:1:10,E15:1:12,E16:1:12,E17:1:7,E18:1:8,E19:1:10,E17:1:10,E18:1:12,E19:1:12,E20:1:7,E21:1:8,E22:1:10,E20:1:10,E21:1:12,E22:1:12}
-16 Captain_Start grocer.png 0 0 64 64 1 38 38 Brings_you_to_start_your_adventure! Ahoy!_Right_click_me_and_select_"Teleport"\nto_start_your_adventure! {}
-17 Tue_Torrial grocer.png 0 0 64 64 1 38 38 Instructs_you_on_life. Greetings_adventurer_and_welcome_to_Main_Menu_Island!\nI_am_the_Tue_Torrial._It's_my_title,_not_my_name._It's_been_in_my_family\nfor_ages!_As_we_can_see,_you_know_how_to_talk!_That's_it_for_me,_talk\nto_Hardy_Wijaja_above_me_and_he'll_teach_you_how_to_fight! {}
-18 Hardy_Wijaja grocer.png 0 0 64 64 1 38 38 He's_a_lover_not_a_fighter. So_you_want_to_fight?_Fighting_is_easy!_Just_click_on\nthe_monster_to_fight,_but_be_careful_not_to_die!_Practice_makes\nperfect._Train_more_and_you'll_get_stronger!_Give_it_a_try_on_the\nchicken_on_the_left. {}
+0 Doctor doctor.png 0 0 64 64 1 38 38 Heals_you_to_good_health. Hello!_I_can_heal_you! 0 {}
+1 Shopkeeper grocer.png 0 0 64 64 1 38 38 Sells_you_good_food. Hello!_Would_you_like_to_trade? 0 {F2:1:0,F2:1:1,F3:1:0,F3:1:1,F5:1:0,F5:1:1}
+2 Blacksmith blacksmith.png 0 0 64 64 1 38 38 Makes_you_weapons_and_armor. Hello!_I_can_smith_items_for_you 0 {E14:1:7,E15:1:8,E14:1:10,E15:1:10,E15:1:12,E16:1:12,E17:1:7,E18:1:8,E19:1:10,E17:1:10,E18:1:12,E19:1:12,E20:1:7,E21:1:8,E22:1:10,E20:1:10,E21:1:12,E22:1:12}
+16 Captain_Start grocer.png 0 0 64 64 1 38 38 Brings_you_to_start_your_adventure! Ahoy!_Right_click_me_and_select_"Teleport"\nto_start_your_adventure! 3 {}
+17 Tue_Torrial grocer.png 0 0 64 64 1 38 38 Instructs_you_on_life. Greetings_adventurer_and_welcome_to_Main_Menu_Island!\nI_am_the_Tue_Torrial._It's_my_title,_not_my_name._It's_been_in_my_family\nfor_ages!_As_we_can_see,_you_know_how_to_talk!_That's_it_for_me,_talk\nto_Hardy_Wijaja_above_me_and_he'll_teach_you_how_to_fight! 0 {}
+18 Hardy_Wijaja grocer.png 0 0 64 64 1 38 38 He's_a_lover_not_a_fighter. So_you_want_to_fight?_Fighting_is_easy!_Just_click_on\nthe_monster_to_fight,_but_be_careful_not_to_die!_Practice_makes\nperfect._Train_more_and_you'll_get_stronger!_Give_it_a_try_on_the\nchicken_on_the_left. 0 {}
