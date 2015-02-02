@@ -155,11 +155,11 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			attackBehavior = new AttackBehavior(grpgPointer->getPlayer(), this, (NPC*)whichCharacter);
 		else
 		{//if npc
-			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
 			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
 			//initialize shop items
 			if (((NPC*)whichCharacter)->getShopItemsList() != nullptr)
 			{
+				tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
 				vector<InventoryItem*> shopItemsList = ((NPC*)whichCharacter)->getShopItemsListCopy();
 				for (int i = 0, l = shopItemsList.size(); i < l; ++i)
 				{
