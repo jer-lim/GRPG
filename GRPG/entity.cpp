@@ -46,11 +46,11 @@ Entity::Entity()
 	backHealth = nullptr;
 	availableHealth = nullptr;
 	theGame = nullptr;
+	inventory = nullptr;
 
 	oldViewport = VECTOR2(-1, -1);
 	oldLocation = VECTOR2(-1, -1);
 	spawnLocation = new VECTOR2(-1, -1);
-	inventory = new Inventory();
 }
 
 //=============================================================================
@@ -159,6 +159,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			//initialize shop items
 			if (((NPC*)whichCharacter)->getShopItemsList() != nullptr)
 			{
+				inventory = new Inventory();
 				tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
 				vector<InventoryItem*> shopItemsList = ((NPC*)whichCharacter)->getShopItemsListCopy();
 				for (int i = 0, l = shopItemsList.size(); i < l; ++i)
