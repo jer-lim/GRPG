@@ -21,12 +21,13 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 
 			//get shop_items data
 
-			vector<InventoryItem*>* dropsList = new vector<InventoryItem*>();
+			vector<InventoryItem*>* dropsList = nullptr;
 
 			dropsData.erase(dropsData.begin());
 			dropsData.erase(dropsData.end() - 1);
 			if (dropsData.size() > 0)
 			{
+				dropsList = new vector<InventoryItem*>();
 				InventoryItem* iiPtr;
 				vector<string> vector_dropsData = String_Functions::split(dropsData, ',');
 				for (int i = 0, l = vector_dropsData.size(); i < l; ++i)
@@ -75,12 +76,13 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 
 			//get drops data
 			
-			vector<InventoryItem*>* dropsList = new vector<InventoryItem*>();
+			vector<InventoryItem*>* dropsList = nullptr;
 			
 			dropsData.erase(dropsData.begin());
 			dropsData.erase(dropsData.end()-1);
 			if (dropsData.size() > 0)
 			{
+				dropsList = new vector<InventoryItem*>();
 				InventoryItem* iiPtr;
 				vector<string> vector_dropsData = String_Functions::split(dropsData, ',');
 				for (int i = 0, l = vector_dropsData.size(); i < l; ++i)
