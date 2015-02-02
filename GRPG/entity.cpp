@@ -210,6 +210,21 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 	if (inInventory)
 	{
 		dropBehavior = new DropBehavior(gamePtr,gamePtr->getDrawManager(), this, ((Grpg*)gamePtr)->getPlayer());
+		if (invItem->getType() == "INVENTORYFOOD")
+		{
+			switch (((InventoryFood*)invItem)->getFoodState())
+			{
+			case RAW:
+				cookBehavior = new CookBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+				break;
+			case COOKED:
+			case DELICIOUS:
+				eatBehavior = new EatBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+				break;
+			case BURNT://nth
+				break;
+			}
+		}
 	}
 	else
 	{

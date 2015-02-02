@@ -11,6 +11,8 @@
 #include "destination.h"
 #include "Person.h"
 #include "InventoryItem.h"
+#include "InventoryFood.h"
+#include "InventoryEquipment.h"
 #include "Viewport.h"
 //#include "Interactable.h"
 //#include "Behavior.h"
@@ -19,6 +21,8 @@
 //#include "DropBehavior.h"
 #include "ViewBehaviorNPC.h"
 #include "ViewBehaviorItem.h"
+#include "EatBehavior.h"
+#include "CookBehavior.h"
 #include "Button.h"
 #include "Inventory.h"
 
@@ -166,6 +170,7 @@ class Entity : public Destination//, public Interactable
 	  Behavior* dropBehavior = nullptr;//Drop name -> drop obj
 	  Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
 	  Behavior* buyBehavior = nullptr;
+	  Behavior* eatBehavior = nullptr;
 	  //Resource
 	  Behavior* fishBehavior = nullptr; //Fishing
 	  Behavior* mineBehavior = nullptr; //Mining
@@ -366,6 +371,8 @@ class Entity : public Destination//, public Interactable
 		vectorActiveBehaviors.clear();
 		if (buyBehavior)
 			vectorActiveBehaviors.push_back(buyBehavior);
+		if (eatBehavior)
+			vectorActiveBehaviors.push_back(eatBehavior);
 		if (cookBehavior)
 			vectorActiveBehaviors.push_back(cookBehavior);
 		if (dropBehavior)

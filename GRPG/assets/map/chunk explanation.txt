@@ -10,4 +10,11 @@ E : right side of lake
 F : left side of lake
 G : top side of lake
 H : bottom side of lake
+J : flat bottom side of lake
+K : flat top side of lake
+L : flat left side of lake
+M : flat right side of lake
+N : flat top side of lake with dock
+O : flat bottom side of lake with dock
 + : hospital
+I : cookhouse
