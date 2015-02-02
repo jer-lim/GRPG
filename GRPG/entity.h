@@ -20,6 +20,7 @@
 #include "ViewBehaviorNPC.h"
 #include "ViewBehaviorItem.h"
 #include "Button.h"
+#include "Inventory.h"
 
 class AttackBehavior;
 class PickupBehavior;
@@ -132,6 +133,9 @@ class Entity : public Destination//, public Interactable
 	//The entity can never move too far from the spawn location
 	VECTOR2* spawnLocation;
 
+	//Inventory for both players and friendlies
+	Inventory* inventory;
+
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
@@ -236,6 +240,8 @@ class Entity : public Destination//, public Interactable
 
 	// Returns the edge that is used for box and rotated box collision
 	virtual RECT getEdge() { return edge; }
+
+	Inventory* getInventory(){ return inventory; }
 
     ////////////////////////////////////////
     //           Set functions            //

@@ -77,6 +77,7 @@
     <ClCompile Include="DropBehavior.cpp" />
     <ClCompile Include="EatBehavior.cpp" />
     <ClCompile Include="FishBehavior.cpp" />
+    <ClCompile Include="InventoryItem.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PersonLoader.cpp" />

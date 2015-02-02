@@ -14,6 +14,7 @@ class Enemy : public NPC
 private:
 	int attackLv, defenseLv, strengthLv;
 	int aggro; //The enemy will attack the palyer if the player's combat level is equal to this level or lower
+	int wanderRange;
 	float damageReduction;
 	vector<InventoryItem*>* dropsList;
 	
@@ -30,7 +31,7 @@ public:
 		SAFE_DELETE(dropsList);
 	}
 
-	Enemy(string i, float mov, float atkSpd, float h, float w, float cols, float colHeight, float colWidth, string nama, string desc, int maxhp, int atkLv, int defLv, int strLv, float dmgReduction, int a, vector<InventoryItem*>* drops)
+	Enemy(string i, float mov, float atkSpd, float h, float w, float cols, float colHeight, float colWidth, string nama, string desc, int maxhp, int atkLv, int defLv, int strLv, float dmgReduction, int a, int range, vector<InventoryItem*>* drops)
 		: NPC(i, mov, atkSpd, h, w, cols, colHeight, colWidth, nama, desc, maxhp, true)
 	{
 		attackLv = atkLv;
@@ -38,6 +39,7 @@ public:
 		strengthLv = strLv;
 		damageReduction = dmgReduction;
 		aggro = a;
+		wanderRange = range;
 		dropsList = drops;
 	}
 
@@ -49,6 +51,7 @@ public:
 	int getstrengthLv(){ return strengthLv; }
 	//void setstrengthLv(int i){ strengthLv = i; }
 	int getAggro() { return aggro; }
+	int getWanderRange() { return wanderRange; }
 
 	vector<InventoryItem*>* getDropsList() { return dropsList; }
 

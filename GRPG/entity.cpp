@@ -50,6 +50,7 @@ Entity::Entity()
 	oldViewport = VECTOR2(-1, -1);
 	oldLocation = VECTOR2(-1, -1);
 	spawnLocation = new VECTOR2(-1, -1);
+	inventory = new Inventory();
 }
 
 //=============================================================================
@@ -89,13 +90,20 @@ Entity::~Entity()
 	}
 	if (inventoryItem != nullptr)
 	{
+		inventoryItem->destroy();
 		SAFE_DELETE(inventoryItem);
 	}
 	if (destination != nullptr)
 	{
 		destination->release();
 	}
-	
+
+	if (inventory != nullptr)
+	{
+		inventory->destroy();
+		SAFE_DELETE(inventory);
+	}
+
 	SAFE_DELETE(spawnLocation);
 }
 
@@ -139,15 +147,21 @@ bool Entity::initialize(Game *gamePtr, int width, int height, int ncols, const c
 bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 {
 	//setup behaviors
+	Grpg* grpgPointer = (Grpg*)gamePtr;
 	if (whichCharacter->getType() == "NPC" || whichCharacter->getType() == "ENEMY")
 	{
 		if (whichCharacter->getType() == "ENEMY")//Attack enemy
-			attackBehavior = new AttackBehavior(((Grpg*)gamePtr)->getPlayer(),this,(NPC*)whichCharacter);
+			attackBehavior = new AttackBehavior(grpgPointer->getPlayer(), this, (NPC*)whichCharacter);
 		else
 		{
-			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this);
-			talkBehavior = new TalkBehavior((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getPlayer(), this,
+			tradeBehavior = new TradeBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
+			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this,
 				"Hello! Would you like to trade?");
+			InventoryItem* y = new InventoryItem(grpgPointer->getItemLoader()->getItem(0), 9);
+			Entity* e = new Entity();
+			e->initialize(gamePtr, y, true);//anchored if its an inventory
+			//y->initialize(this, true);
+			inventory->addEntityInventoryItem(e);
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
 		thePlayer = ((Grpg*)gamePtr)->getPlayer();
@@ -347,8 +361,9 @@ void Entity::update(float frameTime, Game* gamePtr)
 			if (!canAggro)
 			{
 				//Just wander around, I guess?
-				if (destination == nullptr && person != Person::thePlayer)
+				if (destination == nullptr && person != Person::thePlayer && person->getType() == "ENEMY")
 				{
+					int aggroRadius = ((Enemy*)person)->getWanderRange();
 					//Set spawn location if it hasn't been set
 					if (spawnLocation->x == -1 && spawnLocation->y == -1)
 					{
@@ -358,7 +373,8 @@ void Entity::update(float frameTime, Game* gamePtr)
 					//20% chance, otherwise it stands still
 					if (getRandomNumber() > 0.8)
 					{
-						destination = new Point(rand() % 500 - 250 + spawnLocation->x, rand() % 500 - 250 + spawnLocation->y);
+						destination = new Point((rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->x, 
+												(rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->y);
 					}
 				}
 			}

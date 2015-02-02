@@ -75,11 +75,15 @@ void MapLoader::loadData(){
 	if (tilestream.is_open()){
 		char tileId;
 		int tileType;
+		int numFrames;
+		double frameTime;
 		string tileFileName;
 		while (!tilestream.eof()){
 
 			tilestream >> tileId;
 			tilestream >> tileType;
+			tilestream >> numFrames;
+			tilestream >> frameTime;
 			tilestream >> tileFileName;
 
 			//Insert into a map
@@ -90,7 +94,11 @@ void MapLoader::loadData(){
 			else{
 				tileset[tileId].type = tileType;
 			}
+
 			tileset[tileId].imageName = tileFileName;
+			tileset[tileId].numFrames = numFrames;
+			tileset[tileId].frameTime = frameTime;
+
 			if (tileType == tileNS::type::SPAWNER){
 				tilestream >> tileset[tileId].spawnId;
 				tilestream >> tileset[tileId].spawnCooldown;
@@ -353,6 +361,13 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
+
+		// Image things
+		t->getImage()->setFrames(0, tileset[tileId].numFrames - 1);
+		t->getImage()->setFrameDelay(tileset[tileId].frameTime);
+		t->getImage()->setCols(tileset[tileId].numFrames);
+		t->getImage()->setCurrentFrame(0);
+
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t, tileset[tileId].type);
 	}
@@ -362,7 +377,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		//runtimeLog << "Created image1" << endl;
 		//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
-		t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
+		t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, tileset[tileId].numFrames, tileset[tileId].frameTime, textureManager);
 		t->setX(tilePos.x);
 		t->setY(tilePos.y);
 		drawManager->addObject(t, tileNS::ZINDEX);
@@ -446,8 +461,7 @@ void MapLoader::update(){
 		TileVector oldLocation = toMove.front();
 		ManagedTile* mt = loadedTiles[oldLocation.x][oldLocation.y];
 		TileVector newLocation = toMoveTo.front();
-		
-		//CRIME SCENE
+
 		if (loadedTiles[newLocation.x].count(newLocation.y)){
 			ManagedTile* m = loadedTiles[newLocation.x][newLocation.y];
 			if (m->tile != nullptr) drawManager->removeObject(m->tile);
@@ -458,8 +472,6 @@ void MapLoader::update(){
 		}
 		loadedTiles[newLocation.x][newLocation.y] = mt;
 		loadedTiles[oldLocation.x].erase(oldLocation.y);
-		//END CRIME SCENE
-		//VERDICT: NOT GUILTY
 		
 		char oldTileId = getTileIdAtLocation(oldLocation.x, oldLocation.y);
 		char newTileId = getTileIdAtLocation(newLocation.x, newLocation.y);
@@ -467,14 +479,13 @@ void MapLoader::update(){
 		// New tile location
 		VECTOR2 tilePos = getCoordsAtTileLocation(newLocation.x, newLocation.y);
 
-		tileStruct oldTileInfo = tileset[oldTileId];
 		tileStruct newTileInfo = tileset[newTileId];
 		
-		// If they are different tiles or are spawners, need to delete and change it
-		if (newTileId != oldTileId || newTileInfo.type == tileNS::type::SPAWNER){
+		// If they are different tiles or are unique entities (not floors and walls), need to delete and change it
+		if (newTileId != oldTileId || (newTileInfo.type != tileNS::type::FLOOR && newTileInfo.type != tileNS::type::WALL)){
 
-			// If both are the same class, just change textureManagers
-			if (newTileInfo.type == oldTileInfo.type){
+			// If both are the same class, just change textureManagers and misc info (Floors and walls only, others need to be recreated)
+			if (newTileInfo.type == mt->type && (newTileInfo.type == tileNS::type::FLOOR || newTileInfo.type == tileNS::type::WALL)){
 				TextureManager* textureManager;
 				stringstream ss;
 				ss << tileImageFolder << newTileInfo.imageName;
@@ -493,27 +504,29 @@ void MapLoader::update(){
 
 				if (mt->tile != nullptr){
 					mt->tile->getImage()->setTextureManager(textureManager);
+					mt->tile->getImage()->setFrames(0, newTileInfo.numFrames - 1);
+					mt->tile->getImage()->setFrameDelay(newTileInfo.frameTime);
+					mt->tile->getImage()->setCols(newTileInfo.numFrames);
+					mt->tile->getImage()->setCurrentFrame(0);
 				}
 				else if(mt->image != nullptr){
 					mt->image->setTextureManager(textureManager);
+					mt->image->setFrames(0, newTileInfo.numFrames - 1);
+					mt->image->setFrameDelay(newTileInfo.frameTime);
+					mt->image->setCols(newTileInfo.numFrames);
+					mt->image->setCurrentFrame(0);
 				}
 			}
-			// Incompatible types, need new Entity / Image to store
+			// Otherwise need a new object
 			else{
 				// Clear old data
 				if (mt->tile != nullptr){
-					// WHY ISN'T THIS REALLY DELETED
-					//delete mt->tile;
-
 					Tile* t = mt->tile;
 					delete t;
 					drawManager->removeObject(mt->tile);
 					mt->tile = nullptr;
 				}
 				else if(mt->image != nullptr) {
-					// WHY ISN'T THIS REALLY DELETED
-					//delete mt->image;
-
 					Image* t = mt->image;
 					delete t;
 					drawManager->removeObject(mt->image);
@@ -554,20 +567,27 @@ void MapLoader::update(){
 					else if(newTileInfo.type == tileNS::type::FISHINGSPOT){
 						t = new Resource();
 						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
-						runtimeLog << "Created Fishing2" << endl;
-						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+						//runtimeLog << "Created Fishing2" << endl;
+						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 					else if(newTileInfo.type == tileNS::type::MININGSPOT){
 						t = new Resource();
 						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
-						runtimeLog << "Created Mining2" << endl;
-						runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+						//runtimeLog << "Created Mining2" << endl;
+						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 
 					t->initialize(gamePtr, textureManager);
 					t->setX(tilePos.x);
 					t->setY(tilePos.y);
 					t->spawn();
+
+					// Image things
+					t->getImage()->setFrames(0, newTileInfo.numFrames - 1);
+					t->getImage()->setFrameDelay(newTileInfo.frameTime);
+					t->getImage()->setCols(newTileInfo.numFrames);
+					t->getImage()->setCurrentFrame(0);
+
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->tile = t;
 					mt->type = newTileInfo.type;
@@ -578,7 +598,7 @@ void MapLoader::update(){
 					//runtimeLog << "Created Image2" << endl;
 					//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 
-					t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, 1, textureManager);
+					t->initialize(gamePtr->getGraphics(), tileNS::WIDTH, tileNS::HEIGHT, newTileInfo.numFrames, newTileInfo.frameTime, textureManager);
 					drawManager->addObject(t, tileNS::ZINDEX);
 					mt->image = t;
 					mt->type = tileNS::type::FLOOR;

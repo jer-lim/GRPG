@@ -219,6 +219,28 @@ void UI::draw(Viewport* viewport)
 		windowImage.draw();
 		//And draw the text over it
 		uiText->print(windowHeader, *shopRect, DT_BOTTOM | DT_CENTER);
+		//Draw shop items, if any
+		if (items.size() > 0)
+		{
+			VECTOR2 coordinates = VECTOR2(windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin,
+										windowImage.getY() - windowImage.getHeight() / 2 + uiNS::shopTMargin);
+			coordinates += VECTOR2(itemNS::spriteHeight / 2, itemNS::spriteWidth / 2);
+			int originalX = coordinates.x;
+			int count = 0; 
+			for (vector<Entity* >::iterator it = items.begin(); it != items.end(); ++it)
+			{
+				Entity* theItem = *it;
+				theItem->setX(coordinates.x);
+				theItem->setY(coordinates.y);
+				theItem->draw(nullptr);
+				coordinates.x += itemNS::spriteWidth + uiNS::shopWMargin;
+				if (++count % 9 == 0)
+				{
+					coordinates.x = originalX;
+					coordinates.y += itemNS::spriteHeight + uiNS::shopHMargin;
+				}
+			}
+		}
 	}
 
 	// Now draw the right click menu

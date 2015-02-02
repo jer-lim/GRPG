@@ -174,7 +174,7 @@ void Grpg::update()
 	if (!input->getMouseRButton() && rightMouseWasDown)
 	{
 		//Show right click popup
-		//if(mouseOverEntity != nullptr)
+		if(mouseOverEntity != nullptr)
 		{
 			//Find all the entities that the mouse is currently over
 			map<int, map<int, ManagedObject*>> allEntities = drawManager->getDrawnObjects();
@@ -195,6 +195,17 @@ void Grpg::update()
 										addMouseOverEntity(it3->second);
 										break; //The player can only mouse over only 1 item in his inventory at a time
 									}
+								}
+							}
+							//Check shop items
+							vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
+							for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+							{
+								Entity* theItem = *it3;
+								if (theItem->mouseInside(viewport))
+								{
+									addMouseOverEntity(theItem);
+									break;
 								}
 							}
 						}

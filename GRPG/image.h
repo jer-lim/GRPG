@@ -129,6 +129,10 @@ class Image
     // Set starting and ending frames of animation.
     virtual void setFrames(int s, int e){startFrame = s; endFrame = e;}
 
+	virtual void setCols(int c){
+		cols = c;
+	}
+
     // Set current frame of animation.
     virtual void setCurrentFrame(int c);
 
@@ -163,8 +167,11 @@ class Image
     //      height = height of Image in pixels (0 = use full texture height)
     //      ncols = number of columns in texture (1 to n) (0 same as 1)
     //      *textureM = pointer to TextureManager object
+	virtual bool Image::initialize(Graphics *g, int width, int height,
+		int ncols, TextureManager *textureM, bool anc = false);
+
     virtual bool Image::initialize(Graphics *g, int width, int height, 
-                                    int ncols, TextureManager *textureM, bool anc = false);
+                                    int ncols, double fd, TextureManager *textureM, bool anc = false);
 
     // Flip image horizontally (mirror)
     virtual void flipHorizontal(bool flip)  {spriteData.flipHorizontal = flip;}

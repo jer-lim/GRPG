@@ -55,12 +55,50 @@ Image::~Image()
 // pointer to TextureManager
 //=============================================================================
 bool Image::initialize(Graphics *g, int width, int height, int ncols,
+	TextureManager *textureM, bool anc)
+{
+	try{
+		anchored = anc;
+		graphics = g;                               // the graphics object
+		textureManager = textureM;                  // pointer to texture object
+
+		spriteData.texture = textureManager->getTexture();
+		if (width == 0)
+			width = textureManager->getWidth();     // use full width of texture
+		spriteData.width = width;
+		if (height == 0)
+			height = textureManager->getHeight();   // use full height of texture
+		spriteData.height = height;
+		cols = ncols;
+		if (cols == 0)
+			cols = 1;                               // if 0 cols use 1
+
+		// configure spriteData.rect to draw currentFrame
+		spriteData.rect.left = (currentFrame % cols) * spriteData.width;
+		// right edge + 1
+		spriteData.rect.right = spriteData.rect.left + spriteData.width;
+		spriteData.rect.top = (currentFrame / cols) * spriteData.height;
+		// bottom edge + 1
+		spriteData.rect.bottom = spriteData.rect.top + spriteData.height;
+	}
+	catch (...) { return false; }
+	initialized = true;                                // successfully initialized
+	return true;
+}
+
+// same as above but with fps
+bool Image::initialize(Graphics *g, int width, int height, int ncols, double fd, 
                        TextureManager *textureM, bool anc)
 {
     try{
 		anchored = anc;
         graphics = g;                               // the graphics object
         textureManager = textureM;                  // pointer to texture object
+
+		frameDelay = fd;
+		startFrame = 0;
+		endFrame = ncols - 1;
+		currentFrame = rand() % ncols;
 
         spriteData.texture = textureManager->getTexture();
         if(width == 0)

@@ -1,4 +1,5 @@
 #include "Inventory.h"
+#include "entity.h"
 
 Inventory::Inventory(){
 	//slot_body = slot_hand = slot_offhand = InventoryItem();//Mattgic
@@ -10,6 +11,18 @@ Inventory::Inventory(){
 Inventory::Inventory(int x,int y){
 	xDrawPosition = x;
 	yDrawPosition = y;
+}
+
+void Inventory::destroy()
+{
+	for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
+		//delete it->second;
+		it->second = nullptr;
+	}
+	slotList.clear();
+	SAFE_DELETE(slot_body);
+	SAFE_DELETE(slot_hand);
+	SAFE_DELETE(slot_offhand);
 }
 
 bool Inventory::addEntityInventoryItem(int i, Entity* ii)
@@ -113,4 +126,38 @@ Entity* Inventory::getEntityInventoryItem(int i)
 		return slotList[i];
 	}
 	return nullptr;
+}
+
+ITEM_MERGE Inventory::merge(Entity* a, Entity* b)
+{//merge in terms of stackcount
+	if (a->getInventoryItem()->getItem() != b->getInventoryItem()->getItem() ||
+		a->getInventoryItem()->getItem()->getMaxStackCount() <= a->getInventoryItem()->getCurrentStackCount())
+	{//a is already filled or different item
+		return IMPOSSIBLE;
+	}
+	else {
+		int totalStack = a->getInventoryItem()->getCurrentStackCount() + b->getInventoryItem()->getCurrentStackCount();
+		if (totalStack <= a->getInventoryItem()->getItem()->getMaxStackCount())
+		{//enough space for complete merge
+			a->getInventoryItem()->setCurrentStackCount(totalStack);
+			//SAFE_DELETE(b);
+			return SUCCESSFUL;
+		}
+		else
+		{
+			a->getInventoryItem()->setCurrentStackCount(a->getInventoryItem()->getItem()->getMaxStackCount());
+			totalStack -= a->getInventoryItem()->getItem()->getMaxStackCount();
+			b->getInventoryItem()->setCurrentStackCount(totalStack);
+			return INCOMPLETE;
+		}
+	}
+}
+
+vector<Entity* > Inventory::getVectorItems()
+{
+	vector<Entity*> returnValue;
+	for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it) {
+		returnValue.push_back(it->second);
+	}
+	return returnValue;
 }

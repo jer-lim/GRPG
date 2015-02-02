@@ -46,6 +46,15 @@ namespace uiNS
 	// of the window texture
 	const UINT windowXWidth = 28;
 	const UINT windowXHeight = 17;
+
+	//Coordindates for shop
+	const int shopColMax = 9;
+	//Margins from the edges of the image
+	const int shopLMargin = 20;
+	const int shopTMargin = 41;
+	// Margins between shop items
+	const int shopWMargin = 6;
+	const int shopHMargin = 15;
 }
 
 // inherits from Entity class
@@ -94,6 +103,7 @@ private:
 	// The header text in the window. If empty, signifies no window and no window will be drawn
 	string windowHeader;
 	RECT* shopRect; // The rectangle used for drawing the shop text
+	vector<Entity* > items; //The list of items that will be sold in the shop
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -186,10 +196,24 @@ public:
 	virtual void drawWindow(string header)
 	{
 		windowHeader = header;
+		//Make the player's active tab the inventory
+		activeTab = uiNS::INVENTORY;
 	}
 
 	// Removes the shop window, if any, is being drawn on the screen
-	virtual void removeWindow() { windowHeader = ""; }
+	virtual void removeWindow() 
+	{
+		windowHeader = ""; 
+		items.clear();
+	}
+
+	virtual void setShopItems(vector<Entity* > i)
+	{
+		items = i;
+	}
+
+	//Gets the items shown in the shop. If empty, no items are shown
+	virtual vector<Entity*> getShopItems() { return items; }
 
 	// Gets the string shown in the window header
 	// If string is an empty string ("") no window is currently open

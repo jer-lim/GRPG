@@ -71,6 +71,17 @@ void DrawManager::updateAll(float frameTime){
 									}
 								}
 							}
+							//Check shop items
+							vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
+							for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+							{
+								Entity* theItem = *it3;
+								if (theItem->mouseInside(viewport))
+								{
+									gamePtr->setMouseOverEntity(theItem);
+									break;
+								}
+							}
 						}
 						else if (it2->second->entity->mouseInside(viewport))
 						{
