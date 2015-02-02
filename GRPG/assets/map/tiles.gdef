@@ -47,3 +47,6 @@ m 2 4 0.5 grass.png 15 10
 n 4 7 0.18 fish.png 0 0
 o 1 1 1 tree_bottom.png 0 0
 p 1 8 0.25 tree_top.png 0 0
+q 2 4 0.5 grass.png 16 0
+r 2 4 0.5 grass.png 17 0
+s 2 4 0.5 grass.png 18 0

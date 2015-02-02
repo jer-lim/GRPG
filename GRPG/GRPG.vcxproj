@@ -56,11 +56,13 @@
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestCondition.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="string_functions.h" />
     <ClInclude Include="TalkBehavior.h" />
+    <ClInclude Include="TeleportBehavior.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="tile.h" />
@@ -102,9 +104,11 @@
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
     <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="TalkBehavior.cpp" />
+    <ClCompile Include="TeleportBehavior.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="tile.cpp" />

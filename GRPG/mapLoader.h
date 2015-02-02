@@ -139,6 +139,9 @@ public:
 		return !pathRequestedThisFrame;
 	}
 	queue<VECTOR2> path(VECTOR2 startCoords, VECTOR2 endCoords);
+
+	// External helpers
+	VECTOR2 translateIdToCoords(char id);
 };
 
 #endif

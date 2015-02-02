@@ -71,6 +71,8 @@ Entity::~Entity()
 	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
 	SAFE_DELETE(eatBehavior);
 	SAFE_DELETE(buyBehavior);
+	SAFE_DELETE(sellBehavior);
+	SAFE_DELETE(teleportBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{
@@ -247,7 +249,21 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 	textureM = item->getTextureManager();
 	inventoryItem = invItem;
 
-	return image.initialize(gamePtr->getGraphics(), item->getSpriteWidth(), item->getSpriteHeight(), item->getSpriteColumns(), item->getTextureManager(), anchored);
+	bool result = image.initialize(gamePtr->getGraphics(), item->getSpriteWidth(), item->getSpriteHeight(), item->getSpriteColumns(), item->getTextureManager(), anchored);
+	if (!result)
+		return false;
+	else
+	{
+		//Items should never animate
+		image.setFrameDelay(-1);
+		if (invItem->getType() == "INVENTORYFOOD")
+		{
+			image.setFrames(0, 3);
+			//Set to correct frame, don't rely on update() to do it for you
+			//Especially applies if update is never called for some reason (i.e. in shop keeper inventory)
+			image.setCurrentFrame(((InventoryFood*)inventoryItem)->getFoodState());
+		}
+	}
 }
 
 
@@ -361,7 +377,8 @@ void Entity::draw(Viewport* viewport)
 //=============================================================================
 void Entity::update(float frameTime, Game* gamePtr)
 {
-	//temp fix
+	// Only process the following items if they are applicatable
+	// Combat, health bar, splats for Enemy and Player (with a person attribute)
 	if (person != nullptr)
 	{
 		if (victim == nullptr && destination == nullptr)
@@ -396,234 +413,241 @@ void Entity::update(float frameTime, Game* gamePtr)
 					//20% chance, otherwise it stands still
 					if (getRandomNumber() > 0.8)
 					{
-						destination = new Point((rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->x, 
-												(rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->y);
+						destination = new Point((rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->x,
+							(rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->y);
 					}
 				}
 			}
 		}
 
-	VECTOR2 collisionVector;
+		VECTOR2 collisionVector;
 
-	// Is there a victim? If so, set as destination
-	if (victim != 0)
-	{
-		if (destination != nullptr)
+		// Is there a victim? If so, set as destination
+		if (victim != 0)
 		{
-			destination->release();
+			if (destination != nullptr)
+			{
+				destination->release();
+			}
+			if (!this->collidesWith(*victim, collisionVector))
+			{
+				destination = victim;
+			}
+			else
+			{
+				destination = 0;
+			}
 		}
-		if (!this->collidesWith(*victim, collisionVector))
+
+		//Don't change the animation or move if the entity's animation
+		//is still at an attacking state
+		if (attackCooldown > person->getAttackCooldown() - ((person->getNumOfCols() - 1) * entityNS::animationWait))
 		{
-			destination = victim;
+			//Do nothing, player is effectively "stunned" for this duration
 		}
 		else
 		{
-			destination = 0;
-		}
-	}
-
-	//Don't change the animation or move if the entity's animation
-	//is still at an attacking state
-	if (attackCooldown > person->getAttackCooldown() - ((person->getNumOfCols() - 1) * entityNS::animationWait))
-	{
-		//Do nothing, player is effectively "stunned" for this duration
-	}
-	else
-	{
-		if (destination != 0)
-		{
-			//Handle animation
-			//If the animation was not already set to moving...
-			if (!image.getLoop())
+			if (destination != 0)
 			{
-				//Set it to moving
-				image.setLoop(true);
-				image.setFrames(0, 1);
-			}
-
-			VECTOR2 destinationVector = destination->getVector();
-			VECTOR2 immediateVector = destinationVector;
-			
-			LARGE_INTEGER currentTime;
-			LARGE_INTEGER timerFreq;
-			QueryPerformanceCounter(&currentTime);
-			QueryPerformanceFrequency(&timerFreq);
-
-			// Find a path if destination is changed and time since last pathfinding is long enough
-			bool requestPath = false;
-			if (currentDestination == VECTOR2(-1, -1)){
-				requestPath = true;
-			}
-			else if (gamePtr != nullptr && currentDestination != destinationVector && (currentTime.QuadPart - lastPathfindTime.QuadPart) / timerFreq.QuadPart > 0.5){
-				requestPath = true;
-			}
-
-			// Uncomment this and comment the next block to not use pathfinding
-			//path.push(immediateVector);
-			
-			if (requestPath){
-				// Awesome pathfinding here
-				// Awesome memory leak here
-				if (gamePtr->getMapLoader()->canRequestPath()){
-					path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
-					currentDestination = destinationVector;
-					QueryPerformanceCounter(&lastPathfindTime);
+				//Handle animation
+				//If the animation was not already set to moving...
+				if (!image.getLoop())
+				{
+					//Set it to moving
+					image.setLoop(true);
+					image.setFrames(0, 1);
 				}
-			}
 
-			// While entity has a path to follow, follow path
-			if (!path.empty()){
-				immediateVector = path.front();
-				if (immediateVector == getVector()){
-					path.pop();
-					if (!path.empty()){
-						immediateVector = path.front();
-						//runtimeLog << "Travelling to " << immediateVector.x << ", " << immediateVector.y << endl;
+				VECTOR2 destinationVector = destination->getVector();
+				VECTOR2 immediateVector = destinationVector;
+
+				LARGE_INTEGER currentTime;
+				LARGE_INTEGER timerFreq;
+				QueryPerformanceCounter(&currentTime);
+				QueryPerformanceFrequency(&timerFreq);
+
+				// Find a path if destination is changed and time since last pathfinding is long enough
+				bool requestPath = false;
+				if (currentDestination == VECTOR2(-1, -1)){
+					requestPath = true;
+				}
+				else if (gamePtr != nullptr && currentDestination != destinationVector && (currentTime.QuadPart - lastPathfindTime.QuadPart) / timerFreq.QuadPart > 0.5){
+					requestPath = true;
+				}
+
+				// Uncomment this and comment the next block to not use pathfinding
+				//path.push(immediateVector);
+
+				if (requestPath){
+					// Awesome pathfinding here
+					// Awesome memory leak here
+					if (gamePtr->getMapLoader()->canRequestPath()){
+						path = gamePtr->getMapLoader()->path(getVector(), destinationVector);
+						currentDestination = destinationVector;
+						QueryPerformanceCounter(&lastPathfindTime);
 					}
 				}
-				
-			}
-			else{
-				// Can't go there
-				destination->release();
-				destination = 0;
-				return;
-			}
-			
-			float speed = person->getMovementSpeed();
-			
-			VECTOR2 direction = immediateVector - getVector();
-			VECTOR2 *normalizedDirection = &VECTOR2();
-			D3DXVec2Normalize(normalizedDirection, &direction);
-			setX(getX() + normalizedDirection->x * speed * frameTime);
-			setY(getY() + normalizedDirection->y * speed * frameTime);
-			image.flipHorizontal(normalizedDirection->x < 0);
 
-			//Is it close enough?
-			float distanceToDest = D3DXVec2Length(&direction);
-			if (distanceToDest < speed * frameTime)
-			{
-				setX(immediateVector.x);
-				setY(immediateVector.y);
-				// delete destination; // Sometimes a destination might be re-used or be an actual entity
+				// While entity has a path to follow, follow path
+				if (!path.empty()){
+					immediateVector = path.front();
+					if (immediateVector == getVector()){
+						path.pop();
+						if (!path.empty()){
+							immediateVector = path.front();
+							//runtimeLog << "Travelling to " << immediateVector.x << ", " << immediateVector.y << endl;
+						}
+					}
 
-				// If arrived at final destination
-				if (destination->getVector() == getVector()){
+				}
+				else{
+					// Can't go there
 					destination->release();
 					destination = 0;
+					return;
+				}
+
+				float speed = person->getMovementSpeed();
+
+				VECTOR2 direction = immediateVector - getVector();
+				VECTOR2 *normalizedDirection = &VECTOR2();
+				D3DXVec2Normalize(normalizedDirection, &direction);
+				setX(getX() + normalizedDirection->x * speed * frameTime);
+				setY(getY() + normalizedDirection->y * speed * frameTime);
+				image.flipHorizontal(normalizedDirection->x < 0);
+
+				//Is it close enough?
+				float distanceToDest = D3DXVec2Length(&direction);
+				if (distanceToDest < speed * frameTime)
+				{
+					setX(immediateVector.x);
+					setY(immediateVector.y);
+					// delete destination; // Sometimes a destination might be re-used or be an actual entity
+
+					// If arrived at final destination
+					if (destination->getVector() == getVector()){
+						destination->release();
+						destination = 0;
+					}
 				}
 			}
-		}
-		else
-		{
-			image.setFrames(1, 1);
-			image.setCurrentFrame(1);
-			image.setLoop(false);
-		}
-	}
-
-	//Are we currently colliding with the entity? If so, attack!
-	if (victim != 0)
-	{
-		//Can't attack yet, it's on cooldown!
-		if (attackCooldown <= 0)
-		{
-			//We can attack!
-			VECTOR2 collisionVector;
-			if (this->collidesWith(*victim, collisionVector))
+			else
 			{
-				// Check if the entity needs to be flipped
-				VECTOR2 destinationVector = victim->getVector();
-				VECTOR2 direction = destinationVector - getVector();
-				image.flipHorizontal(direction.x < 0);
+				image.setFrames(1, 1);
+				image.setCurrentFrame(1);
+				image.setLoop(false);
+			}
+		}
 
-				bool attackPerformed = true;
-
-				if (person != Person::thePlayer)
+		//Are we currently colliding with the entity? If so, attack!
+		if (victim != 0)
+		{
+			//Can't attack yet, it's on cooldown!
+			if (attackCooldown <= 0)
+			{
+				//We can attack!
+				VECTOR2 collisionVector;
+				if (this->collidesWith(*victim, collisionVector))
 				{
-					if (person->getType() == "ENEMY")
-					{
-						victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
-					}
-					else
-					{
-						// Do nothing, I'm not an enemy, why would I attack
-						//Why do I even have a victim anyway?
-						attackPerformed = false;
-					}
-				}
-				else
-				{
-					if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY")
-					{
-						//Victim should retaliate
-						victim->setVictim(this);
-						int victimHealth = victim->getHealth();
-						map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
-						int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
-						//We're obviously not going to implement combat styles so I'll just pump everything.
-						skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
-						skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
-						skills->at(skillNS::ID_SKILL_STRENGTH).gainXP(damageDealt * 4);
-						skills->at(skillNS::ID_SKILL_TOUGHNESS).gainXP(damageDealt * 4);
+					// Check if the entity needs to be flipped
+					VECTOR2 destinationVector = victim->getVector();
+					VECTOR2 direction = destinationVector - getVector();
+					image.flipHorizontal(direction.x < 0);
 
-						//Victim is now dead and deleted
-						if (damageDealt >= victimHealth)
+					bool attackPerformed = true;
+
+					if (person != Person::thePlayer)
+					{
+						if (person->getType() == "ENEMY")
 						{
-							victim = 0;
-							destination = 0;
+							victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
+						}
+						else
+						{
+							// Do nothing, I'm not an enemy, why would I attack
+							//Why do I even have a victim anyway?
+							attackPerformed = false;
 						}
 					}
 					else
 					{
-						//Collision with non enemy. What to do depends on behavior set.
-						npcAction->action();
-						victim = 0;
-						destination = 0;
-						attackPerformed = false;
+						if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY")
+						{
+							//Victim should retaliate
+							victim->setVictim(this);
+							int victimHealth = victim->getHealth();
+							map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
+							int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+							//We're obviously not going to implement combat styles so I'll just pump everything.
+							skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
+							skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
+							skills->at(skillNS::ID_SKILL_STRENGTH).gainXP(damageDealt * 4);
+							skills->at(skillNS::ID_SKILL_TOUGHNESS).gainXP(damageDealt * 4);
+
+							//Victim is now dead and deleted
+							if (damageDealt >= victimHealth)
+							{
+								victim = 0;
+								destination = 0;
+							}
+						}
+						else
+						{
+							//Collision with non enemy. What to do depends on behavior set.
+							npcAction->action();
+							victim = 0;
+							destination = 0;
+							attackPerformed = false;
+						}
 					}
-				}
-				if (attackPerformed)
-				{
-					attackCooldown = person->getAttackCooldown();
-					image.setFrames(1, person->getNumOfCols() - 1);
-					image.setLoop(false);
+					if (attackPerformed)
+					{
+						attackCooldown = person->getAttackCooldown();
+						image.setFrames(1, person->getNumOfCols() - 1);
+						image.setLoop(false);
+					}
 				}
 			}
 		}
-	}
 
-	// Reduce attackCooldown if required
-	if (attackCooldown > 0)
-	{
-		attackCooldown -= frameTime;
-	}
-
-    image.update(frameTime);
-    rotatedBoxReady = false;    // for rotatedBox collision detection
-	//Exception for friendly NPCs - they only have one sprite
-	if (person->getType() == "NPC")
-	{
-		image.setFrames(0, 0);
-		image.setCurrentFrame(0);
-	}
-
-	}
-
-	//health bar display
-	if (displayTime > 0)
-	{
-		displayTime -= frameTime;
-		if (displayTime <= 0)
+		// Reduce attackCooldown if required
+		if (attackCooldown > 0)
 		{
-			availableHealth->setVisible(false);
-			backHealth->setVisible(false);
+			attackCooldown -= frameTime;
 		}
-	}
 
-	if (splatTime > 0)
+		image.update(frameTime);
+		rotatedBoxReady = false;    // for rotatedBox collision detection
+		//Exception for friendly NPCs - they only have one sprite
+		if (person->getType() == "NPC")
+		{
+			image.setFrames(0, 0);
+			image.setCurrentFrame(0);
+		}
+
+		//health bar display
+		if (displayTime > 0)
+		{
+			displayTime -= frameTime;
+			if (displayTime <= 0)
+			{
+				availableHealth->setVisible(false);
+				backHealth->setVisible(false);
+			}
+		}
+
+		if (splatTime > 0)
+		{
+			splatTime -= frameTime;
+		}
+	} // Approrpiate sprites for npc
+	else if (inventoryItem != nullptr)
 	{
-		splatTime -= frameTime;
+		//Set appropriate sprite for food
+		if (inventoryItem->getType() == "INVENTORYFOOD")
+		{
+			image.setCurrentFrame(((InventoryFood*)inventoryItem)->getFoodState());
+		}
 	}
 }
 
