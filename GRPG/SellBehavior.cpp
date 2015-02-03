@@ -13,7 +13,7 @@ string SellBehavior::displayText(){
 void SellBehavior::action()
 {
 	int cost = theItem->getInventoryItem()->getSellingCost();
-	player->getInventory()->removeEntityInventoryItem(theItem);
+	player->getInventory()->removeEntityInventoryItem(theItem,grpg);
 	//Spawn coins for the player
 	InventoryItem* x = new InventoryItem(grpg->getItemLoader()->getItem(0), cost);
 	Entity* newObj = new Entity();

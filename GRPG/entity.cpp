@@ -10,7 +10,8 @@
 #include "DropBehavior.h"
 #include "TradeBehavior.h"
 #include "TalkBehavior.h"
-#include "TeleportBehavior.h";
+#include "TeleportBehavior.h"
+#include "HealBehavior.h"
 #include "grpg.h"
 
 namespace entityNS
@@ -72,6 +73,7 @@ Entity::~Entity()
 	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
 	SAFE_DELETE(eatBehavior);
 	SAFE_DELETE(buyBehavior);
+	SAFE_DELETE(healBehavior);
 	SAFE_DELETE(sellBehavior);
 	SAFE_DELETE(teleportBehavior);
 	vectorActiveBehaviors.clear();
@@ -170,12 +172,16 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 				{
 					Entity* e = new Entity();
 					e->initialize(gamePtr, shopItemsList.at(i), true);//anchored if its an inventory
-					inventory->addEntityInventoryItem(e);
+					inventory->addEntityInventoryItem(e,(Grpg*)gamePtr);
 				}
 			}
 			if (((NPC*)whichCharacter)->getTeleportID() != '0')
 			{
 				teleportBehavior = new TeleportBehavior(grpgPointer->getPlayer(), (NPC*)whichCharacter, grpgPointer->getMapLoader(), this, ((NPC*)whichCharacter)->getTeleportID());
+			}
+			if (((NPC*)whichCharacter)->getname() == "Doctor")
+			{
+				healBehavior = new HealBehavior(grpgPointer->getPlayer(), (NPC*)whichCharacter, this);
 			}
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
@@ -228,7 +234,7 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 			switch (((InventoryFood*)invItem)->getFoodState())
 			{
 			case RAW:
-				cookBehavior = new CookBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+				cookBehavior = new CookBehavior(gamePtr,((Grpg*)gamePtr)->getPlayer(), this);
 				break;
 			case COOKED:
 			case DELICIOUS:

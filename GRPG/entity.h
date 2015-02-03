@@ -163,6 +163,7 @@ class Entity : public Destination//, public Interactable
 	  Behavior* talkBehavior = nullptr; //Ability to talk
 	  Behavior* tradeBehavior = nullptr;//store popup
 	  Behavior* teleportBehavior = nullptr;
+	  Behavior* healBehavior = nullptr;
 	  //Enemy
 	  Behavior* attackBehavior = nullptr;//Attack name -> perform attack
 	  //Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
@@ -366,8 +367,8 @@ class Entity : public Destination//, public Interactable
 		dropBehavior = b;
 	}
 	void setPickupBehavior(Behavior* b) {
-		//if (pickupBehavior != nullptr)
-			//SAFE_DELETE(pickupBehavior);
+		if (pickupBehavior != nullptr)
+			SAFE_DELETE(pickupBehavior);
 		pickupBehavior = b;
 	}
 	void setCookBehavior(Behavior* b) {
@@ -407,6 +408,8 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(tradeBehavior);
 		if (teleportBehavior)
 			vectorActiveBehaviors.push_back(teleportBehavior);
+		if (healBehavior)
+			vectorActiveBehaviors.push_back(healBehavior);
 		if (blacksmithBehavior)
 			vectorActiveBehaviors.push_back(blacksmithBehavior);
 		if (viewBehavior)
