@@ -21,7 +21,7 @@ void BuyBehavior::action()
 		Entity* newObj = new Entity();
 		newObj->initialize(grpg, x, true);
 
-		int result = player->getInventory()->addEntityInventoryItem(newObj);
+		int result = player->getInventory()->addEntityInventoryItem(newObj, grpg);
 		coin->getInventoryItem()->setCurrentStackCount(totalCoin - cost);
 		if (result == FAILED || result == PARTIAL_MERGE)
 		{
