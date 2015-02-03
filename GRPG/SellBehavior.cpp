@@ -20,7 +20,7 @@ void SellBehavior::action()
 	newObj->initialize(grpg, x, true);
 
 	//If it returns MERGE, FAILED and PARTIAL_MERGE delete
-	int result = player->getInventory()->addEntityInventoryItem(newObj);
+	int result = player->getInventory()->addEntityInventoryItem(newObj, grpg);
 	if (result == FAILED || result == PARTIAL_MERGE)
 	{
 		//drop the remaining stuff onto the ground

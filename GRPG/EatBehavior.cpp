@@ -18,6 +18,5 @@ void EatBehavior::action()
 		break;
 	}
 	gamePtr->setMouseOverEntity(nullptr);
-	SAFE_DELETE(food);
-	//delete entity
+	SAFE_DELETE(food);	//delete entity
 }
