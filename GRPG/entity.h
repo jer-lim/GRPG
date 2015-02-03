@@ -362,8 +362,8 @@ class Entity : public Destination//, public Interactable
 	//Behavior related
 	//void setCookBehavior
 	void setDropBehavior(Behavior* b) {
-		//if (dropBehavior != nullptr)//should be handled outside
-			//SAFE_DELETE(dropBehavior);
+		if (dropBehavior != nullptr)//should be handled outside
+			SAFE_DELETE(dropBehavior);
 		dropBehavior = b;
 	}
 	void setPickupBehavior(Behavior* b) {
