@@ -283,6 +283,14 @@ class Entity : public Destination//, public Interactable
 	// Set which NPC's behavior action() function will be called
 	//once the player hits the npc
 	void setNPCAction(Behavior* b) { npcAction = b; }
+	
+	// Sets the spawn points which this NPC is created from
+	// If the NPC wanders too far from the spawn point, he returns
+	//WARNING: the location is DELETED once the entity is destroyed
+	virtual void setSpawnPoint(VECTOR2* location) {
+		SAFE_DELETE(spawnLocation);
+		spawnLocation = location; 
+	}
 
     ////////////////////////////////////////
     //         Other functions            //
