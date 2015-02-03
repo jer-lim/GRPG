@@ -13,7 +13,7 @@ private:
 	string description;
 	QuestCondition beginCondition, completeCondition;
 	bool completed;
-	InventoryItem reward;
+	InventoryItem* reward;
 public:
 	Quest(){}
 };

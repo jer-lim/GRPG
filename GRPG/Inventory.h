@@ -78,6 +78,27 @@ public:
 	map<int, Entity*>* getSlotList(){ return &slotList; }
 	vector<Entity*> getVectorItems();
 
+	void setSlotHand(Entity* e){ 
+		if (slot_hand != nullptr)
+		{//add into inventory
+
+		}
+		slot_hand = e;
+	}
+	void setSlotOffHand(Entity* e){
+		if (slot_offhand != nullptr)
+		{//add into inventory
+
+		}
+		slot_hand = e;
+	}
+	void setSlotBody(Entity* e){
+		if (slot_body != nullptr)
+		{//add into inventory
+
+		}
+		slot_hand = e;
+	}
 	Entity* getSlotHand(){ return slot_hand; }
 	Entity* getSlotOffHand(){ return slot_offhand; }
 	Entity* getSlotBody(){ return slot_body; }
