@@ -42,7 +42,6 @@ protected:
 	PersonLoader* personLoader;
 	Entity* mouseOverEntity = nullptr;
 	vector<Entity*> mouseOverEntities;
-	bool nearStove;
 
 	VECTOR2 startLocation;
 
@@ -140,9 +139,6 @@ public:
 
 	void setMouseOverEntity(Entity* ent){ mouseOverEntity = ent; }
 	Entity* getMouseOverEntity(){ return mouseOverEntity; }
-	
-	void setNearStove(bool b){ nearStove = b; }
-	bool getNearStove(){ return nearStove; }
 
 	void addMouseOverEntity(Entity* item)
 	{

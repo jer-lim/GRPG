@@ -1,4 +1,6 @@
 #include "tile.h"
+#include "grpg.h"
+#include "StoveMoveBehavior.h"
 
 //=============================================================================
 // default constructor
@@ -29,6 +31,10 @@ Tile::Tile(bool collidable) : Entity()
 
 bool Tile::initialize(Game *gamePtr, TextureManager* tm)
 {
+	if (/*stove*/false)
+	{
+		stoveBehavior = new StoveMoveBehavior(((Grpg*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI());
+	}
 	return(Entity::initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, 1, tm));
 }
 

@@ -61,6 +61,7 @@
     <ClInclude Include="skill.h" />
     <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="Spawner.h" />
+    <ClInclude Include="StoveMoveBehavior.h" />
     <ClInclude Include="string_functions.h" />
     <ClInclude Include="TalkBehavior.h" />
     <ClInclude Include="TeleportBehavior.h" />
@@ -109,6 +110,7 @@
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="StoreMoveBehavior.cpp" />
     <ClCompile Include="TalkBehavior.cpp" />
     <ClCompile Include="TeleportBehavior.cpp" />
     <ClCompile Include="textDX.cpp" />

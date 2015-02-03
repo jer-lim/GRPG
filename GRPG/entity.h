@@ -164,6 +164,7 @@ class Entity : public Destination//, public Interactable
 	  Behavior* tradeBehavior = nullptr;//store popup
 	  Behavior* teleportBehavior = nullptr;
 	  Behavior* healBehavior = nullptr;
+	  Behavior* stoveBehavior = nullptr;
 	  //Enemy
 	  Behavior* attackBehavior = nullptr;//Attack name -> perform attack
 	  //Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
@@ -384,6 +385,8 @@ class Entity : public Destination//, public Interactable
 	void setupVectorActiveBehaviors()
 	{//Must be in order, as they will be displayed in this order 
 		vectorActiveBehaviors.clear();
+		if (stoveBehavior)
+			vectorActiveBehaviors.push_back(stoveBehavior);
 		if (buyBehavior)
 			vectorActiveBehaviors.push_back(buyBehavior);
 		if (sellBehavior)
