@@ -18,7 +18,7 @@ void PickupBehavior::action(){
 			//if (!player->getInventory()->getByDrawnManager())//if its not the inventory tab, and thus it's not supposed to be drawn now
 			//drawManager->removeObject(entity);//remove from drawmanager (will be added back later when on inventory tab)
 			//gamePtr->setMouseOverEntity(nullptr);
-			delete this;
+			//delete this;
 			break;
 		case MERGED:
 			//if merged, we don't need the entity because 2 entities have already become 1
