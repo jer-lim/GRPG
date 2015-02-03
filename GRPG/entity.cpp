@@ -473,6 +473,19 @@ void Entity::update(float frameTime, Game* gamePtr)
 				VECTOR2 destinationVector = destination->getVector();
 				VECTOR2 immediateVector = destinationVector;
 
+				//Don't go too far from the spawn point
+				VECTOR2 diff = destinationVector - getVector();
+				if (diff.x * diff.x + diff.y * diff.y < enemyNS::aggroRangeNonSqrt)
+				{
+					//If spawn location is set
+					if (spawnLocation->x != -1 || spawnLocation->y != -1)
+					{
+						destination->release();
+						setVictim(nullptr);
+						destination = new Point(spawnLocation->x, spawnLocation->y);
+					}
+				}
+
 				LARGE_INTEGER currentTime;
 				LARGE_INTEGER timerFreq;
 				QueryPerformanceCounter(&currentTime);
