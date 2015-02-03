@@ -18,6 +18,6 @@ void StoveMoveBehavior::action()
 	else
 	{
 		player->setVictim(entity);
-		player->setDestination(0);
+		player->setNPCAction(this);
 	}
 }
