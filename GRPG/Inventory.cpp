@@ -58,8 +58,14 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
 		result = merge(it->second, ii);
 		if (result == SUCCESSFUL)
 		{
-			result = MERGED;
-			break;
+			//result = MERGED;
+			if (gamePtr != nullptr)
+			{
+				gamePtr->setMouseOverEntity(nullptr);
+				gamePtr->getDrawManager()->removeObject(ii);
+				SAFE_DELETE(ii);
+			}
+			return MERGED;
 			//return MERGED;//already deleted entity inside merge and no need to add item since its merged
 		}
 	}
@@ -109,7 +115,7 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
 		}
 		return ADDED;
 	}
-	else if (result == MERGED)
+	/*else if (result == MERGED)
 	{
 		if (gamePtr != nullptr)
 		{
@@ -118,7 +124,7 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
 			SAFE_DELETE(ii);
 		}
 		return MERGED;
-	}
+	}*/
 	else if (result == IMPOSSIBLE) { return FAILED; }
 	else if (result == INCOMPLETE) { return PARTIAL_MERGE; }
 }

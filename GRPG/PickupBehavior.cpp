@@ -7,7 +7,7 @@ void PickupBehavior::action(){
 	if (entity->collidesWith(*player, collisionVector))
 	{//if it is range with player
 		player->getInventory()->addEntityInventoryItem(entity, (Grpg*)gamePtr);//add entity into inventory
-		//DO NOT PUT ANY THING AFTER THIS LINE BECAUSE THE BEHAVIOR IS ALREADY DELETED
+		delete this;//THIS MUST BE CALLED IF YOU INTEND TO REMOVE THE BEHAVIOR
 	}
 	else
 	{//else make player run towards it and then execute action later

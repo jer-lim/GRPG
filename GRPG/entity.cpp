@@ -228,25 +228,25 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 	if (inInventory)
 	{
 		dropBehavior = new DropBehavior(gamePtr,gamePtr->getDrawManager(), this, ((Grpg*)gamePtr)->getPlayer());
+	}
+	else
+	{
+		pickupBehavior = new PickupBehavior(gamePtr,gamePtr->getDrawManager(), this, ((Grpg*)gamePtr)->getPlayer());
 		if (invItem->getType() == "INVENTORYFOOD")
 		{
 			switch (((InventoryFood*)invItem)->getFoodState())
 			{
 			case RAW:
-				cookBehavior = new CookBehavior(gamePtr,((Grpg*)gamePtr)->getPlayer(), this);
+				cookBehavior = new CookBehavior(gamePtr, ((Grpg*)gamePtr)->getPlayer(), this);
 				break;
 			case COOKED:
 			case DELICIOUS:
-				eatBehavior = new EatBehavior(gamePtr, this,((Grpg*)gamePtr)->getPlayer());
+				eatBehavior = new EatBehavior(gamePtr, this, ((Grpg*)gamePtr)->getPlayer());
 				break;
 			case BURNT://nth
 				break;
 			}
 		}
-	}
-	else
-	{
-		pickupBehavior = new PickupBehavior(gamePtr,gamePtr->getDrawManager(), this, ((Grpg*)gamePtr)->getPlayer());
 	}
 	setupVectorActiveBehaviors();
 

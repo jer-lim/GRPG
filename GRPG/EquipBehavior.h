@@ -1,10 +1,10 @@
-#ifndef EQUIPHANDBEHAVIOR_H
-#define EQUIPHANDBEHAVIOR_H
+#ifndef EQUIPBEHAVIOR_H
+#define EQUIPBEHAVIOR_H
 
 #include "Behavior.h"
 #include "entity.h"
 using namespace std;
-
+enum SLOT { SLOT_HAND, SLOT_BODY, SLOT_OFFHAND };
 class EquipHandBehavior :public Behavior
 {
 private:
