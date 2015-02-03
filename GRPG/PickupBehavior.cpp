@@ -6,7 +6,7 @@ void PickupBehavior::action(){
 	VECTOR2 collisionVector;
 	if (entity->collidesWith(*player, collisionVector))
 	{//if it is range with player
-		switch (player->getInventory()->addEntityInventoryItem(entity))//add entity into inventory
+		switch (player->getInventory()->addEntityInventoryItem(entity,(Grpg*)gamePtr))//add entity into inventory
 		{
 		case ADDED:
 			//if add, set it as anchored - the position would have been already updated in addentity

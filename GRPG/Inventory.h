@@ -34,12 +34,12 @@ public:
 	Add an item into the inventory. Removes pickup behavior Adds drop behavior to entity if gamePtr is not a nullptr, as well as removes from drawManager if needed. 
 	The entity is also set to anchored if needed.
 	*/
-	ITEM_ADD addEntityInventoryItem(Entity* ii, Grpg* gamePtr = nullptr);
+	ITEM_ADD addEntityInventoryItem(Entity* ii, Grpg* gamePtr);// = nullptr);
 	/**
 	Remove an item from the inventory by entity ptr (ptr of an entity obj in the inventory). 
 	Removes drop behavior and adds pickup behavior, positions the entity at the player's location and unanchors it.
 	*/
-	bool removeEntityInventoryItem(Entity* entity, Grpg* gamePtr = nullptr);
+	bool removeEntityInventoryItem(Entity* entity, Grpg* gamePtr);
 	/**
 	Delete items using an entity that contains the data of item to be removed, and how much (stackCount).
 	If stackCount is set to true, entity are deleted based on stackCount.
