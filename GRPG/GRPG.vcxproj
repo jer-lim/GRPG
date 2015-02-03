@@ -18,6 +18,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="BuyBehavior.h" />
     <ClInclude Include="CookBehavior.h" />
+    <ClInclude Include="Cooker.h" />
     <ClInclude Include="DropBehavior.h" />
     <ClInclude Include="EatBehavior.h" />
     <ClInclude Include="EquipBehavior.h" />

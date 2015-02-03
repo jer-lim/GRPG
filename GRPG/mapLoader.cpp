@@ -3,6 +3,7 @@
 #include "Viewport.h"
 #include "Spawner.h"
 #include "Resource.h"
+#include "cooker.h"
 
 using namespace std;
 
@@ -335,9 +336,12 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		tileTms[tileId] = textureManager;
 	}
 
-	if (tileset[tileId].type == tileNS::type::FISHINGSPOT || tileset[tileId].type == tileNS::type::SPAWNER || tileset[tileId].type == tileNS::type::WALL){
+	if (tileset[tileId].type != tileNS::type::FLOOR){
 		Tile* t = nullptr;
-		if (tileset[tileId].type == tileNS::type::FISHINGSPOT) {
+		if (tileset[tileId].type == tileNS::type::COOKER){
+			t = new Cooker(tileId);
+		}
+		else if (tileset[tileId].type == tileNS::type::FISHINGSPOT) {
 			t = new Resource(tileId);
 			((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 		}
@@ -565,10 +569,12 @@ void MapLoader::update(float frameTime){
 					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 					tileTms[newTileId] = textureManager;
 				}
-				if (newTileInfo.type == tileNS::type::SPAWNER || newTileInfo.type == tileNS::type::WALL ||
-					newTileInfo.type == tileNS::type::FISHINGSPOT || newTileInfo.type == tileNS::type::MININGSPOT){
+				if (newTileInfo.type != tileNS::type::FLOOR){
 					Tile* t = nullptr;
-					if (newTileInfo.type == tileNS::type::SPAWNER){
+					if (newTileInfo.type == tileNS::type::COOKER){
+						t = new Cooker(newTileId);
+					}
+					else if (newTileInfo.type == tileNS::type::SPAWNER){
 						t = new Spawner(newTileId, gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
 						//runtimeLog << "Created Spawner2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
