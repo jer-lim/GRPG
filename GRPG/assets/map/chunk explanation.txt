@@ -1,10 +1,14 @@
 x : border chunk, all black, edges of map
-t : testing chunk, will delete later
+* : Town "Spawn" point beside the water
+~ : Credits castle
+- : wildy edge
++ : hospital
+$ : shop
+% : cookhouse
 0 : all grass
 1 : all water
 A : spawn chunk
-B : castle
-$ : shop
+B : generic castle
 C : chicken pen (fence tba)
 D : dirt pool in grass
 E : right side of lake
@@ -18,14 +22,12 @@ M : flat right side of lake
 N : flat top side of lake with dock
 O : flat bottom side of lake with dock
 P : bottom left corner of lake
-+ : hospital
-I : cookhouse
-* : Town "Spawn" point beside the water
-~ : Credits castle
-- : wildy edge
 R : goblin spawn
 S : goblin chief spawn
 T : skeleton spawn
 U : ogre spawn
 V : ogre elite spawn
 W : dragon spawn
+X : bottom right corner of lake
+( : mainland aidil teleport
+) : ideal island teleport

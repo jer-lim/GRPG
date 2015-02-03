@@ -63,4 +63,6 @@ z 0 47 0.1 credits.png 0 0
 6 2 1 1 dirt.png 9 30
 7 2 1 1 dirt.png 10 300
 8 2 1 1 castle_floor.png 13 300
-8 2 1 1 castle_floor.png 14 600
+9 2 1 1 castle_floor.png 14 600
+( 0 1 1 dock_endbottomleft.png 0 0
+) 0 1 1 dock_endtopleft.png 0 0
