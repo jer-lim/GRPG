@@ -18,6 +18,7 @@ void Spawner::spawn(){
 	ss << getX() << "," << getY();
 	if (gamePtr->getSpawnLink(ss.str()) == NULL){
 		Entity* spawnedNPC = NPC::spawn(gamePtr, npcId, VECTOR2(x, y), victim);
+		spawnedNPC->setSpawnPoint(VECTOR2(x,y));
 		gamePtr->addSpawnLink(ss.str(), spawnedNPC);
 		timeOfDeath.QuadPart = 0; // 0 = no death
 	}
