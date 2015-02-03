@@ -8,3 +8,5 @@
 21 Matthew_Lee blacksmith.png 0 0 64 64 1 38 38 A_creator_of_the_game. PENIS. 0 {}
 22 Jeremy_Choo doctor.png 0 0 64 64 1 38 38 A_creator_of_the_game. is_a 0 {}
 23 Jeremy_Lim grocer.png 0 0 64 64 1 38 38 A_creator_of_the_game. Jeremy_Lim 0 {}
+24 Captain_Point_Of_No_Return grocer.png 0 0 64 64 1 38 38 Probably_the_last_captain_you'll_ever_see. Ahoy!_To_the_south_is_Ideal_Island,\nwhere_a_great_and_powerful_dragon_lives._Make_sure_you're_ready_to\nface_him,_for_there_is_no_turning_back._Are_you_sure_you_want_to_go\nthere? ) {}
+25 Captain_Return grocer.png 0 0 64 64 1 38 38 Twin_brother_of_Captain_Point_Of_No_Return. If_you_need_a_ride_back_to_the_mainland,_tell_me! ( {}
