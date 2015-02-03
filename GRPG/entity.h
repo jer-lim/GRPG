@@ -374,8 +374,8 @@ class Entity : public Destination//, public Interactable
 		dropBehavior = b;
 	}
 	void setPickupBehavior(Behavior* b) {
-		//if (pickupBehavior != nullptr)
-			//SAFE_DELETE(pickupBehavior);
+		if (pickupBehavior != nullptr)//exception to the rule above because when picking up u can merrge
+			SAFE_DELETE(pickupBehavior);
 		pickupBehavior = b;
 	}
 	void setCookBehavior(Behavior* b) {
