@@ -286,7 +286,6 @@ class Entity : public Destination//, public Interactable
 	
 	// Sets the spawn points which this NPC is created from
 	// If the NPC wanders too far from the spawn point, he returns
-	//WARNING: the location is DELETED once the entity is destroyed
 	virtual void setSpawnPoint(VECTOR2 location) {
 		spawnLocation = location; 
 	}
