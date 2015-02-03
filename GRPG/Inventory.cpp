@@ -1,5 +1,8 @@
 #include "Inventory.h"
 #include "entity.h"
+#include "grpg.h"
+#include "DropBehavior.h"
+#include "PickupBehavior.h"
 
 Inventory::Inventory(){
 	//slot_body = slot_hand = slot_offhand = InventoryItem();//Mattgic
@@ -45,7 +48,7 @@ bool Inventory::addEntityInventoryItem(int i, Entity* ii)
 	return false;
 }
 
-ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
+ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
 {
 	//First check if can merge
 	int result = IMPOSSIBLE;
@@ -54,7 +57,11 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 		result = IMPOSSIBLE;
 		result = merge(it->second, ii);
 		if (result == SUCCESSFUL)
-			return MERGED;//already deleted entity inside merge and no need to add item since its merged
+		{
+			result = MERGED;
+			break;
+			//return MERGED;//already deleted entity inside merge and no need to add item since its merged
+		}
 	}
 	//If incomplete / impossible, proceed
 	if (result == IMPOSSIBLE || result == INCOMPLETE)
@@ -62,7 +69,7 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 		if (slotList.size() == 0)
 		{//everything is empty
 			addEntityInventoryItem(0, ii);
-			return ADDED;
+			result = SUCCESSFUL;
 		}
 		else if (slotList.size() < maxSlotListCount)
 		{//Find an empty spot and slot the item in
@@ -73,26 +80,65 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii)
 					//E.G. prevIndex: 0, first: 0, failed, so prevIndex = first+1 = 1
 					//but if prevIndex:0, first: 1 (first object), so add in index 0
 					addEntityInventoryItem(prevIndex, ii);
-					return ADDED;
+					result = SUCCESSFUL;
+					break;
 				}
 				else {
 					prevIndex = it->first+1;
 				}
 			}
 			//add at lastIndex
-			if (addEntityInventoryItem(prevIndex, ii))
-				return ADDED;
+			if (result != SUCCESSFUL)
+			{
+				if (addEntityInventoryItem(prevIndex, ii))
+					result = SUCCESSFUL;
+			}
 		}
 	}
-	if (result == IMPOSSIBLE) return FAILED;
-	if (result == INCOMPLETE) return PARTIAL_MERGE;
+	if (result == SUCCESSFUL) {
+		//put add drop behavior
+		if (gamePtr != nullptr)
+		{
+			ii->setAnchored(true);
+			ii->setPickupBehavior(nullptr);//change behaviors
+			ii->setDropBehavior(new DropBehavior(gamePtr, gamePtr->getDrawManager(), ii, gamePtr->getPlayer()));
+			ii->setupVectorActiveBehaviors();
+			//if (!player->getInventory()->getByDrawnManager())//if its not the inventory tab, and thus it's not supposed to be drawn now
+			gamePtr->getDrawManager()->removeObject(ii);//remove from drawmanager (will be added back later when on inventory tab)
+			gamePtr->setMouseOverEntity(nullptr);
+		}
+		return ADDED;
+	}
+	else if (result == MERGED)
+	{
+		if (gamePtr != nullptr)
+		{
+			gamePtr->setMouseOverEntity(nullptr);
+			gamePtr->getDrawManager()->removeObject(ii);
+			SAFE_DELETE(ii);
+		}
+		return MERGED;
+	}
+	else if (result == IMPOSSIBLE) { return FAILED; }
+	else if (result == INCOMPLETE) { return PARTIAL_MERGE; }
 }
 
-bool Inventory::removeEntityInventoryItem(Entity * entity)
+bool Inventory::removeEntityInventoryItem(Entity * entity, Grpg* gamePtr)
 {
 	// Iterate to element to remove it
 	for (map<int,Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
 		if (it->second == entity){
+			//add pickup behavior
+			if (gamePtr != nullptr)
+			{
+				entity->setPickupBehavior(new PickupBehavior(gamePtr, gamePtr->getDrawManager(), entity, gamePtr->getPlayer()));//change behaviors
+				entity->setDropBehavior(nullptr);
+				entity->setupVectorActiveBehaviors();
+				entity->setX(gamePtr->getPlayer()->getX());//set the entity to the player's position (it was previously in the inventory position)
+				entity->setY(gamePtr->getPlayer()->getY());
+				entity->setAnchored(false);//and make it affected by viewport
+				gamePtr->setMouseOverEntity(nullptr);
+			}
 			//SAFE_DELETE(it->second);
 			slotList.erase(it->first);
 			return true;
@@ -100,6 +146,59 @@ bool Inventory::removeEntityInventoryItem(Entity * entity)
 	}
 
 	return false; 
+}
+
+bool Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vector<Entity*>* removedItems, Grpg* gamePtr)
+{
+	int totalStackCount = 0, goalStackCount = entity->getInventoryItem()->getCurrentStackCount();
+	for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
+		if (it->second->getInventoryItem()->getItem() == entity->getInventoryItem()->getItem()){//if items are the same
+			totalStackCount += it->second->getInventoryItem()->getCurrentStackCount();
+			removedItems->push_back(it->second);
+			if (stackCount && totalStackCount >= goalStackCount)
+				break;//we have enough stuff to remove the items
+		}
+
+		if (!stackCount)
+		{//if ignore stackCount, just set the goalStackcount to the totalStackcount so everything is removed;
+			goalStackCount = totalStackCount;
+		}
+
+		if (removedItems->size() > 0 && totalStackCount >= goalStackCount)
+		{//it's got stuff and sufficient stackCount to delete shit
+			for (int i = 0, l = removedItems->size(); i < l; ++i)
+			{
+				int stackCount = removedItems->at(i)->getInventoryItem()->getCurrentStackCount();
+				if (goalStackCount >= stackCount)
+				{//complete removal of entity
+					goalStackCount -= stackCount;//decrement goalStackCount for progression
+					if (gamePtr != nullptr)
+					{
+						entity->setPickupBehavior(new PickupBehavior(gamePtr, gamePtr->getDrawManager(), entity, gamePtr->getPlayer()));//change behaviors
+						entity->setDropBehavior(nullptr);
+						entity->setupVectorActiveBehaviors();
+						entity->setX(gamePtr->getPlayer()->getX());//set the entity to the player's position (it was previously in the inventory position)
+						entity->setY(gamePtr->getPlayer()->getY());
+						entity->setAnchored(false);//and make it affected by viewport
+						gamePtr->setMouseOverEntity(nullptr);
+					}
+					//since it's a complete removal, thr is no setting of the stackcount
+					slotList.erase(it->first);
+				}
+				else
+				{//partial removal of entity
+					//just decrease the stack count since it's a "partial remove"
+					removedItems->at(i)->getInventoryItem()->setCurrentStackCount(removedItems->at(i)->getInventoryItem()->getCurrentStackCount() - goalStackCount);
+				}
+			}
+		}
+		else
+		{
+			removedItems->clear();
+			return false;
+		}
+	}
+	return true;
 }
 
 bool Inventory::destroyEntityInventoryItem(int i)
@@ -112,6 +211,19 @@ bool Inventory::destroyEntityInventoryItem(int i)
 		return true;
 	}
 	return false;
+}
+
+bool Inventory::destroyEntityInventoryItems(Entity* entity, bool stackCount, Grpg* gamePtr)
+{
+	vector<Entity*> removedItems;
+	removeEntityInventoryItems(entity, stackCount, &removedItems, gamePtr);
+	//delete all removeditems
+	for (int i = 0, l = removedItems.size(); i < l; ++i)
+	{
+		delete removedItems.at(i);
+		removedItems.at(i) = nullptr;
+	}
+	return removedItems.size() > 0;
 }
 
 bool Inventory::hasEntityInventoryItem(int i)
