@@ -47,6 +47,7 @@
     <ClCompile Include="TeleportBehavior.cpp" />
     <ClCompile Include="HealBehavior.cpp" />
     <ClCompile Include="StoreMoveBehavior.cpp" />
+    <ClCompile Include="EquipHandBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -113,5 +114,6 @@
     <ClInclude Include="TeleportBehavior.h" />
     <ClInclude Include="HealBehavior.h" />
     <ClInclude Include="StoveMoveBehavior.h" />
+    <ClInclude Include="EquipHandBehavior.h" />
   </ItemGroup>
 </Project>

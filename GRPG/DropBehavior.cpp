@@ -13,5 +13,5 @@ void DropBehavior::action(){
 	//gamePtr->setMouseOverEntity(nullptr);
 	//a player cannot drop an object without first looking at the object entity and calling its dropbehavior action, so there's no need for an if here
 	drawManager->addObject(entity,1);
-	delete this;
+	//delete this;
 }
