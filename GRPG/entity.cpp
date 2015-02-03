@@ -170,7 +170,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 				{
 					Entity* e = new Entity();
 					e->initialize(gamePtr, shopItemsList.at(i), true);//anchored if its an inventory
-					inventory->addEntityInventoryItem(e);
+					inventory->addEntityInventoryItem(e,(Grpg*)gamePtr);
 				}
 			}
 			if (((NPC*)whichCharacter)->getTeleportID() != '0')

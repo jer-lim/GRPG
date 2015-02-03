@@ -3,7 +3,7 @@
 #include "player.h"
 
 void DropBehavior::action(){
-	player->getInventory()->removeEntityInventoryItem(entity);//remove from inventory
+	player->getInventory()->removeEntityInventoryItem(entity,(Grpg*)gamePtr);//remove from inventory
 	//entity->setPickupBehavior(new PickupBehavior(gamePtr,drawManager, entity, player));//change behaviors
 	//entity->setDropBehavior(nullptr);
 	//entity->setupVectorActiveBehaviors();
