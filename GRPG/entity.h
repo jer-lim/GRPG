@@ -369,23 +369,23 @@ class Entity : public Destination//, public Interactable
 	//Behavior related
 	//void setCookBehavior
 	void setDropBehavior(Behavior* b) {
-		if (dropBehavior != nullptr)//should be handled outside
-			SAFE_DELETE(dropBehavior);
+		//if (dropBehavior != nullptr)//should be handled outside, as when the behavior is deleted any further actions will cause a crash
+			//SAFE_DELETE(dropBehavior);
 		dropBehavior = b;
 	}
 	void setPickupBehavior(Behavior* b) {
-		if (pickupBehavior != nullptr)
-			SAFE_DELETE(pickupBehavior);
+		//if (pickupBehavior != nullptr)
+			//SAFE_DELETE(pickupBehavior);
 		pickupBehavior = b;
 	}
 	void setCookBehavior(Behavior* b) {
-		if (cookBehavior != nullptr)
-			SAFE_DELETE(cookBehavior);
+		//if (cookBehavior != nullptr)
+			//SAFE_DELETE(cookBehavior);
 		cookBehavior = b;
 	}
 	void setEatBehavior(Behavior* b) {
-		if (eatBehavior != nullptr)
-			SAFE_DELETE(eatBehavior);
+		//if (eatBehavior != nullptr)
+			//SAFE_DELETE(eatBehavior);
 		eatBehavior = b;
 	}
 	void setupVectorActiveBehaviors()
@@ -399,12 +399,12 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(sellBehavior);
 		if (eatBehavior)
 			vectorActiveBehaviors.push_back(eatBehavior);
-		if (cookBehavior)
+		if (pickupBehavior)
+			vectorActiveBehaviors.push_back(pickupBehavior);
+		if (cookBehavior)//must come under pickup
 			vectorActiveBehaviors.push_back(cookBehavior);
 		if (dropBehavior)
 			vectorActiveBehaviors.push_back(dropBehavior);
-		if (pickupBehavior)
-			vectorActiveBehaviors.push_back(pickupBehavior);
 		if (talkBehavior)
 			vectorActiveBehaviors.push_back(talkBehavior);
 		if (attackBehavior)
