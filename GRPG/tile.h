@@ -21,6 +21,7 @@ namespace tileNS
 		const int SPAWNPOINT = 3;
 		const int FISHINGSPOT = 4;
 		const int MININGSPOT = 5;
+		const int COOKER = 6;
 	}
 }
 
@@ -43,7 +44,7 @@ public:
 
 	virtual void spawn(){} // only activated for Spawner
 
-	char getId(){ return id; }
+	char getId(){return id;}
 	void setId(char i){ id = i; }
 };
 #endif

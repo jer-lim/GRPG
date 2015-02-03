@@ -33,7 +33,7 @@ X 1 1 1 fence_wall.png 0 0
 Y 1 1 1 fence_front.png 0 0
 Z 1 1 1 fence_leftgate.png 0 0
 a 1 1 1 fence_rightgate.png 0 0
-b 1 4 0.25 stove.png 0 0
+b 6 4 0.25 stove.png 0 0
 c 0 1 1 dock_landleft.png 0 0
 d 0 1 1 dock_landright.png 0 0
 e 0 1 1 dock_waterleft.png 0 0
