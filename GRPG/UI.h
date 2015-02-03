@@ -189,6 +189,10 @@ public:
 			theItem->setupVectorActiveBehaviors();
 		}
 
+		if (playerCoin != nullptr)
+		{
+			delete playerCoin;
+		}
 	}
 
 	virtual void setShopItems(vector<Entity* > i);

@@ -582,7 +582,16 @@ void UI::setShopItems(vector<Entity* > i)
 	//Add sell behavior to the player's inventory
 	//We can leave the rest there, why not allow the player to eat, drop or whatever
 	//while shopping?
-	playerCoin = nullptr;
+
+	//Generate a player coin to store the total number of coin the player has
+	if (playerCoin != nullptr)
+	{
+		delete playerCoin;
+	}
+	InventoryItem* x = new InventoryItem(((Grpg*)game)->getItemLoader()->getItem(0), 0);
+	playerCoin = new Entity();
+	playerCoin->initialize(game, x, false);
+
 	vector<Entity*> playerInventory = player->getInventory()->getVectorItems();
 	for (vector<Entity*>::iterator it = playerInventory.begin(); it != playerInventory.end(); ++it)
 	{
@@ -595,17 +604,9 @@ void UI::setShopItems(vector<Entity* > i)
 		}
 		else
 		{
-			playerCoin = theItem;
+			playerCoin->getInventoryItem()->setCurrentStackCount(
+				playerCoin->getInventoryItem()->getCurrentStackCount() + theItem->getInventoryItem()->getCurrentStackCount());
 		}
-	}
-
-	//Player originally had no coin
-	if (playerCoin == nullptr)
-	{
-		//Initalize one for him
-		InventoryItem* x = new InventoryItem(((Grpg*)game)->getItemLoader()->getItem(0), 0);
-		playerCoin = new Entity();
-		playerCoin->initialize(game, x, false);
 	}
 
 	for (vector<Entity*>::iterator it = i.begin(); it != i.end(); ++it)
