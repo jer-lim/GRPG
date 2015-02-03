@@ -338,17 +338,17 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 	if (tileset[tileId].type == tileNS::type::FISHINGSPOT || tileset[tileId].type == tileNS::type::SPAWNER || tileset[tileId].type == tileNS::type::WALL){
 		Tile* t = nullptr;
 		if (tileset[tileId].type == tileNS::type::FISHINGSPOT) {
-			t = new Resource();
+			t = new Resource(tileId);
 			((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 		}
 		else if (tileset[tileId].type == tileNS::type::SPAWNER){
-			t = new Spawner(gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
+			t = new Spawner(tileId, gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
 			//runtimeLog << "Created spawner1" << endl;
 			//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 		}
 		else if (tileset[tileId].type == tileNS::type::WALL){
 
-			t = new Tile();
+			t = new Tile(tileId);
 			//runtimeLog << "Created tile1" << endl;
 			//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 		}
@@ -520,6 +520,8 @@ void MapLoader::update(float frameTime){
 					mt->tile->getImage()->setCols(newTileInfo.numFrames);
 					mt->tile->getImage()->setCurrentFrame(newTileInfo.currentFrame);
 					mt->tile->getImage()->setAnimTimer(newTileInfo.globalFrameTime);
+
+					mt->tile->setId(newTileId);
 				}
 				else if(mt->image != nullptr){
 					mt->image->setTextureManager(textureManager);
@@ -567,24 +569,24 @@ void MapLoader::update(float frameTime){
 					newTileInfo.type == tileNS::type::FISHINGSPOT || newTileInfo.type == tileNS::type::MININGSPOT){
 					Tile* t = nullptr;
 					if (newTileInfo.type == tileNS::type::SPAWNER){
-						t = new Spawner(gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
+						t = new Spawner(newTileId, gamePtr, newTileInfo.spawnId, newTileInfo.spawnCooldown, 0);
 						//runtimeLog << "Created Spawner2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 					else if (newTileInfo.type == tileNS::type::WALL){
 
-						t = new Tile();
+						t = new Tile(newTileId);
 						//runtimeLog << "Created Tile2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 					else if(newTileInfo.type == tileNS::type::FISHINGSPOT){
-						t = new Resource();
+						t = new Resource(newTileId);
 						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 						//runtimeLog << "Created Fishing2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}
 					else if(newTileInfo.type == tileNS::type::MININGSPOT){
-						t = new Resource();
+						t = new Resource(newTileId);
 						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 						//runtimeLog << "Created Mining2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING

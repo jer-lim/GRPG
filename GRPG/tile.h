@@ -27,11 +27,11 @@ namespace tileNS
 // inherits from Entity class
 class Tile : public Entity 
 {
-private:
-
+protected:
+	char id;
 public:
     // constructor
-    Tile(bool collidable = true);
+	Tile(char i, bool collidable = true);
 	~Tile(){};
 
     // inherited member functions
@@ -42,6 +42,9 @@ public:
 	virtual void update(float frameTime, Game* gamePtr = nullptr);
 
 	virtual void spawn(){} // only activated for Spawner
+
+	char getId(){ return id; }
+	void setId(char i){ id = i; }
 };
 #endif
 

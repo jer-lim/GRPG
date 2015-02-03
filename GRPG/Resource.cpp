@@ -1,7 +1,7 @@
 #include "Resource.h"
 #include "grpg.h"
 
-Resource::Resource() { };
+Resource::Resource(char i) : Tile(i) { };
 Resource::~Resource() {};
 
 // Initialize resource by specifying which type it should be

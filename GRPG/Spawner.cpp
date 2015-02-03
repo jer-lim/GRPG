@@ -3,7 +3,7 @@
 #include "PersonLoader.h"
 #include <sstream>
 
-Spawner::Spawner(Game* gp, int spawn, int cd, Entity* v) : Tile(){
+Spawner::Spawner(char i, Game* gp, int spawn, int cd, Entity* v) : Tile(i){
 	gamePtr = gp;
 	npcId = spawn;
 	cooldown = cd;

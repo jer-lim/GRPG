@@ -13,7 +13,7 @@ protected:
 	int cooldown;
 	LARGE_INTEGER timeOfDeath;
 public:
-	Spawner(Game* gp, int spawn, int cd, Entity* v);
+	Spawner(char i, Game* gp, int spawn, int cd, Entity* v);
 
 	void spawn();
 	virtual void update(); // Handles respawning

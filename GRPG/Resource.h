@@ -17,7 +17,7 @@ class Resource : public Tile
 {
 private:
 public:
-	Resource();
+	Resource(char i);
 
 	virtual ~Resource();
 

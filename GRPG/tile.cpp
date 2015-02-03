@@ -5,8 +5,9 @@
 //=============================================================================
 // default constructor
 //=============================================================================
-Tile::Tile(bool collidable) : Entity()
+Tile::Tile(char i, bool collidable) : Entity()
 {
+	id = i;
     image.spriteData.width = tileNS::WIDTH;           // size of tile
 	image.spriteData.height = tileNS::HEIGHT;
 	image.spriteData.rect.bottom = tileNS::HEIGHT;    // rectangle to select parts of an image
