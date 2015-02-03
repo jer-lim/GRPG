@@ -106,6 +106,7 @@ private:
 	string windowHeader;
 	RECT* shopRect; // The rectangle used for drawing the shop text
 	vector<Entity* > items; //The list of items that will be sold in the shop
+	Entity* playerCoin;		//Track player's coin and perform changes
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -153,8 +154,11 @@ public:
 
 	void update(float frameTime, Game* gamePtr);
 
-	//Causes the UI to update as if a click had been performed
-	void performClick();
+	// Takes note that a click was performed and processes it
+	// Checking which part of the UI it was over and performing the action
+	// Returns true if something was processed in the UI
+	// Returns false if nothing was processed
+	bool UI::performClick();
 
 	float getTopLeftX(){ return getX() - uiNS::WIDTH / 2; }
 	float getTopLeftY(){ return getY() - uiNS::HEIGHT / 2; }
@@ -187,36 +191,7 @@ public:
 
 	}
 
-	virtual void setShopItems(vector<Entity* > i)
-	{
-		for (vector<Entity*>::iterator it = i.begin(); it != i.end(); ++it)
-		{
-			//Setup behaviors
-			Entity* theItem = *it;
-			//Ensure you can't go and mess around with items in the Shopkeeper's inventory
-			SAFE_DELETE(theItem->dropBehavior);
-			SAFE_DELETE(theItem->pickupBehavior);
-			SAFE_DELETE(theItem->eatBehavior);
-			SAFE_DELETE(theItem->cookBehavior);
-			if (theItem->buyBehavior == nullptr)
-			{
-				theItem->buyBehavior = new BuyBehavior(player, theItem);
-			}
-			theItem->setupVectorActiveBehaviors();
-		}
-		items = i;
-
-		//Add sell behavior to the player's inventory
-		//We can leave the rest there, why not allow the player to eat, drop or whatever
-		//while shopping?
-		vector<Entity*> playerInventory = player->getInventory()->getVectorItems();
-		for (vector<Entity*>::iterator it = playerInventory.begin(); it != playerInventory.end(); ++it)
-		{
-			Entity* theItem = *it;
-			theItem->sellBehavior = new SellBehavior(player, theItem);
-			theItem->setupVectorActiveBehaviors();
-		}
-	}
+	virtual void setShopItems(vector<Entity* > i);
 
 	//Gets the items shown in the shop. If empty, no items are shown
 	virtual vector<Entity*> getShopItems() { return items; }

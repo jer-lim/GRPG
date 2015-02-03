@@ -7,16 +7,21 @@
 class NPC;
 using namespace std;
 class Player;
+class ItemLoader;
+class Grpg;
 
 class SellBehavior : public Behavior
 {
 private:
 	Entity* theItem;
 	Player* player;
+	Grpg* grpg;
+
 public:
-	SellBehavior(Player* p, Entity* i){
+	SellBehavior(Player* p, Entity* i, Grpg* gamePtr){
 		player = p;
 		theItem = i;
+		grpg = gamePtr;
 	}
 	virtual bool exists(){ return true; }
 	virtual string displayText();

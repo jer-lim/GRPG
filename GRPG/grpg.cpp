@@ -143,10 +143,12 @@ void Grpg::update()
 {
 	if (!input->getMouseLButton() && leftMouseWasDown)
 	{
+
+		bool actionSuccess = false;
 		bool inUI = false;
 		if (ui->mouseInside(viewport))
 		{
-			ui->performClick();
+			actionSuccess = ui->performClick();
 			inUI = true;
 		}
 		else
@@ -155,8 +157,8 @@ void Grpg::update()
 		}
 		//else
 		//{
-		bool actionSuccess = false;
-		if (mouseOverEntity != nullptr)
+		//If nothing happened in the ui
+		if (!actionSuccess && mouseOverEntity != nullptr)
 		{
 			Behavior* topBehavior = mouseOverEntity->getTopMostBehavior();
 			if (topBehavior != nullptr)
@@ -166,6 +168,7 @@ void Grpg::update()
 				actionSuccess = true;
 			}
 		}
+		//If nothing happened and the player did not click in the ui
 		if (!inUI && !actionSuccess)
 		{
 			VECTOR2 vpCoords = viewport->reverseTranslate(input->getMouseX(), input->getMouseY());
@@ -359,7 +362,7 @@ bool Grpg::processCommand(std::string command)
 	else if (command == "shop")
 	{
 		ui->drawWindow("Solomon's General Store");
-		ui->setShopItems(player->getInventory()->getVectorItems());
+		ui->setShopItems(vector<Entity*>());
 		return true;
 	}
 	else if (command == "more")

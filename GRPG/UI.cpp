@@ -2,6 +2,7 @@
 #include <map>
 #include "playerSkill.h"
 #include <sstream>
+#include "grpg.h"
 
 //=============================================================================
 // default constructor
@@ -408,28 +409,15 @@ void UI::update(float frameTime, Game* gamePtr)
 {
 }
 
-void UI::performClick()
+
+//=============================================================================
+// Takes note that a click was performed and processes it
+// Checking which part of the UI it was over and performing the action
+// Returns true if something was processed in the UI
+// Returns false if nothing was processed
+//=============================================================================
+bool UI::performClick()
 {
-	//Check if mouse is over any tab
-	float tabTopLeftY = getY() - uiNS::HEIGHT / 2 - uiNS::tabHEIGHT * 3 / 4;
-	float tabBottomLeftY = getY() - uiNS::HEIGHT / 2;
-
-	if (input->getMouseY() >= tabTopLeftY && input->getMouseY() <= tabBottomLeftY)
-	{
-		float tabTopLeftX = getX() - uiNS::WIDTH / 2 + uiNS::tabLMargin;
-		for (int i = 0; i < uiNS::totalTabs; i++)
-		{
-			if (input->getMouseX() >= tabTopLeftX && input->getMouseX() <= tabTopLeftX + uiNS::tabWIDTH)
-			{
-				//Assuming uiNS active tabs possibility are from 1 to totalTabs
-				setActiveTab(i + 1);//to add special code
-				//activeTab = i+1;
-			}
-			tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
-		}
-		// Increase in tab: (tabNumber - 1)*(uiNS::tabWIDTH + uiNS::tabMargin) + uiNS::tabWIDTH / 2);
-	}
-
 	//Check for right click menu
 	if (rightClickBackground.getVisible())
 	{
@@ -449,12 +437,33 @@ void UI::performClick()
 				{
 					//User clicked on this option!
 					item->action();
-					break;
+					return true;
 				}
 				differenceFromTop -= textRect->bottom;
 			}
 			delete textRect;
 		}
+	}
+
+	//Check if mouse is over any tab
+	float tabTopLeftY = getY() - uiNS::HEIGHT / 2 - uiNS::tabHEIGHT * 3 / 4;
+	float tabBottomLeftY = getY() - uiNS::HEIGHT / 2;
+
+	if (input->getMouseY() >= tabTopLeftY && input->getMouseY() <= tabBottomLeftY)
+	{
+		float tabTopLeftX = getX() - uiNS::WIDTH / 2 + uiNS::tabLMargin;
+		for (int i = 0; i < uiNS::totalTabs; i++)
+		{
+			if (input->getMouseX() >= tabTopLeftX && input->getMouseX() <= tabTopLeftX + uiNS::tabWIDTH)
+			{
+				//Assuming uiNS active tabs possibility are from 1 to totalTabs
+				setActiveTab(i + 1);//to add special code
+				//activeTab = i+1;
+				return true;
+			}
+			tabTopLeftX += uiNS::tabWIDTH + uiNS::tabMargin;
+		}
+		// Increase in tab: (tabNumber - 1)*(uiNS::tabWIDTH + uiNS::tabMargin) + uiNS::tabWIDTH / 2);
 	}
 
 	//Check for over X icon in window store
@@ -465,8 +474,10 @@ void UI::performClick()
 			input->getMouseY() > topRightWindow.y && input->getMouseY() < topRightWindow.y + uiNS::windowXHeight)
 		{
 			windowHeader = "";
+			return true;
 		}
 	}
+	return false;
 }
 
 //=============================================================================
@@ -564,6 +575,55 @@ void UI::setRightClickMenu(vector<Behavior*> behaviors)
 
 	rightClickBackground.initialize(graphics, menuTop.x, menuTop.y, maximumWidth, totalHeight, uiNS::rightClickBG, completeText);
 	rightClickBackground.setVisible(true);
+}
+
+void UI::setShopItems(vector<Entity* > i)
+{
+	//Add sell behavior to the player's inventory
+	//We can leave the rest there, why not allow the player to eat, drop or whatever
+	//while shopping?
+	playerCoin = nullptr;
+	vector<Entity*> playerInventory = player->getInventory()->getVectorItems();
+	for (vector<Entity*>::iterator it = playerInventory.begin(); it != playerInventory.end(); ++it)
+	{
+		Entity* theItem = *it;
+		//don't add sell behavior for gold
+		if (theItem->getInventoryItem()->getItem()->getName() != "Coin")
+		{
+			theItem->sellBehavior = new SellBehavior(player, theItem, (Grpg*)game);
+			theItem->setupVectorActiveBehaviors();
+		}
+		else
+		{
+			playerCoin = theItem;
+		}
+	}
+
+	//Player originally had no coin
+	if (playerCoin == nullptr)
+	{
+		//Initalize one for him
+		InventoryItem* x = new InventoryItem(((Grpg*)game)->getItemLoader()->getItem(0), 0);
+		playerCoin = new Entity();
+		playerCoin->initialize(game, x, false);
+	}
+
+	for (vector<Entity*>::iterator it = i.begin(); it != i.end(); ++it)
+	{
+		//Setup behaviors
+		Entity* theItem = *it;
+		//Ensure you can't go and mess around with items in the Shopkeeper's inventory
+		SAFE_DELETE(theItem->dropBehavior);
+		SAFE_DELETE(theItem->pickupBehavior);
+		SAFE_DELETE(theItem->eatBehavior);
+		SAFE_DELETE(theItem->cookBehavior);
+		if (theItem->buyBehavior == nullptr)
+		{
+			theItem->buyBehavior = new BuyBehavior(player, theItem, playerCoin, (Grpg*)game);
+		}
+		theItem->setupVectorActiveBehaviors();
+	}
+	items = i;
 }
 
 //=============================================================================
