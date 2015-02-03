@@ -52,7 +52,7 @@ Entity::Entity()
 
 	oldViewport = VECTOR2(-1, -1);
 	oldLocation = VECTOR2(-1, -1);
-	spawnLocation = new VECTOR2(-1, -1);
+	spawnLocation = VECTOR2(-1, -1);
 }
 
 //=============================================================================
@@ -111,8 +111,6 @@ Entity::~Entity()
 		inventory->destroy();
 		SAFE_DELETE(inventory);
 	}
-
-	SAFE_DELETE(spawnLocation);
 }
 
 //=============================================================================
@@ -417,16 +415,16 @@ void Entity::update(float frameTime, Game* gamePtr)
 				{
 					int aggroRadius = ((Enemy*)person)->getWanderRange();
 					//Set spawn location if it hasn't been set
-					if (spawnLocation->x == -1 && spawnLocation->y == -1)
+					if (spawnLocation.x == -1 && spawnLocation.y == -1)
 					{
-						spawnLocation->x = getX();
-						spawnLocation->y = getY();
+						spawnLocation.x = getX();
+						spawnLocation.y = getY();
 					}
 					//20% chance, otherwise it stands still
 					if (getRandomNumber() > 0.8)
 					{
-						destination = new Point((rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->x,
-							(rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation->y);
+						destination = new Point((rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation.x,
+							(rand() % (aggroRadius * 2)) - aggroRadius + spawnLocation.y);
 					}
 				}
 			}
@@ -478,11 +476,11 @@ void Entity::update(float frameTime, Game* gamePtr)
 				if (diff.x * diff.x + diff.y * diff.y < enemyNS::aggroRangeNonSqrt)
 				{
 					//If spawn location is set
-					if (spawnLocation->x != -1 || spawnLocation->y != -1)
+					if (spawnLocation.x != -1 || spawnLocation.y != -1)
 					{
 						destination->release();
 						setVictim(nullptr);
-						destination = new Point(spawnLocation->x, spawnLocation->y);
+						destination = new Point(spawnLocation.x, spawnLocation.y);
 					}
 				}
 

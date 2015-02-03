@@ -118,7 +118,7 @@ class Entity : public Destination//, public Interactable
 	//To calculate aggro (Range & player's combat level)
 	Player* thePlayer;
 	//The entity can never move too far from the spawn location
-	VECTOR2* spawnLocation;
+	VECTOR2 spawnLocation;
 
 	//Inventory for both players and friendlies
 	Inventory* inventory;
@@ -287,8 +287,7 @@ class Entity : public Destination//, public Interactable
 	// Sets the spawn points which this NPC is created from
 	// If the NPC wanders too far from the spawn point, he returns
 	//WARNING: the location is DELETED once the entity is destroyed
-	virtual void setSpawnPoint(VECTOR2* location) {
-		SAFE_DELETE(spawnLocation);
+	virtual void setSpawnPoint(VECTOR2 location) {
 		spawnLocation = location; 
 	}
 

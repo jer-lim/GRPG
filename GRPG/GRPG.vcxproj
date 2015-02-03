@@ -20,6 +20,7 @@
     <ClInclude Include="CookBehavior.h" />
     <ClInclude Include="DropBehavior.h" />
     <ClInclude Include="EatBehavior.h" />
+    <ClInclude Include="EquipHandBehavior.h" />
     <ClInclude Include="FishBehavior.h" />
     <ClInclude Include="HealBehavior.h" />
     <ClInclude Include="Interactable.h" />
@@ -83,6 +84,7 @@
     <ClCompile Include="BuyBehavior.cpp" />
     <ClCompile Include="DropBehavior.cpp" />
     <ClCompile Include="EatBehavior.cpp" />
+    <ClCompile Include="EquipHandBehavior.cpp" />
     <ClCompile Include="FishBehavior.cpp" />
     <ClCompile Include="HealBehavior.cpp" />
     <ClCompile Include="InventoryItem.cpp" />

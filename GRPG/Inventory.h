@@ -78,6 +78,10 @@ public:
 	map<int, Entity*>* getSlotList(){ return &slotList; }
 	vector<Entity*> getVectorItems();
 
+	Entity* getSlotHand(){ return slot_hand; }
+	Entity* getSlotOffHand(){ return slot_offhand; }
+	Entity* getSlotBody(){ return slot_body; }
+
 	bool hasSpaceInInventory() { return slotList.size() < maxSlotListCount; }
 };
 #endif
