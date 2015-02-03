@@ -234,7 +234,7 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 			switch (((InventoryFood*)invItem)->getFoodState())
 			{
 			case RAW:
-				cookBehavior = new CookBehavior(((Grpg*)gamePtr)->getPlayer(), this);
+				cookBehavior = new CookBehavior(gamePtr,((Grpg*)gamePtr)->getPlayer(), this);
 				break;
 			case COOKED:
 			case DELICIOUS:

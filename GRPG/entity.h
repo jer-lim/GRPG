@@ -371,6 +371,16 @@ class Entity : public Destination//, public Interactable
 			SAFE_DELETE(pickupBehavior);
 		pickupBehavior = b;
 	}
+	void setCookBehavior(Behavior* b) {
+		if (cookBehavior != nullptr)
+			SAFE_DELETE(cookBehavior);
+		cookBehavior = b;
+	}
+	void setEatBehavior(Behavior* b) {
+		if (eatBehavior != nullptr)
+			SAFE_DELETE(eatBehavior);
+		eatBehavior = b;
+	}
 	void setupVectorActiveBehaviors()
 	{//Must be in order, as they will be displayed in this order 
 		vectorActiveBehaviors.clear();

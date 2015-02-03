@@ -10,10 +10,12 @@ using namespace std;
 class CookBehavior :public Behavior
 {
 private:
+	Game* gamePtr;
 	Entity* food;
 	Player* player;
 public:
-	CookBehavior(Player* p, Entity* e){
+	CookBehavior(Game* game,Player* p, Entity* e){
+		gamePtr = game;
 		player = p;
 		food = e;
 	}
