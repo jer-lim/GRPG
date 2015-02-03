@@ -1,5 +1,5 @@
 #include "PickupBehavior.h"
-#include "EquipHandBehavior.h"
+#include "EquipBehavior.h"
 #include "player.h"
 
 void EquipHandBehavior::action(){
