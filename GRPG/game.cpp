@@ -22,6 +22,7 @@ Game::Game()
     graphics = NULL;
     initialized = false;
 	fps = 30; //Initalize fps to a good number, let it roll from there
+	nearStove = false;
 }
 
 //=============================================================================
