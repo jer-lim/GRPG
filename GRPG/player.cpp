@@ -134,9 +134,9 @@ void Player::update(float frameTime, Game* gamePtr)
 		actionDelay -= frameTime;
 		if (actionDelay <= 0)
 		{
-			if (currentAction == resourceNS::FISHING)
+			if (inventory->hasSpaceInInventory())
 			{
-				if (inventory->getSlotList()->size() < inventory->getMaxSlotCount())
+				if (currentAction == resourceNS::FISHING)
 				{
 					InventoryItem* fish = new InventoryFood(game->getItemLoader()->getItem(5), 1,RAW);
 					Entity* e = new Entity();
@@ -157,11 +157,12 @@ void Player::update(float frameTime, Game* gamePtr)
 					else
 					{*/
 					skills[skillNS::ID_SKILL_FISHING].gainXP(30);
-				}
-				//Check if activity can continue
-				if (inventory->hasSpaceInInventory())
-				{
-					restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+
+					//Check if activity can continue
+					if (inventory->hasSpaceInInventory())
+					{
+						restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+					}
 				}
 			}
 		}
