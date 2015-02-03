@@ -9,7 +9,7 @@ string CookBehavior::displayText(){
 void CookBehavior::action()
 {
 	//check proximity
-	if (gamePtr->getNearStove())//this variable should be set when near a stove, and there should be a "move to stove" behavior
+	if (player->getNearStove())//this variable should be set when near a stove, and there should be a "move to stove" behavior
 		((InventoryFood*)food->getInventoryItem())->cook(player->getSkills()->at(skillNS::ID_SKILL_COOKING).getSkillLevel());
 	//remove raw
 	food->setCookBehavior(nullptr);

@@ -28,6 +28,8 @@ Player::Player() : Entity()
 	
 	//Start off toughness at a good level
 	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(11));
+
+	nearStove = false;
 }
 //=============================================================================
 // sayMessage
@@ -119,10 +121,11 @@ void Player::update(float frameTime, Game* gamePtr)
 	}
 
 	Entity::update(frameTime, gamePtr);
-	//Stop fishing and mining if you're doing something else
+	//Stop fishing, mining and cooking if you're doing something else
 	if (destination != nullptr || victim != nullptr)
 	{
 		actionDelay = 0;
+		nearStove = false;
 	}
 
 	timeLeft -= frameTime;

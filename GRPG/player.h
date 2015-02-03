@@ -50,8 +50,10 @@ private:
 	// The current action of the player, if skilling
 	// Refers to either of the values in Resource
 	int currentAction;
+	// For cooking
+	bool nearStove;
 	// How long before the player gets the next skill item
-	float actionDelay;
+	float actionDelay;	
 	// The resource image that is drawn above hte player
 	Image fishingImage;
 	TextureManager* tm;
@@ -75,6 +77,9 @@ public:
 	// Get the player's skills, which is a map of <int, PlayerSkill>.
 	// All integers can be retrieved with Skill:ID_
 	map<int, PlayerSkill>* getSkills() { return &skills; }
+
+	bool getNearStove() { return nearStove; }
+	void setNearStove(bool r) { nearStove = r; }
 
 	// Specific player functions
 
