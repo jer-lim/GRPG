@@ -21,6 +21,7 @@
     <ClInclude Include="DropBehavior.h" />
     <ClInclude Include="EatBehavior.h" />
     <ClInclude Include="FishBehavior.h" />
+    <ClInclude Include="HealBehavior.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InventoryEquipment.h" />
     <ClInclude Include="MineBehavior.h" />
@@ -82,6 +83,7 @@
     <ClCompile Include="DropBehavior.cpp" />
     <ClCompile Include="EatBehavior.cpp" />
     <ClCompile Include="FishBehavior.cpp" />
+    <ClCompile Include="HealBehavior.cpp" />
     <ClCompile Include="InventoryItem.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Person.cpp" />
