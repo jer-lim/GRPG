@@ -21,4 +21,4 @@ P : bottom left corner of lake
 + : hospital
 I : cookhouse
 * : Town "Spawn" point beside the water
-~ : Credits people
+~ : Credits castle

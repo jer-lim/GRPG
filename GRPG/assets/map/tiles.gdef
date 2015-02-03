@@ -53,6 +53,7 @@ r 2 4 0.5 grass.png 17 0
 s 2 4 0.5 grass.png 18 0
 t 2 4 0.5 grass.png 19 15
 u 2 4 0.5 grass.png 20 0
-v 2 4 0.5 grass.png 21 0
-w 2 4 0.5 grass.png 22 0
-x 2 4 0.5 grass.png 23 0
+v 2 1 1 castle_floor.png 21 0
+w 2 1 1 castle_floor.png 22 0
+y 2 1 1 castle_floor.png 23 0
+z 0 47 0.1 credits.png 0 0
