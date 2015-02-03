@@ -57,4 +57,10 @@ v 2 1 1 castle_floor.png 21 0
 w 2 1 1 castle_floor.png 22 0
 y 2 1 1 castle_floor.png 23 0
 z 0 47 0.1 credits.png 0 0
-3 2 4 0.5 grass.png 5 10
+3 2 4 0.5 grass.png 5 15
+4 2 1 1 woodhouse_floor.png 6 30
+5 2 1 1 dirt.png 3 15
+6 2 1 1 dirt.png 9 30
+7 2 1 1 dirt.png 10 300
+8 2 1 1 castle_floor.png 13 300
+8 2 1 1 castle_floor.png 14 600

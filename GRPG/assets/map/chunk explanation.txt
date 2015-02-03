@@ -22,3 +22,10 @@ P : bottom left corner of lake
 I : cookhouse
 * : Town "Spawn" point beside the water
 ~ : Credits castle
+- : wildy edge
+R : goblin spawn
+S : goblin chief spawn
+T : skeleton spawn
+U : ogre spawn
+V : ogre elite spawn
+W : dragon spawn
