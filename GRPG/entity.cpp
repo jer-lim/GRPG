@@ -416,7 +416,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 				//Especially when executed every frame
 				VECTOR2 diff = getVector() - thePlayer->getVector();
 				float distance = diff.x * diff.x + diff.y * diff.y;
-				if (distance < enemyNS::aggroRangeNonSqrt)
+				if (distance < max(enemyNS::aggroRangeNonSqrt, pow(((Enemy*)person)->getWanderRange(), 2)))
 				{
 					victim = thePlayer;
 					canAggro = true;
@@ -487,7 +487,8 @@ void Entity::update(float frameTime, Game* gamePtr)
 
 				//Don't go too far from the spawn point
 				VECTOR2 diff = destinationVector - spawnLocation;
-				if (diff.x * diff.x + diff.y * diff.y > enemyNS::aggroRangeNonSqrt)
+				if (diff.x * diff.x + diff.y * diff.y > max(enemyNS::aggroRangeNonSqrt, 
+					pow(((Enemy*)person)->getWanderRange(), 2)))
 				{
 					//If spawn location is set
 					if (spawnLocation.x != -1 || spawnLocation.y != -1)
