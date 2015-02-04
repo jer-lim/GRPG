@@ -19,6 +19,7 @@ void EatBehavior::action()
 		break;
 	}
 	gamePtr->setMouseOverEntity(nullptr);
-	player->getInventory()->removeEntityInventoryItem(food, (Grpg*)gamePtr);
-	SAFE_DELETE(food);	//delete entity
+	player->getInventory()->destroyEntityInventoryItems(food, false, (Grpg*)gamePtr);
+	//player->getInventory()->removeEntityInventoryItem(food, (Grpg*)gamePtr);
+	//SAFE_DELETE(food);	//delete entity
 }

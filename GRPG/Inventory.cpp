@@ -157,10 +157,6 @@ bool Inventory::removeEntityInventoryItem(Entity * entity, Grpg* gamePtr)
 int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vector<Entity*>* removedItems, Grpg* gamePtr)
 {
 	int totalStackCount = 0, goalStackCount = entity->getInventoryItem()->getCurrentStackCount();
-	if (!stackCount)
-	{//if ignore stackCount, just set the goalStackcount to the totalStackcount so everything is removed;
-		goalStackCount = totalStackCount;
-	}
 
 	for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
 		if (it->second->getInventoryItem()->getItem() == entity->getInventoryItem()->getItem()){//if items are the same
@@ -183,6 +179,11 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 					break;//we have enough stuff to remove the items
 			}
 		}
+	}
+
+	if (!stackCount)
+	{//if ignore stackCount, just set the goalStackcount to the totalStackcount so everything is removed;
+		goalStackCount = totalStackCount;
 	}
 
 	if (removedItems->size() > 0 && totalStackCount >= goalStackCount)
