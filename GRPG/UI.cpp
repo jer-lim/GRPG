@@ -444,6 +444,7 @@ bool UI::performClick()
 				{
 					//User clicked on this option!
 					item->action();
+					delete textRect;
 					return true;
 				}
 				differenceFromTop -= textRect->bottom;

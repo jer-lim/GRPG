@@ -20,6 +20,7 @@ void TeleportBehavior::action()
 	}
 	else
 	{
+		player->releaseDestination();
 		player->setVictim(guyDoingTeleport);
 		player->setNPCAction(this);
 	}
