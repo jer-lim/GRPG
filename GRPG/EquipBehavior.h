@@ -18,7 +18,7 @@ public:
 		player = plyr;
 	}
 	bool exists(){ return true; }
-	string displayText(){ return "Pick up " + entity->getInventoryItem()->getItem()->getName(); }
+	string displayText(){ return "Pick up " + entity->getInventoryItem()->getName(); }
 	void action();
 };
 #endif

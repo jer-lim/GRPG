@@ -6,7 +6,7 @@
 #include "itemLoader.h"
 
 string SellBehavior::displayText(){
-	return ("Sell 1 of " + theItem->getInventoryItem()->getItem()->getName());
+	return ("Sell 1 of " + theItem->getInventoryItem()->getName());
 }
 
 //Purchase said item

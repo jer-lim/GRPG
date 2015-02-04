@@ -3,7 +3,7 @@
 #include "player.h"
 
 string EatBehavior::displayText(){
-	return "Eat " + food->getInventoryItem()->getItem()->getName();
+	return "Eat " + food->getInventoryItem()->getName();
 }
 
 void EatBehavior::action()
