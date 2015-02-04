@@ -17,7 +17,7 @@ public:
 		ui = u;
 	}
 	virtual bool exists(){ return true; }
-	virtual string displayText(){ return "Examine "+ii->getItem()->getName(); }
+	virtual string displayText(){ return "Examine "+ii->getName(); }
 	virtual void action();
 };
 #endif

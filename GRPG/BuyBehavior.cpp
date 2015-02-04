@@ -5,7 +5,7 @@
 #include "grpg.h"
 
 string BuyBehavior::displayText(){
-	return ("Buy 1 of " + theItem->getInventoryItem()->getItem()->getName());
+	return ("Buy 1 of " + theItem->getInventoryItem()->getName());
 }
 
 //Purchase said item
@@ -38,6 +38,6 @@ void BuyBehavior::action()
 	else
 	{
 		//Can't afford
-		grpg->getUI()->addChatText("You can't afford that " + theItem->getInventoryItem()->getItem()->getName());
+		grpg->getUI()->addChatText("You can't afford that " + theItem->getInventoryItem()->getName());
 	}
 }

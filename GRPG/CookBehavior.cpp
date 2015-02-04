@@ -5,7 +5,7 @@
 #include "UI.h"
 
 string CookBehavior::displayText(){
-	return "Cook " + food->getInventoryItem()->getItem()->getName();
+	return "Cook " + food->getInventoryItem()->getName();
 }
 
 void CookBehavior::action()

@@ -46,6 +46,24 @@ public:
 		return foodState;
 	}
 
+	virtual string getName()
+	{
+		string name;
+		switch (foodState)
+		{
+		case RAW:name = "Raw";
+			break;
+		case BURNT:name = "Burnt";
+			break;
+		case COOKED:name = "Cooked";
+			break;
+		case DELICIOUS:name = "Delicious";
+			break;
+		}
+		name += " ";
+		return name + item->getName() + "(" + currentStackCountString + ")";
+	}
+
 	virtual int getCost(){
 		return item->getCost()*InventoryFoodNS::foodStateCost[foodState];
 	}

@@ -31,6 +31,11 @@ public:
 		return new InventoryEquipment(*this);
 	}
 
+	virtual string getName()
+	{
+		return smithingMaterial->getName()+" "+item->getName() + "(" + currentStackCountString + ")";
+	}
+
 	virtual int getCost(){
 		return item->getCost()*smithingMaterial->getCost();
 	}

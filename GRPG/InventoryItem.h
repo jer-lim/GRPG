@@ -61,6 +61,11 @@ public:
 	virtual int getSellingCost(){
 		return item->getSellingCost();
 	}
+
+	virtual string getName()
+	{
+		return item->getName() + "(" + currentStackCountString + ")";
+	}
 	//Entity* getEntity(){ return entity; }
 	//void setEntity(Entity* e){ entity = e; }
 };

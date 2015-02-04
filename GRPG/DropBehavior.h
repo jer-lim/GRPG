@@ -20,7 +20,7 @@ public:
 		player = plyr;
 	}
 	bool exists(){ return true; }
-	string displayText(){ return "Drop "+entity->getInventoryItem()->getItem()->getName(); }
+	string displayText(){ return "Drop "+entity->getInventoryItem()->getName(); }
 	void action();
 };
 #endif
