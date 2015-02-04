@@ -7,7 +7,7 @@
 
 namespace InventoryFoodNS
 {
-	const float foodStateCost[]{ 1, 2, 0, 3};
+	const float foodStateCost[]{ 1, 0, 2, 3};
 }
 
 class InventoryFood : public InventoryItem

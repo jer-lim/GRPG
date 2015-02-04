@@ -271,7 +271,21 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 			image.setFrames(0, 3);
 			//Set to correct frame, don't rely on update() to do it for you
 			//Especially applies if update is never called for some reason (i.e. in shop keeper inventory)
-			image.setCurrentFrame(((InventoryFood*)inventoryItem)->getFoodState());
+			switch (((InventoryFood*)invItem)->getFoodState())
+			{
+			case RAW:
+				image.setCurrentFrame(0);
+				break;
+			case BURNT:
+				image.setCurrentFrame(1);
+				break;
+			case COOKED:
+				image.setCurrentFrame(2);
+				break;
+			case DELICIOUS:
+				image.setCurrentFrame(3);
+				break;
+			}
 		}
 	}
 }
@@ -402,7 +416,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 				//Especially when executed every frame
 				VECTOR2 diff = getVector() - thePlayer->getVector();
 				float distance = diff.x * diff.x + diff.y * diff.y;
-				if (distance < enemyNS::aggroRangeNonSqrt)
+				if (distance < max(enemyNS::aggroRangeNonSqrt, pow(((Enemy*)person)->getWanderRange(), 2)))
 				{
 					victim = thePlayer;
 					canAggro = true;
@@ -473,7 +487,8 @@ void Entity::update(float frameTime, Game* gamePtr)
 
 				//Don't go too far from the spawn point
 				VECTOR2 diff = destinationVector - spawnLocation;
-				if (diff.x * diff.x + diff.y * diff.y > enemyNS::aggroRangeNonSqrt)
+				if (diff.x * diff.x + diff.y * diff.y > max(enemyNS::aggroRangeNonSqrt, 
+					pow(((Enemy*)person)->getWanderRange(), 2)))
 				{
 					//If spawn location is set
 					if (spawnLocation.x != -1 || spawnLocation.y != -1)
@@ -669,7 +684,21 @@ void Entity::update(float frameTime, Game* gamePtr)
 		//Set appropriate sprite for food
 		if (inventoryItem->getType() == "INVENTORYFOOD")
 		{
-			image.setCurrentFrame(((InventoryFood*)inventoryItem)->getFoodState());
+			switch (((InventoryFood*)inventoryItem)->getFoodState())
+			{
+			case RAW:
+				image.setCurrentFrame(0);
+				break;
+			case BURNT:
+				image.setCurrentFrame(1);
+				break;
+			case COOKED:
+				image.setCurrentFrame(2);
+				break;
+			case DELICIOUS:
+				image.setCurrentFrame(3);
+				break;
+			}
 		}
 	}
 }
