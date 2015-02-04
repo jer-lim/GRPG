@@ -164,10 +164,24 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 
 	for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
 		if (it->second->getInventoryItem()->getItem() == entity->getInventoryItem()->getItem()){//if items are the same
-			totalStackCount += it->second->getInventoryItem()->getCurrentStackCount();
-			removedItems->push_back(it->second);
-			if (stackCount && totalStackCount >= goalStackCount)
-				break;//we have enough stuff to remove the items
+			if (it->second->getInventoryItem()->getType() == entity->getInventoryItem()->getType())//if type of inventoryitem is the same
+			{
+				if (it->second->getInventoryItem()->getType() == "INVENTORYFOOD")
+				{
+					if (((InventoryFood*)it->second->getInventoryItem())->getFoodState() != ((InventoryFood*)entity->getInventoryItem())->getFoodState())
+						continue;//different food state means different foods
+				}
+				else if (it->second->getInventoryItem()->getType() == "INVENTORYEQUIPMENT")
+				{
+					if (((InventoryEquipment*)it->second->getInventoryItem())->getSmithingMaterial() != ((InventoryEquipment*)entity->getInventoryItem())->getSmithingMaterial())
+						continue;//different smithing materials means different equipment
+				}
+				//else, we don't need to check alr
+				totalStackCount += it->second->getInventoryItem()->getCurrentStackCount();
+				removedItems->push_back(it->second);
+				if (stackCount && totalStackCount >= goalStackCount)
+					break;//we have enough stuff to remove the items
+			}
 		}
 	}
 
