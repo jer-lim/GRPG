@@ -5,8 +5,9 @@
 17 Tue_Torrial grocer.png 0 0 64 64 1 38 38 Instructs_you_on_life. Greetings_adventurer_and_welcome_to_Main_Menu_Island!\nI_am_the_Tue_Torrial._It's_my_title,_not_my_name._It's_been_in_my_family\nfor_ages!_As_we_can_see,_you_know_how_to_talk!_That's_it_for_me,_talk\nto_Hardy_Wijaja_above_me_and_he'll_teach_you_how_to_fight! 0 {}
 18 Hardy_Wijaja grocer.png 0 0 64 64 1 38 38 He's_a_lover_not_a_fighter. So_you_want_to_fight?_Fighting_is_easy!_Just_click_on\nthe_monster_to_fight,_but_be_careful_not_to_die!_Practice_makes\nperfect._Train_more_and_you'll_get_stronger!_Give_it_a_try_on_the\nchicken_on_the_left. 0 {}
 20 El_Leot grocer.png 0 0 64 64 1 38 38 Not_Albert_Einstein. Traveller!_Do_you_know_who_I_am?_I_am_El_Leot,_the_smartest\nperson_within_4.0k_tiles_of_here!_Before_you_depart_on_your\nadventure,_let_me_leave_you_with_the_most_important_knowledge_-_the\nknowledge_of_right-click!_Right-click_anything_to_find_more_things_you\ncan_do!_That's_all,_good_luck_on_your_travels! 0 {}
-21 Matthew_Lee blacksmith.png 0 0 64 64 1 38 38 A_creator_of_the_game. PENIS. 0 {}
-22 Jeremy_Choo doctor.png 0 0 64 64 1 38 38 A_creator_of_the_game. is_a 0 {}
-23 Jeremy_Lim grocer.png 0 0 64 64 1 38 38 A_creator_of_the_game. Jeremy_Lim 0 {}
+21 Matthew_Lee blacksmith.png 0 0 64 64 1 38 38 A_creator_of_the_game. Hi! 0 {}
+22 Jeremy_Choo doctor.png 0 0 64 64 1 38 38 A_creator_of_the_game. We_are 0 {}
+23 Jeremy_Lim grocer.png 0 0 64 64 1 38 38 A_creator_of_the_game. the_creators_of_this_game! 0 {}
 24 Captain_Point_Of_No_Return grocer.png 0 0 64 64 1 38 38 Probably_the_last_captain_you'll_ever_see. Ahoy!_To_the_south_is_Ideal_Island,\nwhere_a_great_and_powerful_dragon_lives._Make_sure_you're_ready_to\nface_him,_for_there_is_no_turning_back._Are_you_sure_you_want_to_go\nthere? ) {}
 25 Captain_Return grocer.png 0 0 64 64 1 38 38 Twin_brother_of_Captain_Point_Of_No_Return. If_you_need_a_ride_back_to_the_mainland,_tell_me! ( {}
+26 Quest_Board quest_board.png 0 0 64 64 1 38 38 Update_your_quests_here. Why_are_you_trying_to_talk_to_a_board? 0 {}
