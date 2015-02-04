@@ -9,7 +9,6 @@ class PickupBehavior;
 class DropBehavior;
 class Grpg;
 class Entity;
-
 class Inventory
 {
 private:
@@ -34,7 +33,7 @@ public:
 	Add an item into the inventory. Removes pickup behavior Adds drop behavior to entity if gamePtr is not a nullptr, as well as removes from drawManager if needed. 
 	The entity is also set to anchored if needed.
 	*/
-	ITEM_ADD addEntityInventoryItem(Entity* ii, Grpg* gamePtr);// = nullptr);
+	INVENTORY_CHANGE addEntityInventoryItem(Entity* ii, Grpg* gamePtr);// = nullptr);
 	/**
 	Remove an item from the inventory by entity ptr (ptr of an entity obj in the inventory). 
 	Removes drop behavior and adds pickup behavior, positions the entity at the player's location and unanchors it.
@@ -43,10 +42,11 @@ public:
 	/**
 	Delete items using an entity that contains the data of item to be removed, and how much (stackCount).
 	If stackCount is set to true, entity are deleted based on stackCount.
-	If the total stackCount in the inventory of all copies of the item is sufficient to meet the requirement, it will put all removed items into the vector ptr and return true;
-	If the total stackCount in the inventory is insufficient to meet the removed requirement, it will not remove anything and will clear the vector and return false;
+	If the total stackCount in the inventory of all copies of the item is sufficient to meet the requirement, it will put all removed items into the vector ptr 
+	and returns the number of items have been removed (if all items removed, returns the vector size, else if partial merged, returns the index of the partial merged object);
+	If the total stackCount in the inventory is insufficient to meet the removed requirement, it will not remove anything and will clear the vector and return -1;
 	*/
-	bool removeEntityInventoryItems(Entity* entity, bool stackCount, vector<Entity*>* removedItems, Grpg* gamePtr=nullptr);
+	int removeEntityInventoryItems(Entity* entity, bool stackCount, vector<Entity*>* removedItems, Grpg* gamePtr = nullptr);
 	/**
 	Destroy an entity inventory item completely by index.
 	*/

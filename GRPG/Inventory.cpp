@@ -48,7 +48,7 @@ bool Inventory::addEntityInventoryItem(int i, Entity* ii)
 	return false;
 }
 
-ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
+INVENTORY_CHANGE Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
 {
 	//First check if can merge
 	int result = IMPOSSIBLE;
@@ -113,7 +113,7 @@ ITEM_ADD Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
 			gamePtr->getDrawManager()->removeObject(ii);//remove from drawmanager (will be added back later when on inventory tab)
 			gamePtr->setMouseOverEntity(nullptr);
 		}
-		return ADDED;
+		return SUCCESS;
 	}
 	/*else if (result == MERGED)
 	{
@@ -154,7 +154,7 @@ bool Inventory::removeEntityInventoryItem(Entity * entity, Grpg* gamePtr)
 	return false; 
 }
 
-bool Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vector<Entity*>* removedItems, Grpg* gamePtr)
+int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vector<Entity*>* removedItems, Grpg* gamePtr)
 {
 	int totalStackCount = 0, goalStackCount = entity->getInventoryItem()->getCurrentStackCount();
 	for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
@@ -169,9 +169,9 @@ bool Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vect
 		{//if ignore stackCount, just set the goalStackcount to the totalStackcount so everything is removed;
 			goalStackCount = totalStackCount;
 		}
-
 		if (removedItems->size() > 0 && totalStackCount >= goalStackCount)
 		{//it's got stuff and sufficient stackCount to delete shit
+			int l = removedItems->size();
 			for (int i = 0, l = removedItems->size(); i < l; ++i)
 			{
 				int stackCount = removedItems->at(i)->getInventoryItem()->getCurrentStackCount();
@@ -195,16 +195,17 @@ bool Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vect
 				{//partial removal of entity
 					//just decrease the stack count since it's a "partial remove"
 					removedItems->at(i)->getInventoryItem()->setCurrentStackCount(removedItems->at(i)->getInventoryItem()->getCurrentStackCount() - goalStackCount);
+					return l;
 				}
 			}
+			return l;
 		}
 		else
 		{
 			removedItems->clear();
-			return false;
+			return -1;
 		}
 	}
-	return true;
 }
 
 bool Inventory::destroyEntityInventoryItem(int i)
@@ -222,9 +223,9 @@ bool Inventory::destroyEntityInventoryItem(int i)
 bool Inventory::destroyEntityInventoryItems(Entity* entity, bool stackCount, Grpg* gamePtr)
 {
 	vector<Entity*> removedItems;
-	removeEntityInventoryItems(entity, stackCount, &removedItems, gamePtr);
-	//delete all removeditems
-	for (int i = 0, l = removedItems.size(); i < l; ++i)
+	int removeLength = removeEntityInventoryItems(entity, stackCount, &removedItems, gamePtr);
+	//delete all removeditems based on what has been removed from inventory
+	for (int i = 0; i < removeLength; ++i)
 	{
 		delete removedItems.at(i);
 		removedItems.at(i) = nullptr;
