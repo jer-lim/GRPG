@@ -50,6 +50,6 @@ public:
 	int getSkillLevel();
 
 	// inherited member functions
-	void gainXP(long xp);
+	void gainXP(long xp = -1);
 };
 #endif

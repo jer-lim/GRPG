@@ -15,7 +15,7 @@ void Skill::setupAllSkills(){
 	DEFENSE = new Skill("Defense", "Influences Defense", 10);
 	TOUGHNESS = new Skill("Toughness", "Influences Toughness", 10);
 	FISHING = new Skill("Fishing", "Influences Fishing", 10);
-	COOKING = new Skill("Cooking", "Influences Cooking", 10);
+	COOKING = new Skill("Cooking", "Influences Cooking", 30);
 	MINING = new Skill("Mining", "Influences Mining", 10);
 }
 
