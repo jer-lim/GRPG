@@ -126,6 +126,8 @@ void Player::update(float frameTime, Game* gamePtr)
 	{
 		actionDelay = 0;
 		nearStove = false;
+		//NO shopping
+		game->getUI()->removeWindow();
 	}
 
 	timeLeft -= frameTime;
