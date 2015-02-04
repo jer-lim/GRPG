@@ -9,7 +9,7 @@ void TradeBehavior::action(){
 	if (entity->collidesWith(*thePlayer, collisionVector))
 	{
 		ui->drawWindow(ii->getname() + "'s Store");
-		//ui->setShopItems(entity->getInventory()->getVectorItems());
+		ui->setShopItems(entity->getInventory()->getVectorItems());
 	}
 	else
 	{
