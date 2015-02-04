@@ -1,6 +1,7 @@
 #include "EatBehavior.h"
 #include "entity.h"
 #include "player.h"
+#include "grpg.h"
 
 string EatBehavior::displayText(){
 	return "Eat " + food->getInventoryItem()->getName();
@@ -18,5 +19,6 @@ void EatBehavior::action()
 		break;
 	}
 	gamePtr->setMouseOverEntity(nullptr);
+	player->getInventory()->destroyEntityInventoryItems(food, false, (Grpg*)gamePtr);
 	SAFE_DELETE(food);	//delete entity
 }
