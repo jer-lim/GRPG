@@ -164,47 +164,48 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 			if (stackCount && totalStackCount >= goalStackCount)
 				break;//we have enough stuff to remove the items
 		}
+	}
 
-		if (!stackCount)
-		{//if ignore stackCount, just set the goalStackcount to the totalStackcount so everything is removed;
-			goalStackCount = totalStackCount;
-		}
-		if (removedItems->size() > 0 && totalStackCount >= goalStackCount)
-		{//it's got stuff and sufficient stackCount to delete shit
-			int l = removedItems->size();
-			for (int i = 0, l = removedItems->size(); i < l; ++i)
-			{
-				int stackCount = removedItems->at(i)->getInventoryItem()->getCurrentStackCount();
-				if (goalStackCount >= stackCount)
-				{//complete removal of entity
-					goalStackCount -= stackCount;//decrement goalStackCount for progression
-					if (gamePtr != nullptr)
-					{
-						entity->setPickupBehavior(new PickupBehavior(gamePtr, gamePtr->getDrawManager(), entity, gamePtr->getPlayer()));//change behaviors
-						entity->setDropBehavior(nullptr);
-						entity->setupVectorActiveBehaviors();
-						entity->setX(gamePtr->getPlayer()->getX());//set the entity to the player's position (it was previously in the inventory position)
-						entity->setY(gamePtr->getPlayer()->getY());
-						entity->setAnchored(false);//and make it affected by viewport
-						gamePtr->setMouseOverEntity(nullptr);
-					}
-					//since it's a complete removal, thr is no setting of the stackcount
-					slotList.erase(it->first);
-				}
-				else
-				{//partial removal of entity
-					//just decrease the stack count since it's a "partial remove"
-					removedItems->at(i)->getInventoryItem()->setCurrentStackCount(removedItems->at(i)->getInventoryItem()->getCurrentStackCount() - goalStackCount);
-					return l;
-				}
-			}
-			return l;
-		}
-		else
+	if (!stackCount)
+	{//if ignore stackCount, just set the goalStackcount to the totalStackcount so everything is removed;
+		goalStackCount = totalStackCount;
+	}
+	if (removedItems->size() > 0 && totalStackCount >= goalStackCount)
+	{//it's got stuff and sufficient stackCount to delete shit
+		int l = removedItems->size();
+		for (int i = 0, l = removedItems->size(); i < l; ++i)
 		{
-			removedItems->clear();
-			return -1;
+			int stackCount = removedItems->at(i)->getInventoryItem()->getCurrentStackCount();
+			if (goalStackCount >= stackCount)
+			{//complete removal of entity
+				goalStackCount -= stackCount;//decrement goalStackCount for progression
+				if (gamePtr != nullptr)
+				{
+					entity->setPickupBehavior(new PickupBehavior(gamePtr, gamePtr->getDrawManager(), entity, gamePtr->getPlayer()));//change behaviors
+					entity->setDropBehavior(nullptr);
+					entity->setupVectorActiveBehaviors();
+					entity->setX(gamePtr->getPlayer()->getX());//set the entity to the player's position (it was previously in the inventory position)
+					entity->setY(gamePtr->getPlayer()->getY());
+					entity->setAnchored(false);//and make it affected by viewport
+					gamePtr->setMouseOverEntity(nullptr);
+				}
+				//since it's a complete removal, thr is no setting of the stackcount
+				//Loop through map and delete item//slotList.erase();
+				removeEntityInventoryItem(entity, nullptr);
+			}
+			else
+			{//partial removal of entity
+				//just decrease the stack count since it's a "partial remove"
+				removedItems->at(i)->getInventoryItem()->setCurrentStackCount(removedItems->at(i)->getInventoryItem()->getCurrentStackCount() - goalStackCount);
+				return l;
+			}
 		}
+		return l;
+	}
+	else
+	{
+		removedItems->clear();
+		return -1;
 	}
 }
 
