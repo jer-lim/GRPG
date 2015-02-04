@@ -9,7 +9,7 @@ $ : shop
 1 : all water
 A : spawn chunk
 B : generic castle
-C : chicken pen (fence tba)
+C : chicken pen
 D : dirt pool in grass
 E : right side of lake
 F : left side of lake
