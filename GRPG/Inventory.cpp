@@ -197,7 +197,7 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 			{//partial removal of entity
 				//just decrease the stack count since it's a "partial remove"
 				removedItems->at(i)->getInventoryItem()->setCurrentStackCount(removedItems->at(i)->getInventoryItem()->getCurrentStackCount() - goalStackCount);
-				return l;
+				return i;
 			}
 		}
 		return l;
