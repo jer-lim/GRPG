@@ -5,17 +5,30 @@
 #include <string>
 #include "QuestCondition.h"
 #include "InventoryItem.h"
+#include "GameEventManager.h"
 
 class Quest
 {
 private:
 	string name;
 	string description;
-	QuestCondition beginCondition, completeCondition;
-	bool completed;
-	InventoryItem* reward;
+	QuestCondition* completeCondition;//beginCondition, completeCondition;
+	//bool completed;
+	//InventoryItem* reward;//lazy
+	int gold;
 public:
-	Quest(){}
+	~Quest(){
+		delete completeCondition;
+		//delete reward;
+	}
+	Quest(GameEventManager* qcM,string nama, string descript, QuestCondition* completeCond, int gp)//InventoryItem* prize)
+	{
+		name = nama;
+		description = descript;
+		completeCondition = completeCond;
+		gold = gp;
+		//reward = prize;
+	}
 };
 
 #endif

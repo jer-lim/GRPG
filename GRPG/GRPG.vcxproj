@@ -23,6 +23,7 @@
     <ClInclude Include="EatBehavior.h" />
     <ClInclude Include="EquipBehavior.h" />
     <ClInclude Include="FishBehavior.h" />
+    <ClInclude Include="GameEventManager.h" />
     <ClInclude Include="HealBehavior.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InventoryEquipment.h" />
@@ -58,6 +59,7 @@
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestCondition.h" />
+    <ClInclude Include="QuestLoader.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="skill.h" />
@@ -72,6 +74,7 @@
     <ClInclude Include="tile.h" />
     <ClInclude Include="TradeBehavior.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="UpdateQuestsBehavior.h" />
     <ClInclude Include="ViewBehavior.h" />
     <ClInclude Include="ViewBehaviorItem.h" />
     <ClInclude Include="ViewBehaviorNPC.h" />
@@ -109,6 +112,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="QuestLoader.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="skill.cpp" />

@@ -48,6 +48,7 @@
     <ClCompile Include="HealBehavior.cpp" />
     <ClCompile Include="StoreMoveBehavior.cpp" />
     <ClCompile Include="EquipBehavior.cpp" />
+    <ClCompile Include="QuestLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -116,5 +117,8 @@
     <ClInclude Include="StoveMoveBehavior.h" />
     <ClInclude Include="EquipBehavior.h" />
     <ClInclude Include="Cooker.h" />
+    <ClInclude Include="UpdateQuestsBehavior.h" />
+    <ClInclude Include="GameEventManager.h" />
+    <ClInclude Include="QuestLoader.h" />
   </ItemGroup>
 </Project>

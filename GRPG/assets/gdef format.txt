@@ -41,7 +41,12 @@ armor.gdef
 shields.gdef
 	ITEM_ID NAME IMG_FILENAME DESCRIPTION DEF_MULTIPLIER DMG_REDUCTION COST_MULTIPLIER
 quests.gdef
-	ID	NAME	DESCRIPT	...
+	ID NAME DESCRIPT FROM_PERSON_ID TO_PERSON_ID TIMES_REQUIRED GOLD_REWARD TYPE
+
+	TYPE format
+		K -> Kill
+		D -> Damage
+		N -> N/A
 tiles.gdef
 	TILE_ID TYPE(0 = floor, 1 = wall, 2 = spawner, 3 = spawnpoint, 4 = fishing spot) NUMBER_OF_FRAMES FRAME_TIME IMAGE_NAME [SPAWNED_NPC_ID SPAWN_COOLDOWN]
 chunks.gdef
