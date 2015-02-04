@@ -55,6 +55,7 @@ public:
 	//void setstrengthLv(int i){ strengthLv = i; }
 	int getAggro() { return aggro; }
 	int getWanderRange() { return wanderRange; }
+	float getDamageReduction() { return damageReduction; }
 
 	vector<InventoryItem*>* getDropsList() { return dropsList; }
 	vector<InventoryItem*> getDropsListCopy() { 

@@ -1030,6 +1030,10 @@ void Entity::takeDamage(int atk, int str, int def)
 	if (getRandomNumber() < chanceToHit)
 	{
 		damageTaken = ceil((0.5*getRandomNumber() + 0.5)*str);
+		if (person != nullptr && person->getType() == "ENEMY")
+		{
+			damageTaken = damageTaken * ((Enemy*)person)->getDamageReduction();
+		}
 	}
 	else
 	{
