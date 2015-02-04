@@ -271,7 +271,21 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 			image.setFrames(0, 3);
 			//Set to correct frame, don't rely on update() to do it for you
 			//Especially applies if update is never called for some reason (i.e. in shop keeper inventory)
-			image.setCurrentFrame(((InventoryFood*)inventoryItem)->getFoodState());
+			switch (((InventoryFood*)invItem)->getFoodState())
+			{
+			case RAW:
+				image.setCurrentFrame(0);
+				break;
+			case BURNT:
+				image.setCurrentFrame(1);
+				break;
+			case COOKED:
+				image.setCurrentFrame(2);
+				break;
+			case DELICIOUS:
+				image.setCurrentFrame(3);
+				break;
+			}
 		}
 	}
 }
@@ -669,7 +683,21 @@ void Entity::update(float frameTime, Game* gamePtr)
 		//Set appropriate sprite for food
 		if (inventoryItem->getType() == "INVENTORYFOOD")
 		{
-			image.setCurrentFrame(((InventoryFood*)inventoryItem)->getFoodState());
+			switch (((InventoryFood*)inventoryItem)->getFoodState())
+			{
+			case RAW:
+				image.setCurrentFrame(0);
+				break;
+			case BURNT:
+				image.setCurrentFrame(1);
+				break;
+			case COOKED:
+				image.setCurrentFrame(2);
+				break;
+			case DELICIOUS:
+				image.setCurrentFrame(3);
+				break;
+			}
 		}
 	}
 }
