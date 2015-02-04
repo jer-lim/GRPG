@@ -13,9 +13,16 @@ string SellBehavior::displayText(){
 void SellBehavior::action()
 {
 	int cost = theItem->getInventoryItem()->getSellingCost();
-	player->getInventory()->removeEntityInventoryItem(theItem,grpg);
+	Entity* itemClone = new Entity();
+	itemClone->initialize(grpg, theItem->getInventoryItem()->clone(), true);
+	itemClone->getInventoryItem()->setCurrentStackCount(1);
+	//I have NO IDEA why  I have to do this
+	Grpg* anotherPointer = grpg;
+	player->getInventory()->destroyEntityInventoryItems(itemClone, true, grpg);
+	grpg = anotherPointer;
 	//Spawn coins for the player
 	InventoryItem* x = new InventoryItem(grpg->getItemLoader()->getItem(0), cost);
+	grpg = anotherPointer;
 	Entity* newObj = new Entity();
 	newObj->initialize(grpg, x, true);
 
