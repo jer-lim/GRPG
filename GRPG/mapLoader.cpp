@@ -727,7 +727,7 @@ queue<VECTOR2> MapLoader::path(VECTOR2 startCoords, VECTOR2 endCoords){
 				char tileId = getTileIdAtLocation(x, y);
 				tileStruct tileInfo = tileset[tileId];
 
-				if (tileInfo.type == tileNS::type::WALL){
+				if (tileInfo.type == tileNS::type::WALL || tileInfo.type == tileNS::type::COOKER){
 					// Top left + top right
 					if (x == currentNode.tileCoords.x && y == currentNode.tileCoords.y - 1){
 						walkableCorners[currentNode.tileCoords.x - 1][currentNode.tileCoords.y - 1] = false;
