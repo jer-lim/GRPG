@@ -106,7 +106,7 @@ private:
 	string windowHeader;
 	RECT* shopRect; // The rectangle used for drawing the shop text
 	vector<Entity* > items; //The list of items that will be sold in the shop
-	Entity* playerCoin;		//Track player's coin and perform changes
+	Entity* coin;		//Track player's coin and perform changes
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -187,11 +187,6 @@ public:
 			Entity* theItem = *it;
 			SAFE_DELETE(theItem->sellBehavior);
 			theItem->setupVectorActiveBehaviors();
-		}
-
-		if (playerCoin != nullptr)
-		{
-			delete playerCoin;
 		}
 	}
 

@@ -12,17 +12,16 @@ string BuyBehavior::displayText(){
 void BuyBehavior::action()
 {
 	int cost = theItem->getInventoryItem()->getCost();
-	int totalCoin = coin->getInventoryItem()->getCurrentStackCount();
-	if (cost <= totalCoin)
+	coin->getInventoryItem()->setCurrentStackCount(cost);
+	if (player->getInventory()->destroyEntityInventoryItems(coin, true, grpg))
 	{
 		//Just create a new item and add it in - (c) Matt
 		//If it returns MERGE, FAILED and PARTIAL_MERGE delete
 		InventoryItem* x = theItem->getInventoryItem()->clone();
 		Entity* newObj = new Entity();
-		newObj->initialize(grpg, x, true);
+		newObj->initialize(grpg, x, false);
 
 		int result = player->getInventory()->addEntityInventoryItem(newObj, grpg);
-		coin->getInventoryItem()->setCurrentStackCount(totalCoin - cost);
 		if (result == FAILED || result == PARTIAL_MERGE)
 		{
 			//drop the rest on the grond
@@ -32,7 +31,13 @@ void BuyBehavior::action()
 		}
 		else if (result == MERGED)
 		{
-			delete newObj;
+			//Matt says it should already be handled
+			//delete newObj;
 		}
+	}
+	else
+	{
+		//Can't afford
+		grpg->getUI()->addChatText("You can't afford that " + theItem->getInventoryItem()->getItem()->getName());
 	}
 }

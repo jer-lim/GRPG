@@ -31,3 +31,4 @@ W : dragon spawn
 X : bottom right corner of lake
 ( : mainland aidil teleport
 ) : ideal island teleport
+@ : Aidil spawn

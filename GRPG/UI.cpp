@@ -38,6 +38,8 @@ UI::~UI()
 	SAFE_DELETE(uiImgTexture);
 	SAFE_DELETE(windowTexture);
 	SAFE_DELETE(shopRect);
+
+	delete coin;
 }
 
 //=============================================================================
@@ -116,6 +118,11 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	rows -= 1;                              // room for input prompt at bottom
 	if (rows <= 0)                          // this should never be true
 		rows = 5;                           // force a workable result
+
+	//Initalize a single coin - this is used for all buy transactions
+	InventoryItem* x = new InventoryItem(((Grpg*)game)->getItemLoader()->getItem(0), 0);
+	coin = new Entity();
+	coin->initialize(game, x, false);
 
 	//UI only have one image
 	return(Entity::initialize(gamePtr, image.spriteData.width, image.spriteData.height, 1, uiImgTexture, true));
@@ -583,15 +590,6 @@ void UI::setShopItems(vector<Entity* > i)
 	//We can leave the rest there, why not allow the player to eat, drop or whatever
 	//while shopping?
 
-	//Generate a player coin to store the total number of coin the player has
-	if (playerCoin != nullptr)
-	{
-		delete playerCoin;
-	}
-	InventoryItem* x = new InventoryItem(((Grpg*)game)->getItemLoader()->getItem(0), 0);
-	playerCoin = new Entity();
-	playerCoin->initialize(game, x, false);
-
 	vector<Entity*> playerInventory = player->getInventory()->getVectorItems();
 	for (vector<Entity*>::iterator it = playerInventory.begin(); it != playerInventory.end(); ++it)
 	{
@@ -601,11 +599,6 @@ void UI::setShopItems(vector<Entity* > i)
 		{
 			theItem->sellBehavior = new SellBehavior(player, theItem, (Grpg*)game);
 			theItem->setupVectorActiveBehaviors();
-		}
-		else
-		{
-			playerCoin->getInventoryItem()->setCurrentStackCount(
-				playerCoin->getInventoryItem()->getCurrentStackCount() + theItem->getInventoryItem()->getCurrentStackCount());
 		}
 	}
 
@@ -620,7 +613,7 @@ void UI::setShopItems(vector<Entity* > i)
 		SAFE_DELETE(theItem->cookBehavior);
 		if (theItem->buyBehavior == nullptr)
 		{
-			theItem->buyBehavior = new BuyBehavior(player, theItem, playerCoin, (Grpg*)game);
+			theItem->buyBehavior = new BuyBehavior(player, theItem, coin, (Grpg*)game);
 		}
 		theItem->setupVectorActiveBehaviors();
 	}

@@ -30,6 +30,7 @@ void SellBehavior::action()
 	}
 	else if (result == MERGED)
 	{
-		delete newObj;
+		//Don't need to delete, inventory does it for me
+		//delete newObj;
 	}
 }
