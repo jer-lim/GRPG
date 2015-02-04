@@ -24,6 +24,8 @@ void CookBehavior::action()
 		}
 		food->setCookBehavior(nullptr);
 		food->setupVectorActiveBehaviors();
+		food->update(0.1, gamePtr);
+		player->getSkills()->at(skillNS::ID_SKILL_COOKING).gainXP();
 		delete this;//THIS MUST BE CALLED IF YOU INTEND TO REMOVE THE BEHAVIOR
 	}
 	else

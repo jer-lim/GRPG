@@ -47,5 +47,8 @@ int PlayerSkill::getSkillLevel()
 
 void PlayerSkill::gainXP(long XP)
 {
-	experience += XP;
+	if (XP != -1)
+		experience += XP;
+	else
+		experience += skill->getExpGain();
 }

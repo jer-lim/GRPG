@@ -57,6 +57,11 @@ public:
 		return description;
 	}
 
+	int getExpGain() const
+	{
+		return exp_gain;
+	}
+
 	//Uses runescape's xp formula currently
 	static int calculateXPRequired(float level)
 	{
