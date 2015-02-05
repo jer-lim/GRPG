@@ -18,13 +18,18 @@ void SellBehavior::action()
 	itemClone->getInventoryItem()->setCurrentStackCount(1);
 	//I have NO IDEA why  I have to do this
 	Grpg* anotherPointer = grpg;
+	//HEAP CORRUPTION HERE
+	Grpg** secondPointer = &grpg;
 	player->getInventory()->destroyEntityInventoryItems(itemClone, true, grpg);
 	grpg = anotherPointer;
 	//Spawn coins for the player
 	InventoryItem* x = new InventoryItem(grpg->getItemLoader()->getItem(0), cost);
 	grpg = anotherPointer;
 	Entity* newObj = new Entity();
+	grpg = anotherPointer;
 	newObj->initialize(grpg, x, true);
+	grpg = anotherPointer;
+	player = grpg->getPlayer();
 
 	//If it returns MERGE, FAILED and PARTIAL_MERGE delete
 	int result = player->getInventory()->addEntityInventoryItem(newObj, grpg);
