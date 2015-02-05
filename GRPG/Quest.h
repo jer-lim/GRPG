@@ -9,11 +9,12 @@
 #include "Button.h"
 
 namespace QuestNS{
-	const float INITIAL_DISPLACEMENT = 30;
-	const float MARGIN = 5;
-	const float WIDTH = 40;
+	const float INITIAL_DISPLACEMENT = 40;
+	const float SIDE_DISPLACEMENT = 10;
+	const float MARGIN = 10;
+	const float WIDTH = 150;
 	const float HEIGHT = 20;
-	const DWORD BACK_COLOR = SETCOLOR_ARGB(255, 180, 180, 180);
+	const COLOR_ARGB BACK_COLOR = SETCOLOR_ARGB(255, 0, 0, 0);//Yes, idk why it's not showing
 
 }
 

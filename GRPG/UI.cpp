@@ -505,6 +505,22 @@ bool UI::performClick()
 			return true;
 		}
 	}
+
+	if (activeTab == uiNS::QUESTS)
+	{
+		map<int, Quest*>* mapQuests = ((Grpg*)theGame)->getQuestLoader()->getMapQuests();
+		for (std::map<int, Quest*>::iterator it = mapQuests->begin(); it != mapQuests->end(); ++it)
+		{//draw quests
+			if (it->second->getUIElement()->mouseOver(input->getMouseX(), input->getMouseY()))
+			{
+				//this->addChatText("Clicked quest:" + it->second->getname());
+				drawWindow(it->second->getname());
+				setActiveTab(uiNS::QUESTS);//fixed
+				return true;
+			}
+		}
+	}
+
 	return false;
 }
 
