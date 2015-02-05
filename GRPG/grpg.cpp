@@ -41,6 +41,8 @@ Grpg::~Grpg()
 	//SAFE_DELETE(player);//handled by drawmanager
 	SAFE_DELETE(Person::thePlayer);
 	SAFE_DELETE(itemLoader);//to be called after all item entities are gone
+	SAFE_DELETE(gameEventManager);
+	SAFE_DELETE(questLoader);
 	//~Game() called afterward
 }
 
@@ -67,6 +69,9 @@ void Grpg::initialize(HWND hwnd)
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
 	personLoader->loadAllNPCs(itemLoader);//ml free
+	gameEventManager = new GameEventManager();
+	questLoader = new QuestLoader();
+	questLoader->loadAllQuests(gameEventManager,personLoader);
 
 	missSplat = new TextureManager();
 	missSplat->initialize(graphics, MISS_IMAGE);
@@ -124,7 +129,7 @@ void Grpg::initialize(HWND hwnd)
 	//Object test
 	//CRIME SCENE
 	*/
-	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 35);
+	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 10);
 	Entity* newObj = new Entity();
 	newObj->initialize(this, x, false);
 	//x->initialize(this, false);

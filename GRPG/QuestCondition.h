@@ -4,17 +4,27 @@
 #include "constants.h"
 #include "GameEvent.h"
 #include <string>
-
+enum QUEST_UPDATE { NO_CHANGE, QUEST_SUCCESS, COMPLETED };
 class QuestCondition
 {
 private:
-	GameEvent successGameEvent;
+	GameEvent* successGameEvent;
 	int currentCount;
 	int countRequirement;
 public:
-	QuestCondition(){}
-	bool completed(){return currentCount >= countRequirement;}
-	int eventOccured(GameEvent);
+	~QuestCondition(){
+		delete successGameEvent;
+	}
+	QuestCondition(GameEvent* event,int timesRequired){
+		currentCount = 0;
+		successGameEvent = event;
+		countRequirement = timesRequired;
+	}
+	bool completed(){ return currentCount >= countRequirement; }
+	void reset(){
+		currentCount = 0;
+	}
+	int eventOccured(GameEvent* ge);
 };
 
 #endif

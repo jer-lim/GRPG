@@ -23,6 +23,7 @@
     <ClInclude Include="EatBehavior.h" />
     <ClInclude Include="EquipBehavior.h" />
     <ClInclude Include="FishBehavior.h" />
+    <ClInclude Include="GameEventManager.h" />
     <ClInclude Include="HealBehavior.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InventoryEquipment.h" />
@@ -58,10 +59,12 @@
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestCondition.h" />
+    <ClInclude Include="QuestLoader.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="Smithing_Material.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="StoveMoveBehavior.h" />
     <ClInclude Include="string_functions.h" />
@@ -72,6 +75,7 @@
     <ClInclude Include="tile.h" />
     <ClInclude Include="TradeBehavior.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="UpdateQuestsBehavior.h" />
     <ClInclude Include="ViewBehavior.h" />
     <ClInclude Include="ViewBehaviorItem.h" />
     <ClInclude Include="ViewBehaviorNPC.h" />
@@ -109,11 +113,12 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="QuestLoader.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
-    <ClCompile Include="StoreMoveBehavior.cpp" />
+    <ClCompile Include="StoveMoveBehavior.cpp" />
     <ClCompile Include="TalkBehavior.cpp" />
     <ClCompile Include="TeleportBehavior.cpp" />
     <ClCompile Include="textDX.cpp" />
@@ -121,6 +126,7 @@
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="TradeBehavior.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="updateQuestsBehavior.cpp" />
     <ClCompile Include="ViewBehavior.cpp" />
     <ClCompile Include="ViewBehaviorItem.cpp" />
     <ClCompile Include="ViewBehaviorNPC.cpp" />

@@ -13,6 +13,7 @@
 #include "TeleportBehavior.h"
 #include "HealBehavior.h"
 #include "grpg.h"
+#include "SoundManager.h"
 
 namespace entityNS
 {
@@ -486,16 +487,19 @@ void Entity::update(float frameTime, Game* gamePtr)
 				VECTOR2 immediateVector = destinationVector;
 
 				//Don't go too far from the spawn point
-				VECTOR2 diff = destinationVector - spawnLocation;
-				if (diff.x * diff.x + diff.y * diff.y > max(enemyNS::aggroRangeNonSqrt, 
-					pow(((Enemy*)person)->getWanderRange(), 2)))
+				if (person->getType() == "ENEMY")
 				{
-					//If spawn location is set
-					if (spawnLocation.x != -1 || spawnLocation.y != -1)
+					VECTOR2 diff = destinationVector - spawnLocation;
+					if (diff.x * diff.x + diff.y * diff.y > max(enemyNS::aggroRangeNonSqrt,
+						pow(((Enemy*)person)->getWanderRange(), 2)))
 					{
-						destination->release();
-						setVictim(nullptr);
-						destination = new Point(spawnLocation.x, spawnLocation.y);
+						//If spawn location is set
+						if (spawnLocation.x != -1 || spawnLocation.y != -1)
+						{
+							destination->release();
+							setVictim(nullptr);
+							destination = new Point(spawnLocation.x, spawnLocation.y);
+						}
 					}
 				}
 
@@ -611,11 +615,14 @@ void Entity::update(float frameTime, Game* gamePtr)
 					{
 						if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY")
 						{
+							SoundManager::playSound(SoundManagerNS::rocket);
 							//Victim should retaliate
 							victim->setVictim(this);
 							int victimHealth = victim->getHealth();
 							map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
-							int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+							int strLevel = skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel();
+							strLevel *= getDamageMultiplier();//apply weapon bonus
+							int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(),strLevel);
 							//We're obviously not going to implement combat styles so I'll just pump everything.
 							skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
 							skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
@@ -641,6 +648,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					if (attackPerformed)
 					{
 						attackCooldown = person->getAttackCooldown();
+						attackCooldown *= getAttackSpeedReduction();//apply weapon bonus
 						image.setFrames(1, person->getNumOfCols() - 1);
 						image.setLoop(false);
 					}
@@ -1030,6 +1038,13 @@ void Entity::takeDamage(int atk, int str, int def)
 	if (getRandomNumber() < chanceToHit)
 	{
 		damageTaken = ceil((0.5*getRandomNumber() + 0.5)*str);
+		if (person != nullptr )
+		{
+			if (person->getType() == "ENEMY")
+				damageTaken = damageTaken * ((Enemy*)person)->getDamageReduction();
+			else
+				damageTaken = damageTaken * getDamageReduction();
+		}
 	}
 	else
 	{
@@ -1057,7 +1072,7 @@ int Entity::damage(int atk, int str)
 	if (health <= 0)
 	{
 		//drop loot
-		
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, false));
 		vector<InventoryItem*> vector_ii = ((Enemy*)person)->getDropsListCopy();
 		for (int i = 0, l = vector_ii.size(); i < l; ++i)
 		{
@@ -1069,6 +1084,9 @@ int Entity::damage(int atk, int str)
 		}
 		theGame->deleteEntity(this);
 	}
+	else
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, true));
+	//delete gameEvent;//deleted inside the informListeners event
 	return oldDamage;
 }
 

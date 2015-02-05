@@ -34,6 +34,9 @@ void BuyBehavior::action()
 			//Matt says it should already be handled
 			//delete newObj;
 		}
+		//Add a sellBehavior
+		newObj->sellBehavior = new SellBehavior(player, newObj, grpg);
+		newObj->setupVectorActiveBehaviors();
 	}
 	else
 	{

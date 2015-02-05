@@ -17,7 +17,8 @@ private:
 	const int inventoryColumns = 4;
 	const int magicPadding = 5;
 	map<int,Entity*> slotList;
-	Entity *slot_body, *slot_hand, *slot_offhand;
+	//Entity *slot_body, *slot_hand, *slot_offhand;
+	int slot_body, slot_hand, slot_offhand;
 
 public:
 	// constructor
@@ -39,6 +40,7 @@ public:
 	Removes drop behavior and adds pickup behavior, positions the entity at the player's location and unanchors it.
 	*/
 	bool removeEntityInventoryItem(Entity* entity, Grpg* gamePtr);
+	bool removeEntityInventoryItem(int i);
 	/**
 	Delete items using an entity that contains the data of item to be removed, and how much (stackCount).
 	If stackCount is set to true, entity are deleted based on stackCount.
@@ -78,30 +80,53 @@ public:
 	map<int, Entity*>* getSlotList(){ return &slotList; }
 	vector<Entity*> getVectorItems();
 
-	void setSlotHand(Entity* e){ 
-		if (slot_hand != nullptr)
-		{//add into inventory
-
-		}
+	void setSlotHand(int e){ 
 		slot_hand = e;
 	}
-	void setSlotOffHand(Entity* e){
-		if (slot_offhand != nullptr)
-		{//add into inventory
-
-		}
+	void setSlotOffHand(int e){
 		slot_hand = e;
 	}
-	void setSlotBody(Entity* e){
-		if (slot_body != nullptr)
-		{//add into inventory
-
-		}
+	void setSlotBody(int e){
 		slot_hand = e;
 	}
-	Entity* getSlotHand(){ return slot_hand; }
-	Entity* getSlotOffHand(){ return slot_offhand; }
-	Entity* getSlotBody(){ return slot_body; }
+	Entity* getSlotHand(){ 
+		if (hasEntityInventoryItem(slot_hand))
+			return slotList[slot_hand];
+		else
+			return nullptr;
+	}
+	Entity* getSlotOffHand(){ 
+		if (hasEntityInventoryItem(slot_offhand))
+			return slotList[slot_offhand]; 
+		else
+			return nullptr;
+	}
+	Entity* getSlotBody(){ 
+		if (hasEntityInventoryItem(slot_body))
+			return slotList[slot_body];
+		else
+			return nullptr;
+	}
+
+	bool unequip(int i){
+		//"delink" equipment if it is
+		if (slot_body == i)
+		{
+			slot_body = -1;
+			return true;
+		}
+		else if (slot_hand == i)
+		{
+			slot_hand = -1;
+			return true;
+		}
+		else if (slot_offhand == i)
+		{
+			slot_offhand = -1;
+			return true;
+		}
+		return false;
+	}
 
 	bool hasSpaceInInventory() { return slotList.size() < maxSlotListCount; }
 };

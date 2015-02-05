@@ -10,6 +10,8 @@
 #include <map>
 #include "textDX.h"
 #include "Resource.h"
+#include "Armor.h"
+#include "Weapon.h"
 
 using namespace std;
 
@@ -105,6 +107,17 @@ public:
 	// Overrides the Entity function so that the player is always marked as an ally
 	virtual bool isEnemy() { return false; }
 
+	// Sets the health of the player
+	// If the player's health is more than his max health, sets it to the max health
+	virtual void setHealth(int h)
+	{
+		health = h;
+		if (health > skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel())
+		{
+			health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
+		}
+	}
+
 	//Returns the combat level of the player
 	//Calculated by 1/4*(13/10*(ATK + STR + DEF + TOUGH))
 	virtual int calculateCombatLevel()
@@ -120,6 +133,51 @@ public:
 	//flip defines if the player's avatar should be flipped horizontally
 	//If true, player is facing left, otherwise facing right
 	virtual void startFishing(bool flip);
+
+	virtual float getDamageReduction(){
+		if (getInventory()->getSlotBody() == nullptr)
+			return 1;
+		else
+		{
+			float dmgReduction = ((Armor*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getdmgReduction();
+			return dmgReduction;
+		}
+	}
+
+	virtual float getDefenceMultiplier(){
+		if (getInventory()->getSlotBody() == nullptr)
+			return 1;
+		else
+		{
+			float defMultiplier = ((InventoryEquipment*)getInventory()->getSlotBody()->getInventoryItem())->getSmithingMaterial()->getDefMultiplier();
+			defMultiplier += ((Armor*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getdefMultiplier();
+			return defMultiplier;
+		}
+	}
+
+	virtual float getAttackSpeedReduction(){
+		if (getInventory()->getSlotHand() == nullptr)
+			return 1;
+		else
+		{
+			float attackSpeed = ((InventoryEquipment*)getInventory()->getSlotHand()->getInventoryItem())->getSmithingMaterial()->getSpdMultiplier();
+			attackSpeed += ((Weapon*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getspdMultiplier();
+			return attackSpeed;
+		}
+	}
+
+	virtual float getDamageMultiplier(){
+		if (getInventory()->getSlotHand() == nullptr)
+			return 1;
+		else
+		{
+			float dmgMultiplier = ((InventoryEquipment*)getInventory()->getSlotHand()->getInventoryItem())->getSmithingMaterial()->getStrMultiplier();
+			dmgMultiplier += ((Weapon*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getstrMultiplier();
+			return dmgMultiplier;
+		}
+	}
+
+	virtual string getType(){ return "PLAYER"; }
 };
 #endif
 

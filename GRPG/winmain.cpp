@@ -7,6 +7,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
+#include <mmsystem.h>
 #include <stdlib.h>             // for detecting memory leaks
 #include <crtdbg.h>             // for detecting memory leaks
 #include "globals.h"

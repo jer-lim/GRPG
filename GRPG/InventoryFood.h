@@ -42,7 +42,7 @@ public:
 			else
 				foodState = COOKED;
 		}
-		foodState = BURNT;
+		else foodState = BURNT;
 		return foodState;
 	}
 
