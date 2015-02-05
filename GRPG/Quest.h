@@ -27,6 +27,7 @@ public:
 		description = descript;
 		completeCondition = completeCond;
 		gold = gp;
+		qcM->addListener(completeCond);
 		//reward = prize;
 	}
 };
