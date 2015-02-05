@@ -46,9 +46,9 @@
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="TeleportBehavior.cpp" />
     <ClCompile Include="HealBehavior.cpp" />
-    <ClCompile Include="StoreMoveBehavior.cpp" />
     <ClCompile Include="EquipBehavior.cpp" />
     <ClCompile Include="QuestLoader.cpp" />
+    <ClCompile Include="StoveMoveBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />

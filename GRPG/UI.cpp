@@ -235,14 +235,17 @@ void UI::draw(Viewport* viewport)
 			coordinates += VECTOR2(itemNS::spriteHeight / 2, itemNS::spriteWidth / 2);
 			int originalX = coordinates.x;
 			int count = 0; 
+			stringstream ss;
 			for (vector<Entity* >::iterator it = items.begin(); it != items.end(); ++it)
 			{
 				Entity* theItem = *it;
 				theItem->setX(coordinates.x);
 				theItem->setY(coordinates.y);
 				theItem->draw(nullptr);
+				ss.str("");
+				ss << "$" << theItem->getInventoryItem()->getCost();
 				//Draw price
-				uiText->print(theItem->getInventoryItem()->getItem()->getDisplayCost(),
+				uiText->print(ss.str(),
 					theItem->getX() - theItem->getImage()->getHeight()/2, theItem->getY() + theItem->getImage()->getHeight() / 2);
 				coordinates.x += itemNS::spriteWidth + uiNS::shopWMargin;
 				if (++count % uiNS::shopColMax == 0)

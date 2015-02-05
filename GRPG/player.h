@@ -105,6 +105,17 @@ public:
 	// Overrides the Entity function so that the player is always marked as an ally
 	virtual bool isEnemy() { return false; }
 
+	// Sets the health of the player
+	// If the player's health is more than his max health, sets it to the max health
+	virtual void setHealth(int h)
+	{
+		health = h;
+		if (health > skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel())
+		{
+			health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
+		}
+	}
+
 	//Returns the combat level of the player
 	//Calculated by 1/4*(13/10*(ATK + STR + DEF + TOUGH))
 	virtual int calculateCombatLevel()

@@ -28,7 +28,6 @@ private:
 	float spriteWidth, spriteHeight, spriteColumns;
 	int maxStackCount;//maximum times item can stack at a slot
 	int cost;
-	string displayCost;
 	int instanceCount = 0;//Keep track for texturemanager
 	TextureManager* textureManager = nullptr;
 public:
@@ -56,9 +55,6 @@ public:
 		spriteWidth = itemNS::spriteWidth;
 		spriteHeight = itemNS::spriteHeight;
 		spriteColumns = sprCol;
-		stringstream ss;
-		ss << "$" << cost;
-		displayCost = ss.str();
 	}
 	virtual void destroy(){ SAFE_DELETE(textureManager); }
 	virtual ~Item(){ destroy(); }
@@ -90,7 +86,6 @@ public:
 	}
 
 	virtual int getCost() { return cost; }
-	virtual string getDisplayCost() { return displayCost; }
 	virtual int getSellingCost() { return floor(cost / 10); }
 };
 #endif
