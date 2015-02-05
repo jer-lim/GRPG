@@ -22,6 +22,7 @@ class Item
 {
 private:
 	//Attributes of a Item
+	int id;
 	string name;
 	string description;
 	string itemImgFileName;
@@ -46,7 +47,8 @@ public:
 	}
 	// constructor
 	Item(){}//If you don't have a .cpp, don't put ';', put '{}'
-	Item(string n, string d, string i, int m, int c, float sprCol){
+	Item(int identity,string n, string d, string i, int m, int c, float sprCol){
+		id = identity;
 		name = n;
 		description = d;
 		itemImgFileName = i;
@@ -59,6 +61,8 @@ public:
 	virtual void destroy(){ SAFE_DELETE(textureManager); }
 	virtual ~Item(){ destroy(); }
 
+	int getID(){ return id; }
+	void setID(int i){ id = i; }
 	string getName(){ return name; }
 	void setName(string s){ name = s; }
 	string getDescription(){ return description; }

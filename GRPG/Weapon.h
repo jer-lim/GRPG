@@ -16,8 +16,8 @@ private:
 public:
 	Weapon():Equipment(){ }
 
-	Weapon(string n, string d, string i, int m, int c, float strM, float spdM, float costM, DWORD eq)
-		:Equipment(n, d, i, m, c, costM, eq)//6 -> 110, cannot be defined in constructor
+	Weapon(int id,string n, string d, string i, int m, int c, float strM, float spdM, float costM, DWORD eq)
+		:Equipment(id,n, d, i, m, c, costM, eq)//6 -> 110, cannot be defined in constructor
 	{
 		strMultiplier = strM;
 		spdMultiplier = spdM;

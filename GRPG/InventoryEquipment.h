@@ -17,10 +17,10 @@ private:
 	Smithing_Material* smithingMaterial;
 
 public:
-	static int getFrameNo(){
+	int getFrameNo(){
 		for (int i = 0; i < InventoryEquipmentNS::smithingMaterialIDLength; ++i){
-			//if (smithingMaterial == )
-			
+			if (smithingMaterial->getID() == InventoryEquipmentNS::smithingMaterialID[i])
+				return i;		
 		}
 	}
 

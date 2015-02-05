@@ -11,8 +11,8 @@ private:
 	float spdMultiplier;
 public:
 	Smithing_Material() :Item(){}
-	Smithing_Material(string n, string d, string i, int m, int c, float s, float de, float spd)
-		:Item(n, d, i, m, c, itemNS::spriteColForOthers)
+	Smithing_Material(int id,string n, string d, string i, int m, int c, float s, float de, float spd)
+		:Item(id,n, d, i, m, c, itemNS::spriteColForOthers)
 	{
 		strMultiplier = s;
 		defMultiplier = de;

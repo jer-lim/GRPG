@@ -24,8 +24,8 @@ private:
 	*/
 public:
 	Food() : Item() {}
-	Food(string n, string d, string i, int m, int c,int h,int lr,float ld)
-		: Item(n, d, i, m, c, itemNS::spriteColForFood)
+	Food(int id,string n, string d, string i, int m, int c,int h,int lr,float ld)
+		: Item(id,n, d, i, m, c, itemNS::spriteColForFood)
 	{
 		health_gain = h;
 		levelReq_for_50 = lr;

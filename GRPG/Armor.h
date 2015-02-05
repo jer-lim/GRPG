@@ -15,8 +15,8 @@ private:
 	float dmgReduction;
 public:
 	Armor() : Equipment() {}
-	Armor(string n, string d, string i, int m, int c, float defM, float dmgM, float costM, DWORD eq)
-		: Equipment(n, d, i, m, c, costM, eq)
+	Armor(int id,string n, string d, string i, int m, int c, float defM, float dmgM, float costM, DWORD eq)
+		: Equipment(id,n, d, i, m, c, costM, eq)
 	{
 		defMultiplier = defM;
 		dmgReduction = dmgM;

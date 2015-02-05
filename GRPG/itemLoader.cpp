@@ -13,7 +13,7 @@ void ItemLoader::loadAllItems()
 			itemstream >> id >> name >> img_filename >> descript >> stackcount >> cost;
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
-			Item* myItem = new Item(name, descript, img_filename, stackcount, cost, itemNS::spriteColForMisc);
+			Item* myItem = new Item(id,name, descript, img_filename, stackcount, cost, itemNS::spriteColForMisc);
 			if (!map_items.count(id))
 				map_items[id] = myItem;
 			else
@@ -33,7 +33,7 @@ void ItemLoader::loadAllItems()
 				>> health_gain >> levelReq_for_50 >> level_deviation >> cost;
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
-			Item* myItem = new Food(name, descript, img_filename, stackcount, cost, health_gain, levelReq_for_50, level_deviation);
+			Item* myItem = new Food(id, name, descript, img_filename, stackcount, cost, health_gain, levelReq_for_50, level_deviation);
 			if (!map_items.count(id))
 				map_items[id] = myItem;
 			else
@@ -52,7 +52,7 @@ void ItemLoader::loadAllItems()
 			itemstream >> id >> name >> descript >> strMultiplier >> defMultiplier >> spdMultiplier >> cost;
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
-			Item* myItem = new Smithing_Material(name, descript, img_filename, stackcount, cost, strMultiplier, defMultiplier, spdMultiplier);
+			Item* myItem = new Smithing_Material(id, name, descript, img_filename, stackcount, cost, strMultiplier, defMultiplier, spdMultiplier);
 			if (!map_items.count(id))
 				map_items[id] = myItem;
 			else
@@ -73,7 +73,7 @@ void ItemLoader::loadAllItems()
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
 			//CRIME SCENE: ACQUITTED
-			Item* myItem = new Weapon(name, descript, img_filename, stackcount, cost, strMultiplier, spdMultiplier, costMultiplier, WeaponNS::wpnEqSlot);
+			Item* myItem = new Weapon(id, name, descript, img_filename, stackcount, cost, strMultiplier, spdMultiplier, costMultiplier, WeaponNS::wpnEqSlot);
 			//END CRIME SCENE
 			//Item* myItem = new Equipment("fuck", "fuck", "fuck", 0, 0, 2.0f, 0);
 			if (!map_items.count(id))
@@ -94,7 +94,7 @@ void ItemLoader::loadAllItems()
 			itemstream >> id >> name >> img_filename >> descript >> DEF_MULTIPLIER >> DMG_REDUCTION >> costMultiplier;
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
-			Item* myItem = new Armor(name, descript, img_filename, stackcount, cost, DEF_MULTIPLIER, DMG_REDUCTION, costMultiplier, 1);//1 -> 001
+			Item* myItem = new Armor(id, name, descript, img_filename, stackcount, cost, DEF_MULTIPLIER, DMG_REDUCTION, costMultiplier, 1);//1 -> 001
 			if (!map_items.count(id))
 				map_items[id] = myItem;
 			else
@@ -113,7 +113,7 @@ void ItemLoader::loadAllItems()
 			itemstream >> id >> name >> img_filename >> descript >> DEF_MULTIPLIER >> DMG_REDUCTION >> costMultiplier;
 			name = String_Functions::replaceAll(name, '_', ' ');
 			descript = String_Functions::replaceAll(descript, '_', ' ');
-			Item* myItem = new Armor(name, descript, img_filename, stackcount, cost, DEF_MULTIPLIER, DMG_REDUCTION, costMultiplier, 2);//2 -> 010
+			Item* myItem = new Armor(id, name, descript, img_filename, stackcount, cost, DEF_MULTIPLIER, DMG_REDUCTION, costMultiplier, 2);//2 -> 010
 			if (!map_items.count(id))
 				map_items[id] = myItem;
 			else

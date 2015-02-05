@@ -19,8 +19,8 @@ private:
 	*/
 public:
 	Equipment() :Item(){}
-	Equipment(string n, string d, string i, int m, int c, float costM, DWORD eq)
-		:Item(n, d, i, m, c, itemNS::spriteColForOthers)
+	Equipment(int id,string n, string d, string i, int m, int c, float costM, DWORD eq)
+		:Item(id,n, d, i, m, c, itemNS::spriteColForOthers)
 	{
 		costMultiplier = costM;
 		equipmentSlot = eq;
