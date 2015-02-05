@@ -16,19 +16,16 @@ void SellBehavior::action()
 	Entity* itemClone = new Entity();
 	itemClone->initialize(grpg, theItem->getInventoryItem()->clone(), true);
 	itemClone->getInventoryItem()->setCurrentStackCount(1);
-	//I have NO IDEA why  I have to do this
-	Grpg* anotherPointer = grpg;
-	//HEAP CORRUPTION HERE
-	Grpg** secondPointer = &grpg;
-	player->getInventory()->destroyEntityInventoryItems(itemClone, true, grpg);
-	grpg = anotherPointer;
+
+	vector<Entity*> entitiesToDelete;
+	int size;
+	size = player->getInventory()->removeEntityInventoryItems(itemClone, true, &entitiesToDelete, grpg);
+	delete itemClone;
+
 	//Spawn coins for the player
 	InventoryItem* x = new InventoryItem(grpg->getItemLoader()->getItem(0), cost);
-	grpg = anotherPointer;
 	Entity* newObj = new Entity();
-	grpg = anotherPointer;
 	newObj->initialize(grpg, x, true);
-	grpg = anotherPointer;
 	player = grpg->getPlayer();
 
 	//If it returns MERGE, FAILED and PARTIAL_MERGE delete
@@ -44,5 +41,10 @@ void SellBehavior::action()
 	{
 		//Don't need to delete, inventory does it for me
 		//delete newObj;
+	}
+	for (int i = 0; i < size; ++i)
+	{
+		delete entitiesToDelete.at(i);
+		entitiesToDelete[i] = nullptr;
 	}
 }
