@@ -450,6 +450,11 @@ class Entity : public Destination//, public Interactable
 	{
 		anchored = b;
 	}
+
+	virtual float getDamageReduction(){ return 1.0; }
+	virtual float getAttackSpeedReduction(){ return 1.0; }
+	virtual float getDefenceMultiplier(){ return 1.0; }
+	virtual float getDamageMultiplier(){ return 1.0; }
 };
 
 #endif
