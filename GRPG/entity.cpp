@@ -486,16 +486,19 @@ void Entity::update(float frameTime, Game* gamePtr)
 				VECTOR2 immediateVector = destinationVector;
 
 				//Don't go too far from the spawn point
-				VECTOR2 diff = destinationVector - spawnLocation;
-				if (diff.x * diff.x + diff.y * diff.y > max(enemyNS::aggroRangeNonSqrt, 
-					pow(((Enemy*)person)->getWanderRange(), 2)))
+				if (person->getType() == "ENEMY")
 				{
-					//If spawn location is set
-					if (spawnLocation.x != -1 || spawnLocation.y != -1)
+					VECTOR2 diff = destinationVector - spawnLocation;
+					if (diff.x * diff.x + diff.y * diff.y > max(enemyNS::aggroRangeNonSqrt,
+						pow(((Enemy*)person)->getWanderRange(), 2)))
 					{
-						destination->release();
-						setVictim(nullptr);
-						destination = new Point(spawnLocation.x, spawnLocation.y);
+						//If spawn location is set
+						if (spawnLocation.x != -1 || spawnLocation.y != -1)
+						{
+							destination->release();
+							setVictim(nullptr);
+							destination = new Point(spawnLocation.x, spawnLocation.y);
+						}
 					}
 				}
 
