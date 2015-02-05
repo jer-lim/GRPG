@@ -15,6 +15,7 @@ class QuestLoader{
 private:
 	const std::string questLocation = "assets/quests/quests.gdef";
 	map<int, Quest*> mapQuests;
+	int currentlyShownIndex = -1;
 public:
 	QuestLoader(){}
 	~QuestLoader(){
@@ -31,5 +32,7 @@ public:
 	{
 		return mapQuests[id];
 	}
+	int getCurrentlyShownIndex(){ return currentlyShownIndex; }
+	void setCurrentlyShownIndex(int i){ currentlyShownIndex = i; }
 };
 #endif

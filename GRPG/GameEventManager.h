@@ -8,17 +8,20 @@
 
 class GameEventManager{
 private:
-	vector<QuestCondition*> vector_listeners;
+	vector<Quest*> vector_listeners;
+	UI* ui;
 public:
 	~GameEventManager(){
 		//destruction of listeners are to be done by the quests themselves
 		vector_listeners.clear();
 	}
-	GameEventManager(){}
-	void addListener(QuestCondition* qc){
+	GameEventManager(UI* i){
+		ui = i;
+	}
+	void addListener(Quest* qc){
 		vector_listeners.push_back(qc);
 	}
-	void removeListener(QuestCondition* qc){
+	void removeListener(Quest* qc){
 		for (int i = 0, l = vector_listeners.size(); i < l; ++i)
 		{
 			if (vector_listeners.at(i) == qc)
@@ -34,7 +37,7 @@ public:
 	void informListeners(GameEvent* e){
 		for (int i = 0, l = vector_listeners.size(); i < l; ++i)
 		{
-			vector_listeners.at(i)->eventOccured(e);
+			vector_listeners.at(i)->eventOccured(e,ui);
 		}
 		delete e;
 	}

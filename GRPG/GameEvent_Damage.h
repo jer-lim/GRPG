@@ -26,7 +26,7 @@ public:
 			if (getType() == ge->getType())
 			{
 				//either a kill event or a damage event
-				return isKill == isKill || damageInflicted > 0 && ((GameEvent_Damage*)ge)->getDamageInflicted() > 0;
+				return (isKill == true && isKill == ((GameEvent_Damage*)ge)->getIsKill()) || damageInflicted > 0 && ((GameEvent_Damage*)ge)->getDamageInflicted() > 0;
 			}
 			else return false;
 		}

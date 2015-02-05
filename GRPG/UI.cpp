@@ -268,6 +268,20 @@ void UI::draw(Viewport* viewport)
 				}
 			}
 		}
+		else if (windowHeader.find("Quest: ") == 0)
+		{//Quest header
+			Quest* displayedQuest = ((Grpg*)theGame)->getQuestLoader()->getQuest(((Grpg*)theGame)->getQuestLoader()->getCurrentlyShownIndex());
+			//draw description
+			uiText->print(displayedQuest->getdescript(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() - windowImage.getHeight() / 2 + uiNS::shopTMargin);
+			//draw number of times completed
+			stringstream ss;
+			ss << displayedQuest->getQuestCondition()->getCurrentCount() << " / " << displayedQuest->getQuestCondition()->getCountRequirement();
+			if (displayedQuest->getQuestCondition()->completed())
+				ss << "\n" << "Quest completed! Head to the Quest Board for your reward!";
+			else
+				ss << "\n" << "Quest is currently uncompleted.";
+			uiText->print(ss.str(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder*4 - shopImage.getHeight() / 2);
+		}
 	}
 
 	// Now draw the right click menu
@@ -527,7 +541,8 @@ bool UI::performClick()
 			if (it->second->getUIElement()->mouseOver(input->getMouseX(), input->getMouseY()))
 			{
 				//this->addChatText("Clicked quest:" + it->second->getname());
-				drawWindow(it->second->getname());
+				drawWindow("Quest: " + it->second->getname());
+				((Grpg*)theGame)->getQuestLoader()->setCurrentlyShownIndex(it->first);
 				setActiveTab(uiNS::QUESTS);//fixed
 				return true;
 			}

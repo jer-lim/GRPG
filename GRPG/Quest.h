@@ -5,8 +5,10 @@
 #include <string>
 #include "QuestCondition.h"
 #include "InventoryItem.h"
-#include "GameEventManager.h"
+//#include "GameEventManager.h"
 #include "Button.h"
+
+class GameEventManager;
 
 namespace QuestNS{
 	const float INITIAL_DISPLACEMENT = 40;
@@ -34,17 +36,20 @@ public:
 		SAFE_DELETE(ui_element);	
 		//delete reward;//changed to int lol lazy boy ah matthew
 	}
-	Quest(GameEventManager* qcM, string nama, string descript, QuestCondition* completeCond, int gp, Button* b)//InventoryItem* prize)
-	{
-		name = nama;
-		description = descript;
-		completeCondition = completeCond;
-		gold = gp;
-		qcM->addListener(completeCond);
-		ui_element = b;
-		//reward = prize;
+	Quest(GameEventManager* qcM, string nama, string descript, QuestCondition* completeCond, int gp, Button* b);
+	int eventOccured(GameEvent* ge,UI* ui){
+		int result = completeCondition->eventOccured(ge);
+		switch (result)
+		{
+		case QUEST_SUCCESS:
+			ui->addChatText("You have made progress in quest " + name + "!");
+			break;
+		case COMPLETED:
+			ui->addChatText("You have completed quest " + name + "!\nProceed to the Quest Board for your reward!");
+			break;
+		}
+		return result;
 	}
-
 	string getname(){ return name; }
 	void setname(string n){ name = n; }
 	string getdescript(){ return description; }

@@ -115,12 +115,12 @@ public:
 			slot_body = -1;
 			return true;
 		}
-		else if (slot_hand == i)
+		if (slot_hand == i)
 		{
 			slot_hand = -1;
 			return true;
 		}
-		else if (slot_offhand == i)
+		if (slot_offhand == i)
 		{
 			slot_offhand = -1;
 			return true;

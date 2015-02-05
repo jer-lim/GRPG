@@ -112,6 +112,7 @@
     <ClCompile Include="PickupBehavior.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
+    <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
     <ClCompile Include="QuestLoader.cpp" />
     <ClCompile Include="Resource.cpp" />

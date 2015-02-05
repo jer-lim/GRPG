@@ -50,6 +50,7 @@
     <ClCompile Include="QuestLoader.cpp" />
     <ClCompile Include="StoveMoveBehavior.cpp" />
     <ClCompile Include="updateQuestsBehavior.cpp" />
+    <ClCompile Include="Quest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />

@@ -5,6 +5,9 @@
 #include "PickupBehavior.h"
 
 Inventory::Inventory(){
+	slot_body = -1;
+	slot_hand = -1;
+	slot_offhand = -1;
 	//slot_body = slot_hand = slot_offhand = InventoryItem();//Mattgic
 	/*for (int i = 0; i < maxSlotListCount; ++i)
 	{

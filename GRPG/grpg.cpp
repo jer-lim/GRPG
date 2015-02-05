@@ -104,7 +104,7 @@ void Grpg::initialize(HWND hwnd)
 	player->getInventory()->setYDrawPosition(ui->getTopLeftY());
 	
 	//Quest buttons need the getTopLeftX and Y
-	gameEventManager = new GameEventManager();
+	gameEventManager = new GameEventManager(ui);
 	questLoader = new QuestLoader();
 	questLoader->loadAllQuests(gameEventManager, personLoader, graphics, ui->getTopLeftX(), ui->getTopLeftY());
 

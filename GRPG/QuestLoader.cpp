@@ -35,6 +35,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 			}
 			Button* b = new Button();
 			b->initialize(g, QuestNS::SIDE_DISPLACEMENT+uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + QuestNS::HEIGHT*id + QuestNS::MARGIN*(id - 1), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, name);
+			descript = String_Functions::translateNewLines(descript);
 			Quest* myQuest = new Quest(gem, name, descript, qc, gold,b);
 			if (!mapQuests.count(id))
 				mapQuests[id] = myQuest;

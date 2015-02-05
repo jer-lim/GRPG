@@ -3,6 +3,7 @@
 
 #include "constants.h"
 #include "GameEvent.h"
+#include "UI.h"
 #include <string>
 enum QUEST_UPDATE { NO_CHANGE, QUEST_SUCCESS, COMPLETED };
 class QuestCondition
@@ -24,6 +25,8 @@ public:
 	void reset(){
 		currentCount = 0;
 	}
+	int getCurrentCount(){ return currentCount; }
+	int getCountRequirement() { return countRequirement; }
 	int eventOccured(GameEvent* ge);
 };
 

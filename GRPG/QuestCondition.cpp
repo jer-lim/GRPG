@@ -8,8 +8,13 @@ int QuestCondition::eventOccured(GameEvent* ge)
 	{
 		++currentCount;
 		if (currentCount >= countRequirement)
+		{
 			return COMPLETED;
-		else return QUEST_SUCCESS;
+		}
+		else
+		{
+			return QUEST_SUCCESS;
+		}
 	}
 	return NO_CHANGE;
 }
