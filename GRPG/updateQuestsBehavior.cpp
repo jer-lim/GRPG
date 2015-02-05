@@ -11,9 +11,9 @@ string UpdateQuestsBehavior::displayText(){
 //Finish quests if needed
 void UpdateQuestsBehavior::action()
 {
-	unordered_map<int, Quest*>* mapQuests = questLoader->getMapQuests();
+	map<int, Quest*>* mapQuests = questLoader->getMapQuests();
 	//loop through quests
-	for (unordered_map<int, Quest*>::iterator it = mapQuests->begin(); it != mapQuests->end(); ++it){
+	for (map<int, Quest*>::iterator it = mapQuests->begin(); it != mapQuests->end(); ++it){
 		if (it->second->getQuestCondition()->completed())
 		{//give reward
 			//create gold based on int yeah i'mlazy and out of time sue me

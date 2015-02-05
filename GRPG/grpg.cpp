@@ -69,9 +69,6 @@ void Grpg::initialize(HWND hwnd)
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
 	personLoader->loadAllNPCs(itemLoader);//ml free
-	gameEventManager = new GameEventManager();
-	questLoader = new QuestLoader();
-	questLoader->loadAllQuests(gameEventManager,personLoader);
 
 	missSplat = new TextureManager();
 	missSplat->initialize(graphics, MISS_IMAGE);
@@ -106,6 +103,11 @@ void Grpg::initialize(HWND hwnd)
 	player->getInventory()->setXDrawPosition(ui->getTopLeftX());
 	player->getInventory()->setYDrawPosition(ui->getTopLeftY());
 	
+	//Quest buttons need the getTopLeftX and Y
+	gameEventManager = new GameEventManager();
+	questLoader = new QuestLoader();
+	questLoader->loadAllQuests(gameEventManager, personLoader, graphics, ui->getTopLeftX(), ui->getTopLeftY());
+
 	drawManager->addObject(player,3);
 	drawManager->addObject(ui, 999);
 	// Load and display map, start spawners

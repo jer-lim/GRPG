@@ -6,6 +6,16 @@
 #include "QuestCondition.h"
 #include "InventoryItem.h"
 #include "GameEventManager.h"
+#include "Button.h"
+
+namespace QuestNS{
+	const float INITIAL_DISPLACEMENT = 30;
+	const float MARGIN = 5;
+	const float WIDTH = 40;
+	const float HEIGHT = 20;
+	const DWORD BACK_COLOR = SETCOLOR_ARGB(255, 180, 180, 180);
+
+}
 
 class Quest
 {
@@ -16,18 +26,21 @@ private:
 	//bool completed;
 	//InventoryItem* reward;//lazy
 	int gold;
+	Button* ui_element;
 public:
 	~Quest(){
-		delete completeCondition;
-		//delete reward;
+		SAFE_DELETE(completeCondition);
+		SAFE_DELETE(ui_element);	
+		//delete reward;//changed to int lol lazy boy ah matthew
 	}
-	Quest(GameEventManager* qcM, string nama, string descript, QuestCondition* completeCond, int gp)//InventoryItem* prize)
+	Quest(GameEventManager* qcM, string nama, string descript, QuestCondition* completeCond, int gp, Button* b)//InventoryItem* prize)
 	{
 		name = nama;
 		description = descript;
 		completeCondition = completeCond;
 		gold = gp;
 		qcM->addListener(completeCond);
+		ui_element = b;
 		//reward = prize;
 	}
 
@@ -39,6 +52,8 @@ public:
 	void setQuestCondition(QuestCondition* qc) { completeCondition = qc; }
 	int getgold(){ return gold; }
 	void setgold(int n){ gold = n; }
+	Button* getUIElement(){ return ui_element; }
+	void setUIElement(Button* b){ ui_element = b; }
 };
 
 #endif

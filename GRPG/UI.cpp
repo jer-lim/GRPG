@@ -346,11 +346,28 @@ void UI::drawTabContents(int tabNumber)
 	{
 		//Temporary text
 		uiText->print("Equipment", topLeftX + 5, topLeftY + 5);
+		//draw slots
+		if (player->getInventory()->getSlotBody() != nullptr)
+		{
+			player->getInventory()->getSlotBody()->draw(nullptr);
+		}
+		if (player->getInventory()->getSlotHand() != nullptr)
+		{
+			player->getInventory()->getSlotHand()->draw(nullptr);
+		}
+		if (player->getInventory()->getSlotOffHand() != nullptr)
+		{
+			player->getInventory()->getSlotOffHand()->draw(nullptr);
+		}
 	}
 	else if (tabNumber == uiNS::QUESTS)
 	{
-		//Temporary text
 		uiText->print("Quests", topLeftX + 5, topLeftY + 5);
+		map<int, Quest*>* mapQuests = ((Grpg*)theGame)->getQuestLoader()->getMapQuests();
+		for (std::map<int, Quest*>::iterator it = mapQuests->begin(); it != mapQuests->end(); ++it)
+		{//draw quests
+			it->second->getUIElement()->draw(uiText);
+		}
 	}
 }
 

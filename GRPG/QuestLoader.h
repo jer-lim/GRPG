@@ -8,23 +8,23 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <unordered_map>
+#include <map>
 #include "string_functions.h"
 
 class QuestLoader{
 private:
 	const std::string questLocation = "assets/quests/quests.gdef";
-	unordered_map<int, Quest*> mapQuests;
+	map<int, Quest*> mapQuests;
 public:
 	QuestLoader(){}
 	~QuestLoader(){
-		for (unordered_map<int, Quest*>::iterator it = mapQuests.begin(); it != mapQuests.end(); ++it){
+		for (map<int, Quest*>::iterator it = mapQuests.begin(); it != mapQuests.end(); ++it){
 			SAFE_DELETE(it->second);
 		}
 		mapQuests.clear();
 	}
-	void loadAllQuests(GameEventManager* gem,PersonLoader* personLoader);
-	unordered_map<int, Quest*>* getMapQuests() {
+	void loadAllQuests(GameEventManager* gem, PersonLoader* personLoader, Graphics* g,float uiX,float uiY);
+	map<int, Quest*>* getMapQuests() {
 		return &mapQuests;
 	}
 	Quest* getQuest(int id)

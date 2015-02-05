@@ -1,7 +1,7 @@
 #include "QuestLoader.h"
 #include "PersonLoader.h"
 
-void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader){
+void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader,Graphics* g,float uiX,float uiY){
 	ifstream queststream;
 	//Misc Items
 	queststream.open(questLocation);
@@ -33,7 +33,9 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 			{
 				qc = new QuestCondition(new GameEvent(personLoader->getNPC(fromID), personLoader->getNPC(toID)), timesReq);
 			}
-			Quest* myQuest = new Quest(gem, name, descript, qc, gold);
+			Button* b = new Button();
+			b->initialize(g,uiX,QuestNS::INITIAL_DISPLACEMENT+uiY+QuestNS::HEIGHT*id+QuestNS::MARGIN,QuestNS::WIDTH,QuestNS::HEIGHT,QuestNS::BACK_COLOR,name);
+			Quest* myQuest = new Quest(gem, name, descript, qc, gold,b);
 			if (!mapQuests.count(id))
 				mapQuests[id] = myQuest;
 			else
