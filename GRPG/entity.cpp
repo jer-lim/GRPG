@@ -1067,11 +1067,10 @@ int Entity::damage(int atk, int str)
 	backHealth->setVisible(true);
 	//Just in case of death, so we have something to return
 	int oldDamage = damageTaken;
-	GameEvent* gameEvent;
 	if (health <= 0)
 	{
 		//drop loot
-		gameEvent = new GameEvent_Damage(nullptr, person,damageTaken,false);
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, false));
 		vector<InventoryItem*> vector_ii = ((Enemy*)person)->getDropsListCopy();
 		for (int i = 0, l = vector_ii.size(); i < l; ++i)
 		{
@@ -1084,8 +1083,7 @@ int Entity::damage(int atk, int str)
 		theGame->deleteEntity(this);
 	}
 	else
-		gameEvent = new GameEvent_Damage(nullptr, person, damageTaken, true);
-	((Grpg*)theGame)->getGameEventManager()->informListeners(gameEvent);
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, true));
 	//delete gameEvent;//deleted inside the informListeners event
 	return oldDamage;
 }
