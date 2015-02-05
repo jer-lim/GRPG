@@ -652,6 +652,9 @@ void UI::setShopItems(vector<Entity* > i)
 		theItem->setupVectorActiveBehaviors();
 	}
 	items = i;
+
+	//Make the player's active tab the inventory
+	activeTab = uiNS::INVENTORY;
 }
 
 //=============================================================================
