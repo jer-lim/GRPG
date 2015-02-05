@@ -39,6 +39,7 @@ public:
 	Removes drop behavior and adds pickup behavior, positions the entity at the player's location and unanchors it.
 	*/
 	bool removeEntityInventoryItem(Entity* entity, Grpg* gamePtr);
+	bool removeEntityInventoryItem(int i);
 	/**
 	Delete items using an entity that contains the data of item to be removed, and how much (stackCount).
 	If stackCount is set to true, entity are deleted based on stackCount.

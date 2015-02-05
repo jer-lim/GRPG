@@ -153,11 +153,22 @@ bool Inventory::removeEntityInventoryItem(Entity * entity, Grpg* gamePtr)
 
 	return false; 
 }
+bool Inventory::removeEntityInventoryItem(int i)
+{
+	if (hasEntityInventoryItem(i))
+	{
+		slotList[i] = nullptr;
+		slotList.erase(i);
+		return true;
+	}
+	return false;
+}
 
 int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vector<Entity*>* removedItems, Grpg* gamePtr)
 {
 	int totalStackCount = 0, goalStackCount = entity->getInventoryItem()->getCurrentStackCount();
-
+	//quickfix
+	vector<int> vector_indexes;
 	for (map<int, Entity*>::iterator it = slotList.begin(); it != slotList.end(); ++it){
 		if (it->second->getInventoryItem()->getItem() == entity->getInventoryItem()->getItem()){//if items are the same
 			if (it->second->getInventoryItem()->getType() == entity->getInventoryItem()->getType())//if type of inventoryitem is the same
@@ -174,6 +185,7 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 				}
 				//else, we don't need to check alr
 				totalStackCount += it->second->getInventoryItem()->getCurrentStackCount();
+				vector_indexes.push_back(it->first);
 				removedItems->push_back(it->second);
 				if (stackCount && totalStackCount >= goalStackCount)
 					break;//we have enough stuff to remove the items
@@ -195,6 +207,9 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 			if (goalStackCount >= stackCount)
 			{//complete removal of entity
 				goalStackCount -= stackCount;//decrement goalStackCount for progression
+				//since it's a complete removal, thr is no setting of the stackcount
+				//Loop through map and delete item//slotList.erase();
+				//removeEntityInventoryItem(entity, nullptr);//doesn't work because the entity ptr changes AND I DON'T FUCKING KNOW WHY FUCK THIS FUCK  FUCKEVERYTIG
 				if (gamePtr != nullptr)
 				{
 					entity->setPickupBehavior(new PickupBehavior(gamePtr, gamePtr->getDrawManager(), entity, gamePtr->getPlayer()));//change behaviors
@@ -205,9 +220,7 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 					entity->setAnchored(false);//and make it affected by viewport
 					gamePtr->setMouseOverEntity(nullptr);
 				}
-				//since it's a complete removal, thr is no setting of the stackcount
-				//Loop through map and delete item//slotList.erase();
-				removeEntityInventoryItem(entity, nullptr);
+				removeEntityInventoryItem(vector_indexes.at(i));
 			}
 			else
 			{//partial removal of entity
