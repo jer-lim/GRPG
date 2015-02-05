@@ -56,6 +56,8 @@ public:
 	UI* getUI() { return ui; }
 	Player* getPlayer() { return player; }
 	ItemLoader* getItemLoader() { return itemLoader; }
+	QuestLoader* getQuestLoader() { return questLoader; }
+	GameEventManager* getGameEventManager() { return gameEventManager; }
 };
 
 #endif

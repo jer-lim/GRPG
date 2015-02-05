@@ -49,6 +49,7 @@
     <ClCompile Include="EquipBehavior.cpp" />
     <ClCompile Include="QuestLoader.cpp" />
     <ClCompile Include="StoveMoveBehavior.cpp" />
+    <ClCompile Include="updateQuestsBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
