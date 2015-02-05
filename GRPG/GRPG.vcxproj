@@ -117,7 +117,7 @@
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
-    <ClCompile Include="StoreMoveBehavior.cpp" />
+    <ClCompile Include="StoveMoveBehavior.cpp" />
     <ClCompile Include="TalkBehavior.cpp" />
     <ClCompile Include="TeleportBehavior.cpp" />
     <ClCompile Include="textDX.cpp" />
