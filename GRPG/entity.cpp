@@ -14,6 +14,7 @@
 #include "HealBehavior.h"
 #include "grpg.h"
 #include "SoundManager.h"
+#include "InventoryEquipment.h"
 
 namespace entityNS
 {
@@ -287,6 +288,10 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 				image.setCurrentFrame(3);
 				break;
 			}
+		}
+		else if (inventoryItem->getType() == "INVENTORYEQUIPMENT")
+		{
+			image.setCurrentFrame(((InventoryEquipment*)inventoryItem)->getFrameNo());
 		}
 	}
 }
@@ -708,6 +713,10 @@ void Entity::update(float frameTime, Game* gamePtr)
 				image.setCurrentFrame(3);
 				break;
 			}
+		}
+		else if (inventoryItem->getType() == "INVENTORYEQUIPMENT")
+		{
+			image.setCurrentFrame(((InventoryEquipment*)inventoryItem)->getFrameNo());
 		}
 	}
 }
