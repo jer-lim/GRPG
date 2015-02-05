@@ -615,7 +615,9 @@ void Entity::update(float frameTime, Game* gamePtr)
 							victim->setVictim(this);
 							int victimHealth = victim->getHealth();
 							map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
-							int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel());
+							int strLevel = skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel();
+							strLevel *= getDamageMultiplier();//apply weapon bonus
+							int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(),strLevel);
 							//We're obviously not going to implement combat styles so I'll just pump everything.
 							skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
 							skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
@@ -641,6 +643,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					if (attackPerformed)
 					{
 						attackCooldown = person->getAttackCooldown();
+						attackCooldown *= getAttackSpeedReduction();//apply weapon bonus
 						image.setFrames(1, person->getNumOfCols() - 1);
 						image.setLoop(false);
 					}
@@ -1030,9 +1033,12 @@ void Entity::takeDamage(int atk, int str, int def)
 	if (getRandomNumber() < chanceToHit)
 	{
 		damageTaken = ceil((0.5*getRandomNumber() + 0.5)*str);
-		if (person != nullptr && person->getType() == "ENEMY")
+		if (person != nullptr )
 		{
-			damageTaken = damageTaken * ((Enemy*)person)->getDamageReduction();
+			if (person->getType() == "ENEMY")
+				damageTaken = damageTaken * ((Enemy*)person)->getDamageReduction();
+			else
+				damageTaken = damageTaken * getDamageReduction();
 		}
 	}
 	else

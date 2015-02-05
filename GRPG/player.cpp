@@ -178,6 +178,7 @@ void Player::update(float frameTime, Game* gamePtr)
 //=============================================================================
 int Player::damage(int atk, int str)
 {
+	str *= getDamageReduction();
 	takeDamage(atk, str, skills[skillNS::ID_SKILL_DEFENSE].getSkillLevel());
 	if (health <= 0)
 	{
