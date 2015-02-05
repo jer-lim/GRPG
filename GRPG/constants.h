@@ -57,6 +57,7 @@ const char TAB_IMAGE[] = "assets/ui/tabs.png"; //UI tabs texture
 const char HIT_IMAGE[] = "assets/ui/hit.png"; //Hit splat hit texture
 const char MISS_IMAGE[] = "assets/ui/miss.png"; //Hit splat miss texture
 const char WINDOW_IMAGE[] = "assets/ui/windowBackground.png"; // Window background texture
+const char SHOP_IMAGE[] = "assets/ui/shopNote.png"; // Window background texture
 const char FISHING_IMAGE[] = "assets/actions/fishing.png"; //The image shown above the player on fishing
 
 // key mappings

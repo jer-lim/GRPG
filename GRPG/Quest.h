@@ -13,7 +13,7 @@ namespace QuestNS{
 	const float MARGIN = 5;
 	const float WIDTH = 40;
 	const float HEIGHT = 20;
-	const DWORD BACK_COLOR = SETCOLOR_ARGB(255, 180, 180, 180);
+	const DWORD BACK_COLOR = graphicsNS::BLUE;
 
 }
 

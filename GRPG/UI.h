@@ -48,6 +48,9 @@ namespace uiNS
 	// of the window texture
 	const UINT windowXWidth = 28;
 	const UINT windowXHeight = 17;
+	//The border of the window
+	const int windowLeftBorder = 6;
+	const int windowBottomBorder = 7;
 
 	//Coordindates for shop
 	const int shopColMax = 12;
@@ -107,6 +110,8 @@ private:
 	RECT* shopRect; // The rectangle used for drawing the shop text
 	vector<Entity* > items; //The list of items that will be sold in the shop
 	Entity* coin;		//Track player's coin and perform changes
+	TextureManager* shopTexture;
+	Image shopImage;
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
