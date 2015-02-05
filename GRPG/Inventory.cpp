@@ -244,6 +244,7 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 				if (gamePtr != nullptr)
 				{
 					entity->setPickupBehavior(new PickupBehavior(gamePtr, gamePtr->getDrawManager(), entity, gamePtr->getPlayer()));//change behaviors
+					SAFE_DELETE(entity->dropBehavior);
 					entity->setDropBehavior(nullptr);
 					entity->setupVectorActiveBehaviors();
 					entity->setX(gamePtr->getPlayer()->getX());//set the entity to the player's position (it was previously in the inventory position)
@@ -267,6 +268,7 @@ int Inventory::removeEntityInventoryItems(Entity* entity, bool stackCount, vecto
 		removedItems->clear();
 		return -1;
 	}
+	return -1;
 }
 
 bool Inventory::destroyEntityInventoryItem(int i)
