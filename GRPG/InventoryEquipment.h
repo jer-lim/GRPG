@@ -5,11 +5,25 @@
 #include "InventoryItem.h"
 #include "Smithing_Material.h"
 
+namespace InventoryEquipmentNS
+{
+	const int smithingMaterialID[]{ 7, 8, 9, 10, 11, 12, 13 };//frame by index of id, id is the smithing material
+	const int smithingMaterialIDLength = 7;
+}
+
 class InventoryEquipment : public InventoryItem
 {
 private:
 	Smithing_Material* smithingMaterial;
+
 public:
+	static int getFrameNo(){
+		for (int i = 0; i < InventoryEquipmentNS::smithingMaterialIDLength; ++i){
+			//if (smithingMaterial == )
+			
+		}
+	}
+
 	// constructor
 	InventoryEquipment() :InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
 	InventoryEquipment(Item* item, int csc, Smithing_Material* material)
