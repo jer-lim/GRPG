@@ -2,7 +2,7 @@
 #include <thread>
 
 namespace SoundManagerNS {
-	const LPCSTR rocket = TEXT("assets/sound/rocket.wav");
+	const LPCSTR HIT = TEXT("assets/sound/rocket.wav");
 }
 
 class SoundManager {

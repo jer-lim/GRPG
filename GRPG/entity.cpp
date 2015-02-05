@@ -602,6 +602,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					{
 						if (person->getType() == "ENEMY")
 						{
+							SoundManager::playSound(SoundManagerNS::HIT);
 							victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
 						}
 						else
@@ -615,7 +616,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					{
 						if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY")
 						{
-							SoundManager::playSound(SoundManagerNS::rocket);
+							SoundManager::playSound(SoundManagerNS::HIT);
 							//Victim should retaliate
 							victim->setVictim(this);
 							int victimHealth = victim->getHealth();
