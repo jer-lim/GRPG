@@ -21,6 +21,7 @@ UI::UI() : Entity()
 	tabTexture = new TextureManager();
 	uiImgTexture = new TextureManager();
 	windowTexture = new TextureManager();
+	shopTexture = new TextureManager();
 	activeTab = uiNS::SKILLS;
 
 	//Not visible till you right click
@@ -38,6 +39,7 @@ UI::~UI()
 	SAFE_DELETE(uiImgTexture);
 	SAFE_DELETE(windowTexture);
 	SAFE_DELETE(shopRect);
+	SAFE_DELETE(shopTexture);
 
 	delete coin;
 }
@@ -68,6 +70,10 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing window texture"));
 	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Window image could not be initalized"));
+	if (!shopTexture->initialize(graphics, SHOP_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing Shop Note Texture"));
+	if (!shopImage.initialize(graphics, 0, 0, 1, shopTexture, true))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Shop Image could not be initalized"));	
 
 	//Initalize the shop rectangle that will be used to draw the text at the top of the shop interface
 	windowImage.setX(GAME_WIDTH / 2);
@@ -230,6 +236,13 @@ void UI::draw(Viewport* viewport)
 		//Draw shop items, if any
 		if (items.size() > 0)
 		{
+			//Draw the text at the bottom first
+			VECTOR2 shopNoteLocation = VECTOR2(windowImage.getX(),
+				windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder - shopImage.getHeight()/2);
+			shopImage.setX(shopNoteLocation.x);
+			shopImage.setY(shopNoteLocation.y);
+			shopImage.draw();
+
 			VECTOR2 coordinates = VECTOR2(windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin,
 										windowImage.getY() - windowImage.getHeight() / 2 + uiNS::shopTMargin);
 			coordinates += VECTOR2(itemNS::spriteHeight / 2, itemNS::spriteWidth / 2);
@@ -655,6 +668,9 @@ void UI::setShopItems(vector<Entity* > i)
 		theItem->setupVectorActiveBehaviors();
 	}
 	items = i;
+
+	//Make the player's active tab the inventory
+	activeTab = uiNS::INVENTORY;
 }
 
 //=============================================================================

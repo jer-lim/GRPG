@@ -14,7 +14,7 @@ namespace QuestNS{
 	const float MARGIN = 10;
 	const float WIDTH = 150;
 	const float HEIGHT = 20;
-	const COLOR_ARGB BACK_COLOR = SETCOLOR_ARGB(255, 0, 0, 0);//Yes, idk why it's not showing
+	const DWORD BACK_COLOR = graphicsNS::BLUE;
 
 }
 
