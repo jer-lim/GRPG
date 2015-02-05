@@ -279,7 +279,7 @@ void UI::draw(Viewport* viewport)
 			if (displayedQuest->getQuestCondition()->completed())
 				ss << "\n" << "Quest completed! Head to the Quest Board for your reward!";
 			else
-				ss << "\n" << "Quest is currently uncompleted.";
+				ss << "\n" << "Quest is currently not finished.";
 			uiText->print(ss.str(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder*4 - shopImage.getHeight() / 2);
 		}
 	}

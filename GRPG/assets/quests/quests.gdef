@@ -1,4 +1,5 @@
-00 Kill_Aidiluin The_sole_reason_why_you_are_here_is_to_kill_Aidiluin,\nyour_archenemy.\nHe_is_a_terrifying_black_dragon.\nMake_sure_you_are_well_prepared! -1 14 1 999 K
-01 Slaughter_Chickens Slaughter_10_chickens_and_get_40_gold!\nKill_those_poor_little_cheeky_chickens! -1 15 10 40 K
-02 Stomp_Goblins A_group_of_goblins_are_annoying_the_villagers.\nTeach_them_a_lesson!\nKill_20_of_them_for_250_gold! -1 5 20 250 K
-03 Purge_The_Dead Some_skeletons_are_scaring_the_villagers.\nGrind_them_to_bone_dust!\n20_of_them_will_earn_you_350_gold. -1 3 20 350 K
+00 Slay_Kock Cut_Kock_to_pieces_and_earn_a_pittance_of_1_gold!\nI_mean,_it's_better_than_nothing,_right? -1 19 1 1 K
+01 Kill_Aidiluin The_sole_reason_why_you_are_here_is_to_kill_Aidiluin,\nyour_archenemy.\nHe_is_a_terrifying_black_dragon.\nMake_sure_you_are_well_prepared! -1 14 1 999 K
+02 Slaughter_Chickens Slaughter_11_chickens_and_get_40_gold!\nKill_those_poor_little_cheeky_chickens!\n(That's_ridiculous._It's_not_even_funny.) -1 15 11 40 K
+03 Stomp_Goblins A_group_of_goblins_are_annoying_the_villagers.\nTeach_them_a_lesson!\nKill_20_of_them_for_250_gold! -1 5 20 250 K
+04 Purge_The_Dead Some_skeletons_are_scaring_the_villagers.\nGrind_them_to_bone_dust!\n20_of_them_will_earn_you_350_gold. -1 3 20 350 K
