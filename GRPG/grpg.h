@@ -5,6 +5,7 @@
 #include "game.h"
 #include "textureManager.h"
 #include "itemLoader.h"
+#include "QuestLoader.h"
 #include "player.h"
 #include "image.h"
 #include "UI.h"
@@ -23,6 +24,8 @@ private:
 	Player* player;
 	UI* ui;
 	ItemLoader* itemLoader;
+	QuestLoader* questLoader;
+	GameEventManager* gameEventManager;
 	TextDX* uiFont;
 
 	TextureManager* missSplat;

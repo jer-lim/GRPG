@@ -12,6 +12,7 @@ private:
 public:
 	~GameEventManager(){
 		//destruction of listeners are to be done by the quests themselves
+		vector_listeners.clear();
 	}
 	GameEventManager(){}
 	void addListener(QuestCondition* qc){
