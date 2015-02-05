@@ -13,6 +13,7 @@
 #include "TeleportBehavior.h"
 #include "HealBehavior.h"
 #include "grpg.h"
+#include "SoundManager.h"
 
 namespace entityNS
 {
@@ -614,6 +615,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					{
 						if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY")
 						{
+							SoundManager::playSound(SoundManagerNS::rocket);
 							//Victim should retaliate
 							victim->setVictim(this);
 							int victimHealth = victim->getHealth();

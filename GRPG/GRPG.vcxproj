@@ -64,6 +64,7 @@
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="Smithing_Material.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="StoveMoveBehavior.h" />
     <ClInclude Include="string_functions.h" />

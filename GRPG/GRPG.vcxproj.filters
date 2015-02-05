@@ -121,5 +121,6 @@
     <ClInclude Include="UpdateQuestsBehavior.h" />
     <ClInclude Include="GameEventManager.h" />
     <ClInclude Include="QuestLoader.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
 </Project>
