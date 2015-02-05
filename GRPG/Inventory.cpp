@@ -26,9 +26,10 @@ void Inventory::destroy()
 	}
 	//}
 	slotList.clear();
-	SAFE_DELETE(slot_body);
-	SAFE_DELETE(slot_hand);
-	SAFE_DELETE(slot_offhand);
+	//slots are just references to stuff inside the inventory as of now
+	///SAFE_DELETE(slot_body);
+	//SAFE_DELETE(slot_hand);
+	//SAFE_DELETE(slot_offhand);
 }
 
 bool Inventory::addEntityInventoryItem(int i, Entity* ii)
@@ -37,6 +38,34 @@ bool Inventory::addEntityInventoryItem(int i, Entity* ii)
 	{
 		if (!hasEntityInventoryItem(i))
 		{
+			if (ii->getInventoryItem()->getType() == "INVENTORYEQUIPMENT")
+			{//is equipment
+				Equipment* eq = (Equipment*)ii->getInventoryItem()->getItem();
+				if (eq->occupiesBody())
+				{//is body armor
+					if (getSlotBody() == nullptr || getSlotBody()->getInventoryItem()->getCost() < ii->getInventoryItem()->getCost())
+					{//if new armor is better (more expensive)
+						slot_body = i;
+					}
+				}
+				else if (eq->occupiesHand())
+				{
+					if (eq->occupiesOffhand())
+					{//normal weapon
+						if (getSlotHand() == nullptr || getSlotHand()->getInventoryItem()->getCost() < ii->getInventoryItem()->getCost())
+						{//if new weapon is better (more expensive)
+							slot_hand = i;
+						}
+					}
+					else
+					{//shield
+						if (getSlotOffHand() == nullptr || getSlotOffHand()->getInventoryItem()->getCost() < ii->getInventoryItem()->getCost())
+						{//if new shield is better (more expensive)
+							slot_offhand = i;
+						}
+					}
+				}
+			}
 			int row = i / inventoryColumns + 1;
 			int col = i % inventoryColumns + 1;
 			ii->setX(xDrawPosition + col*ii->getInventoryItem()->getItem()->getSpriteWidth() + magicPadding);
@@ -146,6 +175,7 @@ bool Inventory::removeEntityInventoryItem(Entity * entity, Grpg* gamePtr)
 				gamePtr->setMouseOverEntity(nullptr);
 			}
 			//SAFE_DELETE(it->second);
+			unequip(it->first);
 			slotList.erase(it->first);
 			return true;
 		}
@@ -157,6 +187,7 @@ bool Inventory::removeEntityInventoryItem(int i)
 {
 	if (hasEntityInventoryItem(i))
 	{
+		unequip(i);
 		slotList[i] = nullptr;
 		slotList.erase(i);
 		return true;
@@ -242,6 +273,7 @@ bool Inventory::destroyEntityInventoryItem(int i)
 {
 	if (hasEntityInventoryItem(i))
 	{
+		unequip(i);
 		SAFE_DELETE(slotList[i]);
 		slotList[i] = nullptr;
 		slotList.erase(i);
