@@ -125,6 +125,7 @@
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="TradeBehavior.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="updateQuestsBehavior.cpp" />
     <ClCompile Include="ViewBehavior.cpp" />
     <ClCompile Include="ViewBehaviorItem.cpp" />
     <ClCompile Include="ViewBehaviorNPC.cpp" />

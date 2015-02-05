@@ -24,6 +24,9 @@ public:
 		mapQuests.clear();
 	}
 	void loadAllQuests(GameEventManager* gem,PersonLoader* personLoader);
+	unordered_map<int, Quest*>* getMapQuests() {
+		return &mapQuests;
+	}
 	Quest* getQuest(int id)
 	{
 		return mapQuests[id];
