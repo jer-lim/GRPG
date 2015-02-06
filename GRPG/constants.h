@@ -59,6 +59,7 @@ const char MISS_IMAGE[] = "assets/ui/miss.png"; //Hit splat miss texture
 const char WINDOW_IMAGE[] = "assets/ui/windowBackground.png"; // Window background texture
 const char SHOP_IMAGE[] = "assets/ui/shopNote.png"; // Window background texture
 const char FISHING_IMAGE[] = "assets/actions/fishing.png"; //The image shown above the player on fishing
+const char MINING_IMAGE[] = "assets/actions/mining.png"; //The image shown above the player on mining
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used

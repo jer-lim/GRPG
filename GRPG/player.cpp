@@ -60,11 +60,18 @@ bool Player::initialize(Game *gamePtr)
 {
 	game = (Grpg*) gamePtr;
 	tm = new TextureManager();
+	mm = new TextureManager();
 	if (!tm->initialize(gamePtr->getGraphics(), FISHING_IMAGE))
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Error initalizing Fishing texture");
 
 	if (!fishingImage.initialize(gamePtr->getGraphics(), 0, 0, 1, tm))
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Error initalizing fishing image");
+
+	if (!mm->initialize(gamePtr->getGraphics(), MINING_IMAGE))
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Error initalizing Mining texture");
+
+	if (!miningImage.initialize(gamePtr->getGraphics(), 0, 0, 1, mm))
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Error initalizing mining image");
 	
     return(Entity::initialize(gamePtr, Person::thePlayer));
 }
@@ -101,6 +108,12 @@ void Player::draw(Viewport* viewport)
 			fishingImage.setX(getX());
 			fishingImage.setY(getY() - edge.top / 2 - fishingImage.getHeight() / 2);
 			fishingImage.draw(viewport);
+		}
+		else if (currentAction == resourceNS::MINING)
+		{
+			miningImage.setX(getX());
+			miningImage.setY(getY() - edge.top / 2 - miningImage.getHeight() / 2);
+			miningImage.draw(viewport);
 		}
 	}
 }

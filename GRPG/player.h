@@ -59,6 +59,8 @@ private:
 	// The resource image that is drawn above hte player
 	Image fishingImage;
 	TextureManager* tm;
+	Image miningImage;
+	TextureManager* mm;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
@@ -71,6 +73,7 @@ public:
 		}
 		skills.clear();
 		SAFE_DELETE(tm);
+		SAFE_DELETE(mm);
 		game = NULL;
 	}
 

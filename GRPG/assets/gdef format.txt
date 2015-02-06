@@ -48,7 +48,7 @@ quests.gdef
 		D -> Damage
 		N -> N/A
 tiles.gdef
-	TILE_ID TYPE(0 = floor, 1 = wall, 2 = spawner, 3 = spawnpoint, 4 = fishing spot) NUMBER_OF_FRAMES FRAME_TIME IMAGE_NAME [SPAWNED_NPC_ID SPAWN_COOLDOWN]
+	TILE_ID TYPE(0 = floor, 1 = wall, 2 = spawner, 3 = spawnpoint, 4 = fishing spot, 5 = mining spot) NUMBER_OF_FRAMES FRAME_TIME IMAGE_NAME [SPAWNED_NPC_ID SPAWN_COOLDOWN]
 chunks.gdef
 	CHUNK_ID
 	16x16 square of TILE_ID
