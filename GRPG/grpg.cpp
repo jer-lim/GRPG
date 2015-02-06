@@ -131,7 +131,7 @@ void Grpg::initialize(HWND hwnd)
 	//Object test
 	//CRIME SCENE
 	*/
-	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 10);
+	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 100);
 	Entity* newObj = new Entity();
 	newObj->initialize(this, x, false);
 	//x->initialize(this, false);

@@ -60,12 +60,12 @@ bool Inventory::addEntityInventoryItem(int i, Entity* ii)
 							slot_hand = i;
 						}
 					}
-					else
-					{//shield
-						if (getSlotOffHand() == nullptr || getSlotOffHand()->getInventoryItem()->getCost() < ii->getInventoryItem()->getCost())
-						{//if new shield is better (more expensive)
-							slot_offhand = i;
-						}
+				}
+				else
+				{//shield
+					if (getSlotOffHand() == nullptr || getSlotOffHand()->getInventoryItem()->getCost() < ii->getInventoryItem()->getCost())
+					{//if new shield is better (more expensive)
+						slot_offhand = i;
 					}
 				}
 			}
