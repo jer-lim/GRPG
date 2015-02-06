@@ -11,4 +11,4 @@
 24 Captain_Point_Of_No_Return grocer.png 0 0 64 64 1 38 38 Probably_the_last_captain_you'll_ever_see. Ahoy!_To_the_south_is_Ideal_Island,\nwhere_a_great_and_powerful_dragon_lives._Make_sure_you're_ready_to\nface_him,_for_there_is_no_turning_back._Are_you_sure_you_want_to_go\nthere? ) {}
 25 Captain_Return grocer.png 0 0 64 64 1 38 38 Twin_brother_of_Captain_Point_Of_No_Return. If_you_need_a_ride_back_to_the_mainland,_tell_me! ( {}
 26 Quest_Board quest_board.png 0 0 64 64 1 38 38 Update_your_quests_here. Why_are_you_trying_to_talk_to_a_board? 0 {}
-27 The End grocer.png 0 0 64 64 1 38 38 It's_the_end_of_the_world_as_you_know_it! Congratulations,_you've_reached_the_end!_Not_the_end_of_the_game,_just_the_end!_I'll_bring_you_back_to_the_start_when_you're_done_here. ! {}
+27 The_End grocer.png 0 0 64 64 1 38 38 It's_the_end_of_the_world_as_you_know_it! Congratulations,_you've_reached_the_end!_Not_the_end_of_the_game,_just_the_end!_I'll_bring_you_back_to_the_start_when_you're_done_here. ! {}
