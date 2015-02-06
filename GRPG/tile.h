@@ -1,3 +1,8 @@
+// Module: Games Programming
+// Assignment 2: GRPG
+// Student Name: Jeremy Lim
+// Student Number: S10122326F
+
 #ifndef TILE_H                 // Prevent multiple definitions if this 
 #define TILE_H                 // file is included in more than one place
 
