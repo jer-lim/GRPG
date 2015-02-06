@@ -400,6 +400,8 @@ class Entity : public Destination//, public Interactable
 	void setupVectorActiveBehaviors()
 	{//Must be in order, as they will be displayed in this order 
 		vectorActiveBehaviors.clear();
+		if (pickupBehavior)
+			vectorActiveBehaviors.push_back(pickupBehavior);
 		if (updateQuestsBehavior)
 			vectorActiveBehaviors.push_back(updateQuestsBehavior);
 		if (stoveBehavior)
@@ -410,8 +412,6 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(sellBehavior);
 		if (eatBehavior)
 			vectorActiveBehaviors.push_back(eatBehavior);
-		if (pickupBehavior)
-			vectorActiveBehaviors.push_back(pickupBehavior);
 		if (cookBehavior)//must come under pickup
 			vectorActiveBehaviors.push_back(cookBehavior);
 		if (dropBehavior)
