@@ -256,6 +256,9 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 			}
 		}
 	}
+	if (invItem->getItem()->getID() == 30){//Aidil's eyes
+		//Please put TP behavior here or smth
+	}
 	setupVectorActiveBehaviors();
 
 	anchored = inInventory;//anchored = true = inInventory
