@@ -168,7 +168,35 @@ void Player::update(float frameTime, Game* gamePtr)
 				}
 				else if (currentAction == resourceNS::MINING)
 				{
-					InventoryItem* ore = new InventoryFood(game->getItemLoader()->getItem(7), 1, RAW);
+					//Decide which ore you get based on your mining level
+					int currentMiningLevel = skills[skillNS::ID_SKILL_MINING].getSkillLevel();
+					int itemToGet = 7; // 7 = copper, 8 = iron, 10 = silver, 11 = mystic stone, 12 = mithril, 13 = Diamond
+					//Iron check
+					if (currentMiningLevel > 2 && getRandomNumber() < 0.6 + (0.2*(currentMiningLevel - 2)))
+					{
+						itemToGet = 8;
+					}
+					//Silver check
+					if (currentMiningLevel > 6 && getRandomNumber() < 0.6 + (0.2*(currentMiningLevel - 6)))
+					{
+						itemToGet = 10;
+					}
+					//Mystic stone
+					if (currentMiningLevel > 10 && getRandomNumber() < 0.6 + (0.2*(currentMiningLevel - 10)))
+					{
+						itemToGet = 11;
+					}
+					//Mithril
+					if (currentMiningLevel > 14 && getRandomNumber() < 0.6 + (0.2*(currentMiningLevel - 14)))
+					{
+						itemToGet = 12;
+					}
+					//Diamond check
+					if (currentMiningLevel > 18 && getRandomNumber() < 0.6 + (0.2*(currentMiningLevel-18)))
+					{
+						itemToGet = 13;
+					}
+					InventoryItem* ore = new InventoryItem(game->getItemLoader()->getItem(itemToGet), 1, RAW);
 					Entity* e = new Entity();
 					e->initialize(game, ore, false);//anchored if its in an inventory (like it is now)
 					//inventory->addEntityInventoryItem(e);
@@ -177,7 +205,7 @@ void Player::update(float frameTime, Game* gamePtr)
 					theGame->getDrawManager()->addObject(e, 2);
 					e->getTopMostBehavior()->action();
 
-					skills[skillNS::ID_SKILL_MINING].gainXP(30);
+					skills[skillNS::ID_SKILL_MINING].gainXP((itemToGet -  7) * 30);
 
 					//Check if activity can continue
 					if (inventory->hasSpaceInInventory())
