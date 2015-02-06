@@ -1,3 +1,7 @@
+//  Module:             Games Programming
+//  Assignment2:        GRPG
+//  Student Name:       Jeremy Choo
+//  Student Number:     s10132161
 
 #ifndef _GAME_H                 // Prevent multiple definitions if this 
 #define _GAME_H                 // file is included in more than one place

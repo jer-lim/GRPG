@@ -1,3 +1,8 @@
+//  Module:             Games Programming
+//  Assignment2:        GRPG
+//  Student Name:       Jeremy Choo
+//  Student Number:     s10132161
+
 #include "BuyBehavior.h"
 #include "NPC.h"
 #include "player.h"

@@ -1,3 +1,8 @@
+//  Module:             Games Programming
+//  Assignment2:        GRPG
+//  Student Name:       Jeremy Choo
+//  Student Number:     s10132161
+
 //MATTSCAN: LIKELIHOOD OF MEMORY LEAK: VERY UNLIKELY
 /*
 	MEMORY LEAK POSSIBILITIES:
