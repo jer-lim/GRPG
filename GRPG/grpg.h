@@ -2,6 +2,8 @@
 //  Assignment2:        GRPG
 //  Student Name:       Jeremy Choo
 //  Student Number:     s10132161
+//  Student Name:       Jeremy Lim
+//  Student Number:     s10122326F
 
 #ifndef _GRPG_H			         // Prevent multiple definitions if this 
 #define _GRPG_H		             // file is included in more than one place
