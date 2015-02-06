@@ -4,13 +4,21 @@
 #include "mapLoader.h"
 
 string TeleportBehavior::displayText(){
-	return "Request teleport from " + npc->getname();
+	if (guyDoingTeleport->getPerson() != nullptr)
+	{
+		if (guyDoingTeleport->getPerson()->getType() == "NPC")
+			return "Request teleport from " + ((NPC*)guyDoingTeleport->getPerson())->getname();
+	}
+	else if (guyDoingTeleport->getInventoryItem() != nullptr)
+	{
+		return "Use " + guyDoingTeleport->getInventoryItem()->getItem()->getName() + " to teleport";
+	}
 }
 
 void TeleportBehavior::action()
 {
 	VECTOR2 collisionVector;
-	if (guyDoingTeleport->collidesWith(*player, collisionVector))
+	if (guyDoingTeleport->collidesWith(*player, collisionVector) || guyDoingTeleport->getInventoryItem() != nullptr)
 	{
 		VECTOR2 coordinates = ml->translateIdToCoords(tileID);
 		player->setX(coordinates.x);
