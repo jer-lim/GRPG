@@ -528,7 +528,7 @@ bool UI::performClick()
 		if (input->getMouseX() > topRightWindow.x - uiNS::windowXWidth && input->getMouseX() < topRightWindow.x &&
 			input->getMouseY() > topRightWindow.y && input->getMouseY() < topRightWindow.y + uiNS::windowXHeight)
 		{
-			windowHeader = "";
+			removeWindow();
 			return true;
 		}
 	}
