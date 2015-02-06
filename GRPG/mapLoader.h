@@ -1,3 +1,8 @@
+// Module: Games Programming
+// Assignment 2: GRPG
+// Student Name: Jeremy Lim
+// Student Number: S10122326F
+
 #ifndef MAP_LOADER_H
 #define MAP_LOADER_H
 
