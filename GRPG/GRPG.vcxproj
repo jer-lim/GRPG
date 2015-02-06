@@ -93,6 +93,7 @@
     <ClCompile Include="FishBehavior.cpp" />
     <ClCompile Include="HealBehavior.cpp" />
     <ClCompile Include="InventoryItem.cpp" />
+    <ClCompile Include="MineBehavior.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PersonLoader.cpp" />

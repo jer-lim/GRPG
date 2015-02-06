@@ -24,6 +24,6 @@ public:
 	virtual ~MineBehavior() {}
 	virtual bool exists(){ return false; }
 	virtual string displayText(){ return "Mine"; }
-	virtual void action(){}
+	virtual void action();
 };
 #endif
