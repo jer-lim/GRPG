@@ -7,5 +7,5 @@ void DropBehavior::action(){
 	player->getInventory()->removeEntityInventoryItem(entity,(Grpg*)gamePtr);//remove from inventory
 
 	//Already deleted inside removeEntityInventoryItem
-	//delete this;//THIS MUST BE CALLED IF YOU INTEND TO REMOVE THE BEHAVIOR
+	delete this;//THIS MUST BE CALLED IF YOU INTEND TO REMOVE THE BEHAVIOR
 }
