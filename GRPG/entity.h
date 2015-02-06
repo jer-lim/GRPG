@@ -1,7 +1,7 @@
 //  Module:             Games Programming
 //  Assignment2:        GRPG
 //  Student Name:       Jeremy Choo
-//  Student Number:     s10132161
+//  Student Number:     S10132161H
 
 #ifndef _ENTITY_H               // Prevent multiple definitions if this 
 #define _ENTITY_H               // file is included in more than one place
@@ -378,8 +378,8 @@ class Entity : public Destination//, public Interactable
 	//Behavior related
 	//void setCookBehavior
 	void setDropBehavior(Behavior* b) {
-		//if (dropBehavior != nullptr)//should be handled outside, as when the behavior is deleted any further actions will cause a crash
-			//SAFE_DELETE(dropBehavior);
+		if (dropBehavior != nullptr)//should be handled outside, as when the behavior is deleted any further actions will cause a crash
+			SAFE_DELETE(dropBehavior);
 		dropBehavior = b;
 	}
 	void setPickupBehavior(Behavior* b) {

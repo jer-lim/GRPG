@@ -1,7 +1,7 @@
 //  Module:             Games Programming
 //  Assignment2:        GRPG
 //  Student Name:       Jeremy Choo
-//  Student Number:     s10132161
+//  Student Number:     S10132161H
 
 #include "UI.h"
 #include <map>
