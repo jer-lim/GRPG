@@ -6,6 +6,7 @@
 using namespace std;
 class Player;
 class NPC;
+class Game;
 
 class TeleportBehavior : public Behavior
 {
@@ -15,12 +16,14 @@ private:
 	Entity* guyDoingTeleport;
 	char tileID;
 	MapLoader* ml;
+	Game* gameptr;
 public:
-	TeleportBehavior(Player* p, MapLoader* m, Entity* e, char tid){//NPC* n, MapLoader* m, Entity* e, char tid){
+	TeleportBehavior(Player* p, MapLoader* m, Entity* e, Game* g, char tid){//NPC* n, MapLoader* m, Entity* e, char tid){
 		player = p;
 		//npc = n;
 		ml = m;
 		guyDoingTeleport = e;
+		gameptr = g;
 		tileID = tid;
 	}
 	virtual ~TeleportBehavior() {}

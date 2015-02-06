@@ -25,6 +25,7 @@ void TeleportBehavior::action()
 		player->setY(coordinates.y);
 		player->setVictim(0);
 		player->releaseDestination();
+		gameptr->setMouseOverEntity(nullptr);
 	}
 	else
 	{
