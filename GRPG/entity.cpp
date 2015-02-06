@@ -181,7 +181,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			}
 			if (((NPC*)whichCharacter)->getTeleportID() != '0')
 			{
-				teleportBehavior = new TeleportBehavior(grpgPointer->getPlayer(), (NPC*)whichCharacter, grpgPointer->getMapLoader(), this, ((NPC*)whichCharacter)->getTeleportID());
+				teleportBehavior = new TeleportBehavior(grpgPointer->getPlayer(), grpgPointer->getMapLoader(), this, ((NPC*)whichCharacter)->getTeleportID());
 			}
 			if (((NPC*)whichCharacter)->getname() == "Doctor")
 			{
@@ -258,7 +258,8 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 		}
 	}
 	if (invItem->getItem()->getID() == 30){//Aidil's eyes
-		//Please put TP behavior here or smth
+		//teleport to credits
+		teleportBehavior = new TeleportBehavior(((Grpg*)gamePtr)->getPlayer(), ((Grpg*)gamePtr)->getMapLoader(), this, 'z');
 	}
 	setupVectorActiveBehaviors();
 
