@@ -37,5 +37,7 @@ public:
 	void setlevelReq_for_50(int i){ levelReq_for_50 = i; }
 	float getlevel_deviation() { return level_deviation; }
 	void setlevel_deviation(float i){ level_deviation = i; }
+
+	virtual string getType(){ return "FOOD"; }
 };
 #endif

@@ -26,5 +26,7 @@ public:
 	void setdefMultiplier(float i){ defMultiplier = i; }
 	float getdmgReduction() { return dmgReduction; }
 	void setdmgReduction(float d){ dmgReduction = d; }
+
+	virtual string getType(){ return "ARMOR"; }
 };
 #endif

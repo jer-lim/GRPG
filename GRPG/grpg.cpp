@@ -146,6 +146,14 @@ void Grpg::initialize(HWND hwnd)
 	newObj->setX(startLocation.x);
 	newObj->setY(startLocation.y);
 	drawManager->addObject(newObj, 2);
+
+	f = new InventoryItem(itemLoader->getItem(8), 1);
+	newObj = new Entity();
+	newObj->initialize(this, f, false);
+	//x->initialize(this, false);
+	newObj->setX(startLocation.x);
+	newObj->setY(startLocation.y);
+	drawManager->addObject(newObj, 2);
 	
 	//END SCENE
 	return;

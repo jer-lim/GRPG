@@ -3,6 +3,11 @@
 
 #include "item.h"
 
+namespace Smithing_MaterialNS{
+	const int smithingMaterialID[]{ 7, 8, 9, 10, 11, 12, 13 };//frame by index of id, id is the smithing material
+	const int smithingMaterialIDLength = 7;
+}
+
 class Smithing_Material : public Item
 {
 private:
@@ -26,6 +31,14 @@ public:
 	float getSpdMultiplier() { return spdMultiplier; }
 	void setSpdMultiplier(float i){ spdMultiplier = i; }
 
-	int getFrameNo();
+	int getSmithingMatFrameNo()
+	{//forced to dpulicate here because of LNK2019 and lack of time to fix it
+		for (int i = 0; i < Smithing_MaterialNS::smithingMaterialIDLength; ++i){//InventoryEquipmentNS::smithingMaterialIDLength
+			if (getID() == Smithing_MaterialNS::smithingMaterialID[i])//InventoryEquipmentNS::smithingMaterialID[i])
+				return i;
+		}
+	}
+
+	virtual string getType(){ return "SMITHING_MATERIAL"; }
 };
 #endif

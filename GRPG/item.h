@@ -91,5 +91,7 @@ public:
 
 	virtual int getCost() { return cost; }
 	virtual int getSellingCost() { return floor(cost / 10); }
+
+	virtual string getType(){ return "ITEM"; }
 };
 #endif

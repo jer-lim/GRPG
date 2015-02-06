@@ -26,5 +26,7 @@ public:
 	void setstrMultiplier(float i){ strMultiplier = i; }
 	float getspdMultiplier() { return spdMultiplier; }
 	void setspdMultiplier(float d){ spdMultiplier = d; }
+
+	virtual string getType(){ return "WEAPON"; }
 };
 #endif
