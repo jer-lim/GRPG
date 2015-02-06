@@ -4,6 +4,8 @@
 //  Student Number:     S10132161H
 //  Student Name:       Jeremy Lim
 //  Student Number:     s10122326F
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
 
 #ifndef _ENTITY_H               // Prevent multiple definitions if this 
 #define _ENTITY_H               // file is included in more than one place

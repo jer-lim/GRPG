@@ -1,3 +1,8 @@
+// Module: Games Programming
+// Assignment 2: GRPG
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
+
 #ifndef _FOOD_H			         // Prevent multiple definitions if this 
 #define _FOOD_H		             // file is included in more than one place
 

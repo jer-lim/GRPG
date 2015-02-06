@@ -4,6 +4,8 @@
 //  Student Number:     S10132161H
 //  Student Name:       Jeremy Lim
 //  Student Number:     s10122326F
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
 
 #include "game.h"
 #include "drawManager.h"

@@ -1,3 +1,9 @@
+// Module: Games Programming
+// Assignment 2: GRPG
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
+//DEPRECIATED, ONLY USED FOR REFERENCE
+
 #ifndef _INTERACTBLE_H
 #define _INTERACTBLE_H
 

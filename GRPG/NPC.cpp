@@ -1,3 +1,8 @@
+//  Module:             Games Programming
+//  Assignment2:        GRPG
+//  Student Name:       Jeremy Choo
+//  Student Number:     s10132161
+
 #include "NPC.h"
 #include "PersonLoader.h"
 #include "drawManager.h"

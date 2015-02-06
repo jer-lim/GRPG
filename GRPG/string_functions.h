@@ -1,3 +1,10 @@
+//  Module:             Games Programming
+//  Assignment2:        GRPG
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
+// Student Name: Jeremy Lim
+// Student Number: S10122326F
+
 #ifndef _STRING_FX_H                 // Prevent multiple definitions if this 
 #define _STRING_FX_H                 // file is included in more than one place
 

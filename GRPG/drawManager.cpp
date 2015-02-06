@@ -2,6 +2,8 @@
 // Assignment 2: GRPG
 // Student Name: Jeremy Lim
 // Student Number: S10122326F
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
 
 #include "drawManager.h"
 #include "Viewport.h"

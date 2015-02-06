@@ -2,6 +2,8 @@
 //  Assignment2:        GRPG
 //  Student Name:       Jeremy Choo
 //  Student Number:     S10132161H
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
 
 #include "UI.h"
 #include <map>

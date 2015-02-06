@@ -1,3 +1,8 @@
+//  Module:             Games Programming
+//  Assignment2:        GRPG
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
+
 #ifndef pkupBEHAVIOR_H
 #define pkupBEHAVIOR_H
 

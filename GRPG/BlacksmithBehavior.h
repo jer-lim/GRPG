@@ -1,3 +1,7 @@
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
+// NOT IMPLEMENTED DUE TO LACK OF TIME, MEANT TO BE SMITHING
+
 #ifndef BLACKSMITHBEHAVIOR_H
 #define BLACKSMITHBEHAVIOR_H
 
