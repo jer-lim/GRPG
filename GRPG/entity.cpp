@@ -259,7 +259,7 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 	}
 	if (invItem->getItem()->getID() == 30){//Aidil's eyes
 		//teleport to credits
-		teleportBehavior = new TeleportBehavior(((Grpg*)gamePtr)->getPlayer(), ((Grpg*)gamePtr)->getMapLoader(), this, gamePtr, 'z');
+		teleportBehavior = new TeleportBehavior(((Grpg*)gamePtr)->getPlayer(), ((Grpg*)gamePtr)->getMapLoader(), this, gamePtr, '=');
 	}
 	setupVectorActiveBehaviors();
 
