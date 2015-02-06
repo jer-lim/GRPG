@@ -4,6 +4,8 @@
 //  Student Number:     s10132161
 //  Student Name:       Jeremy Lim
 //  Student Number:     s10122326F
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677G
 
 #ifndef _GAME_H                 // Prevent multiple definitions if this 
 #define _GAME_H                 // file is included in more than one place

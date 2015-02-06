@@ -1,6 +1,11 @@
 #ifndef EATBEHAVIOR_H
 #define EATBEHAVIOR_H
 
+// Module: Games Programming
+// Assignment 2: GRPG
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
+
 #include "Behavior.h"
 #include "entity.h"
 class Player;

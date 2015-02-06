@@ -2,6 +2,9 @@
 //  Assignment2:        GRPG
 //  Student Name:       Jeremy Choo
 //  Student Number:     s10132161
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
+//  Student Name:       Jeremy Lim
 
 //MATTSCAN: LIKELIHOOD OF MEMORY LEAK: NO WAY
 

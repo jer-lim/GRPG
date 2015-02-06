@@ -1,3 +1,8 @@
+// Module: Games Programming
+// Assignment 2: GRPG
+//  Student Name:       Matthew Lee
+//  Student Number:     s10128677
+
 #ifndef _GAMEEVENT_DAMAGE_H                 // Prevent multiple definitions if this 
 #define _GAMEEVENT_DAMAGE_H                 // file is included in more than one place
 
