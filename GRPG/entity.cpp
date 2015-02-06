@@ -16,6 +16,7 @@
 #include "grpg.h"
 #include "SoundManager.h"
 #include "InventoryEquipment.h"
+//#include "Smithing_Material.h"
 
 namespace entityNS
 {
@@ -299,8 +300,12 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 			}
 		}
 		else if (inventoryItem->getType() == "INVENTORYEQUIPMENT")
-		{
+		{//equipment
 			image.setCurrentFrame(((InventoryEquipment*)inventoryItem)->getFrameNo());
+		}
+		else if (inventoryItem->getItem()->getType() == "SMITHING_MATERIAL")
+		{//smithing material
+			image.setCurrentFrame(((Smithing_Material*)inventoryItem->getItem())->getSmithingMatFrameNo());
 		}
 	}
 }
@@ -726,6 +731,10 @@ void Entity::update(float frameTime, Game* gamePtr)
 		else if (inventoryItem->getType() == "INVENTORYEQUIPMENT")
 		{
 			image.setCurrentFrame(((InventoryEquipment*)inventoryItem)->getFrameNo());
+		}
+		else if (inventoryItem->getItem()->getType() == "SMITHING_MATERIAL")
+		{//smithing material
+			image.setCurrentFrame(((Smithing_Material*)inventoryItem->getItem())->getSmithingMatFrameNo());
 		}
 	}
 }

@@ -25,6 +25,7 @@
 #include "CookBehavior.h"
 #include "Button.h"
 #include "Inventory.h"
+#include "Smithing_Material.h"
 
 class AttackBehavior;
 class PickupBehavior;
