@@ -1,5 +1,6 @@
 #include "Smithing_Material.h"
 #include "InventoryItem.h"
+#include "InventoryEquipment.h"
 
 int Smithing_Material::getFrameNo()
 {
