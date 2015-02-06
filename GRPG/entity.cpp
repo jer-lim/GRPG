@@ -12,6 +12,7 @@
 #include "TalkBehavior.h"
 #include "TeleportBehavior.h"
 #include "HealBehavior.h"
+#include "UpdateQuestsBehavior.h"
 #include "grpg.h"
 #include "SoundManager.h"
 #include "InventoryEquipment.h"
@@ -79,6 +80,7 @@ Entity::~Entity()
 	SAFE_DELETE(sellBehavior);
 	SAFE_DELETE(teleportBehavior);
 	SAFE_DELETE(stoveBehavior);
+	SAFE_DELETE(updateQuestsBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{
@@ -183,6 +185,10 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			if (((NPC*)whichCharacter)->getname() == "Doctor")
 			{
 				healBehavior = new HealBehavior(grpgPointer->getPlayer(), (NPC*)whichCharacter, this);
+			}
+			if (((NPC*)whichCharacter)->getname() == "Quest Board")
+			{
+				updateQuestsBehavior = new UpdateQuestsBehavior(grpgPointer, grpgPointer->getQuestLoader(),this, grpgPointer->getPlayer(), grpgPointer->getUI());
 			}
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());

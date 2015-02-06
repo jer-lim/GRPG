@@ -14,13 +14,15 @@ class UpdateQuestsBehavior :public Behavior
 {
 private:
 	QuestLoader* questLoader;
+	Entity* entity;
 	Player* player;
 	UI* ui;
 	Grpg* grpg;
 public:
-	UpdateQuestsBehavior(Grpg* game,QuestLoader* ql, Player* pl, UI* u){
+	UpdateQuestsBehavior(Grpg* game,QuestLoader* ql,Entity* e, Player* pl, UI* u){
 		grpg = game;
 		questLoader = ql;
+		entity = e;
 		player = pl;
 		ui = u;
 	}

@@ -179,6 +179,9 @@ class Entity : public Destination//, public Interactable
 	  Behavior* fishBehavior = nullptr; //Fishing
 	  Behavior* mineBehavior = nullptr; //Mining
 
+	  //Others
+	  Behavior* updateQuestsBehavior = nullptr;
+
     // Constructor
     Entity();
     // Destructor
@@ -391,6 +394,8 @@ class Entity : public Destination//, public Interactable
 	void setupVectorActiveBehaviors()
 	{//Must be in order, as they will be displayed in this order 
 		vectorActiveBehaviors.clear();
+		if (updateQuestsBehavior)
+			vectorActiveBehaviors.push_back(updateQuestsBehavior);
 		if (stoveBehavior)
 			vectorActiveBehaviors.push_back(stoveBehavior);
 		if (buyBehavior)

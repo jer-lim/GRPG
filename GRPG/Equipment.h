@@ -30,9 +30,9 @@ public:
 	void setCostMultiplier(float i){ costMultiplier = i; }
 	DWORD getEquipmentSlot() { return equipmentSlot; }
 	void setEquipmentSlot(DWORD d){ equipmentSlot = d; }
-	bool occupiesHand(){ return equipmentSlot & 4 != 0x000; }//4 -> 100
-	bool occupiesOffhand(){ return equipmentSlot & 2 != 0x000; }//2 -> 010
-	bool occupiesBody(){ return equipmentSlot & 1 != 0x000; }// 1 -> 001
+	bool occupiesHand(){ return (equipmentSlot & 4) != 0x0; }//4 -> 100
+	bool occupiesOffhand(){ return (equipmentSlot & 2) != 0x0; }//2 -> 010
+	bool occupiesBody(){ return (equipmentSlot & 1) != 0x0; }// 1 -> 001
 
 	//Smithing_Material* getSmithingMaterial() { return material; }
 	//void setSmithingMaterial(Smithing_Material* mat){ material = mat; }
