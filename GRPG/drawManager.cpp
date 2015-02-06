@@ -105,7 +105,7 @@ void DrawManager::updateAll(float frameTime){
 	}
 	catch (...)
 	{
-
+		gamePtr->setMouseOverEntity(nullptr);
 	}
 }
 
