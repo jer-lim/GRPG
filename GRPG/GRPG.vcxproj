@@ -134,6 +134,9 @@
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Smithing_Material.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A78524C-B15C-4EAA-994D-AF0B5E1BEBAE}</ProjectGuid>
     <RootNamespace>GRPG</RootNamespace>

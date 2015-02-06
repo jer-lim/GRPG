@@ -18,11 +18,14 @@ public:
 		defMultiplier = de;
 		spdMultiplier = spd;
 	}
+
 	float getStrMultiplier() { return strMultiplier; }
 	void setStrMultiplier(float i){ strMultiplier = i; }
 	float getDefMultiplier() { return defMultiplier; }
 	void setDefMultiplier(float i){ defMultiplier = i; }
 	float getSpdMultiplier() { return spdMultiplier; }
 	void setSpdMultiplier(float i){ spdMultiplier = i; }
+
+	int getFrameNo();
 };
 #endif
