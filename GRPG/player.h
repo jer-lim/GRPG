@@ -134,6 +134,11 @@ public:
 	//If true, player is facing left, otherwise facing right
 	virtual void startFishing(bool flip);
 
+	//Starts the player mining
+	//flip defines if the player's avatar should be flipped horizontally
+	//If true, player is facing left, otherwise facing right
+	virtual void startMining(bool flip);
+
 	virtual float getDamageReduction(){
 		if (getInventory()->getSlotBody() == nullptr)
 			return 1;

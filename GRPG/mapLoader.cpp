@@ -345,6 +345,10 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 			t = new Resource(tileId);
 			((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 		}
+		else if (tileset[tileId].type == tileNS::type::MININGSPOT) {
+			t = new Resource(tileId);
+			((Resource*)t)->initialize(gamePtr, resourceNS::MINING, textureManager);
+		}
 		else if (tileset[tileId].type == tileNS::type::SPAWNER){
 			t = new Spawner(tileId, gamePtr, tileset[tileId].spawnId, tileset[tileId].spawnCooldown, 0);
 			//runtimeLog << "Created spawner1" << endl;
@@ -593,7 +597,7 @@ void MapLoader::update(float frameTime){
 					}
 					else if(newTileInfo.type == tileNS::type::MININGSPOT){
 						t = new Resource(newTileId);
-						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
+						((Resource*)t)->initialize(gamePtr, resourceNS::MINING, textureManager);
 						//runtimeLog << "Created Mining2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 					}

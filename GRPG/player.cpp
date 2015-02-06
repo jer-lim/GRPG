@@ -166,6 +166,25 @@ void Player::update(float frameTime, Game* gamePtr)
 						restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
 					}
 				}
+				else if (currentAction == resourceNS::MINING)
+				{
+					InventoryItem* ore = new InventoryFood(game->getItemLoader()->getItem(7), 1, RAW);
+					Entity* e = new Entity();
+					e->initialize(game, ore, false);//anchored if its in an inventory (like it is now)
+					//inventory->addEntityInventoryItem(e);
+					e->setX(x);
+					e->setY(y);
+					theGame->getDrawManager()->addObject(e, 2);
+					e->getTopMostBehavior()->action();
+
+					skills[skillNS::ID_SKILL_MINING].gainXP(30);
+
+					//Check if activity can continue
+					if (inventory->hasSpaceInInventory())
+					{
+						restartCounter(playerNS::miningWaitTime, skills[skillNS::ID_SKILL_MINING].getSkillLevel());
+					}
+				}
 			}
 		}
 	}
@@ -205,6 +224,27 @@ void Player::startFishing(bool flip)
 	{
 		currentAction = resourceNS::FISHING;
 		restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+	}
+	else
+	{
+		game->getUI()->addChatText("Your inventory is full!");
+	}
+}
+
+//=============================================================================
+//Starts the player mining
+//flip defines if the player's avatar should be flipped horizontally
+//If true, player is facing left, otherwise facing right
+//=============================================================================
+void Player::startMining(bool flip)
+{
+	image.flipHorizontal(flip);
+
+	//Check if activity can continue
+	if (inventory->hasSpaceInInventory())
+	{
+		currentAction = resourceNS::MINING;
+		restartCounter(playerNS::miningWaitTime, skills[skillNS::ID_SKILL_MINING].getSkillLevel());
 	}
 	else
 	{

@@ -390,6 +390,11 @@ bool Grpg::processCommand(std::string command)
 		player->startFishing(false);
 		return true;
 	}
+	else if (command == "mine")
+	{
+		player->startMining(false);
+		return true;
+	}
 	else if (command.substr(0, 2) == "tp")
 	{
 		std::string location = command.substr(3);
