@@ -2,6 +2,8 @@
 //  Assignment2:        GRPG
 //  Student Name:       Jeremy Choo
 //  Student Number:     s10132161
+//  Student Name:       Jeremy Lim
+//  Student Number:     s10122326F
 
 #include "game.h"
 #include "drawManager.h"
