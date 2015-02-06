@@ -2,6 +2,8 @@
 //  Assignment2:        GRPG
 //  Student Name:       Jeremy Choo
 //  Student Number:     S10132161H
+//  Student Name:       Jeremy Lim
+//  Student Number:     s10122326F
 
 #ifndef _ENTITY_H               // Prevent multiple definitions if this 
 #define _ENTITY_H               // file is included in more than one place
@@ -400,6 +402,8 @@ class Entity : public Destination//, public Interactable
 	void setupVectorActiveBehaviors()
 	{//Must be in order, as they will be displayed in this order 
 		vectorActiveBehaviors.clear();
+		if (pickupBehavior)
+			vectorActiveBehaviors.push_back(pickupBehavior);
 		if (updateQuestsBehavior)
 			vectorActiveBehaviors.push_back(updateQuestsBehavior);
 		if (stoveBehavior)
@@ -410,8 +414,6 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(sellBehavior);
 		if (eatBehavior)
 			vectorActiveBehaviors.push_back(eatBehavior);
-		if (pickupBehavior)
-			vectorActiveBehaviors.push_back(pickupBehavior);
 		if (cookBehavior)//must come under pickup
 			vectorActiveBehaviors.push_back(cookBehavior);
 		if (dropBehavior)

@@ -43,61 +43,67 @@ DrawManager::~DrawManager(){
 }
 
 void DrawManager::updateAll(float frameTime){
-
-	if (gamePtr->getMouseOverEntity() != nullptr)
-	{	//check if mouse is still over the entity we identified
-		if (!gamePtr->getMouseOverEntity()->mouseInside(viewport))
-		{
-			gamePtr->setMouseOverEntity(nullptr);
-		}
-	}
-
-	for (map<int, map<int, ManagedObject*>>::reverse_iterator it = objects.rbegin(); it != objects.rend(); ++it){
-		int zi = it->first;
-		for (map<int, ManagedObject*>::reverse_iterator it2 = objects[zi].rbegin(); it2 != objects[zi].rend(); ++it2){
-			if (it2->second->entity != nullptr)
+	try
+	{
+		if (gamePtr->getMouseOverEntity() != nullptr)
+		{	//check if mouse is still over the entity we identified
+			if (!gamePtr->getMouseOverEntity()->mouseInside(viewport))
 			{
-				it2->second->entity->update(frameTime, gamePtr);
-				if (gamePtr->getMouseOverEntity() == nullptr)
-				{//if don't have an existing mouse over
-					if (it2->second->entity->getPerson() != Person::thePlayer)
-					{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
-						if (it2->second->entity->getType() == "UI")
-						{//check inventory items							
-							if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
-							{
-								map<int, Entity*>* slotList = ((Grpg*)gamePtr)->getPlayer()->getInventory()->getSlotList();
-								for (std::map<int, Entity*>::iterator it3 = slotList->begin(); it3 != slotList->end(); ++it3)
+				gamePtr->setMouseOverEntity(nullptr);
+			}
+		}
+
+		for (map<int, map<int, ManagedObject*>>::reverse_iterator it = objects.rbegin(); it != objects.rend(); ++it){
+			int zi = it->first;
+			for (map<int, ManagedObject*>::reverse_iterator it2 = objects[zi].rbegin(); it2 != objects[zi].rend(); ++it2){
+				if (it2->second->entity != nullptr)
+				{
+					it2->second->entity->update(frameTime, gamePtr);
+					if (gamePtr->getMouseOverEntity() == nullptr)
+					{//if don't have an existing mouse over
+						if (it2->second->entity->getPerson() != Person::thePlayer)
+						{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
+							if (it2->second->entity->getType() == "UI")
+							{//check inventory items							
+								if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
 								{
-									if (it3->second->mouseInside(viewport))
+									map<int, Entity*>* slotList = ((Grpg*)gamePtr)->getPlayer()->getInventory()->getSlotList();
+									for (std::map<int, Entity*>::iterator it3 = slotList->begin(); it3 != slotList->end(); ++it3)
 									{
-										gamePtr->setMouseOverEntity(it3->second);
+										if (it3->second->mouseInside(viewport))
+										{
+											gamePtr->setMouseOverEntity(it3->second);
+											break;
+										}
+									}
+								}
+								//Check shop items
+								vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
+								for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+								{
+									Entity* theItem = *it3;
+									if (theItem->mouseInside(viewport))
+									{
+										gamePtr->setMouseOverEntity(theItem);
 										break;
 									}
 								}
 							}
-							//Check shop items
-							vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
-							for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+							else if (it2->second->entity->mouseInside(viewport))
 							{
-								Entity* theItem = *it3;
-								if (theItem->mouseInside(viewport))
-								{
-									gamePtr->setMouseOverEntity(theItem);
-									break;
-								}
+								gamePtr->setMouseOverEntity(it2->second->entity);
+								break;
 							}
-						}
-						else if (it2->second->entity->mouseInside(viewport))
-						{
-							gamePtr->setMouseOverEntity(it2->second->entity);
-							break;
 						}
 					}
 				}
+				else it2->second->image->update(frameTime);
 			}
-			else it2->second->image->update(frameTime);
 		}
+	}
+	catch (...)
+	{
+
 	}
 }
 
