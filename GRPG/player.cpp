@@ -196,7 +196,7 @@ void Player::update(float frameTime, Game* gamePtr)
 					{
 						itemToGet = 13;
 					}
-					InventoryItem* ore = new InventoryItem(game->getItemLoader()->getItem(itemToGet), 1, RAW);
+					InventoryItem* ore = new InventoryItem(game->getItemLoader()->getItem(itemToGet), 1);
 					Entity* e = new Entity();
 					e->initialize(game, ore, false);//anchored if its in an inventory (like it is now)
 					//inventory->addEntityInventoryItem(e);
