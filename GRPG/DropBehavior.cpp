@@ -9,6 +9,8 @@
 
 void DropBehavior::action(){
 	drawManager->addObject(entity, 1);
+	SAFE_DELETE(entity->sellBehavior);
+	entity->setupVectorActiveBehaviors();
 	player->getInventory()->removeEntityInventoryItem(entity,(Grpg*)gamePtr);//remove from inventory
 
 	//Already deleted inside removeEntityInventoryItem
