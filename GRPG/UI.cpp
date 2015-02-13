@@ -244,11 +244,12 @@ void UI::draw(Viewport* viewport)
 		if (items.size() > 0)
 		{
 			//Draw the text at the bottom first
-			VECTOR2 shopNoteLocation = VECTOR2(windowImage.getX(),
+			//Don't draw for now cause graphics is ripped from RuneScape
+			/*VECTOR2 shopNoteLocation = VECTOR2(windowImage.getX(),
 				windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder - shopImage.getHeight()/2);
 			shopImage.setX(shopNoteLocation.x);
 			shopImage.setY(shopNoteLocation.y);
-			shopImage.draw();
+			shopImage.draw();*/
 
 			VECTOR2 coordinates = VECTOR2(windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin,
 										windowImage.getY() - windowImage.getHeight() / 2 + uiNS::shopTMargin);
