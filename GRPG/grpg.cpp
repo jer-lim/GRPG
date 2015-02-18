@@ -139,7 +139,7 @@ void Grpg::initialize(HWND hwnd)
 	//ml free
 	//Object test
 	//CRIME SCENE
-	*/
+	*//*
 	InventoryItem* x = new InventoryItem(itemLoader->getItem(0), 100);
 	Entity* newObj = new Entity();
 	newObj->initialize(this, x, false);
@@ -163,7 +163,7 @@ void Grpg::initialize(HWND hwnd)
 	newObj->setX(startLocation.x);
 	newObj->setY(startLocation.y);
 	drawManager->addObject(newObj, 2);
-	
+	*/
 	//END SCENE
 	return;
 }
