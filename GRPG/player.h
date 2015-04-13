@@ -48,12 +48,6 @@ private:
 
 	Grpg* game;
 
-	//Talking variables
-	std::string textMessage;
-	TextDX* fontToUse;
-	float timeLeft;
-	VECTOR2 textSize;
-
 	float regenerationDelay;
 
 	// The current action of the player, if skilling
@@ -94,10 +88,6 @@ public:
 	void setNearStove(bool r) { nearStove = r; }
 
 	// Specific player functions
-
-	// Causes the player message to appear right above the player for a period of time,
-	// using the specified font
-	virtual void sayMessage(std::string message, TextDX* font);
 
     // inherited member functions
 	virtual void draw(Viewport* viewport);

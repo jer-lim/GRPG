@@ -133,6 +133,12 @@ class Entity : public Destination//, public Interactable
 	//Inventory for both players and friendlies
 	Inventory* inventory;
 
+	//Talking variables
+	std::string textMessage;
+	TextDX* fontToUse;
+	float timeLeft;
+	VECTOR2 textSize;
+
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
@@ -343,6 +349,10 @@ class Entity : public Destination//, public Interactable
 
 	// Draws the Entity onto the screen
 	virtual void draw(Viewport* viewport);
+
+	// Causes the player message to appear right above the entity for a period of time,
+	// using the specified font
+	virtual void sayMessage(std::string message, TextDX* font);
 
     // Empty ai function to allow Entity objects to be instantiated.
     virtual void ai(float frameTime, Entity &ent);

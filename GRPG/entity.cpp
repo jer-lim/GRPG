@@ -422,6 +422,22 @@ void Entity::draw(Viewport* viewport)
 			entityNS::splatText.print(ss.str(), newX, newY);
 		}
 	}
+
+	//Draw the text right above it
+	if (timeLeft > 0)
+	{
+		VECTOR2 vpCoords = viewport->translate(getX(), getY());
+
+		//Save the old font colour, and print in black
+		DWORD oldColor = fontToUse->getFontColor();
+		fontToUse->setFontColor(graphicsNS::BLACK);
+
+		fontToUse->print(textMessage,
+			vpCoords.x - textSize.x / 2,		//Make text center on top of player
+			vpCoords.y - playerNS::HEIGHT / 2);
+
+		fontToUse->setFontColor(oldColor);
+	}
 }
 
 //=============================================================================
@@ -652,7 +668,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 							map <int, PlayerSkill>* skills = ((Player*)this)->getSkills();
 							int strLevel = skills->at(skillNS::ID_SKILL_STRENGTH).getSkillLevel();
 							strLevel *= getDamageMultiplier();//apply weapon bonus
-							int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(),strLevel);
+							int damageDealt = victim->damage(skills->at(skillNS::ID_SKILL_ATTACK).getSkillLevel(), strLevel);
 							//We're obviously not going to implement combat styles so I'll just pump everything.
 							skills->at(skillNS::ID_SKILL_ATTACK).gainXP(damageDealt * 4);
 							skills->at(skillNS::ID_SKILL_DEFENSE).gainXP(damageDealt * 4);
@@ -747,7 +763,32 @@ void Entity::update(float frameTime, Game* gamePtr)
 			image.setCurrentFrame(((Smithing_Material*)inventoryItem->getItem())->getSmithingMatFrameNo());
 		}
 	}
+
+	//For talking text
+	timeLeft -= frameTime;
 }
+
+//=============================================================================
+// sayMessage
+// Causes the message to appear right above the player, using the specified font
+//=============================================================================
+void Entity::sayMessage(std::string message, TextDX* font)
+{
+	textMessage = message;
+	fontToUse = font;
+	timeLeft = playerNS::textTimeDisplay;
+	// Calculate the text side
+	RECT* textRect = new RECT();
+	textRect->left = 0;
+	textRect->top = 0;
+	//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
+	font->print(textMessage, *textRect, DT_CALCRECT);
+	textSize.x = textRect->right;
+	textSize.y = textRect->bottom;
+	delete textRect;
+	//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162498%28v=vs.85%29.aspx
+}
+
 
 //=============================================================================
 // ai (artificial intelligence)

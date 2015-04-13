@@ -52,6 +52,7 @@
     <ClCompile Include="updateQuestsBehavior.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="MineBehavior.cpp" />
+    <ClCompile Include="StealBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -124,6 +125,7 @@
     <ClInclude Include="GameEventManager.h" />
     <ClInclude Include="QuestLoader.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="StealBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

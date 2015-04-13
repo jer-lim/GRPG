@@ -66,6 +66,7 @@
     <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spawner.h" />
+    <ClInclude Include="StealBehavior.h" />
     <ClInclude Include="StoveMoveBehavior.h" />
     <ClInclude Include="string_functions.h" />
     <ClInclude Include="TalkBehavior.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="StealBehavior.cpp" />
     <ClCompile Include="StoveMoveBehavior.cpp" />
     <ClCompile Include="TalkBehavior.cpp" />
     <ClCompile Include="TeleportBehavior.cpp" />

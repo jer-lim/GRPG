@@ -32,31 +32,12 @@ Player::Player() : Entity()
 	skills[skillNS::ID_SKILL_FISHING] = PlayerSkill(this, Skill::FISHING);
 	skills[skillNS::ID_SKILL_COOKING] = PlayerSkill(this, Skill::COOKING);
 	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
+	skills[skillNS::ID_SKILL_THIEVING] = PlayerSkill(this, Skill::THIEVING);
 	
 	//Start off toughness at a good level
 	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(11), true);
 
 	nearStove = false;
-}
-//=============================================================================
-// sayMessage
-// Causes the message to appear right above the player, using the specified font
-//=============================================================================
-void Player::sayMessage(std::string message, TextDX* font)
-{
-	textMessage = message;
-	fontToUse = font;
-	timeLeft = playerNS::textTimeDisplay;
-	// Calculate the text side
-	RECT* textRect = new RECT();
-	textRect->left = 0;
-	textRect->top = 0;
-	//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
-	font->print(textMessage, *textRect, DT_CALCRECT);
-	textSize.x = textRect->right;
-	textSize.y = textRect->bottom;
-	delete textRect;
-	//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162498%28v=vs.85%29.aspx
 }
 
 //=============================================================================
@@ -89,22 +70,6 @@ bool Player::initialize(Game *gamePtr)
 void Player::draw(Viewport* viewport)
 {
 	Entity::draw(viewport);
-
-	//Draw the text right above it
-	if (timeLeft > 0)
-	{
-		VECTOR2 vpCoords = viewport->translate(getX(), getY());
-
-		//Save the old font colour, and print in black
-		DWORD oldColor = fontToUse->getFontColor();
-		fontToUse->setFontColor(graphicsNS::BLACK);
-
-		fontToUse->print(textMessage, 
-			vpCoords.x - textSize.x/2,		//Make text center on top of player
-			vpCoords.y - playerNS::HEIGHT / 2);
-
-		fontToUse->setFontColor(oldColor);
-	}
 
 	//Show that the player is fishing 
 	if (actionDelay > 0)
@@ -150,7 +115,6 @@ void Player::update(float frameTime, Game* gamePtr)
 		game->getUI()->removeWindow();
 	}
 
-	timeLeft -= frameTime;
 	if (actionDelay > 0)
 	{
 		actionDelay -= frameTime;
