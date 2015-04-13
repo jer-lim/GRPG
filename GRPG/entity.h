@@ -57,6 +57,9 @@ namespace entityNS
 	extern Image hit;
 	extern TextDX splatText;
 	const float splatTime = 1.2;
+
+	//The font used to print the messages above the entity's head
+	extern TextDX messageFont;
 }
 
 /*
@@ -135,10 +138,8 @@ class Entity : public Destination//, public Interactable
 
 	//Talking variables
 	std::string textMessage;
-	TextDX* fontToUse;
 	float timeLeft;
 	VECTOR2 textSize;
-
 
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
@@ -169,7 +170,7 @@ class Entity : public Destination//, public Interactable
 		return ((float)rand() / (RAND_MAX));
 	}
 
-	void takeDamage(int atk, int str, int def);
+	int calculateDamage(int atk, int str, int def);
 
   public:
 	  //Behaviors
@@ -181,6 +182,7 @@ class Entity : public Destination//, public Interactable
 	  Behavior* teleportBehavior = nullptr;
 	  Behavior* healBehavior = nullptr;
 	  Behavior* stoveBehavior = nullptr;
+	  Behavior* stealBehavior = nullptr;
 	  //Enemy
 	  Behavior* attackBehavior = nullptr;//Attack name -> perform attack
 	  //Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
@@ -350,9 +352,8 @@ class Entity : public Destination//, public Interactable
 	// Draws the Entity onto the screen
 	virtual void draw(Viewport* viewport);
 
-	// Causes the player message to appear right above the entity for a period of time,
-	// using the specified font
-	virtual void sayMessage(std::string message, TextDX* font);
+	// Causes the player message to appear right above the entity for a period of time
+	virtual void sayMessage(std::string message);
 
     // Empty ai function to allow Entity objects to be instantiated.
     virtual void ai(float frameTime, Entity &ent);
@@ -367,6 +368,11 @@ class Entity : public Destination//, public Interactable
 	// Pass in the other entity's attack and strength.
 	// Returns the amount of damage dealt.
     virtual int damage(int atk, int str);
+
+	// damage
+	// This entity has been damaged by another entity, taking non-negatable damage
+	// Pass in the damage dealt
+	virtual void damage(int damageTaken);
 
 	// Move towards a specific destination (Can be a Point or an Entity)
 	void move(Destination* d);
@@ -434,6 +440,8 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(talkBehavior);
 		if (attackBehavior)
 			vectorActiveBehaviors.push_back(attackBehavior);
+		if (stealBehavior)
+			vectorActiveBehaviors.push_back(stealBehavior);
 		if (fishBehavior)
 			vectorActiveBehaviors.push_back(fishBehavior);
 		if (mineBehavior)

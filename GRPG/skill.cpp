@@ -24,7 +24,7 @@ void Skill::setupAllSkills(){
 	FISHING = new Skill("Fishing", "Influences Fishing", 10);
 	COOKING = new Skill("Cooking", "Influences Cooking", 30);
 	MINING = new Skill("Mining", "Influences Mining", 10);
-	THIEVING = new Skill("Thieving", "Be quick enough to pilfer small items from others, whether friendly or hostile, so long as they are not too alert.", 10);
+	THIEVING = new Skill("Thieving", "Be quick enough to pilfer small items from others, whether friendly or hostile, so long as they are not too alert.", 30);
 }
 
 Skill::Skill(){}

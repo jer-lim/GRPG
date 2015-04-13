@@ -17,12 +17,12 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 	//Friendly Characters
 	characterstream.open(friendlynpcDataLocation);
 	if (characterstream.is_open()){
-		string name, img_filename, description, talk, dropsData;
+		string name, img_filename, description, talk, dropsData, stealsData;
 		char tileID;
-		int id, cols;
+		int id, cols, sl;
 		float movementspd, attackcd, height, width, colHeight, colWidth;
 		while (!characterstream.eof()){
-			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> height >> width >> cols >> colHeight >> colWidth >> description >> talk >> tileID >> dropsData;
+			characterstream >> id >> name >> img_filename >> movementspd >> attackcd >> height >> width >> cols >> colHeight >> colWidth >> description >> talk >> tileID >> dropsData >> stealsData >> sl;
 			std::replace(name.begin(), name.end(), '_', ' ');
 			std::replace(description.begin(), description.end(), '_', ' ');
 			std::replace(talk.begin(), talk.end(), '_', ' ');
@@ -63,7 +63,23 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 				}
 			}
 
-			NPC* myChar = new NPC(img_filename, movementspd, attackcd, height, width, cols, colHeight, colWidth, name, description, 9999, false, dropsList);//almost infinite health
+			//Get steal items data
+			vector<Item*>* stealList = nullptr;
+
+			stealsData.erase(stealsData.begin());
+			stealsData.erase(stealsData.end() - 1);
+			if (stealsData.size() > 0)
+			{
+				stealList = new vector<Item*>();
+				Item* iPtr;
+				vector<string> vector_stealData = String_Functions::split(stealsData, ',');
+				for (int i = 0, l = vector_stealData.size(); i < l; ++i)
+				{
+					stealList->push_back(itemLoader->getItem(atoi(vector_stealData[i].c_str())));
+				}
+			}
+
+			NPC* myChar = new NPC(img_filename, movementspd, attackcd, height, width, cols, colHeight, colWidth, name, description, 9999, false, dropsList, stealList, sl);//almost infinite health
 			myChar->setTalkText(talk);
 			myChar->setTeleportID(tileID);
 			map_npcs[id] = myChar;

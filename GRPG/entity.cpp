@@ -21,6 +21,7 @@
 #include "TalkBehavior.h"
 #include "TeleportBehavior.h"
 #include "HealBehavior.h"
+#include "StealBehavior.h"
 #include "UpdateQuestsBehavior.h"
 #include "grpg.h"
 #include "SoundManager.h"
@@ -32,6 +33,7 @@ namespace entityNS
 	Image miss = Image();
 	Image hit = Image();
 	TextDX splatText = TextDX();
+	TextDX messageFont = TextDX();
 }
 
 //=============================================================================
@@ -91,6 +93,7 @@ Entity::~Entity()
 	SAFE_DELETE(teleportBehavior);
 	SAFE_DELETE(stoveBehavior);
 	SAFE_DELETE(updateQuestsBehavior);
+	SAFE_DELETE(stealBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{
@@ -199,6 +202,10 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			if (((NPC*)whichCharacter)->getname() == "Quest Board")
 			{
 				updateQuestsBehavior = new UpdateQuestsBehavior(grpgPointer, grpgPointer->getQuestLoader(),this, grpgPointer->getPlayer(), grpgPointer->getUI());
+			}
+			if (((NPC*)whichCharacter)->getStealItemsList() != nullptr)
+			{
+				stealBehavior = new StealBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this, grpgPointer);
 			}
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
@@ -428,15 +435,9 @@ void Entity::draw(Viewport* viewport)
 	{
 		VECTOR2 vpCoords = viewport->translate(getX(), getY());
 
-		//Save the old font colour, and print in black
-		DWORD oldColor = fontToUse->getFontColor();
-		fontToUse->setFontColor(graphicsNS::BLACK);
-
-		fontToUse->print(textMessage,
+		entityNS::messageFont.print(textMessage,
 			vpCoords.x - textSize.x / 2,		//Make text center on top of player
 			vpCoords.y - playerNS::HEIGHT / 2);
-
-		fontToUse->setFontColor(oldColor);
 	}
 }
 
@@ -772,17 +773,16 @@ void Entity::update(float frameTime, Game* gamePtr)
 // sayMessage
 // Causes the message to appear right above the player, using the specified font
 //=============================================================================
-void Entity::sayMessage(std::string message, TextDX* font)
+void Entity::sayMessage(std::string message)
 {
 	textMessage = message;
-	fontToUse = font;
 	timeLeft = playerNS::textTimeDisplay;
 	// Calculate the text side
 	RECT* textRect = new RECT();
 	textRect->left = 0;
 	textRect->top = 0;
 	//Note: DT_CALCRECT only sets the rectangle size but does not end up actually drawing the text
-	font->print(textMessage, *textRect, DT_CALCRECT);
+	entityNS::messageFont.print(textMessage, *textRect, DT_CALCRECT);
 	textSize.x = textRect->right;
 	textSize.y = textRect->bottom;
 	delete textRect;
@@ -1109,7 +1109,7 @@ bool Entity::outsideRect(RECT rect)
     return false;
 }
 
-void Entity::takeDamage(int atk, int str, int def)
+int Entity::calculateDamage(int atk, int str, int def)
 {
 	float attackerR = getRandomNumber();
 	float defenderR = getRandomNumber();
@@ -1129,8 +1129,7 @@ void Entity::takeDamage(int atk, int str, int def)
 	{
 		damageTaken = 0;
 	}
-	splatTime = entityNS::splatTime;
-	health -= damageTaken;
+	return damageTaken;
 }
 
 //=============================================================================
@@ -1141,13 +1140,30 @@ void Entity::takeDamage(int atk, int str, int def)
 //=============================================================================
 int Entity::damage(int atk, int str)
 {
-	takeDamage(atk, str, ((Enemy*)person)->getdefenseLv());
+	damageTaken = calculateDamage(atk, str, ((Enemy*)person)->getdefenseLv());
+	//Just in case of death, so we have something to return
+	int oldDamage = damageTaken;
+	damage(damageTaken);
+
+	return oldDamage;
+}
+
+//=============================================================================
+// damage
+// This entity has been damaged by another entity, taking non-negatable damage
+// Pass in the damage dealt
+//=============================================================================
+void Entity::damage(int dt)
+{
+	splatTime = entityNS::splatTime;
+	health -= dt;
+	damageTaken = dt;
+
 	resetAvailableHealth(oldViewport);
 	displayTime = entityNS::healthDisplay;
 	availableHealth->setVisible(true);
 	backHealth->setVisible(true);
-	//Just in case of death, so we have something to return
-	int oldDamage = damageTaken;
+
 	if (health <= 0)
 	{
 		//drop loot
@@ -1166,7 +1182,6 @@ int Entity::damage(int atk, int str)
 	else
 		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, false));
 	//delete gameEvent;//deleted inside the informListeners event
-	return oldDamage;
 }
 
 //=============================================================================

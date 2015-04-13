@@ -210,7 +210,21 @@ void Player::update(float frameTime, Game* gamePtr)
 int Player::damage(int atk, int str)
 {
 	str *= getDamageReduction();
-	takeDamage(atk, str, skills[skillNS::ID_SKILL_DEFENSE].getSkillLevel());
+	damage(calculateDamage(atk, str, skills[skillNS::ID_SKILL_DEFENSE].getSkillLevel()));
+	return damageTaken;
+}
+
+//=============================================================================
+// damage
+// This entity has been damaged by another entity, taking non-negatable damage
+// Pass in the damage dealt
+//=============================================================================
+void Player::damage(int dt)
+{
+	damageTaken = dt;
+	splatTime = entityNS::splatTime;
+	health -= damageTaken;
+
 	if (health <= 0)
 	{
 		game->getUI()->addChatText("You died!");
@@ -219,7 +233,6 @@ int Player::damage(int atk, int str)
 		health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
 		//TODO: Strip all items from player
 	}
-	return damageTaken;
 }
 
 //=============================================================================

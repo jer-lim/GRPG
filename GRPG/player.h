@@ -99,6 +99,11 @@ public:
 	// Returns the amount of damage dealt.
 	virtual int damage(int atk, int str);
 
+	// damage
+	// This entity has been damaged by another entity, taking non-negatable damage
+	// Pass in the damage dealt
+	virtual void damage(int damageTaken);
+
 	// Displays the text that will be shown when the mouse is over it
 	// Overrides the Entity function so that nothing is shown on mouse over the player
 	virtual string view() { return ""; }

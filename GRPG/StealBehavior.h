@@ -13,6 +13,7 @@ using namespace std;
 class NPC;//Entity imports enemy which is a subclass if NPC, so circular loop inbound
 class UI;
 class Player;
+class Grpg;
 class Entity;
 
 class StealBehavior : public Behavior
@@ -22,13 +23,15 @@ private:
 	UI* ui;
 	Player* thePlayer;
 	Entity* entity; //The entity to steal from
+	Grpg* grpg;
 public:
 	virtual ~StealBehavior() {}
-	StealBehavior(NPC* i, UI* u, Player* p, Entity* e){
+	StealBehavior(NPC* i, UI* u, Player* p, Entity* e, Grpg* g){
 		ii = i;
 		ui = u;
 		thePlayer = p;
 		entity = e;
+		grpg = g;
 	}
 	virtual bool exists(){ return false; }
 	virtual string displayText();

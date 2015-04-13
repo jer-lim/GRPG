@@ -29,13 +29,15 @@ private:
 	//Which tile to teleport to. 0 means none
 	char teleportTIleID;
 	vector<InventoryItem*>* shopItemsList;
+	vector<Item*>* stealItemsList;
+	int stealLevel;
 
 	bool isEnemy;
 
 public:
 
 	NPC() : Person() {}
-	NPC(string i, float mov, float atk, float h, float w, int cols, int colHeight, int colWidth, string nama, string desc, int maxhp, bool enemy, vector<InventoryItem*>* shopItems)
+	NPC(string i, float mov, float atk, float h, float w, int cols, int colHeight, int colWidth, string nama, string desc, int maxhp, bool enemy, vector<InventoryItem*>* shopItems, vector<Item*>* stealItems, int sl)
 		: Person(i, mov, atk, h, w, cols, colHeight, colWidth)
 	{
 		name = nama;
@@ -45,6 +47,8 @@ public:
 		talkText = "";
 		teleportTIleID = '0';
 		shopItemsList = shopItems;
+		stealItemsList = stealItems;
+		stealLevel = sl;
 	}
 	~NPC(){
 		if (shopItemsList != nullptr)
@@ -56,6 +60,12 @@ public:
 			shopItemsList->clear();
 			SAFE_DELETE(shopItemsList);
 		}
+		if (stealItemsList != nullptr)
+		{
+			//Items are handled and deleted by ItemLoader.
+			stealItemsList->clear();
+			SAFE_DELETE(stealItemsList);
+		}
 	}
 
 	static Entity* spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim = nullptr);
@@ -63,6 +73,7 @@ public:
 	string getname() { return name; }
 	string getdescription() { return description; }
 	int getmaxhealth() { return maxHealth; }
+	int getStealLevel() { return stealLevel; }
 
 	bool getIsEnemy() { return isEnemy; }
 	string getTalkText() { return talkText; }
@@ -72,6 +83,7 @@ public:
 	void setTeleportID(char t) { teleportTIleID = t; }
 	virtual string getType() { return "NPC"; }
 	vector<InventoryItem*>* getShopItemsList(){ return shopItemsList; }
+	vector<Item*>* getStealItemsList(){ return stealItemsList; }
 	vector<InventoryItem*> getShopItemsListCopy(){
 		vector<InventoryItem*> shopList;
 		if (shopItemsList != nullptr)

@@ -458,7 +458,7 @@ bool UI::processCommand(const std::string commandStr)
 
 	// Valid message, add it to the chat message line
 	addChatText(commandStr);
-	player->sayMessage(commandStr, uiText);
+	player->sayMessage(commandStr);
 	return false;								// return command
 }
 
