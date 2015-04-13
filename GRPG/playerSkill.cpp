@@ -6,6 +6,8 @@
 #include "playerSkill.h"
 #include <cmath>
 #include <sstream>
+#include "player.h"
+#include "UI.h"
 
 //=============================================================================
 // default constructor
@@ -50,10 +52,27 @@ int PlayerSkill::getSkillLevel()
 	return 99;
 }
 
-void PlayerSkill::gainXP(long XP)
+void PlayerSkill::gainXP(long XP, bool skip)
 {
+	int currentSkillLevel = getSkillLevel();
 	if (XP != -1)
 		experience += XP;
 	else
 		experience += skill->getExpGain();
+
+	if (!skip)
+	{
+		if (currentSkillLevel < getSkillLevel())
+		{
+			int difference = getSkillLevel() - currentSkillLevel;
+			stringstream ss;
+			ss << "Congratulations! You have just achieved " << difference << " more level";
+			if (difference > 1)
+			{
+				ss << "s";
+			}
+			ss << " in " << skill->getName();
+			thePlayer->getUI()->addChatText(ss.str());
+		}
+	}
 }

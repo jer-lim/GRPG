@@ -34,7 +34,7 @@ Player::Player() : Entity()
 	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
 	
 	//Start off toughness at a good level
-	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(11));
+	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(11), true);
 
 	nearStove = false;
 }
@@ -308,4 +308,9 @@ void Player::startMining(bool flip)
 void Player::restartCounter(int startingTime, int skilLevel)
 {
 	actionDelay += startingTime - (skilLevel * 0.1);
+}
+
+UI* Player::getUI()
+{
+	return game->getUI();
 }

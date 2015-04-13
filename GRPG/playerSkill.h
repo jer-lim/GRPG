@@ -55,6 +55,9 @@ public:
 	int getSkillLevel();
 
 	// inherited member functions
-	void gainXP(long xp = -1);
+	// Adds the specified amount of xp to the skill
+	// IF XP is -1, adds the default amount of xp. -1 by default.
+	// Skip::Whether to display the level up message if a level up occurs. False by default.
+	void gainXP(long xp = -1, bool skip = false);
 };
 #endif

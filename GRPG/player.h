@@ -193,6 +193,8 @@ public:
 	}
 
 	virtual string getType(){ return "PLAYER"; }
+
+	UI* getUI();
 };
 #endif
 
