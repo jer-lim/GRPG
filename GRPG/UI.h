@@ -23,6 +23,7 @@ namespace uiNS
 	const int X = GAME_WIDTH - WIDTH / 2;   // location on screen
 	const int Y = GAME_HEIGHT - HEIGHT / 2;
 	const int textSize = 20;
+	const int skillsSize = 17;
 
 	const int COMBATSTYLE = 1;
 	const int SKILLS = 2;
@@ -65,6 +66,8 @@ namespace uiNS
 	// Margins between shop items
 	const int shopWMargin = 6;
 	const int shopHMargin = 15;
+
+	const int skillsPerColumn = 7;
 }
 
 // inherits from Entity class
@@ -75,6 +78,7 @@ private:
 	//GENERAL UI VARIABLES
 	Game* game;
 	TextDX* uiText;
+	TextDX* skillsText;
 	Player* player; //Pointer to player to retrieve information about them
 	Input* input; //The input system
 

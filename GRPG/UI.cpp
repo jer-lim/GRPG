@@ -25,6 +25,7 @@ UI::UI() : Entity()
 	collisionType = entityNS::NONE;
 	image.setFrameDelay(1);
 	uiText = new TextDX();
+	skillsText = new TextDX();
 	tabTexture = new TextureManager();
 	uiImgTexture = new TextureManager();
 	windowTexture = new TextureManager();
@@ -42,6 +43,7 @@ UI::~UI()
 {
 	onLostDevice();
 	SAFE_DELETE(uiText);
+	SAFE_DELETE(skillsText);
 	SAFE_DELETE(tabTexture);
 	SAFE_DELETE(uiImgTexture);
 	SAFE_DELETE(windowTexture);
@@ -65,6 +67,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	// 15 pixel high Arial
 	if (uiText->initialize(graphics, uiNS::textSize, false, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
+	if (skillsText->initialize(graphics, uiNS::skillsSize, false, false, "Arial") == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Skills font"));
 
 	//init texture
 	if (!tabTexture->initialize(graphics, TAB_IMAGE))
@@ -93,6 +97,7 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 
 	//Also white cause background black
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
+	skillsText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
 
 	//Initalize the health bar
 	if (!health.initialize(graphics, uiNS::chatWidth, GAME_HEIGHT - uiNS::healthHeight, uiNS::healthWidth, uiNS::healthHeight, uiNS::noHealthColor, ""))
@@ -331,15 +336,17 @@ void UI::drawTabContents(int tabNumber)
 	}
 	else if (tabNumber == uiNS::SKILLS)
 	{
-		float heightAllowed = uiNS::HEIGHT / 7; //We have 7 skills
+		float heightAllowed = uiNS::HEIGHT / uiNS::skillsPerColumn;
+		float skillsWidth = getX() - topLeftX;
 		map<int, PlayerSkill>* playerSkills = player->getSkills();
 		map<int, PlayerSkill>::iterator it;
 		stringstream skillLevel;
+		int counter = 0;
 		for (it = playerSkills->begin(); it != playerSkills->end(); it++)
 		{
 			//Print the skill text at the center of each location, with 5 px margin: left;
-			uiText->print(it->second.getSkill()->getName(),
-				topLeftX + 5, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
+			skillsText->print(it->second.getSkill()->getName(),
+				topLeftX + 5, topLeftY);
 			//Check skill level and append a 0 in front if needed
 			if (it->second.getSkillLevel() < 10)
 			{
@@ -350,12 +357,31 @@ void UI::drawTabContents(int tabNumber)
 				skillLevel << it->second.getSkillLevel();
 			}
 			//Print level
-			uiText->print(skillLevel.str() + "/99",
-				getX() + 40, topLeftY + heightAllowed / 2 - (uiNS::textSize / 2));
+			//Draw it at the right, aligned bottom
+			// Calculate the text side
+			RECT* textRect = new RECT();
+			textRect->left = topLeftX + 5;
+			textRect->top = topLeftY;
+
+			textRect->right = textRect->left + skillsWidth  - 20; //20 for margin cause the skills background at the right
+																	//does have some space that should not be printed on
+			textRect->bottom = topLeftY + heightAllowed;
+
+			//Align level bottom right
+			skillsText->print(skillLevel.str() + "/99", *textRect, DT_BOTTOM | DT_RIGHT | DT_SINGLELINE);
+
+			delete textRect;
 
 			skillLevel.str("");
 
 			topLeftY += heightAllowed;
+			
+			counter++;
+			if (counter == 7)
+			{
+				topLeftY = getTopLeftY();// getY() - uiNS::HEIGHT / 2;
+				topLeftX = getX();
+			}
 		}
 		//playerSkills = nullptr;
 	}
