@@ -36,6 +36,7 @@ namespace playerNS
 	const float startingRegnerationTime = 60;
 	const float fishingWaitTime = 10;
 	const float miningWaitTime = 10;
+	const float thievinWaitTime = 3;
 }
 
 class Grpg;
@@ -62,6 +63,9 @@ private:
 	TextureManager* tm;
 	Image miningImage;
 	TextureManager* mm;
+
+	//Thieving stun
+	float thievingCooldown;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
@@ -143,6 +147,13 @@ public:
 	//flip defines if the player's avatar should be flipped horizontally
 	//If true, player is facing left, otherwise facing right
 	virtual void startMining(bool flip);
+
+	//Starts the thieving cooldown
+	//The player cannot perform any action during this time
+	virtual void failThieving() { thievingCooldown = playerNS::thievinWaitTime; }
+
+	//Returns true if the player is currently stunned due to a failed thieve, false otherwise
+	virtual bool hasFailedThieve() { return thievingCooldown > 0; }
 
 	virtual float getDamageReduction(){
 		if (getInventory()->getSlotBody() == nullptr)

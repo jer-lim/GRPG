@@ -12,7 +12,7 @@
 string StealBehavior::displayText(){ return "Steal from " + ii->getname(); }
 void StealBehavior::action(){
 	VECTOR2 collisionVector;
-	if (entity->collidesWith(*thePlayer, collisionVector))
+	if (entity->collidesWith(*thePlayer, collisionVector) && !thePlayer->hasFailedThieve())
 	{
 		int stealLevel = ii->getStealLevel();
 		int playerStealLevel = thePlayer->getSkills()->at(skillNS::ID_SKILL_THIEVING).getSkillLevel();
@@ -65,6 +65,9 @@ void StealBehavior::action(){
 				entity->sayMessage("Hey! What's your hand doing in my pocket?");
 				//Minimum 2 damage
 				((Entity*)thePlayer)->damage(max(2, thePlayer->getHealth() / 10));
+				ui->addChatText("You've been stunned momentarily and cannot move");
+				thePlayer->releaseDestination();
+				thePlayer->failThieving();
 			}
 		}
 	}

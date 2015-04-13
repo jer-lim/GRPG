@@ -14,7 +14,7 @@ string HealBehavior::displayText(){
 void HealBehavior::action()
 {
 	VECTOR2 collisionVector;
-	if (guyDoingHealing->collidesWith(*player, collisionVector))
+	if (guyDoingHealing->collidesWith(*player, collisionVector) && !player->hasFailedThieve())
 	{
 		player->setHealth(player->getSkills()->at(skillNS::ID_SKILL_TOUGHNESS).getSkillLevel());
 	}

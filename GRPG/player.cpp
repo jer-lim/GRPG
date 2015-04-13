@@ -105,6 +105,18 @@ void Player::update(float frameTime, Game* gamePtr)
 		regenerationDelay += playerNS::startingRegnerationTime;
 	}
 
+	if (thievingCooldown > 0)
+	{
+		thievingCooldown -= frameTime;
+		if (destination != nullptr || victim != nullptr)
+		{
+			//Can't do anything yet
+			game->getUI()->addChatText("You're stunned!");
+			releaseDestination();
+			victim = nullptr;
+		}
+	}
+
 	Entity::update(frameTime, gamePtr);
 	//Stop fishing, mining and cooking if you're doing something else
 	if (destination != nullptr || victim != nullptr)
