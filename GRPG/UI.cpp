@@ -350,6 +350,7 @@ void UI::draw(Viewport* viewport)
 			for (int i = 0; i < chatText.size(); i++)
 			{
 				textRect->top = startTop;
+				textRect->bottom = startTop + chatText[i]->getHeightTaken();
 
 				if (chatText[i]->getType() == chatNS::INFORMATIONTYPE)
 				{
@@ -371,7 +372,7 @@ void UI::draw(Viewport* viewport)
 					uiText->print(ci->getText(), *textRect, formatSpecifier);
 				}
 
-				startTop += chatText[i]->getHeightTaken();
+				startTop += chatText[i]->getHeightTaken() + uiNS::chatMargin;
 			}
 			delete textRect;
 		}
