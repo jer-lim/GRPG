@@ -17,6 +17,7 @@
     <ClInclude Include="BlacksmithBehavior.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="BuyBehavior.h" />
+    <ClInclude Include="ChatData.h" />
     <ClInclude Include="CookBehavior.h" />
     <ClInclude Include="Cooker.h" />
     <ClInclude Include="DropBehavior.h" />

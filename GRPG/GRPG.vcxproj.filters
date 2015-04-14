@@ -126,6 +126,7 @@
     <ClInclude Include="QuestLoader.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StealBehavior.h" />
+    <ClInclude Include="ChatData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

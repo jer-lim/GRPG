@@ -15,6 +15,7 @@
 #include "Behavior.h"
 #include "BuyBehavior.h"
 #include "SellBehavior.h"
+#include "ChatData.h"
 
 namespace uiNS
 {
@@ -57,6 +58,10 @@ namespace uiNS
 	//The border of the window
 	const int windowLeftBorder = 6;
 	const int windowBottomBorder = 7;
+	//The margin given for chat (applies on both left and right)
+	const int windowLRMargin = 15;
+	//The margin applied bettween chatting text
+	const int chatMargin = 20;
 
 	//Coordindates for shop
 	const int shopColMax = 12;
@@ -121,6 +126,8 @@ private:
 	Entity* coin;		//Track player's coin and perform changes
 	TextureManager* shopTexture;
 	Image shopImage;
+	// The list of chat text displayed in the window during chat
+	vector<ChatData*> chatText; 
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -187,10 +194,23 @@ public:
 		windowHeader = header;
 	}
 
-	// Removes the shop window, if any, is being drawn on the screen
-	virtual void removeWindow() 
+	//Adds a new talking text for during a chatting window
+	//The drawWindow function MUST have been called previously and up, otherwise nothing will be shown
+	//Remember that if the player moves, the window is automatically set to disappear, so take note of that
+	//You may want to do stuff like reset the conversation
+	//ChatData can be either a ChatInformation for talking or a ChatDecision for a decision required by the player
+	virtual void addTalkText(ChatData* text)
 	{
-		windowHeader = ""; 
+		text->calculateHeightTaken(uiText, windowImage.getWidth() - uiNS::windowLRMargin - uiNS::windowLRMargin);
+		chatText.push_back(text);
+	}
+
+	// Removes the shop window, if any, is being drawn on the screen
+	// Also removes all sell behavior from items in the shop, if required
+	// As well as clearing the chat data
+	virtual void removeWindow()
+	{
+		windowHeader = "";
 		items.clear();
 		//Remove sell behavior if required
 		vector<Entity*> playerInventory = player->getInventory()->getVectorItems();
@@ -200,6 +220,12 @@ public:
 			SAFE_DELETE(theItem->sellBehavior);
 			theItem->setupVectorActiveBehaviors();
 		}
+		//Remove text in chat if required
+		for (int i = 0; i < chatText.size(); i++)
+		{
+			delete chatText[i];
+		}
+		chatText.clear();
 	}
 
 	virtual void setShopItems(vector<Entity* > i);

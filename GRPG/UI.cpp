@@ -41,6 +41,12 @@ UI::UI() : Entity()
 //=============================================================================
 UI::~UI()
 {
+	//Remove text in chat if required
+	for (int i = 0; i < chatText.size(); i++)
+	{
+		delete chatText[i];
+	}
+	chatText.clear();
 	onLostDevice();
 	SAFE_DELETE(uiText);
 	SAFE_DELETE(skillsText);
@@ -295,6 +301,80 @@ void UI::draw(Viewport* viewport)
 				ss << "\n" << "Quest is currently not finished.";
 			uiText->print(ss.str(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder*4 - shopImage.getHeight() / 2);
 		}
+		//Display conversation, if any
+		else if (chatText.size() > 0)
+		{
+			//Find out how much of the window we can work with
+			float heightGiven = windowImage.getHeight() - uiNS::windowXHeight - uiNS::windowBottomBorder;
+			float widthGiven = windowImage.getWidth() - uiNS::windowLRMargin - uiNS::windowLRMargin;
+
+			//Marks if the remaining text will no longer fit, no need to display any more
+			//-1: Not yet, everything's good.
+			//A number: the chatText in this number, and everything before it, will no longer fit
+			int abortNo = -1;
+
+			for (int i = chatText.size() - 1; i >= 0; i--)
+			{
+				if (abortNo != -1)
+				{
+					delete chatText[i];
+				}
+				else
+				{
+					heightGiven -= chatText[i]->getHeightTaken();
+					heightGiven -= uiNS::chatMargin;
+
+					if (heightGiven < 0)
+					{
+						//Not going to work out, abort this line and everything after it
+						delete chatText[i];
+						abortNo = i;
+					}
+				}
+			}
+			//Remove all deleted items, if any
+			if (abortNo != -1)
+			{
+				chatText.erase(chatText.begin(), chatText.begin() + abortNo);
+			}
+
+			//Now begin the drawing
+			float startLeft = windowImage.getX() - windowImage.getWidth() / 2 + uiNS::windowLRMargin;
+			float startTop = windowImage.getY() - windowImage.getHeight() / 2 + uiNS::windowXHeight;
+			float startRight = windowImage.getX() + windowImage.getWidth() / 2 - uiNS::windowLRMargin;
+
+			RECT* textRect = new RECT();
+			textRect->left = startLeft;
+			textRect->right = startRight;
+
+			for (int i = 0; i < chatText.size(); i++)
+			{
+				textRect->top = startTop;
+
+				if (chatText[i]->getType() == chatNS::INFORMATIONTYPE)
+				{
+					ChatInformation* ci = (ChatInformation*)chatText[i];
+					UINT formatSpecifier = DT_LEFT;
+					if (ci->getSide() == chatNS::LEFT)
+					{
+						formatSpecifier = DT_LEFT;
+					}
+					else if (ci->getSide() == chatNS::MIDDLE)
+					{
+						formatSpecifier = DT_CENTER;
+					}
+					else if (ci->getSide() == chatNS::RIGHT)
+					{
+						formatSpecifier = DT_RIGHT;
+					}
+
+					uiText->print(ci->getText(), *textRect, formatSpecifier);
+				}
+
+				startTop += chatText[i]->getHeightTaken();
+			}
+			delete textRect;
+		}
 	}
 
 	// Now draw the right click menu
@@ -302,7 +382,6 @@ void UI::draw(Viewport* viewport)
 	{
 		graphics->spriteEnd();
 		graphics->spriteBegin();
-
 		rightClickBackground.draw(uiText);
 	}
 }
