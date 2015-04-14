@@ -60,8 +60,8 @@ namespace uiNS
 	const int windowBottomBorder = 7;
 	//The margin given for chat (applies on both left and right)
 	const int windowLRMargin = 15;
-	//The margin applied bettween chatting text
-	const int chatMargin = 20;
+	//The margin applied between talking text
+	const int talkMargin = 10;
 
 	//Coordindates for shop
 	const int shopColMax = 12;

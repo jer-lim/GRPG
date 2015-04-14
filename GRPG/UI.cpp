@@ -305,7 +305,8 @@ void UI::draw(Viewport* viewport)
 		else if (chatText.size() > 0)
 		{
 			//Find out how much of the window we can work with
-			float heightGiven = windowImage.getHeight() - uiNS::windowXHeight - uiNS::windowBottomBorder;
+			//One talk margin will be applied once at the start for some space
+			float heightGiven = windowImage.getHeight() - uiNS::windowXHeight - uiNS::windowBottomBorder - uiNS::talkMargin;
 			float widthGiven = windowImage.getWidth() - uiNS::windowLRMargin - uiNS::windowLRMargin;
 
 			//Marks if the remaining text will no longer fit, no need to display any more
@@ -322,7 +323,7 @@ void UI::draw(Viewport* viewport)
 				else
 				{
 					heightGiven -= chatText[i]->getHeightTaken();
-					heightGiven -= uiNS::chatMargin;
+					heightGiven -= uiNS::talkMargin;
 
 					if (heightGiven < 0)
 					{
@@ -335,12 +336,12 @@ void UI::draw(Viewport* viewport)
 			//Remove all deleted items, if any
 			if (abortNo != -1)
 			{
-				chatText.erase(chatText.begin(), chatText.begin() + abortNo);
+				chatText.erase(chatText.begin(), chatText.begin() + abortNo + 1);
 			}
 
 			//Now begin the drawing
 			float startLeft = windowImage.getX() - windowImage.getWidth() / 2 + uiNS::windowLRMargin;
-			float startTop = windowImage.getY() - windowImage.getHeight() / 2 + uiNS::windowXHeight;
+			float startTop = windowImage.getY() - windowImage.getHeight() / 2 + uiNS::windowXHeight + uiNS::talkMargin;
 			float startRight = windowImage.getX() + windowImage.getWidth() / 2 - uiNS::windowLRMargin;
 
 			RECT* textRect = new RECT();
@@ -369,10 +370,10 @@ void UI::draw(Viewport* viewport)
 						formatSpecifier = DT_RIGHT;
 					}
 
-					uiText->print(ci->getText(), *textRect, formatSpecifier);
+					uiText->print(ci->getText(), *textRect, formatSpecifier | DT_WORDBREAK);
 				}
 
-				startTop += chatText[i]->getHeightTaken() + uiNS::chatMargin;
+				startTop += chatText[i]->getHeightTaken() + uiNS::talkMargin;
 			}
 			delete textRect;
 		}

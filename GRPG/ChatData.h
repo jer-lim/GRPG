@@ -81,7 +81,7 @@ public:
 		textRect->left = 0;
 		textRect->right = widthGiven;
 
-		font->print(chatText, *textRect, DT_CALCRECT);
+		font->print(chatText, *textRect, DT_CALCRECT | DT_WORDBREAK);
 
 		heightTaken = textRect->bottom;
 
