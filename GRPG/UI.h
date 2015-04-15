@@ -62,6 +62,8 @@ namespace uiNS
 	const int windowLRMargin = 15;
 	//The margin applied between talking text
 	const int talkMargin = 10;
+	// The delay between which each chat appears
+	const float talkDelay = 1;
 
 	//Coordindates for shop
 	const int shopColMax = 12;
@@ -128,6 +130,10 @@ private:
 	Image shopImage;
 	// The list of chat text displayed in the window during chat
 	vector<ChatData*> chatText; 
+	// The list of chat text that is about to be displayed in the chat window
+	vector<ChatData*> preChatText;
+	//Starts at uiNS::talkDelay, ticks down to 0, then displays next text. If -1, no text in queue
+	float chatTimer;
 	
 protected:
 	//Draws the specified tab number onto the screen on the correct location
@@ -202,7 +208,11 @@ public:
 	virtual void addTalkText(ChatData* text)
 	{
 		text->calculateHeightTaken(uiText, windowImage.getWidth() - uiNS::windowLRMargin - uiNS::windowLRMargin);
-		chatText.push_back(text);
+		preChatText.push_back(text);
+		if (chatTimer == -1)
+		{
+			chatTimer = 0;
+		}
 	}
 
 	// Removes the shop window, if any, is being drawn on the screen

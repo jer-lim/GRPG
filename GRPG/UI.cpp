@@ -47,6 +47,11 @@ UI::~UI()
 		delete chatText[i];
 	}
 	chatText.clear();
+	for (int i = 0; i < preChatText.size(); i++)
+	{
+		delete preChatText[i];
+	}
+	preChatText.clear();
 	onLostDevice();
 	SAFE_DELETE(uiText);
 	SAFE_DELETE(skillsText);
@@ -576,6 +581,23 @@ void UI::addChatText(const std::string &str)     // add text to console
 //=============================================================================
 void UI::update(float frameTime, Game* gamePtr)
 {
+	if (chatTimer != -1)
+	{
+		chatTimer -= frameTime;
+		while (chatTimer <= 0 && chatTimer != -1)
+		{
+			if (preChatText.size() == 0)
+			{
+				chatTimer = -1;
+			}
+			else
+			{
+				chatText.push_back(preChatText[0]);
+				preChatText.erase(preChatText.begin(), preChatText.begin()+1);
+				chatTimer += uiNS::talkDelay;
+			}
+		}
+	}	
 }
 
 
