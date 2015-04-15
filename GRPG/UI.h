@@ -230,12 +230,22 @@ public:
 			SAFE_DELETE(theItem->sellBehavior);
 			theItem->setupVectorActiveBehaviors();
 		}
+	}
+
+	//Deletes and removes all stored chat data in the UI, if any.
+	virtual void removeAllChatData()
+	{
 		//Remove text in chat if required
 		for (int i = 0; i < chatText.size(); i++)
 		{
 			delete chatText[i];
 		}
 		chatText.clear();
+		for (int i = 0; i < preChatText.size(); i++)
+		{
+			delete preChatText[i];
+		}
+		preChatText.clear();
 	}
 
 	virtual void setShopItems(vector<Entity* > i);

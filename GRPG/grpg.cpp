@@ -13,6 +13,7 @@
 #include "tile.h"
 #include "PersonLoader.h"
 #include <sstream>
+#include "ChatData.h"
 
 //=============================================================================
 // Constructor
@@ -91,6 +92,16 @@ void Grpg::initialize(HWND hwnd)
 	entityNS::splatText.setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
 	entityNS::messageFont.initialize(graphics, 20, true, false, "Arial");
 	entityNS::messageFont.setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
+
+	//Setup a generic YES/NO decision
+	chatNS::YESNO = ChatDecision(chatNS::HORIZONTALLY);
+	ChatOption cp, cp2;
+	cp.id = 1;
+	cp.text = "Yes";
+	cp2.id = 2;
+	cp2.text = "No";
+	chatNS::YESNO.addOption(cp);
+	chatNS::YESNO.addOption(cp2);
 
 	// initialize DirectX fonts
 	// 15 pixel high Arial
@@ -397,8 +408,10 @@ bool Grpg::processCommand(std::string command)
 	{
 		ui->drawWindow("Solomon's General Store");
 		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::MIDDLE));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
+		ui->addTalkText(chatNS::YESNO.generateCloneReference());
+		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
 		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
 		ui->addTalkText(new ChatInformation("Hello World!", chatNS::MIDDLE));
 		ui->addTalkText(new ChatInformation("Hello World!", chatNS::RIGHT));
@@ -408,6 +421,10 @@ bool Grpg::processCommand(std::string command)
 		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
 		ui->addTalkText(new ChatInformation("Hello World!", chatNS::MIDDLE));
 		ui->addTalkText(new ChatInformation("Hello World!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Hello World!", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("Hello World!", chatNS::RIGHT));
+		ui->addTalkText(chatNS::YESNO.generateCloneReference());
 		//ui->setShopItems(vector<Entity*>());
 		return true;
 	}

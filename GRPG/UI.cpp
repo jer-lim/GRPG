@@ -41,17 +41,7 @@ UI::UI() : Entity()
 //=============================================================================
 UI::~UI()
 {
-	//Remove text in chat if required
-	for (int i = 0; i < chatText.size(); i++)
-	{
-		delete chatText[i];
-	}
-	chatText.clear();
-	for (int i = 0; i < preChatText.size(); i++)
-	{
-		delete preChatText[i];
-	}
-	preChatText.clear();
+	removeAllChatData();
 	onLostDevice();
 	SAFE_DELETE(uiText);
 	SAFE_DELETE(skillsText);

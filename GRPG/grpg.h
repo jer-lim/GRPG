@@ -20,6 +20,7 @@
 #include "UI.h"
 #include "textDX.h"
 #include "Enemy.h"
+#include "ChatData.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 

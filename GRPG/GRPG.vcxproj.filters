@@ -53,6 +53,7 @@
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="MineBehavior.cpp" />
     <ClCompile Include="StealBehavior.cpp" />
+    <ClCompile Include="ChatData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
