@@ -45,7 +45,8 @@ namespace chatNS
 
 	extern ChatDecision YESNO;
 
-	const DWORD optionBackground = graphicsNS::BLUE;
+	const COLOR_ARGB optionBackground = graphicsNS::BLUE;
+	const int optionMargin = 5;
 }
 
 class ChatInformation : public ChatData
@@ -243,9 +244,9 @@ public:
 				//Calculate all 4 points for button
 				if (!options[i].background.initialize(graphics,
 					//X and Y: Calculate middle then reduce by half of text width and height
-					locationToDraw->left + ((locationToDraw->right - locationToDraw->left)/2) - (tempRect->right / 2),
+					locationToDraw->left + ((locationToDraw->right - locationToDraw->left)/2) - (tempRect->right / 2) - chatNS::optionMargin,
 					locationToDraw->top + ((locationToDraw->bottom - locationToDraw->top)/2) - (tempRect->bottom / 2),
-					tempRect->right, tempRect->bottom, SETCOLOR_ARGB(180, 255, 0, 0), ""))
+					tempRect->right + (chatNS::optionMargin*2) /* *2 for margin on both left and right */, tempRect->bottom, chatNS::optionBackground, ""))
 				{
 					throw new GameError(gameErrorNS::FATAL_ERROR, "Options background could not be initalized");
 				}
