@@ -340,33 +340,15 @@ void UI::draw(Viewport* viewport)
 			float startRight = windowImage.getX() + windowImage.getWidth() / 2 - uiNS::windowLRMargin;
 
 			RECT* textRect = new RECT();
-			textRect->left = startLeft;
-			textRect->right = startRight;
 
 			for (int i = 0; i < chatText.size(); i++)
 			{
 				textRect->top = startTop;
 				textRect->bottom = startTop + chatText[i]->getHeightTaken();
+				textRect->left = startLeft;
+				textRect->right = startRight;
 
-				if (chatText[i]->getType() == chatNS::INFORMATIONTYPE)
-				{
-					ChatInformation* ci = (ChatInformation*)chatText[i];
-					UINT formatSpecifier = DT_LEFT;
-					if (ci->getSide() == chatNS::LEFT)
-					{
-						formatSpecifier = DT_LEFT;
-					}
-					else if (ci->getSide() == chatNS::MIDDLE)
-					{
-						formatSpecifier = DT_CENTER;
-					}
-					else if (ci->getSide() == chatNS::RIGHT)
-					{
-						formatSpecifier = DT_RIGHT;
-					}
-
-					uiText->print(ci->getText(), *textRect, formatSpecifier | DT_WORDBREAK);
-				}
+				chatText[i]->draw(textRect, uiText);
 
 				startTop += chatText[i]->getHeightTaken() + uiNS::talkMargin;
 			}

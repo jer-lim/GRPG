@@ -23,6 +23,11 @@ public:
 	//given the specified font and the width allowed for the text
 	//You can tehn call getHeightTaken() to retrieve the result anytime.
 	virtual void calculateHeightTaken(TextDX* font, float widthGiven) = 0;
+
+	//Draws the text into the specificed rectangle with the specified font
+	//Note that textRect will change, and will likely end up being the RECT that was used to draw
+	//the last line of text of the chat
+	virtual void draw(RECT* textRect, TextDX* font) = 0;
 };
 
 namespace chatNS
@@ -95,6 +100,25 @@ public:
 		heightTaken = textRect->bottom;
 
 		delete textRect;
+	}
+
+	virtual void draw(RECT* textRect, TextDX* font)
+	{
+		UINT formatSpecifier = DT_LEFT;
+		if (side == chatNS::LEFT)
+		{
+			formatSpecifier = DT_LEFT;
+		}
+		else if (side == chatNS::MIDDLE)
+		{
+			formatSpecifier = DT_CENTER;
+		}
+		else if (side == chatNS::RIGHT)
+		{
+			formatSpecifier = DT_RIGHT;
+		}
+
+		font->print(chatText, *textRect, formatSpecifier | DT_WORDBREAK);
 	}
 };
 
@@ -187,6 +211,22 @@ public:
 		}
 		return cd;
 
+	}
+
+	virtual void draw(RECT* locationToDraw, TextDX* font)
+	{
+		if (displayType == chatNS::HORIZONTALLY)
+		{
+			float spaceGiven = (locationToDraw->right - locationToDraw->left) / options.size();
+			locationToDraw->right = locationToDraw->left + spaceGiven;
+			for (int i = 0; i < options.size(); i++)
+			{
+				font->print(options[i].text, *locationToDraw, DT_CENTER);
+				//Move the rectangle right by a little bit
+				locationToDraw->left = locationToDraw->right;
+				locationToDraw->right = locationToDraw->left + spaceGiven;
+			}
+		}
 	}
 };
 
