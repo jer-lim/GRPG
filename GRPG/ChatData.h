@@ -46,6 +46,7 @@ namespace chatNS
 	extern ChatDecision YESNO;
 
 	const COLOR_ARGB optionBackground = graphicsNS::BLUE;
+	const COLOR_ARGB optionDismissedBackground = SETCOLOR_ARGB(160, 0, 0, 160);
 	const int optionMargin = 5;
 }
 
@@ -140,11 +141,15 @@ private:
 	int displayType;
 	vector<ChatOption> options;
 	Graphics* graphics; // Reference required for drawing the background of every option
+	int optionChosen;
 public:
-	ChatDecision() {}
+	ChatDecision() {
+		optionChosen = -1;
+	}
 	ChatDecision(int dt)
 	{
 		displayType = dt;
+		optionChosen = -1;
 	}
 
 	virtual ~ChatDecision() {
@@ -237,16 +242,28 @@ public:
 			RECT* tempRect = new RECT();
 			tempRect->left = 0;
 			tempRect->top = 0;
+			COLOR_ARGB chosenColour;
 			for (int i = 0; i < options.size(); i++)
 			{
 				//Calculate how much space the font would take
 				font->print(options[i].text, *tempRect, DT_CALCRECT);
+				
+				//Sets colour correctly
+				if (optionChosen == -1 || optionChosen == i)
+				{
+					chosenColour = chatNS::optionBackground;
+				}
+				else
+				{
+					chosenColour = chatNS::optionDismissedBackground; 
+				}
+
 				//Calculate all 4 points for button
 				if (!options[i].background.initialize(graphics,
 					//X and Y: Calculate middle then reduce by half of text width and height
 					locationToDraw->left + ((locationToDraw->right - locationToDraw->left)/2) - (tempRect->right / 2) - chatNS::optionMargin,
 					locationToDraw->top + ((locationToDraw->bottom - locationToDraw->top)/2) - (tempRect->bottom / 2),
-					tempRect->right + (chatNS::optionMargin*2) /* *2 for margin on both left and right */, tempRect->bottom, chatNS::optionBackground, ""))
+					tempRect->right + (chatNS::optionMargin*2) /* *2 for margin on both left and right */, tempRect->bottom, chosenColour, ""))
 				{
 					throw new GameError(gameErrorNS::FATAL_ERROR, "Options background could not be initalized");
 				}
@@ -260,6 +277,35 @@ public:
 			}
 			delete tempRect;
 		}
+	}
+
+	//Checks if the player's mouse is currently over any option in this decision tree.
+	//If the player's mouse is over an option, then checks that option, dimming all other options.
+	//It will also remember this option, and return a reference to that ChatOption selected.
+	//All further calls to this method once an option has been chosen will ALWAYS return a nullptr no matter where the player's mouse currently is.
+	//If the player's mouse is currently not over an option then nullptr will be returned.
+	virtual ChatOption* checkMouseClick(float mouseX, float mouseY)
+	{
+		if (optionChosen != -1)
+		{
+			return nullptr;
+		}
+		for (int i = 0; i < options.size(); i++)
+		{
+			if (options[i].background.mouseOver(mouseX, mouseY))
+			{
+				//Mouse is over this option!
+				optionChosen = i;
+				break;
+			}
+		}
+
+		if (optionChosen == -1)
+		{
+			return nullptr;
+		}
+		
+		return &options[optionChosen];
 	}
 };
 

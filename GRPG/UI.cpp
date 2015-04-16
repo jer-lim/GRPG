@@ -642,6 +642,18 @@ bool UI::performClick()
 			removeWindow();
 			return true;
 		}
+		//Check for selection in options
+		for (int i = 0; i < chatText.size(); i++)
+		{
+			if (chatText[i]->getType() == chatNS::DECISIONTYPE)
+			{
+				ChatOption* co = ((ChatDecision*)chatText[i])->checkMouseClick(input->getMouseX(), input->getMouseY());
+				if (co != nullptr)
+				{
+					return true;
+				}
+			}
+		}
 	}
 
 	if (activeTab == uiNS::QUESTS)
