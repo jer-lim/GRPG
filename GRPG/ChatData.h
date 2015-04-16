@@ -4,6 +4,7 @@
 #include <string>
 #include "textDX.h"
 #include <vector>
+#include "Button.h"
 using namespace std;
 
 class ChatDecision;
@@ -43,6 +44,8 @@ namespace chatNS
 	const int HORIZONTALLY = 2;
 
 	extern ChatDecision YESNO;
+
+	const DWORD optionBackground = graphicsNS::BLUE;
 }
 
 class ChatInformation : public ChatData
@@ -126,6 +129,7 @@ struct ChatOption
 {
 	int id;
 	string text;
+	Button background;
 };
 
 class ChatDecision : public ChatData
@@ -134,11 +138,19 @@ private:
 	float heightTaken;
 	int displayType;
 	vector<ChatOption> options;
+	Graphics* graphics; // Reference required for drawing the background of every option
 public:
 	ChatDecision() {}
 	ChatDecision(int dt)
 	{
 		displayType = dt;
+	}
+
+	virtual ~ChatDecision() {
+		for (int i = 0; i < options.size(); i++)
+		{
+			options[i].background.destroy();
+		}
 	}
 
 	virtual int getType() { return chatNS::DECISIONTYPE; }
@@ -156,8 +168,10 @@ public:
 	virtual int getDisplayType() { return displayType; }
 	virtual void setDisplayType(int dt) { displayType = dt; }
 
+	virtual void setGraphics(Graphics* g) { graphics = g; }
+
 	//Returns the height the text inside will require in order to be printed
-	//Starts off at -1, unknown, requires calling of calculateHeightTAken to be set
+	//Starts off at -1, unknown, requires calling of calculateHeightTaken to be set
 	virtual float getHeightTaken()
 	{
 		return heightTaken;
@@ -219,13 +233,31 @@ public:
 		{
 			float spaceGiven = (locationToDraw->right - locationToDraw->left) / options.size();
 			locationToDraw->right = locationToDraw->left + spaceGiven;
+			RECT* tempRect = new RECT();
+			tempRect->left = 0;
+			tempRect->top = 0;
 			for (int i = 0; i < options.size(); i++)
 			{
+				//Calculate how much space the font would take
+				font->print(options[i].text, *tempRect, DT_CALCRECT);
+				//Calculate all 4 points for button
+				if (!options[i].background.initialize(graphics,
+					//X and Y: Calculate middle then reduce by half of text width and height
+					locationToDraw->left + ((locationToDraw->right - locationToDraw->left)/2) - (tempRect->right / 2),
+					locationToDraw->top + ((locationToDraw->bottom - locationToDraw->top)/2) - (tempRect->bottom / 2),
+					tempRect->right, tempRect->bottom, SETCOLOR_ARGB(180, 255, 0, 0), ""))
+				{
+					throw new GameError(gameErrorNS::FATAL_ERROR, "Options background could not be initalized");
+				}
+				graphics->spriteEnd();
+				graphics->spriteBegin();
+				options[i].background.draw();
 				font->print(options[i].text, *locationToDraw, DT_CENTER);
 				//Move the rectangle right by a little bit
 				locationToDraw->left = locationToDraw->right;
 				locationToDraw->right = locationToDraw->left + spaceGiven;
 			}
+			delete tempRect;
 		}
 	}
 };

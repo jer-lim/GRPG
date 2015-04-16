@@ -207,6 +207,10 @@ public:
 	//ChatData can be either a ChatInformation for talking or a ChatDecision for a decision required by the player
 	virtual void addTalkText(ChatData* text)
 	{
+		if (text->getType() == chatNS::DECISIONTYPE)
+		{
+			((ChatDecision*)text)->setGraphics(graphics);
+		}
 		text->calculateHeightTaken(uiText, windowImage.getWidth() - uiNS::windowLRMargin - uiNS::windowLRMargin);
 		preChatText.push_back(text);
 		if (chatTimer == -1)
@@ -230,6 +234,7 @@ public:
 			SAFE_DELETE(theItem->sellBehavior);
 			theItem->setupVectorActiveBehaviors();
 		}
+		removeAllChatData();
 	}
 
 	//Deletes and removes all stored chat data in the UI, if any.

@@ -32,7 +32,9 @@ private:
 	bool initialized;
 
 public:
-	Button() {}
+	Button() {
+		initialized = false;
+	}
 
 	//Destructor
 	void destroy(){

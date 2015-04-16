@@ -252,16 +252,16 @@ void UI::draw(Viewport* viewport)
 			//Draw the text at the bottom first
 			//Don't draw for now cause graphics is ripped from RuneScape
 			/*VECTOR2 shopNoteLocation = VECTOR2(windowImage.getX(),
-				windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder - shopImage.getHeight()/2);
+			windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder - shopImage.getHeight()/2);
 			shopImage.setX(shopNoteLocation.x);
 			shopImage.setY(shopNoteLocation.y);
 			shopImage.draw();*/
 
 			VECTOR2 coordinates = VECTOR2(windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin,
-										windowImage.getY() - windowImage.getHeight() / 2 + uiNS::shopTMargin);
+				windowImage.getY() - windowImage.getHeight() / 2 + uiNS::shopTMargin);
 			coordinates += VECTOR2(itemNS::spriteHeight / 2, itemNS::spriteWidth / 2);
 			int originalX = coordinates.x;
-			int count = 0; 
+			int count = 0;
 			stringstream ss;
 			for (vector<Entity* >::iterator it = items.begin(); it != items.end(); ++it)
 			{
@@ -273,7 +273,7 @@ void UI::draw(Viewport* viewport)
 				ss << "$" << theItem->getInventoryItem()->getCost();
 				//Draw price
 				uiText->print(ss.str(),
-					theItem->getX() - theItem->getImage()->getHeight()/2, theItem->getY() + theItem->getImage()->getHeight() / 2);
+					theItem->getX() - theItem->getImage()->getHeight() / 2, theItem->getY() + theItem->getImage()->getHeight() / 2);
 				coordinates.x += itemNS::spriteWidth + uiNS::shopWMargin;
 				if (++count % uiNS::shopColMax == 0)
 				{
@@ -294,7 +294,7 @@ void UI::draw(Viewport* viewport)
 				ss << "\n" << "Quest completed! Head to the Quest Board for your reward!";
 			else
 				ss << "\n" << "Quest is currently not finished.";
-			uiText->print(ss.str(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder*4 - shopImage.getHeight() / 2);
+			uiText->print(ss.str(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder * 4 - shopImage.getHeight() / 2);
 		}
 		//Display conversation, if any
 		else if (chatText.size() > 0)
@@ -481,6 +481,8 @@ void UI::drawTabContents(int tabNumber)
 	}
 	else if (tabNumber == uiNS::QUESTS)
 	{
+		graphics->spriteEnd();
+		graphics->spriteBegin();
 		uiText->print("Quests", topLeftX + 5, topLeftY + 5);
 		map<int, Quest*>* mapQuests = ((Grpg*)theGame)->getQuestLoader()->getMapQuests();
 		for (std::map<int, Quest*>::iterator it = mapQuests->begin(); it != mapQuests->end(); ++it)
