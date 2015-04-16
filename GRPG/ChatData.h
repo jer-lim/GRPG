@@ -5,6 +5,8 @@
 #include "textDX.h"
 #include <vector>
 #include "Button.h"
+#include "OptionNotifier.h"
+
 using namespace std;
 
 class ChatDecision;
@@ -56,7 +58,7 @@ private:
 	string chatText;
 	int side;
 	//The height the text inside will require in order to be printed
-	//Starts off at -1, unknown, requires calling of calculateHeightTAken to be set
+	//Starts off at -1, unknown, requires calling of calculateHeightTaken to be set
 	float heightTaken;
 public:
 	ChatInformation(){}
@@ -142,14 +144,17 @@ private:
 	vector<ChatOption> options;
 	Graphics* graphics; // Reference required for drawing the background of every option
 	int optionChosen;
+	OptionNotifier* caller;
 public:
 	ChatDecision() {
 		optionChosen = -1;
+		caller = nullptr;
 	}
 	ChatDecision(int dt)
 	{
 		displayType = dt;
 		optionChosen = -1;
+		caller = nullptr;
 	}
 
 	virtual ~ChatDecision() {
@@ -175,6 +180,8 @@ public:
 	virtual void setDisplayType(int dt) { displayType = dt; }
 
 	virtual void setGraphics(Graphics* g) { graphics = g; }
+
+	virtual void setCaller(OptionNotifier* whoToTell) { caller = whoToTell; }
 
 	//Returns the height the text inside will require in order to be printed
 	//Starts off at -1, unknown, requires calling of calculateHeightTaken to be set
@@ -284,6 +291,7 @@ public:
 	//It will also remember this option, and return a reference to that ChatOption selected.
 	//All further calls to this method once an option has been chosen will ALWAYS return a nullptr no matter where the player's mouse currently is.
 	//If the player's mouse is currently not over an option then nullptr will be returned.
+	//If an option was clicked, then the appropriate notifier will also be informed with the option.
 	virtual ChatOption* checkMouseClick(float mouseX, float mouseY)
 	{
 		if (optionChosen != -1)
@@ -303,6 +311,11 @@ public:
 		if (optionChosen == -1)
 		{
 			return nullptr;
+		}
+
+		if (caller != nullptr)
+		{
+			caller->optionSelected(options[optionChosen]);
 		}
 		
 		return &options[optionChosen];

@@ -29,6 +29,7 @@
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InventoryEquipment.h" />
     <ClInclude Include="MineBehavior.h" />
+    <ClInclude Include="OptionNotifier.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
     <ClInclude Include="constants.h" />
