@@ -1167,7 +1167,7 @@ void Entity::damage(int dt)
 	if (health <= 0)
 	{
 		//drop loot
-		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, true));
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, true, "", ""));
 		vector<InventoryItem*> vector_ii = ((Enemy*)person)->getDropsListCopy();
 		for (int i = 0, l = vector_ii.size(); i < l; ++i)
 		{

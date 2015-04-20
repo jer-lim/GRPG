@@ -23,7 +23,7 @@ void UpdateQuestsBehavior::action()
 		map<int, Quest*>* mapQuests = questLoader->getMapQuests();
 		//loop through quests
 		for (map<int, Quest*>::iterator it = mapQuests->begin(); it != mapQuests->end(); ++it){
-			if (it->second->getQuestCondition()->completed())
+			if (it->second->completed())
 			{//give reward
 				//create gold based on int yeah i'mlazy and out of time sue me
 				InventoryItem* x = new InventoryItem(grpg->getItemLoader()->getItem(0), it->second->getgold());
@@ -44,7 +44,7 @@ void UpdateQuestsBehavior::action()
 					//delete newObj;
 				}
 
-				it->second->getQuestCondition()->reset();//reset that quest has been completed
+				it->second->reset();//reset that quest has been completed
 				ui->addChatText("You have claimed your rewards for a quest!");
 				updated = true;
 			}

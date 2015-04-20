@@ -289,8 +289,8 @@ void UI::draw(Viewport* viewport)
 			uiText->print(displayedQuest->getdescript(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() - windowImage.getHeight() / 2 + uiNS::shopTMargin);
 			//draw number of times completed
 			stringstream ss;
-			ss << displayedQuest->getQuestCondition()->getCurrentCount() << " / " << displayedQuest->getQuestCondition()->getCountRequirement();
-			if (displayedQuest->getQuestCondition()->completed())
+			//ss << displayedQuest->getQuestCondition()->getCurrentCount() << " / " << displayedQuest->getQuestCondition()->getCountRequirement();
+			if (displayedQuest->completed())
 				ss << "\n" << "Quest completed! Head to the Quest Board for your reward!";
 			else
 				ss << "\n" << "Quest is currently not finished.";

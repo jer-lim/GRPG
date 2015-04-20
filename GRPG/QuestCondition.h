@@ -11,27 +11,76 @@
 #include "UI.h"
 #include <string>
 enum QUEST_UPDATE { NO_CHANGE, QUEST_SUCCESS, COMPLETED };
+
+struct GameEventStorage
+{
+	GameEvent* successGameEvent;
+	int countRequirement;
+	int currentCount;
+	string helpText;
+	GameEvent* prereq;
+};
+
 class QuestCondition
 {
 private:
-	GameEvent* successGameEvent;
-	int currentCount;
-	int countRequirement;
+	vector<GameEventStorage> conditions;
+
 public:
 	~QuestCondition(){
-		delete successGameEvent;
+		for (int i = 0; i < conditions.size(); i++)
+		{
+			delete conditions[i].successGameEvent;
+		}
 	}
-	QuestCondition(GameEvent* event,int timesRequired){
-		currentCount = 0;
-		successGameEvent = event;
-		countRequirement = timesRequired;
+	QuestCondition() {}
+
+	void addGameEventRequirement(GameEvent* event, int timesRequired, GameEvent* prereq)
+	{
+		GameEventStorage ges = GameEventStorage();
+		ges.successGameEvent = event;
+		ges.prereq = prereq;
+		ges.countRequirement = timesRequired;
+		ges.currentCount = 0;
+		ges.helpText = event->getBeforeText();
+		conditions.push_back(ges);
 	}
-	bool completed(){ return currentCount >= countRequirement; }
-	void reset(){
-		currentCount = 0;
+
+	bool completed()
+	{
+		for (int i = 0; i < conditions.size(); i++)
+		{
+			if (conditions[i].currentCount < conditions[i].countRequirement)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
-	int getCurrentCount(){ return currentCount; }
-	int getCountRequirement() { return countRequirement; }
+
+	void reset()
+	{
+		for (int i = 0; i < conditions.size(); i++)
+		{
+			conditions[i].currentCount = 0;
+		}
+	}
+
+	virtual string getFullHelpText()
+	{
+		string s;
+		for (int i = 0; i < conditions.size(); i++)
+		{
+			if (conditions[i].prereq == nullptr)
+			{
+				s += conditions[i].helpText;
+			}
+		}
+		return s;
+	}
+
+	//int getCurrentCount(){ return currentCount; }
+	//int getCountRequirement() { return countRequirement; }
 	int eventOccured(GameEvent* ge);
 };
 

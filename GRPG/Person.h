@@ -18,7 +18,7 @@ namespace PersonNS{
 	const int ID_NPC_DOCTOR = 0;
 	const int ID_NPC_GROCER = 1;
 	const int ID_NPC_BLACKSMITH = 2;
-
+		
 	const int ID_NPC_SKELETON = 3;
 	const int ID_NPC_SKELETON_KING = 4;
 	const int ID_NPC_GOBLIN = 5;

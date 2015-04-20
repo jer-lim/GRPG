@@ -129,6 +129,7 @@
     <ClInclude Include="StealBehavior.h" />
     <ClInclude Include="ChatData.h" />
     <ClInclude Include="OptionNotifier.h" />
+    <ClInclude Include="GameEvent_EntityAction.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

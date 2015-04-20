@@ -25,6 +25,7 @@
     <ClInclude Include="EquipBehavior.h" />
     <ClInclude Include="FishBehavior.h" />
     <ClInclude Include="GameEventManager.h" />
+    <ClInclude Include="GameEvent_EntityAction.h" />
     <ClInclude Include="HealBehavior.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InventoryEquipment.h" />
