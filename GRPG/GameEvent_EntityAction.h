@@ -34,7 +34,7 @@ public:
 	Person* getEntity() { return entity; }
 
 	virtual bool is(GameEvent* ge){
-		if (GameEvent::is(ge))
+		if (getType() == ge->getType())
 		{
 			if (getType() == ge->getType())
 			{

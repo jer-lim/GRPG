@@ -9,6 +9,8 @@
 #include "constants.h"
 #include "Quest.h"
 #include "GameEventManager.h"
+#include "GameEvent.h"
+#include "GameEvent_EntityAction.h"
 #include "GameEvent_Damage.h"
 #include <fstream>
 #include <iostream>

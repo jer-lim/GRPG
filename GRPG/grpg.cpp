@@ -404,6 +404,9 @@ bool Grpg::processCommand(std::string command)
 		pro = true;
 		return true;
 	}
+	else if (command == "easter")
+	{
+	}
 	else if (command == "shop")
 	{
 		ui->drawWindow("Solomon's General Store");

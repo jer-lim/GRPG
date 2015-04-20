@@ -134,12 +134,22 @@ public:
 		completeConditions.push_back(rc);
 	}
 
+	//Adds a new condition to the quest with a vector of prerequsites
 	void addQuestCondition(QuestCondition* qc, vector<QuestCondition*> req)
 	{
 		RequiredCondition rc = RequiredCondition();
 		rc.completeCondition = qc;
 		rc.prereq = req;
 		completeConditions.push_back(rc); 
+	}
+
+	//Adds a new condition to the quest with only 1 prerequsite.
+	void addQuestCondition(QuestCondition* qc, QuestCondition* req)
+	{
+		RequiredCondition rc = RequiredCondition();
+		rc.completeCondition = qc;
+		rc.prereq.push_back(req);
+		completeConditions.push_back(rc);
 	}
 
 	int getgold(){ return gold; }

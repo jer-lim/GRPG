@@ -282,7 +282,7 @@ void UI::draw(Viewport* viewport)
 				}
 			}
 		}
-		else if (windowHeader.find("Quest: ") == 0)
+		/*else if (windowHeader.find("Quest: ") == 0)
 		{//Quest header
 			Quest* displayedQuest = ((Grpg*)theGame)->getQuestLoader()->getQuest(((Grpg*)theGame)->getQuestLoader()->getCurrentlyShownIndex());
 			//draw description
@@ -295,7 +295,7 @@ void UI::draw(Viewport* viewport)
 			else
 				ss << "\n" << "Quest is currently not finished.";
 			uiText->print(ss.str(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder * 4 - shopImage.getHeight() / 2);
-		}
+		}*/
 		//Display conversation, if any
 		else if (chatText.size() > 0)
 		{
@@ -667,6 +667,7 @@ bool UI::performClick()
 				drawWindow("Quest: " + it->second->getname());
 				((Grpg*)theGame)->getQuestLoader()->setCurrentlyShownIndex(it->first);
 				setActiveTab(uiNS::QUESTS);//fixed
+				it->second->printHelpTextToUI(this);
 				return true;
 			}
 		}

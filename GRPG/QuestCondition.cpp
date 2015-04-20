@@ -31,6 +31,7 @@ int QuestCondition::eventOccured(GameEvent* ge)
 							conditions[j].prereq = nullptr;
 						}
 					}
+					conditions[i].helpText = conditions[i].successGameEvent->getAfterText();
 				}
 				else
 				{
