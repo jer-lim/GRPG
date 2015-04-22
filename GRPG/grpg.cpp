@@ -128,7 +128,7 @@ void Grpg::initialize(HWND hwnd)
 	//Quest buttons need the getTopLeftX and Y
 	questLoader = new QuestLoader();
 	gameEventManager = new GameEventManager(ui, questLoader->getQuestData());
-	questLoader->loadAllQuests(gameEventManager, personLoader, graphics, ui->getTopLeftX(), ui->getTopLeftY());
+	questLoader->loadAllQuests(gameEventManager, personLoader, itemLoader, graphics, ui->getTopLeftX(), ui->getTopLeftY());
 
 	drawManager->addObject(player,3);
 	drawManager->addObject(ui, 999);

@@ -11,6 +11,7 @@
 #include "GameEventManager.h"
 #include "GameEvent.h"
 #include "GameEvent_EntityAction.h"
+#include "GameEvent_ItemReceived.h"
 #include "GameEvent_Damage.h"
 #include <fstream>
 #include <iostream>
@@ -40,7 +41,7 @@ public:
 		delete questData;
 		questData = nullptr;
 	}
-	void loadAllQuests(GameEventManager* gem, PersonLoader* personLoader, Graphics* g,float uiX,float uiY);
+	void loadAllQuests(GameEventManager* gem, PersonLoader* personLoader, ItemLoader* itemLoader, Graphics* g,float uiX,float uiY);
 	map<int, Quest*>* getMapQuests() {
 		return &mapQuests;
 	}

@@ -11,6 +11,7 @@
 #include "drawManager.h"
 #include "Viewport.h"
 #include "mapLoader.h"
+#include "grpg.h"
 #include "PersonLoader.h"
 
 // The primary class should inherit from Game class
@@ -257,6 +258,9 @@ void Game::deleteEntity(Entity* e)
 	
 	// Tell draw manager
 	drawManager->removeObject(e);
+
+	//Tell game event manager
+	((Grpg*)this)->getGameEventManager()->removeListener(e);
 	
 	//Remove from spawn links if there
 	//Safe delete the entity that is still alive

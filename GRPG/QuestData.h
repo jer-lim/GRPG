@@ -39,8 +39,9 @@ public:
 	{
 		//Represents the information about the easter quest on how it is progressing
 		//In general, 0 = false, 1 = true.
-		storedInformation["complete"] = 0;
-		storedInformation["featherRequired"] = 0;
+		storedInformation["easterComplete"] = 0;
+		storedInformation["easterFeatherRequired"] = 0;
+		storedInformation["easterEggRequired"] = 0;
 	}
 };
 

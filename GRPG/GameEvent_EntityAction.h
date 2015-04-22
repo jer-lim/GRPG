@@ -36,12 +36,8 @@ public:
 	virtual bool is(GameEvent* ge){
 		if (getType() == ge->getType())
 		{
-			if (getType() == ge->getType())
-			{
-				//either a kill event or a damage event
-				return entity == ((GameEvent_EntityAction*)ge)->getEntity();
-			}
-			else return false;
+			//either a kill event or a damage event
+			return entity == ((GameEvent_EntityAction*)ge)->getEntity();
 		}
 		else return false;
 	}

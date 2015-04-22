@@ -18,14 +18,11 @@ protected:
 	string afterCompleteText;
 	//Represents information for quest data update. If empty string, do nothing.
 	//Otherwise, change the relevant information
-	string numberToChange;
-	int newNumber;
+	map<string, int> changesRequired;
 public:
 	GameEvent(string before, string after){
 		beforeCompleteText = before;
 		afterCompleteText = after;
-		numberToChange = "";
-		newNumber = 0;
 	}
 	virtual ~GameEvent(){ 
 		//should be deleted elsewhere
@@ -33,15 +30,17 @@ public:
 
 	virtual void addChangeRequired(string n, int newN)
 	{
-		numberToChange = n;
-		newNumber = newN;
+		changesRequired[n] = newN;
 	}
 
 	virtual void performChange(QuestData* qd)
 	{
-		if (numberToChange != "")
+		if (changesRequired.size() > 0)
 		{
-			qd->setValue(numberToChange, newNumber);
+			for (map<string, int>::iterator it = changesRequired.begin(); it != changesRequired.end(); it++)
+			{
+				qd->setValue(it->first, it->second);
+			}
 		}
 	}
 

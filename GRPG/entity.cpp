@@ -816,7 +816,7 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 		Enemy* e = ((Enemy*)person);
 		if (e->getname() == "Chicken")
 		{
-			if (questData->getValue("featherRequired"))
+			if (questData->getValue("easterFeatherRequired"))
 			{
 				if (quickPluckBehavior == nullptr)
 				{
@@ -1216,6 +1216,17 @@ void Entity::damage(int dt)
 			newObj->setX(x);
 			newObj->setY(y);
 			theGame->getDrawManager()->addObject(newObj, 2);
+		}
+		//Chance to drop quest loot
+		QuestData* questData = ((Grpg*)theGame)->getQuestLoader()->getQuestData();
+		if (questData->getValue("easterEggRequired"))
+		{
+			if (rand() % 5 == 0)
+			{
+				((Grpg*)theGame)->getUI()->addChatText("The monster drops an easter egg and you take it.");
+				((Grpg*)theGame)->getUI()->addChatText("The easter bunny would probably like to know about it.");
+				((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_EntityAction(nullptr));
+			}
 		}
 		theGame->deleteEntity(this);
 	}

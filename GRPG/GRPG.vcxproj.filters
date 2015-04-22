@@ -136,6 +136,7 @@
     <ClInclude Include="QuickPluckBehavior.h" />
     <ClInclude Include="QuestData.h" />
     <ClInclude Include="AggressivePluckBehavior.h" />
+    <ClInclude Include="GameEvent_ItemReceived.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

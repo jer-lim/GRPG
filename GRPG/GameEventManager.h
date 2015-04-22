@@ -45,6 +45,17 @@ public:
 			}
 		}
 	}
+	void removeListener(Entity* e)
+	{
+		for (int i = 0, l = vector_entities.size(); i < l; ++i)
+		{
+			if (vector_entities.at(i) == e)
+			{
+				vector_entities.erase(vector_entities.begin() + i);
+				break;
+			}
+		}
+	}
 	/**
 	GameEvent is deleted after use
 	*/
