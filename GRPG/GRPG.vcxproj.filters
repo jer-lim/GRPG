@@ -54,6 +54,8 @@
     <ClCompile Include="MineBehavior.cpp" />
     <ClCompile Include="StealBehavior.cpp" />
     <ClCompile Include="ChatData.cpp" />
+    <ClCompile Include="QuickPluckBehavior.cpp" />
+    <ClCompile Include="QuestData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -130,6 +132,8 @@
     <ClInclude Include="ChatData.h" />
     <ClInclude Include="OptionNotifier.h" />
     <ClInclude Include="GameEvent_EntityAction.h" />
+    <ClInclude Include="QuickPluckBehavior.h" />
+    <ClInclude Include="QuestData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

@@ -663,6 +663,7 @@ bool UI::performClick()
 		{//draw quests
 			if (it->second->getUIElement()->mouseOver(input->getMouseX(), input->getMouseY()))
 			{
+				removeWindow();
 				//this->addChatText("Clicked quest:" + it->second->getname());
 				drawWindow("Quest: " + it->second->getname());
 				((Grpg*)theGame)->getQuestLoader()->setCurrentlyShownIndex(it->first);

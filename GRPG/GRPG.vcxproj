@@ -62,7 +62,9 @@
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestCondition.h" />
+    <ClInclude Include="QuestData.h" />
     <ClInclude Include="QuestLoader.h" />
+    <ClInclude Include="QuickPluckBehavior.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="skill.h" />
@@ -120,7 +122,9 @@
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="QuestData.cpp" />
     <ClCompile Include="QuestLoader.cpp" />
+    <ClCompile Include="QuickPluckBehavior.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="skill.cpp" />

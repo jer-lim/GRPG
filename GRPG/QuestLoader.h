@@ -17,19 +17,28 @@
 #include <string>
 #include <map>
 #include "string_functions.h"
+#include "QuestData.h"
 
 class QuestLoader{
 private:
 	const std::string questLocation = "assets/quests/quests.gdef";
 	map<int, Quest*> mapQuests;
 	int currentlyShownIndex = -1;
+	QuestData* questData;
 public:
-	QuestLoader(){}
+	QuestLoader() 
+	{
+		questData = new QuestData();
+		//questData->init();
+	}
+
 	~QuestLoader(){
 		for (map<int, Quest*>::iterator it = mapQuests.begin(); it != mapQuests.end(); ++it){
 			SAFE_DELETE(it->second);
 		}
 		mapQuests.clear();
+		delete questData;
+		questData = nullptr;
 	}
 	void loadAllQuests(GameEventManager* gem, PersonLoader* personLoader, Graphics* g,float uiX,float uiY);
 	map<int, Quest*>* getMapQuests() {
@@ -41,5 +50,10 @@ public:
 	}
 	int getCurrentlyShownIndex(){ return currentlyShownIndex; }
 	void setCurrentlyShownIndex(int i){ currentlyShownIndex = i; }
+
+	virtual QuestData* getQuestData()
+	{
+		return questData;
+	}
 };
 #endif

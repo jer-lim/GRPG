@@ -32,6 +32,7 @@ int QuestCondition::eventOccured(GameEvent* ge)
 						}
 					}
 					conditions[i].helpText = conditions[i].successGameEvent->getAfterText();
+					conditions[i].successGameEvent->performChange(questData);
 				}
 				else
 				{

@@ -19,4 +19,5 @@ void AttackBehavior::action()
 	player->setVictim(entity);
 	player->releaseDestination();
 	player->setDestination(0);
+	player->setNPCAction(nullptr);
 }

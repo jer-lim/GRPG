@@ -25,7 +25,9 @@ class QuestCondition
 {
 private:
 	vector<GameEventStorage> conditions;
-
+	//This questData is not passed in during the constructor, but is instead set by the Quest class
+	//When the condition is attached to it.
+	QuestData* questData;
 public:
 	~QuestCondition(){
 		for (int i = 0; i < conditions.size(); i++)
@@ -78,6 +80,9 @@ public:
 		}
 		return s;
 	}
+
+	virtual void setQuestData(QuestData* qd) { questData = qd; }
+	virtual QuestData* getQuestData() { return questData; }
 
 	//int getCurrentCount(){ return currentCount; }
 	//int getCountRequirement() { return countRequirement; }

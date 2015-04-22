@@ -126,8 +126,8 @@ void Grpg::initialize(HWND hwnd)
 	player->getInventory()->setYDrawPosition(ui->getTopLeftY());
 	
 	//Quest buttons need the getTopLeftX and Y
-	gameEventManager = new GameEventManager(ui);
 	questLoader = new QuestLoader();
+	gameEventManager = new GameEventManager(ui, questLoader->getQuestData());
 	questLoader->loadAllQuests(gameEventManager, personLoader, graphics, ui->getTopLeftX(), ui->getTopLeftY());
 
 	drawManager->addObject(player,3);
@@ -406,6 +406,10 @@ bool Grpg::processCommand(std::string command)
 	}
 	else if (command == "easter")
 	{
+		//Send event that player just talked to the Easter Bunny
+		GameEvent* ge = new GameEvent_EntityAction(personLoader->getNPC(28));
+		gameEventManager->informListeners(ge);
+		return true;
 	}
 	else if (command == "shop")
 	{

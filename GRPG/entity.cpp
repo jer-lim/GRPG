@@ -19,6 +19,7 @@
 #include "DropBehavior.h"
 #include "TradeBehavior.h"
 #include "TalkBehavior.h"
+#include "QuickPluckBehavior.h"
 #include "TeleportBehavior.h"
 #include "HealBehavior.h"
 #include "StealBehavior.h"
@@ -26,6 +27,7 @@
 #include "grpg.h"
 #include "SoundManager.h"
 #include "InventoryEquipment.h"
+#include "GameEventManager.h"
 //#include "Smithing_Material.h"
 
 namespace entityNS
@@ -83,6 +85,7 @@ Entity::~Entity()
 	SAFE_DELETE(mineBehavior);
 	SAFE_DELETE(tradeBehavior);//store popup
 	SAFE_DELETE(attackBehavior);//Attack name -> perform attack
+	SAFE_DELETE(quickPluckBehavior);
 	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
 	SAFE_DELETE(dropBehavior);//Drop name -> drop obj
 	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
@@ -171,6 +174,9 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 {
 	//setup behaviors
 	Grpg* grpgPointer = (Grpg*)gamePtr;
+	person = whichCharacter;
+	theGame = gamePtr;
+
 	if (whichCharacter->getType() == "NPC" || whichCharacter->getType() == "ENEMY")
 	{
 		if (whichCharacter->getType() == "ENEMY")//Attack enemy
@@ -210,6 +216,10 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		}
 		viewBehavior = new ViewBehaviorNPC((NPC*)whichCharacter, ((Grpg*)gamePtr)->getUI());
 		thePlayer = ((Grpg*)gamePtr)->getPlayer();
+		//Also, call questAction to ensure that any quest states are done properly
+		questAction(((Grpg*)gamePtr)->getQuestLoader()->getQuestData(), ((Grpg*)gamePtr)->getGameEventManager());
+		//And add it so that any further updates are processed
+		((Grpg*)gamePtr)->getGameEventManager()->addListener(this);
 	}
 	setupVectorActiveBehaviors();
 
@@ -217,12 +227,10 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 
     input = gamePtr->getInput();                // the input system
 	graphics = gamePtr->getGraphics();
-	theGame = gamePtr;
 
 	//textureM = new TextureManager();
 	//textureM = whichCharacter->getTextureManager();
 	textureM = whichCharacter->initializeTexture(gamePtr);
-	person = whichCharacter;
 
 	//Set the health if this is not the player
 	if (whichCharacter != Person::thePlayer)
@@ -660,7 +668,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					}
 					else
 					{
-						if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY")
+						if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY" && npcAction == nullptr)
 						{
 							SoundManager::playSound(SoundManagerNS::HIT);
 							//Victim should retaliate
@@ -690,6 +698,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 							victim = 0;
 							destination = 0;
 							attackPerformed = false;
+							npcAction = nullptr;
 						}
 					}
 					if (attackPerformed)
@@ -797,6 +806,30 @@ void Entity::sayMessage(std::string message)
 //=============================================================================
 void Entity::ai(float frameTime, Entity &ent)
 {}
+
+void Entity::questAction(QuestData* questData, GameEventManager* gem)
+{
+	if (person != nullptr&& person->getType() == "ENEMY")
+	{
+		Enemy* e = ((Enemy*)person);
+		if (e->getname() == "Chicken")
+		{
+			if (questData->getValue("featherRequired"))
+			{
+				if (quickPluckBehavior == nullptr)
+				{
+					quickPluckBehavior = new QuickPluckBehavior(thePlayer, (NPC*)person, this, ((Grpg*)theGame)->getUI(), gem);
+					setupVectorActiveBehaviors();
+				}
+			}
+			else
+			{
+				SAFE_DELETE(quickPluckBehavior);
+				setupVectorActiveBehaviors();
+			}
+		}
+	}
+}
 
 //=============================================================================
 // Perform collision detection between this entity and the other Entity.

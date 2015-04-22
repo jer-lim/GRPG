@@ -35,11 +35,13 @@
 #include "Button.h"
 #include "Inventory.h"
 #include "Smithing_Material.h"
+#include "QuestData.h"
 
 class AttackBehavior;
 class PickupBehavior;
 class DropBehavior;
 class Player;
+class GameEventManager;
 
 namespace entityNS
 {
@@ -185,6 +187,7 @@ class Entity : public Destination//, public Interactable
 	  Behavior* stealBehavior = nullptr;
 	  //Enemy
 	  Behavior* attackBehavior = nullptr;//Attack name -> perform attack
+	  Behavior* quickPluckBehavior = nullptr; //For EAster Quest
 	  //Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
 	  //Item
 	  Behavior* pickupBehavior = nullptr;//Pickup name -> pickup obj
@@ -358,6 +361,11 @@ class Entity : public Destination//, public Interactable
     // Empty ai function to allow Entity objects to be instantiated.
     virtual void ai(float frameTime, Entity &ent);
 
+	// Checks the questData to see if there has been anything updated specifically for this entity
+	// and performs any required changes
+	// Generally called on a game update.
+	virtual void questAction(QuestData* questData, GameEventManager* gem);
+
     // Is this entity outside the specified rectangle?
     virtual bool outsideRect(RECT rect);
 
@@ -440,6 +448,8 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(talkBehavior);
 		if (attackBehavior)
 			vectorActiveBehaviors.push_back(attackBehavior);
+		if (quickPluckBehavior)
+			vectorActiveBehaviors.push_back(quickPluckBehavior);
 		if (stealBehavior)
 			vectorActiveBehaviors.push_back(stealBehavior);
 		if (fishBehavior)

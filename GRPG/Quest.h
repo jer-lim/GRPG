@@ -12,6 +12,7 @@
 #include "InventoryItem.h"
 //#include "GameEventManager.h"
 #include "Button.h"
+#include "QuestData.h"
 
 class GameEventManager;
 
@@ -41,6 +42,7 @@ private:
 	//InventoryItem* reward;//lazy
 	int gold;
 	Button* ui_element;
+	QuestData* questData;
 public:
 	~Quest(){
 		for (int i = 0; i < completeConditions.size(); i++)
@@ -51,7 +53,7 @@ public:
 		SAFE_DELETE(ui_element);	
 		//delete reward;//changed to int lol lazy boy ah matthew
 	}
-	Quest(GameEventManager* qcM, string nama, string descript, int gp, Button* b);
+	Quest(GameEventManager* qcM, QuestData* qd, string nama, string descript, int gp, Button* b);
 
 	int eventOccured(GameEvent* ge,UI* ui){
 		int result;
@@ -80,6 +82,10 @@ public:
 							}
 						}
 					}
+					break;
+				}
+				if (result != NO_CHANGE)
+				{
 					break;
 				}
 			}
@@ -129,6 +135,7 @@ public:
 	//Adds a new condition to the quest without a prerequsite.
 	void addQuestCondition(QuestCondition* qc)
 	{
+		qc->setQuestData(questData);
 		RequiredCondition rc = RequiredCondition();
 		rc.completeCondition = qc;
 		completeConditions.push_back(rc);
@@ -137,6 +144,7 @@ public:
 	//Adds a new condition to the quest with a vector of prerequsites
 	void addQuestCondition(QuestCondition* qc, vector<QuestCondition*> req)
 	{
+		qc->setQuestData(questData);
 		RequiredCondition rc = RequiredCondition();
 		rc.completeCondition = qc;
 		rc.prereq = req;
@@ -146,6 +154,7 @@ public:
 	//Adds a new condition to the quest with only 1 prerequsite.
 	void addQuestCondition(QuestCondition* qc, QuestCondition* req)
 	{
+		qc->setQuestData(questData);
 		RequiredCondition rc = RequiredCondition();
 		rc.completeCondition = qc;
 		rc.prereq.push_back(req);

@@ -9,19 +9,40 @@
 #include "constants.h"
 #include "Entity.h"
 #include <string>
+#include "QuestData.h"
 
 class GameEvent
 {
 protected:
 	string beforeCompleteText;
 	string afterCompleteText;
+	//Represents information for quest data update. If empty string, do nothing.
+	//Otherwise, change the relevant information
+	string numberToChange;
+	int newNumber;
 public:
 	GameEvent(string before, string after){
 		beforeCompleteText = before;
 		afterCompleteText = after;
+		numberToChange = "";
+		newNumber = 0;
 	}
 	virtual ~GameEvent(){ 
 		//should be deleted elsewhere
+	}
+
+	virtual void addChangeRequired(string n, int newN)
+	{
+		numberToChange = n;
+		newNumber = newN;
+	}
+
+	virtual void performChange(QuestData* qd)
+	{
+		if (numberToChange != "")
+		{
+			qd->setValue(numberToChange, newNumber);
+		}
 	}
 
 	virtual bool is(GameEvent* ge) = 0;
