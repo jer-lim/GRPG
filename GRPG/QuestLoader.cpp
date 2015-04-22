@@ -72,7 +72,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	//Once feathers are retrieved, remove need to pluck
 	getFeathers->addChangeRequired("featherRequired", false);
 	fixMachine1->addGameEventRequirement(getFeathers, 1, nullptr);
-	GameEvent* useFeathers = new GameEvent_EntityAction(nullptr, "I need to use these feathers to fix up the machine.", "I used the feathers to fix up the machine.");
+	GameEvent* useFeathers = new GameEvent_EntityAction(nullptr, "I need to use these feathers to fix up the machine.", "I used the feathers to fix up the nest.");
 	fixMachine1->addGameEventRequirement(useFeathers, 1, getFeathers);
 	easterQuest->addQuestCondition(fixMachine1, talkToEasterBunny);
 	

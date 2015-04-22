@@ -20,6 +20,7 @@
 #include "TradeBehavior.h"
 #include "TalkBehavior.h"
 #include "QuickPluckBehavior.h"
+#include "AggressivePluckBehavior.h"
 #include "TeleportBehavior.h"
 #include "HealBehavior.h"
 #include "StealBehavior.h"
@@ -86,6 +87,7 @@ Entity::~Entity()
 	SAFE_DELETE(tradeBehavior);//store popup
 	SAFE_DELETE(attackBehavior);//Attack name -> perform attack
 	SAFE_DELETE(quickPluckBehavior);
+	SAFE_DELETE(aggressivePluckBehavior);
 	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
 	SAFE_DELETE(dropBehavior);//Drop name -> drop obj
 	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
@@ -819,12 +821,17 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 				if (quickPluckBehavior == nullptr)
 				{
 					quickPluckBehavior = new QuickPluckBehavior(thePlayer, (NPC*)person, this, ((Grpg*)theGame)->getUI(), gem);
-					setupVectorActiveBehaviors();
 				}
+				if (aggressivePluckBehavior == nullptr)
+				{
+					aggressivePluckBehavior = new AggressivePluckBehavior(thePlayer, (NPC*)person, this, ((Grpg*)theGame)->getUI(), gem);
+				}
+				setupVectorActiveBehaviors();
 			}
 			else
 			{
 				SAFE_DELETE(quickPluckBehavior);
+				SAFE_DELETE(aggressivePluckBehavior);
 				setupVectorActiveBehaviors();
 			}
 		}

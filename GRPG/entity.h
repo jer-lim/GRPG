@@ -187,7 +187,6 @@ class Entity : public Destination//, public Interactable
 	  Behavior* stealBehavior = nullptr;
 	  //Enemy
 	  Behavior* attackBehavior = nullptr;//Attack name -> perform attack
-	  Behavior* quickPluckBehavior = nullptr; //For EAster Quest
 	  //Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
 	  //Item
 	  Behavior* pickupBehavior = nullptr;//Pickup name -> pickup obj
@@ -202,6 +201,9 @@ class Entity : public Destination//, public Interactable
 
 	  //Others
 	  Behavior* updateQuestsBehavior = nullptr;
+	  //Quests
+	  Behavior* quickPluckBehavior = nullptr; //For Easter Quest
+	  Behavior* aggressivePluckBehavior = nullptr;
 
     // Constructor
     Entity();
@@ -448,6 +450,8 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(talkBehavior);
 		if (attackBehavior)
 			vectorActiveBehaviors.push_back(attackBehavior);
+		if (aggressivePluckBehavior)
+			vectorActiveBehaviors.push_back(aggressivePluckBehavior);
 		if (quickPluckBehavior)
 			vectorActiveBehaviors.push_back(quickPluckBehavior);
 		if (stealBehavior)

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AggressivePluckBehavior.h" />
     <ClInclude Include="Armor.h" />
     <ClInclude Include="AttackBehavior.h" />
     <ClInclude Include="Behavior.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AggressivePluckBehavior.cpp" />
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="AttackBehavior.cpp" />
     <ClCompile Include="ChatData.cpp" />
