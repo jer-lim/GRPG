@@ -16,6 +16,8 @@ class UI;
 class Player;
 class Entity;
 class Grpg;
+class GameEventManager;
+class QuestData;
 
 class TalkBehavior : public Behavior, public OptionNotifier
 {
@@ -28,6 +30,9 @@ private:
 	Grpg* grpg;
 	GameEventManager* gem;
 	QuestData* questData;
+
+	void generateEasterQuestTalk(ChatDecision* cd);
+
 public:
 	virtual ~TalkBehavior() {}
 	TalkBehavior(NPC* i, UI* u, Player* p, Entity* e, Grpg* g);

@@ -1225,7 +1225,7 @@ void Entity::damage(int dt)
 			{
 				((Grpg*)theGame)->getUI()->addChatText("The monster drops an easter egg and you take it.");
 				((Grpg*)theGame)->getUI()->addChatText("The easter bunny would probably like to know about it.");
-				((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_EntityAction(nullptr));
+				((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_ItemReceived(((Grpg*)theGame)->getItemLoader()->getItem(31)));
 			}
 		}
 		theGame->deleteEntity(this);

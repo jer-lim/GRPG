@@ -65,6 +65,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	//Once quest has started, allow feather plucking
 	easterBunnyTalked->addChangeRequired("easterFeatherRequired", true);
 	easterBunnyTalked->addChangeRequired("easterEggRequired", true);
+	easterBunnyTalked->addChangeRequired("easterStarted", true);
 	talkToEasterBunny->addGameEventRequirement(easterBunnyTalked, 1, nullptr);
 	easterQuest->addQuestCondition(talkToEasterBunny);
 

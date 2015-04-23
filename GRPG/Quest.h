@@ -62,6 +62,10 @@ public:
 			//Can only complete a part of the quest that you have started.
 			if (completeConditions[i].prereq.size() == 0)
 			{
+				if (completeConditions[i].completeCondition->completed())
+				{
+					continue;
+				}
 				result = completeConditions[i].completeCondition->eventOccured(ge);
 				switch (result)
 				{

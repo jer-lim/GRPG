@@ -25,27 +25,41 @@ void TalkBehavior::action(){
 	{
 		if (ii->getTalkText().find("detail") == 0)
 		{
+			ui->removeWindow();
 			int detailNumber = stoi(ii->getTalkText().substr(6));
 			switch (detailNumber)
 			{
 				case 1:
 				{
 					ui->drawWindow("Easter Bunny");
-					ui->addTalkText(new ChatInformation("Hello, I'm the easter bunny!", chatNS::RIGHT));
-					ui->addTalkText(new ChatInformation("I generally bring easter to the entire world, helping to bring joy through easter eggs to everyone - even the ones that tend to be hostile! I don't show bias to anyone!", chatNS::RIGHT));
-					ui->addTalkText(new ChatInformation("Unfortunately, it doesn't seem like there'll be easter today.", chatNS::RIGHT));
-					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
-					dt->addOption(1, "Why, what's the matter?");
-					dt->addOption(2, "Wow, it's the easter bunny! That's amazing!");
-					dt->addOption(0, "Uh, I should go. Things to do...");
-					dt->setCaller(this);
-					ui->addTalkText(dt);
+					if (!questData->getValue("easterStarted"))
+					{
+						ui->addTalkText(new ChatInformation("Hello, I'm the easter bunny!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("I generally bring easter to the entire world, helping to bring joy through easter eggs to everyone - even the ones that tend to be hostile! I don't show bias to anyone!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("Unfortunately, it doesn't seem like there'll be easter today.", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(1, "Why, what's the matter?");
+						dt->addOption(2, "Wow, it's the easter bunny! That's amazing!");
+						dt->addOption(0, "Uh, I should go. Things to do...");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+					}
+					else
+					{
+						ui->addTalkText(new ChatInformation("Hello again!", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->setCaller(this);
+						generateEasterQuestTalk(dt);
+						ui->addTalkText(dt);
+					}
 					break;
 				}
 				default:
 				{
 					ui->addChatText("Developer warning: detail chat was required, but");
-					ui->addChatText("the following detail number was not found: " + detailNumber);
+					stringstream ss;
+					ss << "the following detail number was not found: " << detailNumber;
+					ui->addChatText(ss.str());
 					break;
 				}
 			}
@@ -107,7 +121,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("It was. They blocked off the bird's food storage, annoyed it, and messed up it's nest.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Now the bird is too stressed to lay eggs, and unless it does so there won't be easter this year, maybe any more!", chatNS::RIGHT));
 		cd->addOption(5, "So, what do you need me to do?");
-		cd->addOption(0, "Uh, I just remembered there's something I need to do, I'll be going now...");
+		cd->addOption(0, "I just remembered there's something I need to do, see you later!");
 		ui->addTalkText(cd);
 		break;
 	case 4: //Easter: Start tl;dr
@@ -123,15 +137,122 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("I need you to get some feathers somwhere, in order to rebuild the bird's nest so that it is usuable again.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("I also need you to get a sample of an easter egg that has already been sent out.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Finally, I require some food to feed the bird, it hasn't been fed in a long time since the food supply has gone rotten when it was blocked", chatNS::RIGHT));
-		grpg->getGameEventManager()->informListeners(new GameEvent_EntityAction(ii));
+		gem->informListeners(new GameEvent_EntityAction(ii));
 		cd->addOption(0, "Alright.");
 		ui->addTalkText(cd);
 		break;
-	case 6: //Easter, reminder
+	case 6: //Let's talk about something else
+		ui->addTalkText(new ChatInformation("Of course.", chatNS::RIGHT));
+		generateEasterQuestTalk(cd);
+		ui->addTalkText(cd);
+		break;
+	case 7: //Let's talk about the feathers you need
+		ui->addTalkText(new ChatInformation("Sure, what do you want to know?", chatNS::RIGHT));
+		cd->addOption(8, "What do you need these feathers for?");
+		if (questData->getValue("easterFeatherRequired"))
+		{
+			cd->addOption(9, "Where do you think I can get these feathers?");
+		}
+		else
+		{
+			cd->addOption(9, "I got some feathers, what should I do?");
+		}
+		cd->addOption(6, "Let's talk about something else");
+		ui->addTalkText(cd);
+		break;
+	case 8: //What do you need these feathers for?
+		ui->addTalkText(new ChatInformation("I need the feathers to rebuild the bird's nest to be like his home.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The bird can't lay eggs without having a proper, comfortable nest after all.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Thus, some feathers need to be gathered to place them at the nest to make it more comfortable.", chatNS::RIGHT));
+		if (questData->getValue("easterFeatherRequired"))
+		{
+			cd->addOption(9, "Where do you think I can get these feathers?");
+		}
+		else
+		{
+			cd->addOption(9, "I got some feathers, what should I do?");
+		}
+		cd->addOption(6, "Let's talk about something else");
+		ui->addTalkText(cd);
+		break;
+	case 9: //Where do you think I can get these feathers (if haven't gotten it yet)
+		if (questData->getValue("easterFeatherRequired"))
+		{
+			ui->addTalkText(new ChatInformation("I have no idea where feathers can be easily found. Chickens, perhaps?", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("I know chickens can be found just near the doctor.", chatNS::RIGHT));
+		}
+		//I got some feathers, what should I do
+		else
+		{
+			ui->addTalkText(new ChatInformation("Simply interact with the bird's nest to rebuild it.", chatNS::RIGHT));
+		}
+		cd->addOption(8, "What do you need these feathers for?");
+		cd->addOption(6, "Let's talk about something else");
+		ui->addTalkText(cd);
+		break;
+	case 10: //Let's talk about the easter egg you wanted.
+		if (!questData->getValue("easterEggRequired"))
+		{
+			ui->addTalkText(new ChatInformation("I have an egg sample for you.", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("You hand over the easter egg to the Easter Bunny.", chatNS::MIDDLE));
+			gem->informListeners(new GameEvent_EntityAction(ii));
+			ui->addTalkText(new ChatInformation("Thanks! This will help us identify which new eggs we can use!", chatNS::RIGHT));
+			generateEasterQuestTalk(cd);
+			ui->addTalkText(cd);
+		}
+		else
+		{
+			ui->addTalkText(new ChatInformation("Sure, what do you want to know?", chatNS::RIGHT));
+			cd->addOption(11, "What do you need these eggs for?");
+			cd->addOption(12, "Where do you think I can get the eggs?");
+			cd->addOption(6, "Let's talk about something else");
+			ui->addTalkText(cd);
+		}
+		break;
+	case 11: //What do you need the easter egg for?
+		ui->addTalkText(new ChatInformation("Well, not all eggs from the bird can be used as easter eggs.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Some eggs are of a bad quality, or may not contain what we need inside the egg.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("As such, it is best if we have a sample egg to compare new eggs to, so that we can ensure that we give out the good eggs instead of the bad.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Don't you have any eggs yourself?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Unfortunately not, during the riot all remaining eggs I have are destroyed. I will need you to get some back from people that I've given them to.", chatNS::RIGHT));
+		cd->addOption(12, "Where do you think I can get the eggs?");
+		cd->addOption(6, "Let's talk about something else");
+		ui->addTalkText(cd);
+		break;
+	case 12: //Where do you think I can get the egg?
+		ui->addTalkText(new ChatInformation("You might be able to get some back by killing monsters, they may already have gotten an easter egg from me, and will drop it if you kill them.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Alternatively, some people around town may already have them, but they won't be willing to part with them so easily - you may need to use other, less legal means to get them.", chatNS::RIGHT));
+		cd->addOption(11, "What do you need these eggs for?");
+		cd->addOption(6, "Let's talk about something else");
+		ui->addTalkText(cd);
+		break;
+	case 13: //Let's talk about feeding the bird.
+		ui->addTalkText(new ChatInformation("Sure, what do you want to know?", chatNS::RIGHT));
+		cd->addOption(14, "What exactly do you need me to do?");
+		cd->addOption(6, "Actually, let's talk about something else");
+		ui->addTalkText(cd);
+		break;
+	case 14: //Feeding: What exactly do you need me to do?
+		ui->addTalkText(new ChatInformation("I need you to get some cooked food and feed it to the bird right next to me.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Does it have to be some special food?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("No, any food would do, as long as it's been cooked.", chatNS::RIGHT));
+		generateEasterQuestTalk(cd);
+		ui->addTalkText(cd);
+		break;
 	default:
-		ui->addChatText("Warning: Unknown ChatData ID: " + co.id);
+		stringstream ss;
+		ss << "Warning: Unknown ChatData ID: " << co.id;
+		ui->addChatText(ss.str());
 		//Also doesn't use cd
 		delete cd;
 		break;
 	}
+}
+
+void TalkBehavior::generateEasterQuestTalk(ChatDecision* cd)
+{
+	cd->addOption(7, "Let's talk about the feathers you need.");
+	cd->addOption(10, "Let's talk about the easter egg that you need.");
+	cd->addOption(13, "Let's talk about feeding the bird");
+	cd->addOption(0, "Tasks to do, gotta go");
 }
