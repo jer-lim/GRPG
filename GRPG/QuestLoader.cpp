@@ -61,7 +61,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	b->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY, QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Easter Event 2015");
 	Quest* easterQuest = new Quest(gem, questData, "Easter Event 2015", "Help the easter bunny!", 0, b);
 	QuestCondition* talkToEasterBunny = new QuestCondition();
-	GameEvent* easterBunnyTalked = new GameEvent_EntityAction(personLoader->getNPC(28), "I can start this quest by talking to the easter bunny near the Port Sarim Lodestone, or by typing 'easter' into the console.", "The easter bunny needs help getting his bird to lay eggs after his workers rioted. I need to retrieve 3 items to help them.");
+	GameEvent* easterBunnyTalked = new GameEvent_EntityAction(personLoader->getNPC(28), "I can start this quest by talking to the easter bunny near the store, or by typing 'easter' into the console.", "The easter bunny needs help getting his bird to lay eggs after his workers rioted. I need to retrieve 3 items to help them.");
 	//Once quest has started, allow feather plucking
 	easterBunnyTalked->addChangeRequired("easterFeatherRequired", true);
 	easterBunnyTalked->addChangeRequired("easterEggRequired", true);

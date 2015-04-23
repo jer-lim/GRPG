@@ -10,6 +10,7 @@
 using namespace std;
 
 class ChatDecision;
+class UI;
 
 class ChatData
 {
@@ -160,7 +161,7 @@ public:
 	virtual ~ChatDecision() {
 		for (int i = 0; i < options.size(); i++)
 		{
-			options[i].background.destroy();
+		//	options[i].background->destroy();
 		}
 	}
 
@@ -169,6 +170,14 @@ public:
 	virtual void addOption(ChatOption op)
 	{
 		options.push_back(op);
+	}
+
+	virtual void addOption(int i, string s)
+	{
+		ChatOption co;
+		co.id = i;
+		co.text = s;
+		options.push_back(co);
 	}
 
 	virtual void removeAllOptions()
@@ -220,7 +229,7 @@ public:
 			for (int i = 0; i < options.size(); i++)
 			{
 				font->print(options[i].text, *textRect, DT_CALCRECT);
-				heightTaken += textRect->bottom;
+				heightTaken += textRect->bottom + chatNS::optionMargin;
 			}
 		}
 
@@ -284,42 +293,58 @@ public:
 			}
 			delete tempRect;
 		}
+		else if (displayType == chatNS::VERTICALLY)
+		{
+			//Minus margin because the first time we don't want an extra margin, and it's added on the
+			//first loop already.
+			locationToDraw->bottom = locationToDraw->top - chatNS::optionMargin;
+			RECT* tempRect = new RECT();
+			tempRect->left = 0;
+			tempRect->top = 0;
+			COLOR_ARGB chosenColour;
+			for (int i = 0; i < options.size(); i++)
+			{
+				//Calculate how much space the font would take
+				font->print(options[i].text, *tempRect, DT_CALCRECT);
+
+				locationToDraw->top = locationToDraw->bottom + chatNS::optionMargin;
+				locationToDraw->bottom = locationToDraw->top + tempRect->bottom;
+
+				//Sets colour correctly
+				if (optionChosen == -1 || optionChosen == i)
+				{
+					chosenColour = chatNS::optionBackground;
+				}
+				else
+				{
+					chosenColour = chatNS::optionDismissedBackground;
+				}
+
+				//Calculate all 4 points for button
+				if (!options[i].background.initialize(graphics,
+					//X and Y: Calculate middle then reduce by half of text width and height
+					locationToDraw->left + ((locationToDraw->right - locationToDraw->left) / 2) - (tempRect->right / 2) - chatNS::optionMargin,
+					locationToDraw->top + ((locationToDraw->bottom - locationToDraw->top) / 2) - (tempRect->bottom / 2),
+					tempRect->right + (chatNS::optionMargin * 2) /* *2 for margin on both left and right */, tempRect->bottom, chosenColour, ""))
+				{
+					throw new GameError(gameErrorNS::FATAL_ERROR, "Options background could not be initalized");
+				}
+				graphics->spriteEnd();
+				graphics->spriteBegin();
+				options[i].background.draw();
+				font->print(options[i].text, *locationToDraw, DT_CENTER);
+			}
+			delete tempRect;
+		}
 	}
 
 	//Checks if the player's mouse is currently over any option in this decision tree.
 	//If the player's mouse is over an option, then checks that option, dimming all other options.
-	//It will also remember this option, and return a reference to that ChatOption selected.
-	//All further calls to this method once an option has been chosen will ALWAYS return a nullptr no matter where the player's mouse currently is.
-	//If the player's mouse is currently not over an option then nullptr will be returned.
+	//It will also remember this option, and return true.
+	//All further calls to this method once an option has been chosen will ALWAYS return false, no matter where the player's mouse currently is.
+	//If the player's mouse is currently not over an option then false will be returned.
 	//If an option was clicked, then the appropriate notifier will also be informed with the option.
-	virtual ChatOption* checkMouseClick(float mouseX, float mouseY)
-	{
-		if (optionChosen != -1)
-		{
-			return nullptr;
-		}
-		for (int i = 0; i < options.size(); i++)
-		{
-			if (options[i].background.mouseOver(mouseX, mouseY))
-			{
-				//Mouse is over this option!
-				optionChosen = i;
-				break;
-			}
-		}
-
-		if (optionChosen == -1)
-		{
-			return nullptr;
-		}
-
-		if (caller != nullptr)
-		{
-			caller->optionSelected(options[optionChosen]);
-		}
-		
-		return &options[optionChosen];
-	}
+	virtual bool checkMouseClick(float mouseX, float mouseY, UI* ui);
 };
 
 #endif

@@ -647,8 +647,8 @@ bool UI::performClick()
 		{
 			if (chatText[i]->getType() == chatNS::DECISIONTYPE)
 			{
-				ChatOption* co = ((ChatDecision*)chatText[i])->checkMouseClick(input->getMouseX(), input->getMouseY());
-				if (co != nullptr)
+				bool result = ((ChatDecision*)chatText[i])->checkMouseClick(input->getMouseX(), input->getMouseY(), this);
+				if (result)
 				{
 					return true;
 				}

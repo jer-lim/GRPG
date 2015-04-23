@@ -185,7 +185,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 			attackBehavior = new AttackBehavior(grpgPointer->getPlayer(), this, (NPC*)whichCharacter);
 		else
 		{//if npc
-			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this);
+			talkBehavior = new TalkBehavior((NPC*)whichCharacter, grpgPointer->getUI(), grpgPointer->getPlayer(), this, grpgPointer);
 			//initialize shop items
 			if (((NPC*)whichCharacter)->getShopItemsList() != nullptr)
 			{
