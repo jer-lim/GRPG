@@ -107,22 +107,36 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(cd);
 		break;
 	case 3: //Easter: Start long speech
-		ui->addTalkText(new ChatInformation("Well, I have a magical bird that lays the easter eggs for me to give them out. I keep it healthy and fed, and it lays the eggs.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Unfortunately, a few months ago my workers decided to riot, due to Civ not having what they want.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Who's Civ?", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Civ is a person who comes by to our hidden base every year, offering goods to trade with us.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("He offers amazing items that you take for granted in your world. For example, my workers were expecting him to have a vacuum cleaner to trade, but he didn't.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("A vacuum cleaner? Can't you just head out and buy some?", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("We could, but it would reveal us, and we don't want to do that too often", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("The workers really wanted the vacuum cleaner because it would help them automatically clean dust and place them into the bag, instead of them having to manually do it themselves.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Many of them even prepared specially for it, modifying their homes with available electrical sockets.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("However, it turned out that Civ did not offer that item. The workers rioted with this, claiming ridiculous stuff like 'We work, we say!' or something similar.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Sounds terrible!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("It was. They blocked off the bird's food storage, annoyed it, and messed up it's nest.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Now the bird is too stressed to lay eggs, and unless it does so there won't be easter this year, maybe any more!", chatNS::RIGHT));
-		cd->addOption(5, "So, what do you need me to do?");
-		cd->addOption(0, "I just remembered there's something I need to do, see you later!");
-		ui->addTalkText(cd);
+		//Split into 2 parts here so that it's easier to read
+		//In the middle of this speech the player is prompted for a decision, and both speeches lead back to id 3
+		//As such, text is checked here to find out which part to start talking
+		if (co.text != "Go on..." && co.text != "A vacuum cleaner? Can't you just head out and buy some?")
+		{
+			ui->addTalkText(new ChatInformation("Well, I have a magical bird that lays the easter eggs for me to give them out. I keep it healthy and fed, and it lays the eggs.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("Unfortunately, a few months ago my workers decided to riot, due to Civ not having what they want.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("Who's Civ?", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("Civ is a person who comes by to our hidden base every year, offering goods to trade with us.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("He offers amazing items that you take for granted in your world. For example, my workers were expecting him to have a vacuum cleaner to trade, but he didn't.", chatNS::RIGHT));
+			cd->addOption(3, "Go on...");
+			cd->addOption(3, "A vacuum cleaner? Can't you just head out and buy some?");
+			ui->addTalkText(cd);
+		}
+		else
+		{
+			if (co.text == "A vacuum cleaner? Can't you just head out and buy some?")
+			{
+				ui->addTalkText(new ChatInformation("We could, but it would reveal us, and we don't want to do that too often", chatNS::RIGHT));
+			}
+			ui->addTalkText(new ChatInformation("The workers really wanted the vacuum cleaner because it would help them automatically clean dust and place them into the bag, instead of them having to manually do it themselves.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("Many of them even prepared specially for it, modifying their homes with available electrical sockets.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("However, it turned out that Civ did not offer that item. The workers rioted with this, claiming ridiculous stuff like 'We work, we say!' or something similar.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("Sounds terrible!", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("It was. They blocked off the bird's food storage, annoyed it, and messed up it's nest.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("Now the bird is too stressed to lay eggs, and unless it does so there won't be easter this year, maybe any more!", chatNS::RIGHT));
+			cd->addOption(5, "So, what do you need me to do?");
+			cd->addOption(0, "I just remembered there's something I need to do, see you later!");
+			ui->addTalkText(cd);
+		}
 		break;
 	case 4: //Easter: Start tl;dr
 		ui->addTalkText(new ChatInformation("Well, the basis of it is that my workers have gone through riot, and have messed up my magical bird that lays easter eggs.", chatNS::RIGHT));
