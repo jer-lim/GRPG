@@ -41,7 +41,9 @@ public:
 		//In general, 0 = false, 1 = true.
 		storedInformation["easterComplete"] = 0;
 		storedInformation["easterFeatherRequired"] = 0;
+		storedInformation["easterRebuildNestFinished"] = 0;
 		storedInformation["easterEggRequired"] = 0;
+		storedInformation["foodGiven"] = 0;
 		storedInformation["easterStarted"] = 0;
 	}
 };

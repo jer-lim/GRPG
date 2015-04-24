@@ -12,6 +12,7 @@
 #include "GameEvent.h"
 #include "GameEvent_EntityAction.h"
 #include "GameEvent_ItemReceived.h"
+#include "GameEvent_ItemUsed.h";
 #include "GameEvent_Damage.h"
 #include <fstream>
 #include <iostream>
@@ -30,7 +31,7 @@ public:
 	QuestLoader() 
 	{
 		questData = new QuestData();
-		//questData->init();
+		questData->init();
 	}
 
 	~QuestLoader(){

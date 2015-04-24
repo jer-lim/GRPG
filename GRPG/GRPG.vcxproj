@@ -22,6 +22,7 @@
     <ClInclude Include="CookBehavior.h" />
     <ClInclude Include="Cooker.h" />
     <ClInclude Include="DropBehavior.h" />
+    <ClInclude Include="EasterInteractBehavior.h" />
     <ClInclude Include="EatBehavior.h" />
     <ClInclude Include="EquipBehavior.h" />
     <ClInclude Include="FishBehavior.h" />
@@ -98,9 +99,11 @@
     <ClCompile Include="CookBehavior.cpp" />
     <ClCompile Include="BuyBehavior.cpp" />
     <ClCompile Include="DropBehavior.cpp" />
+    <ClCompile Include="EasterInteractBehavior.cpp" />
     <ClCompile Include="EatBehavior.cpp" />
     <ClCompile Include="EquipBehavior.cpp" />
     <ClCompile Include="FishBehavior.cpp" />
+    <ClCompile Include="GameEvent_ItemUsed.h" />
     <ClCompile Include="HealBehavior.cpp" />
     <ClCompile Include="InventoryItem.cpp" />
     <ClCompile Include="MineBehavior.cpp" />

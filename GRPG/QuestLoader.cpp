@@ -74,7 +74,8 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	//Once feathers are retrieved, remove need to pluck
 	getFeathers->addChangeRequired("easterFeatherRequired", false);
 	fixMachine1->addGameEventRequirement(getFeathers, 1, nullptr);
-	GameEvent* useFeathers = new GameEvent_EntityAction(nullptr, "I need to use these feathers to fix up the machine.", "I used the feathers to fix up the nest.");
+	GameEvent* useFeathers = new GameEvent_EntityAction(personLoader->getNPC(29), "I need to use these feathers to fix up the machine.", "I used the feathers to fix up the nest.");
+	useFeathers->addChangeRequired("easterRebuildNestFinished", true);
 	fixMachine1->addGameEventRequirement(useFeathers, 1, getFeathers);
 	easterQuest->addQuestCondition(fixMachine1, talkToEasterBunny);	
 	
@@ -87,7 +88,8 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	easterQuest->addQuestCondition(fixMachine2, talkToEasterBunny);
 
 	QuestCondition* fixMachine3 = new QuestCondition();
-	GameEvent* getFood = new GameEvent_EntityAction(nullptr, "I need to get some food and use it to feed the bird.", "I got some food and used them to feed the bird.");
+	GameEvent* getFood = new GameEvent_ItemUsed(itemLoader->getItem(3), "I need to get some food and use it to feed the bird.", "I got some food and used them to feed the bird.");
+	getFood->addChangeRequired("foodGiven", true);
 	fixMachine3->addGameEventRequirement(getFood, 1, nullptr);
 	easterQuest->addQuestCondition(fixMachine3, talkToEasterBunny);
 
@@ -101,7 +103,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	easterQuest->addQuestCondition(talkToEasterBunnyAgain, requiredConditions);
 
 	QuestCondition* sootheBird = new QuestCondition();
-	GameEvent* relaxBird = new GameEvent_EntityAction(nullptr, "", "I managed to soothe the bird, calming him down. I should now go and talk to the easter bunny.");
+	GameEvent* relaxBird = new GameEvent_EntityAction(personLoader->getNPC(29), "", "I managed to soothe the bird, calming him down. I should now go and talk to the easter bunny.");
 	sootheBird->addGameEventRequirement(relaxBird, 1, nullptr);
 	easterQuest->addQuestCondition(sootheBird, talkToEasterBunnyAgain);
 

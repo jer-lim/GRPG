@@ -21,6 +21,7 @@
 #include "TalkBehavior.h"
 #include "QuickPluckBehavior.h"
 #include "AggressivePluckBehavior.h"
+#include "EasterInteractBehavior.h"
 #include "TeleportBehavior.h"
 #include "HealBehavior.h"
 #include "StealBehavior.h"
@@ -88,6 +89,7 @@ Entity::~Entity()
 	SAFE_DELETE(attackBehavior);//Attack name -> perform attack
 	SAFE_DELETE(quickPluckBehavior);
 	SAFE_DELETE(aggressivePluckBehavior);
+	SAFE_DELETE(easterInteractBehavior);
 	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
 	SAFE_DELETE(dropBehavior);//Drop name -> drop obj
 	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
@@ -811,10 +813,10 @@ void Entity::ai(float frameTime, Entity &ent)
 
 void Entity::questAction(QuestData* questData, GameEventManager* gem)
 {
-	if (person != nullptr&& person->getType() == "ENEMY")
+	if (person != nullptr && (person->getType() == "NPC" || person->getType() == "ENEMY"))
 	{
-		Enemy* e = ((Enemy*)person);
-		if (e->getname() == "Chicken")
+		NPC* n = ((NPC*)person);
+		if (n->getname() == "Chicken")
 		{
 			if (questData->getValue("easterFeatherRequired"))
 			{
@@ -832,6 +834,22 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 			{
 				SAFE_DELETE(quickPluckBehavior);
 				SAFE_DELETE(aggressivePluckBehavior);
+				setupVectorActiveBehaviors();
+			}
+		}
+		else if (n->getname() == "Easter Bird")
+		{
+			if (questData->getValue("easterStarted"))
+			{
+				if (easterInteractBehavior == nullptr)
+				{
+					easterInteractBehavior = new EasterInteractBehavior(thePlayer, (NPC*)person, this, ((Grpg*)theGame)->getUI(), gem, questData, ((Grpg*)theGame));
+				}
+				setupVectorActiveBehaviors();
+			}
+			else
+			{
+				SAFE_DELETE(easterInteractBehavior);
 				setupVectorActiveBehaviors();
 			}
 		}

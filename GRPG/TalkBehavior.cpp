@@ -150,7 +150,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 	case 5: //Easter: Start quest
 		ui->addTalkText(new ChatInformation("I need you to get some feathers somwhere, in order to rebuild the bird's nest so that it is usuable again.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("I also need you to get a sample of an easter egg that has already been sent out.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Finally, I require some food to feed the bird, it hasn't been fed in a long time since the food supply has gone rotten when it was blocked", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Finally, I require some cooked rotten meat to feed the bird, it hasn't been fed in a long time since the food supply has gone rotten when it was blocked", chatNS::RIGHT));
 		gem->informListeners(new GameEvent_EntityAction(ii));
 		cd->addOption(0, "Alright.");
 		ui->addTalkText(cd);
@@ -247,9 +247,9 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(cd);
 		break;
 	case 14: //Feeding: What exactly do you need me to do?
-		ui->addTalkText(new ChatInformation("I need you to get some cooked food and feed it to the bird right next to me.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Does it have to be some special food?", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("No, any food would do, as long as it's been cooked.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I need you to get some cooked rotten meat and feed it to the bird right next to me.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Where can I get them?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("I think some of the stores around here may sell the meat, or you can kill some of the chickens and cook their meat", chatNS::RIGHT));
 		generateEasterQuestTalk(cd);
 		ui->addTalkText(cd);
 		break;

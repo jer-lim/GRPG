@@ -366,6 +366,10 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 			//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 		}
 
+		//Hello developers! Found a crash here?
+		//The reasoning for this is that you have a tile in your chunks definition with a specific char it's looking for
+		//But no corresponding tile ID was found in your tiles defininition.
+		//You can find the tile the game was attempting to search for in the 'tileId' variable.
 		t->spawn();
 		t->initialize(gamePtr, textureManager);
 		t->setX(tilePos.x);

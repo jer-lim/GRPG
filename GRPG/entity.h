@@ -204,6 +204,7 @@ class Entity : public Destination//, public Interactable
 	  //Quests
 	  Behavior* quickPluckBehavior = nullptr; //For Easter Quest
 	  Behavior* aggressivePluckBehavior = nullptr;
+	  Behavior* easterInteractBehavior = nullptr;
 
     // Constructor
     Entity();
@@ -430,6 +431,8 @@ class Entity : public Destination//, public Interactable
 	void setupVectorActiveBehaviors()
 	{//Must be in order, as they will be displayed in this order 
 		vectorActiveBehaviors.clear();
+		if (easterInteractBehavior)
+			vectorActiveBehaviors.push_back(easterInteractBehavior);
 		if (pickupBehavior)
 			vectorActiveBehaviors.push_back(pickupBehavior);
 		if (updateQuestsBehavior)

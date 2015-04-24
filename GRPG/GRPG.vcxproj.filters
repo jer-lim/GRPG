@@ -57,6 +57,8 @@
     <ClCompile Include="QuickPluckBehavior.cpp" />
     <ClCompile Include="QuestData.cpp" />
     <ClCompile Include="AggressivePluckBehavior.cpp" />
+    <ClCompile Include="EasterInteractBehavior.cpp" />
+    <ClCompile Include="GameEvent_ItemUsed.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -137,6 +139,7 @@
     <ClInclude Include="QuestData.h" />
     <ClInclude Include="AggressivePluckBehavior.h" />
     <ClInclude Include="GameEvent_ItemReceived.h" />
+    <ClInclude Include="EasterInteractBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />
