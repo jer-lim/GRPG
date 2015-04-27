@@ -117,6 +117,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->removeWindow();
 		//No use with cd
 		delete cd;
+		grpg->attemptQuestCompletions();
 		break;
 	case 1: //Easter: Asks what's the matter
 		ui->addTalkText(new ChatInformation("Well...it's a long story.", chatNS::RIGHT));

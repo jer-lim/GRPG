@@ -500,3 +500,18 @@ bool Grpg::processCommand(std::string command)
 
 	return false;
 }
+
+void Grpg::attemptQuestCompletions()
+{
+	map<int, Quest*>* quests = questLoader->getMapQuests();
+	for (map<int, Quest*>::iterator i = quests->begin(); i != quests->end(); i++)
+	{
+		if (i->second->completed() && !i->second->getRewardGiven())
+		{
+			i->second->gainRewards(ui, player);
+			//Only give award to 1 quest at a time at most, otherwise the second quest's award
+			//window will override the first.
+			break;
+		}
+	}
+}

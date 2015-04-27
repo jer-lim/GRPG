@@ -43,6 +43,7 @@ private:
 	QuestData* questData;
 	map<int, int> skillReward;
 	vector<InventoryItem*> itemRewards;
+	bool rewardGiven;
 public:
 	~Quest(){
 		for (int i = 0; i < completeConditions.size(); i++)
@@ -177,8 +178,7 @@ public:
 		itemRewards.push_back(ii);
 	}
 
-	int getgold(){ return gold; }
-	void setgold(int n){ gold = n; }
+	bool getRewardGiven() { return rewardGiven; }
 	Button* getUIElement(){ return ui_element; }
 	void setUIElement(Button* b){ ui_element = b; }
 
@@ -199,6 +199,7 @@ public:
 
 	void gainRewards(UI* ui, Player* p)
 	{
+		rewardGiven = true;
 		for (map<int, int>::iterator i = skillReward.begin(); i != skillReward.end(); i++)
 		{
 			p->getSkills()->at(i->first).gainXP(i->second);

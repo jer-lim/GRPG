@@ -68,6 +68,13 @@ public:
 	ItemLoader* getItemLoader() { return itemLoader; }
 	QuestLoader* getQuestLoader() { return questLoader; }
 	GameEventManager* getGameEventManager() { return gameEventManager; }
+
+	//Attempt to finish all the quests that have all their required conditions completed, as long as they
+	//have not had their reward given already
+	//Will display the quest complete popup if required, as well as awarding any rewards that should be given
+	//to the player's inventory. Since the quest complete popup is shown, any window headers already displayed
+	//will be removed.
+	void attemptQuestCompletions();
 };
 
 #endif
