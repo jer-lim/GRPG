@@ -59,7 +59,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	//Create an easter quest
 	Button* b = new Button();
 	b->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY, QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Easter Event 2015");
-	Quest* easterQuest = new Quest(gem, questData, "Easter Event 2015", "Help the easter bunny!", 0, b);
+	Quest* easterQuest = new Quest(gem, questData, "Easter Event 2015", "Help the easter bunny!", b);
 	QuestCondition* talkToEasterBunny = new QuestCondition();
 	GameEvent* easterBunnyTalked = new GameEvent_EntityAction(personLoader->getNPC(28), "I can start this quest by talking to the easter bunny near the store, or by typing 'easter' into the console.", "The easter bunny needs help getting his bird to lay eggs after his workers rioted. I need to retrieve 3 items to help them.");
 	//Once quest has started, allow feather plucking
@@ -117,7 +117,8 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	easterQuest->addQuestCondition(talkToEasterBunny3, sootheBird);
 
 	easterQuest->addSkillReward(skillNS::ID_SKILL_STRENGTH, 1000);
-	easterQuest->addSkillReward(skillNS::ID_SKILL_THIEVING, 3000);
+	easterQuest->addSkillReward(skillNS::ID_SKILL_THIEVING, 1500);
+	easterQuest->addMiscReward("Monsters throughout GRPG now has a chance to drop easter eggs on death. These eggs can be eaten or traded with the easter bunny.");
 
 	mapQuests[0] = easterQuest;
 }

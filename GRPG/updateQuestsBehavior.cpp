@@ -15,7 +15,8 @@ string UpdateQuestsBehavior::displayText(){
 
 //Finish quests if needed
 void UpdateQuestsBehavior::action()
-{
+{/*
+ //deprecated
 	VECTOR2 collisionVector;
 	if (player->collidesWith(*entity, collisionVector))
 	{
@@ -58,5 +59,5 @@ void UpdateQuestsBehavior::action()
 	{
 		player->setVictim(entity);
 		player->setNPCAction(this);
-	}
+	}*/
 }

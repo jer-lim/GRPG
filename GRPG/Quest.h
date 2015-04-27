@@ -43,6 +43,10 @@ private:
 	QuestData* questData;
 	map<int, int> skillReward;
 	vector<InventoryItem*> itemRewards;
+	//Miscallenous rewards that do not belong in either category, but are regardless rewards for the quest
+	//These rewards only contain text that should be displayed to the user, the actual reward has to be coded
+	//inside the program at the relevant locations.
+	vector<string> miscRewards;
 	bool rewardGiven;
 public:
 	~Quest(){
@@ -54,7 +58,7 @@ public:
 		SAFE_DELETE(ui_element);	
 		//delete reward;//changed to int lol lazy boy ah matthew
 	}
-	Quest(GameEventManager* qcM, QuestData* qd, string nama, string descript, int gp, Button* b);
+	Quest(GameEventManager* qcM, QuestData* qd, string nama, string descript, Button* b);
 
 	int eventOccured(GameEvent* ge,UI* ui){
 		int result = NO_CHANGE;
@@ -172,11 +176,22 @@ public:
 		skillReward[theSkillId] = amount;
 	}
 
+	map<int, int>* getSkillsRewards() { return &skillReward; }
+
 	//Add a new item as a reward to this quest
 	void addItemReward(InventoryItem* ii)
 	{
 		itemRewards.push_back(ii);
 	}
+
+	vector<InventoryItem*> getItemRewards() { return itemRewards; }
+
+	void addMiscReward(string s)
+	{
+		miscRewards.push_back(s);
+	}
+	
+	vector<string> getMiscRewards() { return miscRewards; }
 
 	bool getRewardGiven() { return rewardGiven; }
 	Button* getUIElement(){ return ui_element; }

@@ -10,6 +10,7 @@
 #include "playerSkill.h"
 #include <sstream>
 #include "grpg.h"
+#include "Quest.h"
 
 //=============================================================================
 // default constructor
@@ -31,6 +32,7 @@ UI::UI() : Entity()
 	windowTexture = new TextureManager();
 	shopTexture = new TextureManager();
 	activeTab = uiNS::SKILLS;
+	questToDisplay = nullptr;
 
 	//Not visible till you right click
 	rightClickBackground.setVisible(false);
@@ -296,6 +298,70 @@ void UI::draw(Viewport* viewport)
 				ss << "\n" << "Quest is currently not finished.";
 			uiText->print(ss.str(), windowImage.getX() - windowImage.getWidth() / 2 + uiNS::shopLMargin, windowImage.getY() + windowImage.getHeight() / 2 - uiNS::windowBottomBorder * 4 - shopImage.getHeight() / 2);
 		}*/
+		//Display quest reward, if any
+		else if (questToDisplay != nullptr)
+		{
+			float heightGiven = windowImage.getHeight() - uiNS::windowXHeight - uiNS::windowBottomBorder - uiNS::talkMargin;
+			float widthGiven = windowImage.getWidth() - uiNS::windowLRMargin - uiNS::windowLRMargin;
+
+			RECT* testRect = new RECT();
+			testRect->left = 0;
+			testRect->right = widthGiven;
+			testRect->top = 0;
+
+			RECT* actualRect = new RECT();
+			actualRect->left = windowImage.getX() - windowImage.getWidth() / 2 + uiNS::windowLRMargin;
+			actualRect->right = actualRect->left + widthGiven;
+			actualRect->top = windowImage.getY() - windowImage.getHeight() / 2 + uiNS::windowXHeight + uiNS::talkMargin;
+
+			//For every line to display, calculate height required, generate new rectangle based on it, then draw.
+			//We'll start with the basic text. ("You are awarded...")
+			uiText->print("You are awarded...", *testRect, DT_CALCRECT | DT_WORDBREAK);
+			actualRect->bottom = actualRect->top + testRect->bottom;
+			uiText->print("You are awarded...", *actualRect, DT_CENTER | DT_WORDBREAK);
+			//Reset actaulRect to work for the next text
+			actualRect->top = actualRect->bottom + uiNS::talkMargin;
+
+			map<int, int>* skillsReward = questToDisplay->getSkillsRewards();
+			stringstream ss;
+			//Now show skills reward
+			for (map<int, int>::iterator i = skillsReward->begin(); i != skillsReward->end(); i++)
+			{
+				string skillName = player->getSkills()->at(i->first).getSkill()->getName();
+				int amountOfXP = i->second;
+				ss << "+" << amountOfXP << " " << skillName << " XP";
+				uiText->print(ss.str(), *testRect, DT_CALCRECT | DT_WORDBREAK);
+				actualRect->bottom = actualRect->top + testRect->bottom;
+				uiText->print(ss.str(), *actualRect, DT_CENTER | DT_WORDBREAK);
+				//Reset actaulRect to work for the next text
+				actualRect->top = actualRect->bottom + uiNS::talkMargin;
+				//Reset string to contian nothing
+				ss.str("");
+			}
+			//Now show items reward
+			vector<InventoryItem*> itemsReward = questToDisplay->getItemRewards();
+			for (vector<InventoryItem*>::iterator i = itemsReward.begin(); i != itemsReward.end(); i++)
+			{
+				InventoryItem* theItem = *i;
+				uiText->print(theItem->getName(), *testRect, DT_CALCRECT | DT_WORDBREAK);
+				actualRect->bottom = actualRect->top + testRect->bottom;
+				uiText->print(theItem->getName(), *actualRect, DT_CENTER | DT_WORDBREAK);
+				//Reset actaulRect to work for the next text
+				actualRect->top = actualRect->bottom + uiNS::talkMargin;
+			}
+			//Now show text reward
+			vector<string> miscReward = questToDisplay->getMiscRewards();
+			for (vector<string>::iterator i = miscReward.begin(); i != miscReward.end(); i++)
+			{
+				uiText->print(*i, *testRect, DT_CALCRECT | DT_WORDBREAK);
+				actualRect->bottom = actualRect->top + testRect->bottom;
+				uiText->print(*i, *actualRect, DT_CENTER | DT_WORDBREAK);
+				//Reset actaulRect to work for the next text
+				actualRect->top = actualRect->bottom + uiNS::talkMargin;
+			}
+			delete testRect;
+			delete actualRect;
+		}
 		//Display conversation, if any
 		else if (chatText.size() > 0)
 		{
@@ -811,6 +877,12 @@ void UI::setShopItems(vector<Entity* > i)
 
 	//Make the player's active tab the inventory
 	activeTab = uiNS::INVENTORY;
+}
+
+void UI::displayQuestReward(Quest* quest)
+{
+	questToDisplay = quest;
+	drawWindow(quest->getname() + " complete!");
 }
 
 //=============================================================================

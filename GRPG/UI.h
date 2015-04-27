@@ -17,6 +17,8 @@
 #include "SellBehavior.h"
 #include "ChatData.h"
 
+class Quest;
+
 namespace uiNS
 {
 	const int WIDTH = 190;                   // image width
@@ -134,7 +136,8 @@ private:
 	vector<ChatData*> preChatText;
 	//Starts at uiNS::talkDelay, ticks down to 0, then displays next text. If -1, no text in queue
 	float chatTimer;
-	
+	//The quest's reward to display in the window, if any
+	Quest* questToDisplay;
 protected:
 	//Draws the specified tab number onto the screen on the correct location
 	//Also see drawTabContents
@@ -222,9 +225,11 @@ public:
 	// Removes the shop window, if any, is being drawn on the screen
 	// Also removes all sell behavior from items in the shop, if required
 	// As well as clearing the chat data
+	// Also removes the quest's reward that is currently being displayed, if any
 	virtual void removeWindow()
 	{
 		windowHeader = "";
+		questToDisplay = nullptr;
 		items.clear();
 		//Remove sell behavior if required
 		vector<Entity*> playerInventory = player->getInventory()->getVectorItems();
@@ -236,6 +241,12 @@ public:
 		}
 		removeAllChatData();
 	}
+
+	//Begins displaying the quest reward of a certain quest, as if the player has just completed it.
+	//Note that it only displays the quest, it doesn't give the reward or anything like that
+	//You do NOT need to call 'drawWindow()' for this
+	//To remove, call removeWindow()
+	virtual void displayQuestReward(Quest* quest);
 
 	//Deletes and removes all stored chat data in the UI, if any.
 	virtual void removeAllChatData()
