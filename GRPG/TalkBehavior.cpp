@@ -32,7 +32,7 @@ void TalkBehavior::action(){
 				case 1:
 				{
 					ui->drawWindow("Easter Bunny");
-					if (!questData->getValue("easterStarted"))
+					if (questData->getValue("easterStatus") == 0)
 					{
 						ui->addTalkText(new ChatInformation("Hello, I'm the easter bunny!", chatNS::RIGHT));
 						ui->addTalkText(new ChatInformation("I generally bring easter to the entire world, helping to bring joy through easter eggs to everyone - even the ones that tend to be hostile! I don't show bias to anyone!", chatNS::RIGHT));
@@ -43,6 +43,33 @@ void TalkBehavior::action(){
 						dt->addOption(0, "Uh, I should go. Things to do...");
 						dt->setCaller(this);
 						ui->addTalkText(dt);
+					}
+					else if (questData->getValue("easterStatus") == 3)
+					{
+						ui->addTalkText(new ChatInformation("I've managed to soothe the bird!", chatNS::LEFT));
+						ui->addTalkText(new ChatInformation("So I see. Great job! You've been a big help in getting easter started!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("So easter can continue?", chatNS::LEFT));
+						ui->addTalkText(new ChatInformation("That's right! Thank you for all your help!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("No problem!", chatNS::LEFT));
+						ui->addTalkText(new ChatInformation("As a reward, here's some common easter eggs for you! Also, you may be able to find some more easter eggs as you travel around, since they will also be getting easter eggs and may drop them once killed. You can use these easter eggs for yourself or sell them to me.", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(0, "Thanks!");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+						gem->informListeners(new GameEvent_EntityAction(ii));
+					}
+					else if (questData->getValue("foodGiven") && questData->getValue("easterBirdNestStatus") == 3 && questData->getValue("easterEggStatus") == 3)
+					{
+						ui->addTalkText(new ChatInformation("Hello again!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("I've completed all the tasks you've asked me to do!", chatNS::LEFT));
+						ui->addTalkText(new ChatInformation("Great job! However, the bird's still looking a bit restless. Perhaps you could help me soothe the bird?", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("Soothe the bird?", chatNS::LEFT));
+						ui->addTalkText(new ChatInformation("Yes, you know, say kind words to it, make it feel better, pet it and stuff. I'm not too good and doing that, maybe you could help me?", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(0, "Alright");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+						gem->informListeners(new GameEvent_EntityAction(ii));
 					}
 					else
 					{

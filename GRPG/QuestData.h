@@ -38,13 +38,14 @@ public:
 	virtual void init()
 	{
 		//Represents the information about the easter quest on how it is progressing
-		//In general, 0 = false, 1 = true.
+		//0 = not started, 1 = started, 3 tasks required , 2 = soohihng required, 3 = soothing finished
+		storedInformation["easterStatus"] = 0;
 		storedInformation["easterComplete"] = 0;
-		storedInformation["easterFeatherRequired"] = 0;
-		storedInformation["easterRebuildNestFinished"] = 0;
-		storedInformation["easterEggRequired"] = 0;
+		//0 = not yet, 1 = feather required, 2 = nest rebuild required, 3 = done
+		storedInformation["easterBirdNestStatus"] = 0;
+		//0 = not yet, 1 = egg required, 2 = egg needs to be given, 3 = done
+		storedInformation["easterEggStatus"] = 0;
 		storedInformation["foodGiven"] = 0;
-		storedInformation["easterStarted"] = 0;
 	}
 };
 

@@ -39,10 +39,10 @@ private:
 	string description;
 	vector<RequiredCondition> completeConditions;//beginCondition, completeCondition;
 	//bool completed;
-	//InventoryItem* reward;//lazy
-	int gold;
 	Button* ui_element;
 	QuestData* questData;
+	map<int, int> skillReward;
+	vector<InventoryItem*> itemRewards;
 public:
 	~Quest(){
 		for (int i = 0; i < completeConditions.size(); i++)
@@ -56,7 +56,7 @@ public:
 	Quest(GameEventManager* qcM, QuestData* qd, string nama, string descript, int gp, Button* b);
 
 	int eventOccured(GameEvent* ge,UI* ui){
-		int result;
+		int result = NO_CHANGE;
 		for (int i = 0; i < completeConditions.size(); i++)
 		{
 			//Can only complete a part of the quest that you have started.
@@ -165,6 +165,18 @@ public:
 		completeConditions.push_back(rc);
 	}
 
+	//Add a new skill reward to this quest at the very end
+	void addSkillReward(int theSkillId, int amount)
+	{
+		skillReward[theSkillId] = amount;
+	}
+
+	//Add a new item as a reward to this quest
+	void addItemReward(InventoryItem* ii)
+	{
+		itemRewards.push_back(ii);
+	}
+
 	int getgold(){ return gold; }
 	void setgold(int n){ gold = n; }
 	Button* getUIElement(){ return ui_element; }
@@ -178,6 +190,18 @@ public:
 			{
 				ui->addTalkText(new ChatInformation(completeConditions[i].completeCondition->getFullHelpText(), chatNS::MIDDLE));
 			}
+		}
+		if (completed())
+		{
+			ui->addTalkText(new ChatInformation("Hooray, Quest complete!", chatNS::MIDDLE));
+		}
+	}
+
+	void gainRewards(UI* ui, Player* p)
+	{
+		for (map<int, int>::iterator i = skillReward.begin(); i != skillReward.end(); i++)
+		{
+			p->getSkills()->at(i->first).gainXP(i->second);
 		}
 	}
 };

@@ -63,27 +63,28 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	QuestCondition* talkToEasterBunny = new QuestCondition();
 	GameEvent* easterBunnyTalked = new GameEvent_EntityAction(personLoader->getNPC(28), "I can start this quest by talking to the easter bunny near the store, or by typing 'easter' into the console.", "The easter bunny needs help getting his bird to lay eggs after his workers rioted. I need to retrieve 3 items to help them.");
 	//Once quest has started, allow feather plucking
-	easterBunnyTalked->addChangeRequired("easterFeatherRequired", true);
-	easterBunnyTalked->addChangeRequired("easterEggRequired", true);
-	easterBunnyTalked->addChangeRequired("easterStarted", true);
+	easterBunnyTalked->addChangeRequired("easterBirdNestStatus", 1);
+	easterBunnyTalked->addChangeRequired("easterEggStatus", 1);
+	easterBunnyTalked->addChangeRequired("easterStatus", 1);
 	talkToEasterBunny->addGameEventRequirement(easterBunnyTalked, 1, nullptr);
 	easterQuest->addQuestCondition(talkToEasterBunny);
 
 	QuestCondition* fixMachine1 = new QuestCondition();
 	GameEvent* getFeathers = new GameEvent_EntityAction(personLoader->getNPC(15) , "I need to get some feathers to fluff up the bird's nest.", "I managed to acquire some feathers by plucking a chicken.");
 	//Once feathers are retrieved, remove need to pluck
-	getFeathers->addChangeRequired("easterFeatherRequired", false);
+	getFeathers->addChangeRequired("easterBirdNestStatus", 2);
 	fixMachine1->addGameEventRequirement(getFeathers, 1, nullptr);
-	GameEvent* useFeathers = new GameEvent_EntityAction(personLoader->getNPC(29), "I need to use these feathers to fix up the machine.", "I used the feathers to fix up the nest.");
-	useFeathers->addChangeRequired("easterRebuildNestFinished", true);
+	GameEvent* useFeathers = new GameEvent_EntityAction(personLoader->getNPC(29), "I need to use these feathers to fix up the nest.", "I used the feathers to fix up the nest.");
+	useFeathers->addChangeRequired("easterBirdNestStatus", 3);
 	fixMachine1->addGameEventRequirement(useFeathers, 1, getFeathers);
 	easterQuest->addQuestCondition(fixMachine1, talkToEasterBunny);	
 	
 	QuestCondition* fixMachine2 = new QuestCondition();
 	GameEvent* getEgg = new GameEvent_ItemReceived(itemLoader->getItem(31), "I need to get some eggs that has been sent out back to act as a sample against further eggs laid.", "I managed to acquire some sample eggs.");
-	getEgg->addChangeRequired("easterEggRequired", false);
+	getEgg->addChangeRequired("easterEggStatus", 2);
 	fixMachine2->addGameEventRequirement(getEgg, 1, nullptr);
 	GameEvent* useEgg = new GameEvent_EntityAction(personLoader->getNPC(28), "I need to give the eggs to the easter bunny.", "I gave the eggs to the easter bunny.");
+	useEgg->addChangeRequired("easterEggStatus", 3);
 	fixMachine2->addGameEventRequirement(useEgg, 1, getEgg);
 	easterQuest->addQuestCondition(fixMachine2, talkToEasterBunny);
 
@@ -96,6 +97,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	QuestCondition* talkToEasterBunnyAgain = new QuestCondition();
 	GameEvent* easterBunnyTalk = new GameEvent_EntityAction(personLoader->getNPC(28), "I managed to complete all 3 tasks! I should now talk to Easter bunny to see what's next.", "I talked to the easter bunny. He says I now need to soothe the bird.");
 	talkToEasterBunnyAgain->addGameEventRequirement(easterBunnyTalk, 1, nullptr);
+	easterBunnyTalk->addChangeRequired("easterStatus", 2);
 	vector<QuestCondition*> requiredConditions;
 	requiredConditions.push_back(fixMachine1);
 	requiredConditions.push_back(fixMachine2);
@@ -104,6 +106,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 
 	QuestCondition* sootheBird = new QuestCondition();
 	GameEvent* relaxBird = new GameEvent_EntityAction(personLoader->getNPC(29), "", "I managed to soothe the bird, calming him down. I should now go and talk to the easter bunny.");
+	relaxBird->addChangeRequired("easterStatus", 3);
 	sootheBird->addGameEventRequirement(relaxBird, 1, nullptr);
 	easterQuest->addQuestCondition(sootheBird, talkToEasterBunnyAgain);
 
@@ -112,6 +115,9 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	easterBunnyTalk3->addChangeRequired("easterComplete", true);
 	talkToEasterBunny3->addGameEventRequirement(easterBunnyTalk3, 1, nullptr);
 	easterQuest->addQuestCondition(talkToEasterBunny3, sootheBird);
+
+	easterQuest->addSkillReward(skillNS::ID_SKILL_STRENGTH, 1000);
+	easterQuest->addSkillReward(skillNS::ID_SKILL_THIEVING, 3000);
 
 	mapQuests[0] = easterQuest;
 }

@@ -818,7 +818,7 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 		NPC* n = ((NPC*)person);
 		if (n->getname() == "Chicken")
 		{
-			if (questData->getValue("easterFeatherRequired"))
+			if (questData->getValue("easterBirdNestStatus") == 1)
 			{
 				if (quickPluckBehavior == nullptr)
 				{
@@ -839,7 +839,7 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 		}
 		else if (n->getname() == "Easter Bird")
 		{
-			if (questData->getValue("easterStarted"))
+			if (questData->getValue("easterStatus") != 0 && !questData->getValue("easterComplete"))
 			{
 				if (easterInteractBehavior == nullptr)
 				{
@@ -1237,7 +1237,7 @@ void Entity::damage(int dt)
 		}
 		//Chance to drop quest loot
 		QuestData* questData = ((Grpg*)theGame)->getQuestLoader()->getQuestData();
-		if (questData->getValue("easterEggRequired"))
+		if (questData->getValue("easterEggStatus") == 1)
 		{
 			if (rand() % 5 == 0)
 			{

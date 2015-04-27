@@ -38,7 +38,7 @@ void StealBehavior::action(){
 			{
 				bool questItemStolen = false;
 				//Check for chance of quest items
-				if (grpg->getQuestLoader()->getQuestData()->getValue("easterEggRequired"))
+				if (grpg->getQuestLoader()->getQuestData()->getValue("easterEggStatus") == 1)
 				{
 					if (rand() % 10 == 0)
 					{
