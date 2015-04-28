@@ -22,16 +22,28 @@ protected:
 	string currentStackCountString;
 	//Entity* entity = nullptr;
 	DrawManager* drawmanager;
+	//To mark whether the initalize code has been called, and thus whether the item should be SAFE_RELEASED.
+	//The initalize code may not be called immediately if the item is created but not immediately shown
+	//or assigned to an entity (i.e. shop items or a quest reward)
+	bool initalized;
 public:
 	void initialize(Game* gamePtr)
 	{
 		item->initializeTexture(gamePtr);
+		initalized = true;
 	}
 	// constructor
-	InventoryItem(){}//If you don't have a .cpp, don't put ';', put '{}'
+	InventoryItem()
+	{
+		initalized = false;
+	}
+
 	virtual void destroy(){
 		//drawmanager->removeObject(entity);
-		SAFE_RELEASE(item);
+		if (initalized)
+		{
+			SAFE_RELEASE(item);
+		}
 		//SAFE_DELETE(entity);
 		drawmanager = nullptr;
 	}

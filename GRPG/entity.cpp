@@ -1246,6 +1246,14 @@ void Entity::damage(int dt)
 				((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_ItemReceived(((Grpg*)theGame)->getItemLoader()->getItem(31)));
 			}
 		}
+		//Chance to drop bonus loot (i.e. ring of wealth OP)
+		if (questData->getValue("easterComplete"))
+		{
+			//1 in 10 chance of dropping an easter egg
+			if (rand() % 10 == 0)
+			{
+			}
+		}
 		theGame->deleteEntity(this);
 	}
 	else
