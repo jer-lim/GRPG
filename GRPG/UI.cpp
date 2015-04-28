@@ -321,6 +321,7 @@ void UI::draw(Viewport* viewport)
 			uiText->print("You are awarded...", *actualRect, DT_CENTER | DT_WORDBREAK);
 			//Reset actaulRect to work for the next text
 			actualRect->top = actualRect->bottom + uiNS::talkMargin;
+			testRect->right = widthGiven;
 
 			map<int, int>* skillsReward = questToDisplay->getSkillsRewards();
 			stringstream ss;
@@ -330,11 +331,12 @@ void UI::draw(Viewport* viewport)
 				string skillName = player->getSkills()->at(i->first).getSkill()->getName();
 				int amountOfXP = i->second;
 				ss << "+" << amountOfXP << " " << skillName << " XP";
-				uiText->print(ss.str(), *testRect, DT_CALCRECT | DT_WORDBREAK);
+				uiText->print(ss.str().c_str(), *testRect, DT_CALCRECT | DT_WORDBREAK);
 				actualRect->bottom = actualRect->top + testRect->bottom;
-				uiText->print(ss.str(), *actualRect, DT_CENTER | DT_WORDBREAK);
+				uiText->print(ss.str().c_str(), *actualRect, DT_CENTER | DT_WORDBREAK);
 				//Reset actaulRect to work for the next text
 				actualRect->top = actualRect->bottom + uiNS::talkMargin;
+				testRect->right = widthGiven;
 				//Reset string to contian nothing
 				ss.str("");
 			}
@@ -343,11 +345,14 @@ void UI::draw(Viewport* viewport)
 			for (vector<InventoryItem*>::iterator i = itemsReward.begin(); i != itemsReward.end(); i++)
 			{
 				InventoryItem* theItem = *i;
-				uiText->print(theItem->getName(), *testRect, DT_CALCRECT | DT_WORDBREAK);
+				ss << theItem->getCurrentStackCount() << " x " << theItem->getName();
+				uiText->print(ss.str().c_str(), *testRect, DT_CALCRECT | DT_WORDBREAK);
 				actualRect->bottom = actualRect->top + testRect->bottom;
-				uiText->print(theItem->getName(), *actualRect, DT_CENTER | DT_WORDBREAK);
+				uiText->print(ss.str().c_str(), *actualRect, DT_CENTER | DT_WORDBREAK);
 				//Reset actaulRect to work for the next text
 				actualRect->top = actualRect->bottom + uiNS::talkMargin;
+				testRect->right = widthGiven;
+				ss.str("");
 			}
 			//Now show text reward
 			vector<string> miscReward = questToDisplay->getMiscRewards();
@@ -358,6 +363,7 @@ void UI::draw(Viewport* viewport)
 				uiText->print(*i, *actualRect, DT_CENTER | DT_WORDBREAK);
 				//Reset actaulRect to work for the next text
 				actualRect->top = actualRect->bottom + uiNS::talkMargin;
+				testRect->right = widthGiven;
 			}
 			delete testRect;
 			delete actualRect;

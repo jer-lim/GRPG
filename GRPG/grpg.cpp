@@ -508,7 +508,7 @@ void Grpg::attemptQuestCompletions()
 	{
 		if (i->second->completed() && !i->second->getRewardGiven())
 		{
-			i->second->gainRewards(ui, player);
+			i->second->gainRewards(ui, player, this);
 			//Only give award to 1 quest at a time at most, otherwise the second quest's award
 			//window will override the first.
 			ui->displayQuestReward(i->second);
