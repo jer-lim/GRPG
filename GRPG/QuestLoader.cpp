@@ -112,10 +112,10 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 
 	QuestCondition* talkToEasterBunny3 = new QuestCondition();
 	GameEvent* easterBunnyTalk3 = new GameEvent_EntityAction(personLoader->getNPC(28), "", "I managed to relax the bird enough and provide a comfortable environment for him to lay eggs! The easter bunny can take care of the rest.");
-	easterBunnyTalk3->addChangeRequired("easterComplete", true);
 	talkToEasterBunny3->addGameEventRequirement(easterBunnyTalk3, 1, nullptr);
 	easterQuest->addQuestCondition(talkToEasterBunny3, sootheBird);
 
+	easterQuest->addQuestDataChange("easterComplete", true);
 	easterQuest->addSkillReward(skillNS::ID_SKILL_STRENGTH, 1000);
 	easterQuest->addSkillReward(skillNS::ID_SKILL_THIEVING, 1500);
 	easterQuest->addItemReward(new InventoryFood(itemLoader->getItem(32), 1, DELICIOUS));

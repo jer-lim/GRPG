@@ -24,6 +24,10 @@ void Quest::gainRewards(UI* ui, Player* p, Grpg* grpg)
 	{
 		p->getSkills()->at(i->first).gainXP(i->second);
 	}
+	for (map<string, int>::iterator i = questDataChanges.begin(); i != questDataChanges.end(); i++)
+	{
+		questData->setValue(i->first, i->second);
+	}
 	for (vector<InventoryItem*>::iterator i = itemRewards.begin(); i != itemRewards.end(); i++)
 	{
 		InventoryItem* theItem = *i;

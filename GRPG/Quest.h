@@ -49,6 +49,7 @@ private:
 	//inside the program at the relevant locations.
 	vector<string> miscRewards;
 	bool rewardGiven;
+	map<string, int> questDataChanges;
 public:
 	~Quest(){
 		for (int i = 0; i < completeConditions.size(); i++)
@@ -198,6 +199,12 @@ public:
 	void addMiscReward(string s)
 	{
 		miscRewards.push_back(s);
+	}
+
+	//Adds a new quest data change to be performed to the QuestData object once this quest has been successfully marked as completed.
+	void addQuestDataChange(string name, int newValue)
+	{
+		questDataChanges[name] = newValue;
 	}
 	
 	vector<string> getMiscRewards() { return miscRewards; }
