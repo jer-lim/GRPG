@@ -44,6 +44,8 @@ private:
 	bool leftMouseWasDown;
 	bool rightMouseWasDown;
 	bool pro;//for cheaters
+	//For easter egg dropping. Every 5 easter eggs that drop, at least 1 is guaranteed to be rare or better.
+	int easterEggCounter;
 
 public:
     // Constructor
@@ -75,6 +77,9 @@ public:
 	//to the player's inventory. Since the quest complete popup is shown, any window headers already displayed
 	//will be removed.
 	void attemptQuestCompletions();
+
+	//Attempt to drop an easter egg for an entity. Generates a new easter egg object and returns it.
+	Entity* dropEasterEgg();
 };
 
 #endif

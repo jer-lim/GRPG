@@ -1250,8 +1250,12 @@ void Entity::damage(int dt)
 		if (questData->getValue("easterComplete"))
 		{
 			//1 in 10 chance of dropping an easter egg
-			if (rand() % 10 == 0)
+			if (rand() % 10 == 0 || true)
 			{
+				Entity* bonusEgg = ((Grpg*)theGame)->dropEasterEgg();
+				bonusEgg->setX(x);
+				bonusEgg->setY(y);
+				theGame->getDrawManager()->addObject(bonusEgg, 2);
 			}
 		}
 		theGame->deleteEntity(this);

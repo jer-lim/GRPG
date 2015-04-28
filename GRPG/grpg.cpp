@@ -21,6 +21,7 @@
 Grpg::Grpg()
 {//Mem leak free
 	uiFont = new TextDX();
+	easterEggCounter = 0;
 }
 
 //=============================================================================
@@ -515,4 +516,46 @@ void Grpg::attemptQuestCompletions()
 			break;
 		}
 	}
+}
+
+Entity* Grpg::dropEasterEgg()
+{
+	//Drop chances directly from https://www.reddit.com/r/hearthstone/comments/2emnxl/drops_chances_rarity_by_11359_hearthstone_expert/
+	//(Gold added to normal chances)
+	//Decimal places removed, multiply everything by 1000 for full number.
+	int commonChance = 70000 + 1470;
+	//rand() generates a random number from 0 to RAND_MAX...
+	//RAND_MAX is guaranteed to be at least 32767 on any standard library implementation... which is WAY TOO LOW!
+	int randomNumber = (rand() + rand() + rand() + rand()) % 100000;
+	int itemId;
+	if (randomNumber > commonChance || easterEggCounter > 4)
+	{
+		//You got a rare (or better!)
+		//Reset free rare+ counter.
+		easterEggCounter = 0;
+		int rareChance = 21400 + 1370;
+		itemId = 33;
+		if (randomNumber > (commonChance + rareChance))
+		{
+			//You got an epic (or better!)
+			itemId = 34;
+			int epicChance = 4280 + 1370;
+			if (randomNumber > (commonChance + rareChance + epicChance))
+			{
+				//WOAH, LEGENDARY!!!!!!!!!!!
+				itemId = 35;
+			}
+		}
+	}
+	else
+	{
+		//You got a common!
+		easterEggCounter++;
+		itemId = 32;
+	}
+	//Generate new item
+	InventoryItem* newItem = new InventoryFood(itemLoader->getItem(itemId), 1, DELICIOUS);
+	Entity* e = new Entity();
+	e->initialize(this, newItem, false);
+	return e;
 }
