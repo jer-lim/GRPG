@@ -59,6 +59,7 @@
     <ClCompile Include="AggressivePluckBehavior.cpp" />
     <ClCompile Include="EasterInteractBehavior.cpp" />
     <ClCompile Include="GameEvent_ItemUsed.h" />
+    <ClCompile Include="GainXPBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -140,6 +141,9 @@
     <ClInclude Include="AggressivePluckBehavior.h" />
     <ClInclude Include="GameEvent_ItemReceived.h" />
     <ClInclude Include="EasterInteractBehavior.h" />
+    <ClInclude Include="InventoryBoost.h" />
+    <ClInclude Include="Boost.h" />
+    <ClInclude Include="GainXPBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

@@ -16,6 +16,7 @@
     <ClInclude Include="AttackBehavior.h" />
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="BlacksmithBehavior.h" />
+    <ClInclude Include="Boost.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="BuyBehavior.h" />
     <ClInclude Include="ChatData.h" />
@@ -26,11 +27,13 @@
     <ClInclude Include="EatBehavior.h" />
     <ClInclude Include="EquipBehavior.h" />
     <ClInclude Include="FishBehavior.h" />
+    <ClInclude Include="GainXPBehavior.h" />
     <ClInclude Include="GameEventManager.h" />
     <ClInclude Include="GameEvent_EntityAction.h" />
     <ClInclude Include="GameEvent_ItemReceived.h" />
     <ClInclude Include="HealBehavior.h" />
     <ClInclude Include="Interactable.h" />
+    <ClInclude Include="InventoryBoost.h" />
     <ClInclude Include="InventoryEquipment.h" />
     <ClInclude Include="MineBehavior.h" />
     <ClInclude Include="OptionNotifier.h" />
@@ -103,6 +106,7 @@
     <ClCompile Include="EatBehavior.cpp" />
     <ClCompile Include="EquipBehavior.cpp" />
     <ClCompile Include="FishBehavior.cpp" />
+    <ClCompile Include="GainXPBehavior.cpp" />
     <ClCompile Include="GameEvent_ItemUsed.h" />
     <ClCompile Include="HealBehavior.cpp" />
     <ClCompile Include="InventoryItem.cpp" />

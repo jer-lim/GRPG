@@ -16,6 +16,7 @@
 #include "Enemy.h"
 #include "AttackBehavior.h"
 #include "PickupBehavior.h"
+#include "GainXPBehavior.h"
 #include "DropBehavior.h"
 #include "TradeBehavior.h"
 #include "TalkBehavior.h"
@@ -101,6 +102,7 @@ Entity::~Entity()
 	SAFE_DELETE(stoveBehavior);
 	SAFE_DELETE(updateQuestsBehavior);
 	SAFE_DELETE(stealBehavior);
+	SAFE_DELETE(gainXPBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{
@@ -283,6 +285,10 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 			case BURNT://nth
 				break;
 			}
+		}
+		else if (invItem->getType() == "INVENTORYBOOST")
+		{
+			gainXPBehavior = new GainXPBehavior(gamePtr, this, ((Grpg*)gamePtr)->getPlayer(), ((Grpg*)gamePtr)->getUI());
 		}
 	}
 	if (invItem->getItem()->getID() == 30){//Aidil's eyes

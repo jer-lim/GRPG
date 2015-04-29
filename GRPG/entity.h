@@ -189,6 +189,7 @@ class Entity : public Destination//, public Interactable
 	  Behavior* attackBehavior = nullptr;//Attack name -> perform attack
 	  //Mining and fishing also use this - when the rock/fihsing spot health reach 0, it drops loot
 	  //Item
+	  Behavior* gainXPBehavior = nullptr;
 	  Behavior* pickupBehavior = nullptr;//Pickup name -> pickup obj
 	  Behavior* dropBehavior = nullptr;//Drop name -> drop obj
 	  Behavior* cookBehavior = nullptr;//Cook name -> cook obj if fire nearby
@@ -445,6 +446,8 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(sellBehavior);
 		if (eatBehavior)
 			vectorActiveBehaviors.push_back(eatBehavior);
+		if (gainXPBehavior)
+			vectorActiveBehaviors.push_back(gainXPBehavior);
 		if (cookBehavior)//must come under pickup
 			vectorActiveBehaviors.push_back(cookBehavior);
 		if (dropBehavior)

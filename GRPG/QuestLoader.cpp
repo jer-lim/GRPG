@@ -5,6 +5,7 @@
 
 #include "QuestLoader.h"
 #include "PersonLoader.h"
+#include "InventoryBoost.h"
 
 void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader, ItemLoader* itemLoader,Graphics* g,float uiX,float uiY){
 	/*
@@ -119,6 +120,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	easterQuest->addSkillReward(skillNS::ID_SKILL_STRENGTH, 1000);
 	easterQuest->addSkillReward(skillNS::ID_SKILL_THIEVING, 1500);
 	easterQuest->addItemReward(new InventoryFood(itemLoader->getItem(32), 1, DELICIOUS));
+	easterQuest->addItemReward(new InventoryBoost(itemLoader->getItem(33), 1));
 	easterQuest->addMiscReward("Monsters throughout GRPG now has a chance to drop easter eggs on death. These eggs can be eaten or traded with the easter bunny.");
 
 	mapQuests[0] = easterQuest;
