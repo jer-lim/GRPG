@@ -295,6 +295,10 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 		//teleport to credits
 		teleportBehavior = new TeleportBehavior(((Grpg*)gamePtr)->getPlayer(), ((Grpg*)gamePtr)->getMapLoader(), this, gamePtr, '=');
 	}
+	else if (invItem->getItem()->getID() == 34) {//Epic easter egg
+		//Teleport to town
+		teleportBehavior = new TeleportBehavior(((Grpg*)gamePtr)->getPlayer(), ((Grpg*)gamePtr)->getMapLoader(), this, gamePtr, '+');
+	}
 	setupVectorActiveBehaviors();
 
 	anchored = inInventory;//anchored = true = inInventory

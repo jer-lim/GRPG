@@ -23,8 +23,12 @@ void EatBehavior::action()
 		player->setHealth(player->getHealth() + ((Food*)food->getInventoryItem()->getItem())->gethealth_gain()*FoodNS::DELICIOUS_HP_MULTIPLIER);
 		break;
 	}
+	if (player->getHealth() > player->getSkills()->at(skillNS::ID_SKILL_TOUGHNESS).getSkillLevel())
+	{
+		player->setHealth(player->getSkills()->at(skillNS::ID_SKILL_TOUGHNESS).getSkillLevel());
+	}
 	gamePtr->setMouseOverEntity(nullptr);
-	InventoryFood* foodClone = ((InventoryFood*)food)->clone();
+	InventoryFood* foodClone = ((InventoryFood*)food->getInventoryItem())->clone();
 	foodClone->setCurrentStackCount(1);
 	Entity* itemClone = new Entity();
 	itemClone->initialize(gamePtr, foodClone, true);
