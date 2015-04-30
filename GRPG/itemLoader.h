@@ -18,6 +18,7 @@
 #include <string>
 #include <unordered_map>
 #include "string_functions.h"
+#include "Boost.h"
 
 class ItemLoader
 {
@@ -28,12 +29,14 @@ private:
 	int index_weapons_start;
 	int index_armor_start;
 	int index_shields_start;
+	int index_boost_start;
 	const std::string misc_itemDataLocation = "assets/items/misc_item.gdef";
 	const std::string foodDataLocation = "assets/items/food.gdef";
 	const std::string smithing_materialsDataLocation = "assets/items/smithing_materials.gdef";
 	const std::string weaponsDataLocation = "assets/items/weapons.gdef";
 	const std::string armorDataLocation = "assets/items/armor.gdef";
 	const std::string shieldsDataLocation = "assets/items/shields.gdef";
+	const std::string boostDataLocation = "assets/items/boost.gdef";
 	unordered_map<int, Item*> map_items;
 public:
 	ItemLoader(){}

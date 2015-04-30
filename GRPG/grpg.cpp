@@ -14,6 +14,7 @@
 #include "PersonLoader.h"
 #include <sstream>
 #include "ChatData.h"
+#include "InventoryBoost.h"
 
 //=============================================================================
 // Constructor
@@ -468,6 +469,7 @@ bool Grpg::processCommand(std::string command)
 		player->setY(coordinates.y);
 		player->setVictim(0);
 		player->releaseDestination();
+		mouseOverEntity = nullptr;
 
 		return true;
 	}
@@ -527,34 +529,41 @@ Entity* Grpg::dropEasterEgg()
 	//rand() generates a random number from 0 to RAND_MAX...
 	//RAND_MAX is guaranteed to be at least 32767 on any standard library implementation... which is WAY TOO LOW!
 	int randomNumber = (rand() + rand() + rand() + rand()) % 100000;
-	int itemId;
+	InventoryItem* newItem;
 	if (randomNumber > commonChance || easterEggCounter > 4)
 	{
 		//You got a rare (or better!)
 		//Reset free rare+ counter.
 		easterEggCounter = 0;
 		int rareChance = 21400 + 1370;
-		itemId = 33;
 		if (randomNumber > (commonChance + rareChance))
 		{
 			//You got an epic (or better!)
-			itemId = 34;
 			int epicChance = 4280 + 1370;
 			if (randomNumber > (commonChance + rareChance + epicChance))
 			{
 				//WOAH, LEGENDARY!!!!!!!!!!!
-				itemId = 35;
+				newItem = new InventoryFood(itemLoader->getItem(35), 1, DELICIOUS);
 			}
+			else
+			{
+				//Epic confirmed
+				newItem = new InventoryFood(itemLoader->getItem(34), 1, DELICIOUS);
+			}
+		}
+		else
+		{
+			//Rare confirmed
+			newItem = new InventoryBoost(itemLoader->getItem(33), 1);
 		}
 	}
 	else
 	{
 		//You got a common!
 		easterEggCounter++;
-		itemId = 32;
+		newItem = new InventoryFood(itemLoader->getItem(32), 1, DELICIOUS);
 	}
 	//Generate new item
-	InventoryItem* newItem = new InventoryFood(itemLoader->getItem(itemId), 1, DELICIOUS);
 	Entity* e = new Entity();
 	e->initialize(this, newItem, false);
 	return e;

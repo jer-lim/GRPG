@@ -128,4 +128,23 @@ void ItemLoader::loadAllItems()
 		}
 		itemstream.close();
 	}
+
+	//Boost items
+	index_boost_start = map_items.size() + 1;
+	itemstream.open(boostDataLocation);
+	if (itemstream.is_open()){
+		string name, img_filename, descript;
+		int id, stackcount, cost, XPGain;
+		while (!itemstream.eof()){
+			itemstream >> id >> name >> img_filename >> descript >> stackcount >> XPGain >> cost;
+			name = String_Functions::replaceAll(name, '_', ' ');
+			descript = String_Functions::replaceAll(descript, '_', ' ');
+			Item* myItem = new Boost(id, name, descript, img_filename, stackcount, cost, XPGain);
+			if (!map_items.count(id))
+				map_items[id] = myItem;
+			else
+				throw(GameError(gameErrorNS::FATAL_ERROR, "Boost Item with same ID " + id));
+		}
+		itemstream.close();
+	}
 }
