@@ -4,5 +4,5 @@
 04 Ogre_Meat ogre_meat.png I_heard_ogres_are_chewier_than_they_look. 1 5 8 12.5 70
 05 Fish fish.png Finally,_something_that_looks_appetizing! 1 4 1 25 30
 06 Dragon_Meat dragon_meat.png Just_looking_at_it_makes_your_mouth_water. 1 8 15 10 200
-32 Common_Easter_Egg common_easter_egg.png A_fairly_common_easter_egg,_eat_to_restore_health 999 1 10 5 40
-35 Legendary_Easter_Egg legendary_easter_egg.png Wow,_LEGENDARY!_Eat_for_amazing_effects. 1 999 10 5 1600
+32 Common_Easter_Egg common_easter_egg.png A_fairly_common_easter_egg,_eat_to_restore_health 999 1 10 5 10
+35 Legendary_Easter_Egg legendary_easter_egg.png Wow,_LEGENDARY!_Eat_for_amazing_effects. 1 999 10 5 400

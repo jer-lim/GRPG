@@ -35,5 +35,13 @@ public:
 		ui->addChatText(ss.str());
 		p->getSkills()->at(skillChosen).gainXP(((Boost*)item)->getXPGain());
 	}
+
+	virtual int getCost(){
+		return item->getCost();
+	}
+
+	virtual int getSellingCost(){
+		return item->getSellingCost();
+	}
 };
 #endif

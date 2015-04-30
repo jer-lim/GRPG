@@ -535,6 +535,13 @@ Entity* Grpg::dropEasterEgg()
 	std::uniform_int_distribution<> dis(0, 100000);
 
 	int randomNumber = dis(gen);
+	stringstream ss;
+	ss << "Random number generated: " << randomNumber;
+	ui->addChatText(ss.str());
+	ss.str("");
+	ss << "Common chance: " << commonChance;
+	ui->addChatText(ss.str());
+	ss.str("");
 	InventoryItem* newItem;
 	if (randomNumber > commonChance || easterEggCounter > 4)
 	{
@@ -542,10 +549,16 @@ Entity* Grpg::dropEasterEgg()
 		//Reset free rare+ counter.
 		easterEggCounter = 0;
 		int rareChance = 21400 + 1370;
+		ss << "Rare chance: " << (rareChance + commonChance);
+		ui->addChatText(ss.str());
+		ss.str("");
 		if (randomNumber > (commonChance + rareChance))
 		{
 			//You got an epic (or better!)
 			int epicChance = 4280 + 1370;
+			ss << "Epic chance: " << (rareChance + commonChance + epicChance);
+			ui->addChatText(ss.str());
+			ss.str("");
 			if (randomNumber > (commonChance + rareChance + epicChance))
 			{
 				//WOAH, LEGENDARY!!!!!!!!!!!
@@ -554,7 +567,7 @@ Entity* Grpg::dropEasterEgg()
 			else
 			{
 				//Epic confirmed
-				newItem = new InventoryFood(itemLoader->getItem(34), 1, DELICIOUS);
+				newItem = new InventoryItem(itemLoader->getItem(34), 1);
 			}
 		}
 		else

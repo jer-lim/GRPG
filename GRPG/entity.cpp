@@ -1257,7 +1257,7 @@ void Entity::damage(int dt)
 			}
 		}
 		//Chance to drop bonus loot (i.e. ring of wealth OP)
-		if (questData->getValue("easterComplete"))
+		if (questData->getValue("easterComplete") || true)
 		{
 			//1 in 10 chance of dropping an easter egg
 			if (rand() % 10 == 0 || true)
