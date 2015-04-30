@@ -516,6 +516,7 @@ void Grpg::attemptQuestCompletions()
 			//Only give award to 1 quest at a time at most, otherwise the second quest's award
 			//window will override the first.
 			ui->displayQuestReward(i->second);
+			gameEventManager->informEntities();
 			break;
 		}
 	}
@@ -543,7 +544,7 @@ Entity* Grpg::dropEasterEgg()
 	ui->addChatText(ss.str());
 	ss.str("");
 	InventoryItem* newItem;
-	if (randomNumber > commonChance || easterEggCounter > 4)
+	if (randomNumber > commonChance || easterEggCounter >= 4)
 	{
 		//You got a rare (or better!)
 		//Reset free rare+ counter.

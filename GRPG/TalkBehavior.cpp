@@ -51,7 +51,7 @@ void TalkBehavior::action(){
 						ui->addTalkText(new ChatInformation("So easter can continue?", chatNS::LEFT));
 						ui->addTalkText(new ChatInformation("That's right! Thank you for all your help!", chatNS::RIGHT));
 						ui->addTalkText(new ChatInformation("No problem!", chatNS::LEFT));
-						ui->addTalkText(new ChatInformation("As a reward, here's a common easter egg for you! Also, you may be able to find some more easter eggs as you travel around, since they will also be getting easter eggs and may drop them once killed. You can use these easter eggs for yourself or sell them to me.", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("As a reward, here's a common easter egg for you! Also, you may be able to find some more easter eggs as you kill monsters, since they will also be getting easter eggs and may drop them once killed. You can use these easter eggs for yourself or sell them to me.", chatNS::RIGHT));
 						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
 						dt->addOption(0, "Thanks!");
 						dt->setCaller(this);

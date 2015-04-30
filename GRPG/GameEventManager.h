@@ -72,10 +72,16 @@ public:
 		delete e;
 		if (changedCaused)
 		{
-			for (int i = 0; i < vector_entities.size(); i++)
-			{
-				vector_entities[i]->questAction(questData, this);
-			}
+			informEntities();
+		}
+	}
+
+	//Inform all listening entities that a quest update has been performed;
+	//and thus it may be required that something relevant happens to them.
+	virtual void informEntities(){
+		for (int i = 0; i < vector_entities.size(); i++)
+		{
+			vector_entities[i]->questAction(questData, this);
 		}
 	}
 };

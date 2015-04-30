@@ -863,6 +863,21 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 				setupVectorActiveBehaviors();
 			}
 		}
+		else if (n->getname() == "Easter Bunny")
+		{
+			if (!questData->getValue("easterComplete"))
+			{
+				SAFE_DELETE(tradeBehavior);
+			}
+			else
+			{
+				if (tradeBehavior == nullptr)
+				{
+					tradeBehavior = new TradeBehavior((NPC*)person, ((Grpg*)theGame)->getUI(), ((Grpg*)theGame)->getPlayer(), this);
+				}
+			}
+			setupVectorActiveBehaviors();
+		}
 	}
 }
 
@@ -1257,10 +1272,10 @@ void Entity::damage(int dt)
 			}
 		}
 		//Chance to drop bonus loot (i.e. ring of wealth OP)
-		if (questData->getValue("easterComplete") || true)
+		if (questData->getValue("easterComplete"))
 		{
 			//1 in 10 chance of dropping an easter egg
-			if (rand() % 10 == 0 || true)
+			if (rand() % 10 == 0)
 			{
 				Entity* bonusEgg = ((Grpg*)theGame)->dropEasterEgg();
 				bonusEgg->setX(x);
