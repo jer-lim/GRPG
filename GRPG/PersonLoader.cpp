@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "NPC.h"
 #include <algorithm>
+#include "InventoryBoost.h"
 
 void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 {
@@ -53,6 +54,12 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 						iiPtr = new InventoryEquipment(itemLoader->getItem(atoi(vector_drop[0].c_str())),
 							atoi(vector_drop[1].c_str()),
 							(Smithing_Material*)itemLoader->getItem(atoi(vector_drop[2].c_str())));
+					}
+					else if (vector_drop[0].at(0) == 'B')
+					{//Boost item "id:count"
+						vector_drop[0].erase(0, 1);
+						iiPtr = new InventoryBoost(itemLoader->getItem(atoi(vector_drop[0].c_str())),
+							atoi(vector_drop[1].c_str()));
 					}
 					else
 					{//Normal item "id:count"

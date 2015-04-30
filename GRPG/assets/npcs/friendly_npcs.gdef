@@ -12,5 +12,5 @@
 25 Captain_Return grocer.png 0 0 64 64 1 38 38 Twin_brother_of_Captain_Point_Of_No_Return. If_you_need_a_ride_back_to_the_mainland,_tell_me! ( {} {} 0
 26 Quest_Board quest_board.png 0 0 64 64 1 38 38 Update_your_quests_here. Why_are_you_trying_to_talk_to_a_board? 0 {} {} 0
 27 The_End grocer.png 0 0 64 64 1 38 38 It's_the_end_of_the_world_as_you_know_it!  Congratulations,_you've_reached_the_end!_Not_the_end_of\nthe_game,_just_the_end!_I'll_bring_you_back_to_the_start_when_you're\ndone_here. ! {} {} 0
-28 Easter_Bunny easter.png 1 0 64 64 1 38 38 Hooray,_Easter_is_here! detail1 0 {} {} 0
+28 Easter_Bunny easter.png 1 0 64 64 1 38 38 Hooray,_Easter_is_here! detail1 0 {F32:1:3,B33:1,34:1,F35:1:3} {} 0
 29 Easter_Bird easter_bird.png 1 0 64 64 1 38 38 The_magical_easter_bird._Still_can't_speak_English. squawk_squawk_squawk 0 {} {} 0

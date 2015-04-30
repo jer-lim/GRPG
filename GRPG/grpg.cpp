@@ -13,6 +13,7 @@
 #include "tile.h"
 #include "PersonLoader.h"
 #include <sstream>
+#include <random>
 #include "ChatData.h"
 #include "InventoryBoost.h"
 
@@ -528,7 +529,12 @@ Entity* Grpg::dropEasterEgg()
 	int commonChance = 70000 + 1470;
 	//rand() generates a random number from 0 to RAND_MAX...
 	//RAND_MAX is guaranteed to be at least 32767 on any standard library implementation... which is WAY TOO LOW!
-	int randomNumber = (rand() + rand() + rand() + rand()) % 100000;
+	//So we use a different method instead: https://stackoverflow.com/questions/19758694/c-generate-a-random-number-between-0-and-100-000
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(0, 100000);
+
+	int randomNumber = dis(gen);
 	InventoryItem* newItem;
 	if (randomNumber > commonChance || easterEggCounter > 4)
 	{

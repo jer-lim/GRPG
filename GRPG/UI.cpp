@@ -873,6 +873,8 @@ void UI::setShopItems(vector<Entity* > i)
 		SAFE_DELETE(theItem->pickupBehavior);
 		SAFE_DELETE(theItem->eatBehavior);
 		SAFE_DELETE(theItem->cookBehavior);
+		SAFE_DELETE(theItem->teleportBehavior);
+		SAFE_DELETE(theItem->gainXPBehavior);
 		if (theItem->buyBehavior == nullptr)
 		{
 			theItem->buyBehavior = new BuyBehavior(player, theItem, coin, (Grpg*)game);

@@ -16,6 +16,7 @@ friendly_npcs.gdef
 			Where food state:
 				0: Raw / 1: Cooked / 2: Burnt / 3: Delicious
 		Eqp:	E{item id}:{stack count}:{smithing material id}
+		Boost:	B{item id}:{stack count}
 	- delimit with ','
 	- Example: 0:10,7:1 drops 10 coins and 1 copper.
 
