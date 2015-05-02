@@ -274,6 +274,8 @@ class Entity : public Destination//, public Interactable
 	// Returns a pointer to 0 if no current victim
 	virtual Entity* getVictim() { return victim; }
 
+	virtual bool getAnchored() { return anchored; }
+
 	Image* getImage(){ return &image; }
 	void setImage(Image i){ image = i; }
 

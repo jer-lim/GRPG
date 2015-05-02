@@ -24,6 +24,11 @@ string TeleportBehavior::displayText(){
 
 void TeleportBehavior::action()
 {
+	if (guyDoingTeleport->getInventoryItem() != nullptr && !guyDoingTeleport->getAnchored()) //Not anchored = not in inventory
+	{
+		((Grpg*)gameptr)->getUI()->addChatText("You need to pick that up first.");
+		return;
+	}
 	VECTOR2 collisionVector;
 	if (guyDoingTeleport->collidesWith(*player, collisionVector) || guyDoingTeleport->getInventoryItem() != nullptr)
 	{

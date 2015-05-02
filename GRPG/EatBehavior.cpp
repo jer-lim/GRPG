@@ -14,6 +14,11 @@ string EatBehavior::displayText(){
 
 void EatBehavior::action()
 {
+	if (!food->getAnchored()) //Not anchored = not in inventory
+	{
+		((Grpg*)gamePtr)->getUI()->addChatText("You need to pick that up first.");
+		return;
+	}
 	switch (((InventoryFood*)food->getInventoryItem())->getFoodState())
 	{
 	case COOKED:

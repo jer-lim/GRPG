@@ -12,6 +12,11 @@ string GainXPBehavior::displayText(){
 
 void GainXPBehavior::action()
 {
+	if (!item->getAnchored()) //Not anchored = not in inventory
+	{
+		((Grpg*)gamePtr)->getUI()->addChatText("You need to pick that up first.");
+		return;
+	}
 	((InventoryBoost*)item->getInventoryItem())->performBoost(ui, player);
 	gamePtr->setMouseOverEntity(nullptr);
 	
