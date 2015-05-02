@@ -44,6 +44,16 @@ void TalkBehavior::action(){
 						dt->setCaller(this);
 						ui->addTalkText(dt);
 					}
+					else if (questData->getValue("easterComplete"))
+					{
+						ui->addTalkText(new ChatInformation("Hey! Thanks for all your help!", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(6, "About those items you required earlier...");
+						dt->addOption(15, "About these easter eggs...");
+						dt->addOption(0, "Gotta go, see ya");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+					}
 					else if (questData->getValue("easterStatus") == 3)
 					{
 						ui->addTalkText(new ChatInformation("I've managed to soothe the bird!", chatNS::LEFT));
@@ -184,14 +194,14 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(cd);
 		break;
 	case 6: //Let's talk about something else
-		ui->addTalkText(new ChatInformation("Of course.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("What would you like to know?.", chatNS::RIGHT));
 		generateEasterQuestTalk(cd);
 		ui->addTalkText(cd);
 		break;
 	case 7: //Let's talk about the feathers you need
 		ui->addTalkText(new ChatInformation("Sure, what do you want to know?", chatNS::RIGHT));
 		cd->addOption(8, "What do you need these feathers for?");
-		if (questData->getValue("easterFeatherRequired"))
+		if (questData->getValue("easterBirdNestStatus") != 2)
 		{
 			cd->addOption(9, "Where do you think I can get these feathers?");
 		}
@@ -206,7 +216,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("I need the feathers to rebuild the bird's nest to be like his home.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("The bird can't lay eggs without having a proper, comfortable nest after all.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Thus, some feathers need to be gathered to place them at the nest to make it more comfortable.", chatNS::RIGHT));
-		if (questData->getValue("easterFeatherRequired"))
+		if (questData->getValue("easterBirdNestStatus") != 2)
 		{
 			cd->addOption(9, "Where do you think I can get these feathers?");
 		}
@@ -218,7 +228,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(cd);
 		break;
 	case 9: //Where do you think I can get these feathers (if haven't gotten it yet)
-		if (questData->getValue("easterFeatherRequired"))
+		if (questData->getValue("easterBirdNestStatus") != 2)
 		{
 			ui->addTalkText(new ChatInformation("I have no idea where feathers can be easily found. Chickens, perhaps?", chatNS::RIGHT));
 			ui->addTalkText(new ChatInformation("I know chickens can be found just near the doctor.", chatNS::RIGHT));
@@ -233,7 +243,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(cd);
 		break;
 	case 10: //Let's talk about the easter egg you wanted.
-		if (!questData->getValue("easterEggRequired"))
+		if (questData->getValue("easterEggStatus") == 2)
 		{
 			ui->addTalkText(new ChatInformation("I have an egg sample for you.", chatNS::LEFT));
 			ui->addTalkText(new ChatInformation("You hand over the easter egg to the Easter Bunny.", chatNS::MIDDLE));
@@ -279,6 +289,61 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("Where can I get them?", chatNS::LEFT));
 		ui->addTalkText(new ChatInformation("I think some of the stores around here may sell the meat, or you can kill some of the chickens and cook their meat", chatNS::RIGHT));
 		generateEasterQuestTalk(cd);
+		ui->addTalkText(cd);
+		break;
+	case 15: //About these easter eggs.
+		ui->addTalkText(new ChatInformation("Ah yes. Thanks to you, I can now start giving out easter eggs to others!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("As such, during your travels, you may fight enemies that already have an easter eggs. They'll drop them on death.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Easter eggs come in 4 tiers - common, rare, epic and legendary. You can use these easter eggs for yourself or sell them to me.", chatNS::RIGHT));
+		cd->addOption(16, "Tell me about the common easter eggs.");
+		cd->addOption(17, "Tell me about the rare easter eggs.");
+		cd->addOption(18, "Tell me about the epic easter eggs.");
+		cd->addOption(19, "Tell me about the legendary easter eggs.");
+		cd->addOption(0, "Thanks for the information.");
+		ui->addTalkText(cd);
+		break;
+	case 16: //Tell me about the common easter eggs.
+		ui->addTalkText(new ChatInformation("The common easter eggs are fairly common, and are likely the easter egg you will see the most.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("These easter eggs will restore 2HP once they are eaten. However, don't be fooled by their low rarity and low healing, they have a special property", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("And what would that be?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("They stack! They're common, stackable healing food! You can store pretty much limitless amount of healing in that single slot!", chatNS::RIGHT));
+		cd->addOption(17, "Tell me about the rare easter eggs.");
+		cd->addOption(18, "Tell me about the epic easter eggs.");
+		cd->addOption(19, "Tell me about the legendary easter eggs.");
+		cd->addOption(0, "Thanks for the information.");
+		ui->addTalkText(cd);
+		break;
+	case 17: //Tell me about the rare easter eggs.
+		ui->addTalkText(new ChatInformation("These easter eggs are significantly rarer and harder to find, however you can just buy one from me if you want one.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Their rarity is somewhat offset by their unique effect - they can be used to grant XP in a random skill!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("That's amazing!", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("I know! Additionally, if you get 4 common eggs in a row while killing monsters, the next egg you get is guaranteed to be a rare or better!", chatNS::RIGHT));
+		cd->addOption(16, "Tell me about the common easter eggs.");
+		cd->addOption(18, "Tell me about the epic easter eggs.");
+		cd->addOption(19, "Tell me about the legendary easter eggs.");
+		cd->addOption(0, "Thanks for the information.");
+		ui->addTalkText(cd);
+		break;
+	case 18: //Tell me about the epic easter eggs.
+		ui->addTalkText(new ChatInformation("The epic easter eggs are very rare and hard to find, but if your really want one you can purchase one from me.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("They will give you a teleport back to this town once used.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("So they can be used as an emergency escape?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("That's right! They work everywhere too!", chatNS::RIGHT));
+		cd->addOption(16, "Tell me about the common easter eggs.");
+		cd->addOption(17, "Tell me about the rare easter eggs.");
+		cd->addOption(19, "Tell me about the legendary easter eggs.");
+		cd->addOption(0, "Thanks for the information.");
+		ui->addTalkText(cd);
+		break;
+	case 19: //Tell me about the legendary easter eggs.
+		ui->addTalkText(new ChatInformation("Ah, the legendary easter eggs. Many never get one in their lifetime.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("However, they have amazing effects to make up for their rarity. For starters, they will restore all of your health! I won't spoil the remaining effects for you, you'll have to find them out yourself!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Ah, but if I really want one without having to leave my fate to RNGesus I can just buy one from you right?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("That is correct!", chatNS::RIGHT));
+		cd->addOption(16, "Tell me about the common easter eggs.");
+		cd->addOption(17, "Tell me about the rare easter eggs.");
+		cd->addOption(18, "Tell me about the epic easter eggs.");
+		cd->addOption(0, "Thanks for the information.");
 		ui->addTalkText(cd);
 		break;
 	default:

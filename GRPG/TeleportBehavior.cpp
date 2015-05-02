@@ -9,6 +9,7 @@
 #include "player.h"
 #include "NPC.h"
 #include "mapLoader.h"
+#include "grpg.h"
 
 string TeleportBehavior::displayText(){
 	if (guyDoingTeleport->getPerson() != nullptr)
