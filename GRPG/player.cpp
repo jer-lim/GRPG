@@ -35,8 +35,9 @@ Player::Player() : Entity()
 	skills[skillNS::ID_SKILL_THIEVING] = PlayerSkill(this, Skill::THIEVING);
 	
 	//Start off toughness at a good level
-	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(11), true);
+	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(99), true);
 	skills[skillNS::ID_SKILL_DEFENSE].gainXP(Skill::calculateXPRequired(99), true);
+	health = 99;
 
 	nearStove = false;
 }
@@ -116,6 +117,11 @@ void Player::update(float frameTime, Game* gamePtr)
 			releaseDestination();
 			victim = nullptr;
 		}
+	}
+
+	if (dragonfireImmunity > 0)
+	{
+		dragonfireImmunity -= frameTime;
 	}
 
 	Entity::update(frameTime, gamePtr);

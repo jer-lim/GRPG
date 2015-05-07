@@ -23,6 +23,8 @@ namespace aidilNS
 	const float dragonfireSpeed = 60;
 	const float dragonfireSpawnedPerSecond = 1000;
 	const int dragonfireDistance = 400;
+	const int dragonfireMinDamage = 20;
+	const int dragonfireMaxDamage = 45;
 
 	const int DRAGONFIRE_COOLDOWN = 1;
 	const int DRAGONFIRE_WARNING = 2;

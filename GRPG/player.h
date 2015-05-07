@@ -37,6 +37,7 @@ namespace playerNS
 	const float fishingWaitTime = 10;
 	const float miningWaitTime = 10;
 	const float thievinWaitTime = 3;
+	const float dragonfireImmuneTime = 1;
 }
 
 class Grpg;
@@ -66,6 +67,10 @@ private:
 
 	//Thieving stun
 	float thievingCooldown;
+	//Is the player immune to dragonfire? If so, for how long?
+	//If <0 = not immune
+	//>0 = immune for that amount of time.
+	float dragonfireImmunity;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
@@ -154,6 +159,15 @@ public:
 
 	//Returns true if the player is currently stunned due to a failed thieve, false otherwise
 	virtual bool hasFailedThieve() { return thievingCooldown > 0; }
+
+	//Sets the player as being hit by dragonfire, resetting dragonfireImmunity.
+	virtual void hitByDragonfire() {
+		dragonfireImmunity = playerNS::dragonfireImmuneTime;
+	}
+
+	virtual bool getImmunityToDragonfire() {
+		return dragonfireImmunity > 0;
+	}
 
 	virtual float getDamageReduction(){
 		if (getInventory()->getSlotBody() == nullptr)
