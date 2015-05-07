@@ -126,4 +126,24 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	easterQuest->addMiscReward("Monsters throughout GRPG now has a chance to drop easter eggs on death. These eggs can be eaten or traded with the easter bunny.");
 
 	mapQuests[0] = easterQuest;
+
+	//Create quest "Breath of Fresh Air"
+	Button* b2 = new Button();
+	b2->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + QuestNS::HEIGHT + QuestNS::MARGIN, QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Breath of Fresh Air");
+	Quest* smokeQuest = new Quest(gem, questData, "Breath of Fresh Air", "Help Nole figure out what his problem is and solve it", b2);
+	QuestCondition* talkToNoleMom = new QuestCondition();
+	GameEvent* noleMomTalked = new GameEvent_EntityAction(nullptr, "To start this quest, I can talk to Nole's mom in the house just east of the doctor.", "I have talked with Nole's mom. She's worried about her son, Nole, and wonders if anything is troubling him.");
+	noleMomTalked->addChangeRequired("smokeStatus", 1);
+	talkToNoleMom->addGameEventRequirement(noleMomTalked,1,nullptr);
+	smokeQuest->addQuestCondition(talkToNoleMom);
+
+	QuestCondition* talkToNole = new QuestCondition();
+	GameEvent* noleTalked = new GameEvent_EntityAction(nullptr, "Maybe I should go and talk with him.", "I talked with Nole. After some time, he had to go for a smoke, but revealed that he was unhappy about constantly getting 4th. Maybe I can do something about it.");
+	noleTalked->addChangeRequired("elliotStatus", 1);
+	noleTalked->addChangeRequired("geraldStatus", 1);
+	noleTalked->addChangeRequired("mattStatus", 1);
+	talkToNole->addGameEventRequirement(noleTalked, 1, nullptr);
+	smokeQuest->addQuestCondition(talkToNole, talkToNoleMom);
+
+	mapQuests[1] = smokeQuest;
 }

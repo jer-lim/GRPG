@@ -60,6 +60,8 @@
     <ClCompile Include="EasterInteractBehavior.cpp" />
     <ClCompile Include="GameEvent_ItemUsed.h" />
     <ClCompile Include="GainXPBehavior.cpp" />
+    <ClCompile Include="Aidil.cpp" />
+    <ClCompile Include="Dragonfire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -144,6 +146,8 @@
     <ClInclude Include="InventoryBoost.h" />
     <ClInclude Include="Boost.h" />
     <ClInclude Include="GainXPBehavior.h" />
+    <ClInclude Include="Aidil.h" />
+    <ClInclude Include="Dragonfire.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

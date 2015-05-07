@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AggressivePluckBehavior.h" />
+    <ClInclude Include="Aidil.h" />
     <ClInclude Include="Armor.h" />
     <ClInclude Include="AttackBehavior.h" />
     <ClInclude Include="Behavior.h" />
@@ -22,6 +23,7 @@
     <ClInclude Include="ChatData.h" />
     <ClInclude Include="CookBehavior.h" />
     <ClInclude Include="Cooker.h" />
+    <ClInclude Include="Dragonfire.h" />
     <ClInclude Include="DropBehavior.h" />
     <ClInclude Include="EasterInteractBehavior.h" />
     <ClInclude Include="EatBehavior.h" />
@@ -95,12 +97,14 @@
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Aidil.cpp" />
     <ClCompile Include="AggressivePluckBehavior.cpp" />
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="AttackBehavior.cpp" />
     <ClCompile Include="ChatData.cpp" />
     <ClCompile Include="CookBehavior.cpp" />
     <ClCompile Include="BuyBehavior.cpp" />
+    <ClCompile Include="Dragonfire.cpp" />
     <ClCompile Include="DropBehavior.cpp" />
     <ClCompile Include="EasterInteractBehavior.cpp" />
     <ClCompile Include="EatBehavior.cpp" />

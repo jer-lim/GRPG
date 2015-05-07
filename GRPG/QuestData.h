@@ -38,7 +38,7 @@ public:
 	virtual void init()
 	{
 		//Represents the information about the easter quest on how it is progressing
-		//0 = not started, 1 = started, 3 tasks required , 2 = soohihng required, 3 = soothing finished
+		//0 = not started, 1 = started, 3 tasks required , 2 = soothng required, 3 = soothing finished
 		storedInformation["easterStatus"] = 0;
 		storedInformation["easterComplete"] = 0;
 		//0 = not yet, 1 = feather required, 2 = nest rebuild required, 3 = done
@@ -46,6 +46,17 @@ public:
 		//0 = not yet, 1 = egg required, 2 = egg needs to be given, 3 = done
 		storedInformation["easterEggStatus"] = 0;
 		storedInformation["foodGiven"] = 0;
+
+		//Represents the information about the smoke quest and how it is progressing
+		//0 = not started, 1 = started, 3 tasks required, 2 = 
+		storedInformation["smokeStatus"] = 0;
+		storedInformation["smokeComplete"] = 0;
+		//0 = not started, 1 = started quest
+		storedInformation["elliotStatus"] = 0;
+		//0 = not started, 1 = started quest
+		storedInformation["geraldStatus"] = 0;
+		//0 = not started, 1 = started quest
+		storedInformation["mattStatus"] = 0;
 	}
 };
 

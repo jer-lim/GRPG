@@ -6,10 +6,21 @@
 #include "NPC.h"
 #include "PersonLoader.h"
 #include "drawManager.h"
+#include "Aidil.h"
+#include "grpg.h"
 
 Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
-	Entity* enemy = new Entity();
-	enemy->initialize(gamePtr, gamePtr->getPersonLoader()->getNPC(npcId));
+	Entity* enemy;
+	if (npcId == 14) //Aidil exception
+	{
+		enemy = new Aidil();
+		((Aidil*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), gamePtr->getPersonLoader()->getNPC(npcId));
+	}
+	else
+	{
+		enemy = new Entity();
+		enemy->initialize(gamePtr, gamePtr->getPersonLoader()->getNPC(npcId));
+	}
 	enemy->setX(coords.x);
 	enemy->setY(coords.y);
 	enemy->setVictim(victim);

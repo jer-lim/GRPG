@@ -36,6 +36,7 @@ Player::Player() : Entity()
 	
 	//Start off toughness at a good level
 	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(11), true);
+	skills[skillNS::ID_SKILL_DEFENSE].gainXP(Skill::calculateXPRequired(99), true);
 
 	nearStove = false;
 }
