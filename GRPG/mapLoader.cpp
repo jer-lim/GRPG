@@ -9,6 +9,7 @@
 #include "Spawner.h"
 #include "Resource.h"
 #include "cooker.h"
+#include "AnimatableTile.h"
 
 using namespace std;
 
@@ -365,6 +366,12 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 			//runtimeLog << "Created tile1" << endl;
 			//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
 		}
+		else if (tileset[tileId].type == tileNS::type::ANIMATABLE){
+			t = new AnimatableTile(tileId, false);
+			t->initialize(gamePtr, textureManager);
+			//runtimeLog << "Created animtable1" << endl;
+			//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+		}
 
 		//Hello developers! Found a crash here?
 		//The reasoning for this is that you have a tile in your chunks definition with a specific char it's looking for
@@ -609,6 +616,10 @@ void MapLoader::update(float frameTime){
 						((Resource*)t)->initialize(gamePtr, resourceNS::MINING, textureManager);
 						//runtimeLog << "Created Mining2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+					}
+					else if (newTileInfo.type == tileNS::type::ANIMATABLE) {
+						t = new AnimatableTile(newTileId, false);
+						t->initialize(gamePtr, textureManager);
 					}
 
 					t->initialize(gamePtr, textureManager);
@@ -927,4 +938,22 @@ VECTOR2 MapLoader::translateIdToCoords(char id){
 	}
 
 	return VECTOR2(-1, -1);
+}
+
+Tile* MapLoader::getTileWithId(char id)
+{
+	for (unordered_map<int, unordered_map<int, ManagedTile*>>::iterator itx = loadedTiles.begin(); itx != loadedTiles.end(); ++itx)
+	{
+		for (unordered_map<int, ManagedTile*>::iterator ity = loadedTiles[itx->first].begin(); ity != loadedTiles[itx->first].end(); ++ity)
+		{
+			if (ity->second->tile != nullptr)
+			{
+				if (ity->second->tile->getId() == id)
+				{
+					return ity->second->tile;
+				}
+			}
+		}
+	}
+	return nullptr;
 }

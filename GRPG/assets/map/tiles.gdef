@@ -75,3 +75,4 @@ z 0 47 0.1 credits.png 0 0
 = 0 1 1 castle_floor.png 0 0
 < 2 1 1 grass.png 28 0
 > 2 1 1 woodhouse_floor.png 29 0
+/ 7 1 1 castle_entrance_blocked2.png 0 0

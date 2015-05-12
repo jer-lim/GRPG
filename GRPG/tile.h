@@ -27,6 +27,7 @@ namespace tileNS
 		const int FISHINGSPOT = 4;
 		const int MININGSPOT = 5;
 		const int COOKER = 6;
+		const int ANIMATABLE = 7;
 	}
 }
 
@@ -46,6 +47,7 @@ public:
 	virtual bool initialize(Game *gamePtr, TextureManager* tm);
 	virtual void update();
 	virtual void update(float frameTime, Game* gamePtr = nullptr);
+	virtual void makeCollidable();
 
 	virtual void spawn(){} // only activated for Spawner
 

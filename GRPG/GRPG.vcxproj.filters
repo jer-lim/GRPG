@@ -62,6 +62,7 @@
     <ClCompile Include="GainXPBehavior.cpp" />
     <ClCompile Include="Aidil.cpp" />
     <ClCompile Include="Dragonfire.cpp" />
+    <ClCompile Include="AnimatableTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="GainXPBehavior.h" />
     <ClInclude Include="Aidil.h" />
     <ClInclude Include="Dragonfire.h" />
+    <ClInclude Include="AnimatableTile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

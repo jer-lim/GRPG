@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="AggressivePluckBehavior.h" />
     <ClInclude Include="Aidil.h" />
+    <ClInclude Include="AnimatableTile.h" />
     <ClInclude Include="Armor.h" />
     <ClInclude Include="AttackBehavior.h" />
     <ClInclude Include="Behavior.h" />
@@ -99,6 +100,7 @@
   <ItemGroup>
     <ClCompile Include="Aidil.cpp" />
     <ClCompile Include="AggressivePluckBehavior.cpp" />
+    <ClCompile Include="AnimatableTile.cpp" />
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="AttackBehavior.cpp" />
     <ClCompile Include="ChatData.cpp" />

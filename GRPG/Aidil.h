@@ -31,6 +31,16 @@ namespace aidilNS
 	const int DRAGONFIRE_ACTIVE = 3;
 	
 	const DWORD DRAGONFIRE_WARN_COLOUR = SETCOLOR_ARGB(60, 255, 0, 0);
+
+	const char aidilFlyLocation[] = "assets/npcs/sprites/aidil_fly.png";
+	const int aidilFlyWidth = 128;
+	const int aidilFlyHeight = 128;
+	const int aidilFlyCols = 6;
+
+	const float phaseTwoTime = 20;
+	const int healthThresholdForPhase2 = 133;
+	//Time it takes for Aidil to ascend to the skies or descend (in seconds).
+	const float flyAnimationTime = 2;
 }
 
 // Yes Aidil you get your own class, congratulations!
@@ -70,6 +80,20 @@ private:
 	VertexC vtx[3];
 	LP_VERTEXBUFFER vertexBuffer;
 
+	Image* aidilFlyingImage;
+	TextureManager* aidilFlyTexture;
+
+	Image* normalImage;
+	UI* ui;
+	float phase2Timer;
+	int scaleChange;
+	Behavior* oldAttackBehavior = nullptr;
+	Behavior* oldExamineBehavior = nullptr;
+	float oldMovementSpeed;
+	//Tracks if the entrance of aidil's home has been made not visible at any point of time.
+	//Whenever that happens, if the tile would ever become visible, it needs to be animated back to the end
+	//so that it continues blocking the player.
+	bool tileVisible;
 protected:
 	//Calculate the final location of a specific point,
 	//given that, from the passed in x and y co-ordinates, a person travels a certain

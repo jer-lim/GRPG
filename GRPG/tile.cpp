@@ -64,3 +64,8 @@ void Tile::update(){}
 void Tile::update(float frameTime, Game* gamePtr){
 	image.update(frameTime);
 }
+
+void Tile::makeCollidable()
+{
+	collisionType = entityNS::BOX;
+}

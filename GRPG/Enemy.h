@@ -61,6 +61,7 @@ public:
 	int getstrengthLv(){ return strengthLv; }
 	//void setstrengthLv(int i){ strengthLv = i; }
 	int getAggro() { return aggro; }
+	//void setAggro(int a) { aggro = a; }
 	int getWanderRange() { return wanderRange; }
 	virtual float getDamageReduction() { return damageReduction; }
 

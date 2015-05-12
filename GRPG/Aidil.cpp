@@ -1,12 +1,16 @@
 #include "Aidil.h"
 #include "grpg.h"
+#include "mapLoader.h"
 #include "destination.h"
+#include "AnimatableTile.h"
 
 Aidil::Aidil()
 {
 	dragonfireTexture = new TextureManager();
+	aidilFlyTexture = new TextureManager();
 	dragonfireCooldownTimer = -1;
 	currentDragonfireAngle = -1;
+	currentPhase = 1;
 	combatBegun = false;
 }
 
@@ -14,10 +18,16 @@ Aidil::~Aidil()
 {
 	SAFE_DELETE(dragonfireTexture);
 	SAFE_DELETE(dragonfireImage);
+	SAFE_DELETE(aidilFlyingImage);
+	SAFE_DELETE(aidilFlyTexture);
+	SAFE_DELETE(oldAttackBehavior);
+	SAFE_DELETE(oldExamineBehavior);
 }
 
 bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 {
+	ui = ((Grpg*)gamePtr)->getUI();
+
 	if (!Entity::initialize(gamePtr, aidilInfo, false))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize aidil basic entity");
@@ -31,6 +41,16 @@ bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 	if (!dragonfireImage->initialize(graphics, aidilNS::dragonfireWidth, aidilNS::dragonfireHeight, 0, dragonfireTexture))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize dragonfire image.");
+	}
+	
+	if (!aidilFlyTexture->initialize(graphics, aidilNS::aidilFlyLocation))
+	{
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize aidil's flying texture.");
+	}
+	aidilFlyingImage = new Image();
+	if (!aidilFlyingImage->initialize(graphics, aidilNS::aidilFlyWidth, aidilNS::aidilFlyHeight, aidilNS::aidilFlyCols, aidilFlyTexture))
+	{
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize aidil's flying image.");
 	}
 
 	//Set essentials
@@ -76,6 +96,7 @@ void Aidil::draw(Viewport* viewport)
 void Aidil::update(float frameTime, Game* gamePtr)
 {
 	Entity::update(frameTime, gamePtr);
+	
 	//If combat has begun against the player
 	if (!combatBegun && victim == thePlayer)
 	{
@@ -182,6 +203,109 @@ void Aidil::update(float frameTime, Game* gamePtr)
 				df2->setX(d->getX());
 				df2->setY(d->getY());
 				theGame->getDrawManager()->addObject(df2);*/
+			}
+		}
+
+		//Handle blocking of the wall of aidil's cave.
+		if (currentPhase == 2 || currentPhase == 3)
+		{
+			Tile* t = ((Grpg*)theGame)->getMapLoader()->getTileWithId('/');
+			if (t != nullptr && !tileVisible)
+			{
+				((AnimatableTile*)t)->finishAnimating();
+				t->makeCollidable();
+			}
+			else if (t == nullptr && tileVisible)
+			{
+				tileVisible = false;
+			}
+		}
+
+		if (currentPhase == 1 && health < aidilNS::healthThresholdForPhase2)
+		{
+			currentPhase = 2;
+			normalImage = &image;
+			image = *aidilFlyingImage;
+			dragonfireStatus = aidilNS::DRAGONFIRE_COOLDOWN;
+			dragonfireCooldownTimer = aidilNS::phaseTwoTime + aidilNS::dragonfireStartDelay + aidilNS::flyAnimationTime * 2;
+			image.setLoop(true);
+			image.setFrames(0, aidilNS::aidilFlyCols - 1);
+			releaseDestination();
+			victim = nullptr;
+			thePlayer->setVictim(nullptr);
+			thePlayer->releaseDestination();
+			ui->addChatText("Aidil does a quick swipe at you, stunning you!");
+			thePlayer->failThieving();
+			scaleChange = -1;
+			ui->addChatText("Aidil takes to the skies!");
+			oldAttackBehavior = attackBehavior;
+			attackBehavior = nullptr;
+			setupVectorActiveBehaviors();
+			phase2Timer = aidilNS::phaseTwoTime + aidilNS::flyAnimationTime;
+			//Have aidil fly up
+			VECTOR2 flyLocation = ((Grpg*)theGame)->getMapLoader()->translateIdToCoords('/');
+			destination = new Point(flyLocation);
+			//Set speed relative to how long it will take
+			VECTOR2 direction = destination->getVector() - getVector();
+			float distance = D3DXVec2Length(&direction);
+			oldMovementSpeed = person->getMovementSpeed();
+			person->setMovementSpeed(distance / aidilNS::flyAnimationTime);
+		}
+		else if (currentPhase == 2)
+		{
+			if (scaleChange != 0)
+			{
+				float scaleToChangeThisFrame = ((100 / aidilNS::flyAnimationTime) * frameTime * scaleChange)/100;
+				image.setScale(image.getScale() + scaleToChangeThisFrame);
+				if (image.getScale() <= 0)
+				{
+					image.setVisible(false);
+					image.setScale(0);
+					//Aidil is now in the air!
+					scaleChange = 0;
+					//Remove examine behavior, otherwise aidil (that is still there) can be moused over and examined,
+					//which will override the default "walk here" command.
+					oldExamineBehavior = viewBehavior;
+					viewBehavior = nullptr;
+					setupVectorActiveBehaviors();
+					//Also prevent aidil from moving and hitting the player
+					person->setMovementSpeed(0);
+					//Have aidil swipe the entrance, blocking off the one and only escape route.
+					Tile* t = ((Grpg*)theGame)->getMapLoader()->getTileWithId('/');
+					if (t != nullptr)
+					{
+						((AnimatableTile*)t)->startAnimating();
+						t->makeCollidable();
+						tileVisible = true;
+					}
+					else
+					{
+						tileVisible = false;
+					}
+				}
+				else if (image.getScale() >= 1)
+				{
+					scaleChange = 0;
+					image.setScale(1);
+					image = *normalImage;
+					currentPhase = 3;
+					attackBehavior = oldAttackBehavior;
+					oldAttackBehavior = nullptr;
+					setupVectorActiveBehaviors();
+					person->setMovementSpeed(oldMovementSpeed);
+				}
+			}
+			else
+			{
+				//Aidil rains fireballs down from above!
+				phase2Timer -= frameTime;
+				if (phase2Timer <= 0)
+				{
+					scaleChange = 1;
+					image.setVisible(true);
+					viewBehavior = oldExamineBehavior;
+					setupVectorActiveBehaviors();
+				}
 			}
 		}
 	}

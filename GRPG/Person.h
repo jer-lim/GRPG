@@ -93,6 +93,7 @@ public:
 		return textureManager;
 	}
 	float getMovementSpeed() { return movementSpeed; }
+	void setMovementSpeed(float m) { movementSpeed = m; }
 	float getAttackCooldown() { return attackCooldown; }
 	float getHeight() { return height; }
 	float getWidth() { return width; }

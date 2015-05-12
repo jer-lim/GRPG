@@ -147,6 +147,10 @@ public:
 
 	// External helpers
 	VECTOR2 translateIdToCoords(char id);
+
+	//Return the Tile that has that character, given that it has to be currently visible on screen.
+	//If it is not on screen, returns nullptr.
+	Tile* getTileWithId(char id);
 };
 
 #endif
