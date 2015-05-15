@@ -12,6 +12,7 @@ Aidil::Aidil()
 	currentDragonfireAngle = -1;
 	currentPhase = 1;
 	combatBegun = false;
+	skyDragonfireArea = new Button();
 }
 
 Aidil::~Aidil()
@@ -30,6 +31,7 @@ Aidil::~Aidil()
 	{
 		SAFE_DELETE(oldExamineBehavior);
 	}
+	SAFE_DELETE(skyDragonfireArea);
 }
 
 bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
@@ -97,16 +99,24 @@ void Aidil::draw(Viewport* viewport)
 	{
 		graphics->spriteEnd();
 		graphics->spriteBegin();
-		vertexBuffer->Release();
-		//Generate new vertex buffer
-		//don't bother optimizing to only draw when viewport changes, not needed - (c) Oon 2015
-		for (int i = 0; i < 3; i++)
+		if (currentPhase == 1 || currentPhase == 3)
 		{
-			vtx[i].x = dragonfireLocations[i].x - viewport->getTopLeft().x;
-			vtx[i].y = dragonfireLocations[i].y - viewport->getTopLeft().y;
+			vertexBuffer->Release();
+			//Generate new vertex buffer
+			//don't bother optimizing to only draw when viewport changes, not needed - (c) Oon 2015
+			for (int i = 0; i < 3; i++)
+			{
+				vtx[i].x = dragonfireLocations[i].x - viewport->getTopLeft().x;
+				vtx[i].y = dragonfireLocations[i].y - viewport->getTopLeft().y;
+			}
+			graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+			graphics->drawQuad(vertexBuffer, 1);
 		}
-		graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
-		graphics->drawQuad(vertexBuffer, 1);
+		else
+		{
+			skyDragonfireArea->initialize(graphics, skyDragonfireTopLeft.x - viewport->getTopLeft().x, skyDragonfireTopLeft.y - viewport->getTopRight().y, aidilNS::skyFireballWidth, aidilNS::skyFireballHeight, aidilNS::DRAGONFIRE_WARN_COLOUR, "");
+			skyDragonfireArea->draw();
+		}
 	}
 }
 
@@ -127,105 +137,176 @@ void Aidil::update(float frameTime, Game* gamePtr)
 		dragonfireWarningTimer -= frameTime;
 		dragonfireActiveTimer -= frameTime;
 
-		if (dragonfireStatus == aidilNS::DRAGONFIRE_COOLDOWN)
+		//Normal dragonfire
+		if (currentPhase == 1 || currentPhase == 3)
 		{
-			//Not while loop cause we don't want to overwhelm the player in case of a huge lag.
-			if (dragonfireCooldownTimer < 0)
+			if (dragonfireStatus == aidilNS::DRAGONFIRE_COOLDOWN)
 			{
-				//Effectively a random number from 0 to 1.
-				float random = (rand() % 1000) / 1000;
-				float increase = aidilNS::dragonfireDelayDeviation * 2 * random - aidilNS::dragonfireDelayDeviation;
-				dragonfireCooldownTimer += aidilNS::dragonfireNormalDelay + increase;
-
-				dragonfireWarningTimer = aidilNS::dragonfireWarningTime;
-				dragonfireStatus = aidilNS::DRAGONFIRE_WARNING;
-
-				//calculate angle
-				VECTOR2 direction = thePlayer->getVector() - getVector();
-				VECTOR2 *normalizedDirection = &VECTOR2();
-				D3DXVec2Normalize(normalizedDirection, &direction);
-				/*
-				Dot Product of 2 unit vectors gives the cosine between the vectors.
-				This can be used to determine angles for trajectory and light reflection.
-				*/
-				currentDragonfireAngle = acos(normalizedDirection->x / D3DXVec2Length(normalizedDirection));
-
-				float fullCircle = 2 * PI;
-				if (thePlayer->getY() > getY())
+				//Not while loop cause we don't want to overwhelm the player in case of a huge lag.
+				if (dragonfireCooldownTimer < 0)
 				{
-					currentDragonfireAngle = fullCircle - currentDragonfireAngle;
-				}
-				currentDragonfireAngle += PI / 2;
-				stringstream ss;
-				ss << "Current angle: " << currentDragonfireAngle;
+					//Effectively a random number from 0 to 1.
+					float random = (rand() % 1000) / 1000;
+					float increase = aidilNS::dragonfireDelayDeviation * 2 * random - aidilNS::dragonfireDelayDeviation;
+					dragonfireCooldownTimer += aidilNS::dragonfireNormalDelay + increase;
 
-				((Grpg*)theGame)->getUI()->addChatText(ss.str());
-				//Generate vtx
-				topDragonfireAngle = currentDragonfireAngle - aidilNS::dragonfireSpread / 2.0;
-				if (topDragonfireAngle < 0)
+					dragonfireWarningTimer = aidilNS::dragonfireWarningTime;
+					dragonfireStatus = aidilNS::DRAGONFIRE_WARNING;
+
+					//calculate angle
+					VECTOR2 direction = thePlayer->getVector() - getVector();
+					VECTOR2 *normalizedDirection = &VECTOR2();
+					D3DXVec2Normalize(normalizedDirection, &direction);
+					/*
+					Dot Product of 2 unit vectors gives the cosine between the vectors.
+					This can be used to determine angles for trajectory and light reflection.
+					*/
+					currentDragonfireAngle = acos(normalizedDirection->x / D3DXVec2Length(normalizedDirection));
+
+					float fullCircle = 2 * PI;
+					if (thePlayer->getY() > getY())
+					{
+						currentDragonfireAngle = fullCircle - currentDragonfireAngle;
+					}
+					currentDragonfireAngle += PI / 2;
+					stringstream ss;
+					ss << "Current angle: " << currentDragonfireAngle;
+
+					((Grpg*)theGame)->getUI()->addChatText(ss.str());
+					//Generate vtx
+					topDragonfireAngle = currentDragonfireAngle - aidilNS::dragonfireSpread / 2.0;
+					if (topDragonfireAngle < 0)
+					{
+						topDragonfireAngle += fullCircle;
+					}
+					botDragonfireAngle = currentDragonfireAngle + aidilNS::dragonfireSpread / 2.0;
+					botDragonfireAngle = botDragonfireAngle - fullCircle;
+
+					//Set the actual parameters
+					dragonfireLocations[0].x = x;
+					dragonfireLocations[0].y = y;
+
+					dragonfireLocations[1] = getFinalLocation(getX(), getY(), topDragonfireAngle, aidilNS::dragonfireDistance);
+					dragonfireLocations[2] = getFinalLocation(getX(), getY(), botDragonfireAngle, aidilNS::dragonfireDistance);
+				}
+			}
+			else if (dragonfireStatus == aidilNS::DRAGONFIRE_WARNING)
+			{
+				if (dragonfireWarningTimer <= 0)
 				{
-					topDragonfireAngle += fullCircle;
+					dragonfireActiveTimer = aidilNS::dragonfireActiveTime;
+					dragonfireStatus = aidilNS::DRAGONFIRE_ACTIVE;
+					dragonfireCounter = 0;
 				}
-				botDragonfireAngle = currentDragonfireAngle + aidilNS::dragonfireSpread / 2.0;
-				botDragonfireAngle = botDragonfireAngle - fullCircle;
+			}
+			else if (dragonfireStatus == aidilNS::DRAGONFIRE_ACTIVE)
+			{
+				//Spawn dragonfire!
+				dragonfireCounter -= frameTime;
+				for (; dragonfireCounter < 0; dragonfireCounter += FRAME_RATE / aidilNS::dragonfireSpawnedPerSecond)
+				{
+					//Generate a random angle
+					float r = (rand() / (float)RAND_MAX * aidilNS::dragonfireSpread) + topDragonfireAngle;
+					if (r > 2 * PI)
+					{
+						r -= 2 * PI;
+					}
+					//Calculate the final location based off the new angle
+					VECTOR2 finalLocation = getFinalLocation(dragonfireLocations[0].x, dragonfireLocations[0].y, r, aidilNS::dragonfireDistance);
+					Point* d = new Point(finalLocation);
 
-				//Set the actual parameters
-				dragonfireLocations[0].x = x;
-				dragonfireLocations[0].y = y;
-
-				dragonfireLocations[1] = getFinalLocation(getX(), getY(), topDragonfireAngle, aidilNS::dragonfireDistance);
-				dragonfireLocations[2] = getFinalLocation(getX(), getY(), botDragonfireAngle, aidilNS::dragonfireDistance);
+					//Summon dragonfire!
+					Dragonfire* df = new Dragonfire();
+					df->initialize(theGame, dragonfireTexture, d, r);
+					df->setX(dragonfireLocations[0].x);
+					df->setY(dragonfireLocations[0].y);
+					theGame->getDrawManager()->addObject(df);
+					if (dragonfireActiveTimer <= 0)
+					{
+						currentDragonfireAngle = -1;
+						dragonfireStatus = aidilNS::DRAGONFIRE_COOLDOWN;
+					}
+					/*
+					//Spawn a dragonfire at destination
+					Dragonfire* df2 = new Dragonfire();
+					df2->initialize(theGame, dragonfireTexture, d, r);
+					df2->setX(d->getX());
+					df2->setY(d->getY());
+					theGame->getDrawManager()->addObject(df2);*/
+				}
 			}
 		}
-		else if (dragonfireStatus == aidilNS::DRAGONFIRE_WARNING)
+		else //Dragonfire FROM AbOVE
 		{
-			if (dragonfireWarningTimer <= 0)
+			if (dragonfireStatus == aidilNS::DRAGONFIRE_COOLDOWN)
 			{
-				dragonfireActiveTimer = aidilNS::dragonfireActiveTime;
-				dragonfireStatus = aidilNS::DRAGONFIRE_ACTIVE;
-				dragonfireCounter = 0;
+				if (dragonfireCooldownTimer <= 0)
+				{
+					//Select a random location within the field
+					//Calculate boundary
+					VECTOR2 topMiddleLocation = ((Grpg*)theGame)->getMapLoader()->translateIdToCoords('/');
+					//topMiddleLocation refers to the center of the tile, let's change it so that it is correct.
+					topMiddleLocation.x -= tileNS::WIDTH / 2;
+					topMiddleLocation.y += tileNS::HEIGHT * 3 / 2;
+
+					VECTOR2 topLeftBoundary = VECTOR2(topMiddleLocation.x - aidilNS::fieldWidth / 2, topMiddleLocation.y);
+					VECTOR2 botRightBoundary = VECTOR2(topMiddleLocation.x + aidilNS::fieldWidth / 2, topMiddleLocation.y + aidilNS::fieldHeight);
+
+					//Ok, now the two boundary refers to any location in which we can generate the center fireball,
+					//the locations all have 1 tile border around the edges so that the fireballs never overlap with the wall.
+					float randomX = ((rand() * 1.0 / RAND_MAX) * (botRightBoundary.x - topLeftBoundary.x)) + topLeftBoundary.x;
+					float randomY = ((rand() * 1.0 / RAND_MAX) * (botRightBoundary.y - topLeftBoundary.y)) + topLeftBoundary.y;
+					skyDragonfireMiddle = VECTOR2(randomX, randomY);
+					skyDragonfireTopLeft = VECTOR2(randomX - aidilNS::skyFireballWidth/2, randomY - aidilNS::skyFireballHeight/2);
+
+					dragonfireWarningTimer = aidilNS::skyFireballWarningTime;
+					dragonfireStatus = aidilNS::DRAGONFIRE_WARNING;
+				}
 			}
-		}
-		else if (dragonfireStatus == aidilNS::DRAGONFIRE_ACTIVE)
-		{
-			//Spawn dragonfire!
-			dragonfireCounter -= frameTime;
-			for (; dragonfireCounter < 0; dragonfireCounter += FRAME_RATE/aidilNS::dragonfireSpawnedPerSecond)
+			else if (dragonfireStatus == aidilNS::DRAGONFIRE_WARNING)
 			{
-				//Generate a random angle
-				float r = (rand() / (float)RAND_MAX * aidilNS::dragonfireSpread) + topDragonfireAngle;
-				if (r > 2 * PI)
+				if (dragonfireWarningTimer <= 0)
 				{
-					r -= 2 * PI;
+					float random = (rand() % 1000) / 1000;
+					float increase = aidilNS::skyFireballActiveDeviation *2 * random - aidilNS::skyFireballActiveDeviation;
+					dragonfireActiveTimer = aidilNS::skyFireballActiveTime + increase;
+					dragonfireStatus = aidilNS::DRAGONFIRE_ACTIVE;
+					dragonfireCounter = 0;
 				}
-				//Calculate the final location based off the new angle
-				VECTOR2 finalLocation = getFinalLocation(dragonfireLocations[0].x, dragonfireLocations[0].y, r, aidilNS::dragonfireDistance);
-				Point* d = new Point(finalLocation);
-
-				//Summon dragonfire!
-				Dragonfire* df = new Dragonfire();
-				df->initialize(theGame, dragonfireTexture, d, r);
-				df->setX(dragonfireLocations[0].x);
-				df->setY(dragonfireLocations[0].y);
-				theGame->getDrawManager()->addObject(df);
-				if (dragonfireActiveTimer <= 0)
-				{
-					currentDragonfireAngle = -1;
-					dragonfireStatus = aidilNS::DRAGONFIRE_COOLDOWN;
-				}
-				/*
-				//Spawn a dragonfire at destination
-				Dragonfire* df2 = new Dragonfire();
-				df2->initialize(theGame, dragonfireTexture, d, r);
-				df2->setX(d->getX());
-				df2->setY(d->getY());
-				theGame->getDrawManager()->addObject(df2);*/
 			}
-		}
+			else if (dragonfireStatus == aidilNS::DRAGONFIRE_ACTIVE)
+			{
+				//Spawn dragonfire!
+				dragonfireCounter -= frameTime;
+				for (; dragonfireCounter < 0; dragonfireCounter += FRAME_RATE / aidilNS::dragonfireSpawnedPerSecond)
+				{
+					//Generate a random angle (Between 2PI and 0
+					float r = (rand() / (float)RAND_MAX * 2*PI);
 
-		//Handle blocking of the wall of aidil's cave.
-		if (currentPhase == 2 || currentPhase == 3)
-		{
+					//Calculate the final location based off the new angle
+					VECTOR2 finalLocation = getFinalLocation(skyDragonfireMiddle.x, skyDragonfireMiddle.y, r, aidilNS::skyFireballHeight/2);
+					Point* d = new Point(finalLocation);
+
+					//Summon dragonfire!
+					Dragonfire* df = new Dragonfire();
+					df->initialize(theGame, dragonfireTexture, d, r);
+					df->setX(skyDragonfireMiddle.x);
+					df->setY(skyDragonfireMiddle.y);
+					theGame->getDrawManager()->addObject(df);
+					if (dragonfireActiveTimer <= 0)
+					{
+						dragonfireStatus = aidilNS::DRAGONFIRE_COOLDOWN;
+						dragonfireCooldownTimer = 0;
+					}
+					/*
+					//Spawn a dragonfire at destination
+					Dragonfire* df2 = new Dragonfire();
+					df2->initialize(theGame, dragonfireTexture, d, r);
+					df2->setX(d->getX());
+					df2->setY(d->getY());
+					theGame->getDrawManager()->addObject(df2);*/
+				}
+			}
 		}
 
 		if (currentPhase == 1 && health < aidilNS::healthThresholdForPhase2)
@@ -281,6 +362,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 					blockRock->setDisabled(false);
 					blockRock->startFall(lastKnownViewport);
 					ui->addChatText("As Aidil ascends up, he swipes the wall of the building, causing a rock to fall!");
+					dragonfireCooldownTimer = aidilNS::skyFireballInitialDelay;
 				}
 				else if (image.getScale() >= 1)
 				{

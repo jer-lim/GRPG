@@ -42,6 +42,16 @@ namespace aidilNS
 	const int healthThresholdForPhase2 = 133;
 	//Time it takes for Aidil to ascend to the skies or descend (in seconds).
 	const float flyAnimationTime = 1.5f;
+
+	const float skyFireballWidth = 96;
+	const float skyFireballHeight = 96;
+	const float skyFireballWarningTime = 2;
+	const float skyFireballActiveTime = 4;
+	const float skyFireballActiveDeviation = 2;
+	const float skyFireballInitialDelay = 2;
+
+	const float fieldWidth = 32 * 12;
+	const float fieldHeight = 32 * 12;
 }
 
 // Yes Aidil you get your own class, congratulations!
@@ -95,6 +105,11 @@ private:
 	BlockRock* blockRock;
 	//For use in update, when passing into blockRock
 	Viewport* lastKnownViewport;
+	Button* skyDragonfireArea;
+	//For use when drawing warning
+	VECTOR2 skyDragonfireTopLeft;
+	//For use when generating fireballs.
+	VECTOR2 skyDragonfireMiddle;
 protected:
 	//Calculate the final location of a specific point,
 	//given that, from the passed in x and y co-ordinates, a person travels a certain
