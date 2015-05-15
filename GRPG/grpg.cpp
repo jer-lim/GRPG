@@ -16,12 +16,14 @@
 #include <random>
 #include "ChatData.h"
 #include "InventoryBoost.h"
+#include "Aidil.h"
 
 //=============================================================================
 // Constructor
 //=============================================================================
 Grpg::Grpg()
 {//Mem leak free
+	dragonfireTexture = new TextureManager();
 	uiFont = new TextDX();
 	easterEggCounter = 0;
 }
@@ -55,6 +57,7 @@ Grpg::~Grpg()
 	SAFE_DELETE(Person::thePlayer);
 	SAFE_DELETE(itemLoader);//to be called after all item entities are gone
 	SAFE_DELETE(gameEventManager);
+	SAFE_DELETE(dragonfireTexture);
 	SAFE_DELETE(questLoader);
 	//~Game() called afterward
 }
@@ -90,6 +93,11 @@ void Grpg::initialize(HWND hwnd)
 	hitSplat = new TextureManager();
 	hitSplat->initialize(graphics, HIT_IMAGE);
 	entityNS::hit.initialize(graphics, 0, 0, 0, hitSplat);
+
+	if (!dragonfireTexture->initialize(graphics, aidilNS::dragonfireLocation))
+	{
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize dragonfire texture.");
+	}
 
 	entityNS::splatText.initialize(graphics, 12, false, false, "Arial");
 	entityNS::splatText.setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));

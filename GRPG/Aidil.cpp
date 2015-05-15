@@ -6,7 +6,6 @@
 
 Aidil::Aidil()
 {
-	dragonfireTexture = new TextureManager();
 	aidilFlyTexture = new TextureManager();
 	dragonfireCooldownTimer = -1;
 	currentDragonfireAngle = -1;
@@ -17,8 +16,6 @@ Aidil::Aidil()
 
 Aidil::~Aidil()
 {
-	SAFE_DELETE(dragonfireTexture);
-	SAFE_DELETE(dragonfireImage);
 	SAFE_DELETE(aidilFlyingImage);
 	SAFE_DELETE(aidilFlyTexture);
 	//Only delete these if they are not the current behaviors
@@ -43,15 +40,8 @@ bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize aidil basic entity");
 	}
 	thePlayer = p;
-	if (!dragonfireTexture->initialize(graphics, aidilNS::dragonfireLocation))
-	{
-		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize dragonfire texture.");
-	}
-	dragonfireImage = new Image();
-	if (!dragonfireImage->initialize(graphics, aidilNS::dragonfireWidth, aidilNS::dragonfireHeight, 0, dragonfireTexture))
-	{
-		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize dragonfire image.");
-	}
+
+	dragonfireTexture = ((Grpg*)gamePtr)->getDragonfireTexture();
 	
 	if (!aidilFlyTexture->initialize(graphics, aidilNS::aidilFlyLocation))
 	{
@@ -174,10 +164,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 						currentDragonfireAngle = fullCircle - currentDragonfireAngle;
 					}
 					currentDragonfireAngle += PI / 2;
-					stringstream ss;
-					ss << "Current angle: " << currentDragonfireAngle;
-
-					((Grpg*)theGame)->getUI()->addChatText(ss.str());
+					
 					//Generate vtx
 					topDragonfireAngle = currentDragonfireAngle - aidilNS::dragonfireSpread / 2.0;
 					if (topDragonfireAngle < 0)

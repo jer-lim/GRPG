@@ -81,7 +81,6 @@ private:
 
 	bool combatBegun;
 
-	Image* dragonfireImage;
 	TextureManager* dragonfireTexture;
 	Player* thePlayer;
 	float dragonfireCooldownTimer;

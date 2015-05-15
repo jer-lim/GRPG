@@ -9,6 +9,7 @@ void Dragonfire::draw(Viewport* viewport)
 
 bool Dragonfire::initialize(Game *gamePtr, TextureManager* tm, Destination* d, float rotation)
 {
+	theGame = gamePtr;
 	bool result = Entity::initialize(gamePtr, 0, 0, 0, tm);
 	setDestination(d);
 	image.setRadians(rotation);
@@ -43,7 +44,8 @@ void Dragonfire::update(float frameTime, Game* gamePtr)
 	float distanceToDest = D3DXVec2Length(&direction);
 	if (distanceToDest < aidilNS::dragonfireSpeed * frameTime)
 	{
-		//We've reached our destination (or are close enough to it, yay!
+		//We've reached our destination (or are close enough to it), yay!
+		gamePtr->setMouseOverEntity(nullptr);
 		gamePtr->getDrawManager()->removeObject(this);
 		delete this;
 	}

@@ -40,6 +40,9 @@ private:
 
 	TextureManager* missSplat;
 	TextureManager* hitSplat;
+	//Aidil's dragonfire. Used to be stored in the Aidil class, but moved here as dragonfire
+	//can continue to exist once Aidil has died and been deleted.
+	TextureManager* dragonfireTexture;
 
 	bool leftMouseWasDown;
 	bool rightMouseWasDown;
@@ -70,6 +73,7 @@ public:
 	ItemLoader* getItemLoader() { return itemLoader; }
 	QuestLoader* getQuestLoader() { return questLoader; }
 	GameEventManager* getGameEventManager() { return gameEventManager; }
+	TextureManager* getDragonfireTexture() { return dragonfireTexture; }
 
 	//Attempt to finish all the quests that have all their required conditions completed, as long as they
 	//have not had their reward given already
