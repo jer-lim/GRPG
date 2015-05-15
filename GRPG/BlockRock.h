@@ -11,10 +11,12 @@
 namespace blockRockNS
 {
 	const char location[] = "assets/misc/blockrock.png";
-	const int imageWidth = 30;
-	const int imageHeight = 15;
+	const int imageWidth = 32;
+	const int imageHeight = 32;
 	//Margin to move a bit further to prevent further collision detections.
 	const int collideMargin = 2;
+
+	const float fallSpeed = 120;
 }
 
 // The rock that is used to cover Aidil's cave, 

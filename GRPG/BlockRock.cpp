@@ -65,8 +65,8 @@ void BlockRock::update(float frameTime, Game* gamePtr)
 	//Do the falling thing, if required
 	if (destination != nullptr)
 	{
-		fallSpeed += GRAVITY * frameTime;
-		setY(getY() + fallSpeed);
+		fallSpeed += blockRockNS::fallSpeed * frameTime;
+		setY(getY() + fallSpeed * frameTime);
 		//Fall till where you were before.
 		if (getY() > destination->getY())
 		{

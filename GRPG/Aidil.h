@@ -7,6 +7,7 @@
 #include "textDX.h"
 #include "player.h"
 #include "Dragonfire.h"
+#include "BlockRock.h"
 
 namespace aidilNS
 {
@@ -40,7 +41,7 @@ namespace aidilNS
 	const float phaseTwoTime = 20;
 	const int healthThresholdForPhase2 = 133;
 	//Time it takes for Aidil to ascend to the skies or descend (in seconds).
-	const float flyAnimationTime = 2;
+	const float flyAnimationTime = 1.5f;
 }
 
 // Yes Aidil you get your own class, congratulations!
@@ -90,6 +91,10 @@ private:
 	Behavior* oldAttackBehavior = nullptr;
 	Behavior* oldExamineBehavior = nullptr;
 	float oldMovementSpeed;
+	//A reference to the rock that blocks aidil's cave.
+	BlockRock* blockRock;
+	//For use in update, when passing into blockRock
+	Viewport* lastKnownViewport;
 protected:
 	//Calculate the final location of a specific point,
 	//given that, from the passed in x and y co-ordinates, a person travels a certain

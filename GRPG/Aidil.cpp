@@ -20,8 +20,16 @@ Aidil::~Aidil()
 	SAFE_DELETE(dragonfireImage);
 	SAFE_DELETE(aidilFlyingImage);
 	SAFE_DELETE(aidilFlyTexture);
-	SAFE_DELETE(oldAttackBehavior);
-	SAFE_DELETE(oldExamineBehavior);
+	//Only delete these if they are not the current behaviors
+	//If they are, they will be deleted in the Entity destructor.
+	if (oldAttackBehavior == nullptr)
+	{
+		SAFE_DELETE(oldAttackBehavior);
+	}
+	if (viewBehavior == nullptr)
+	{
+		SAFE_DELETE(oldExamineBehavior);
+	}
 }
 
 bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
@@ -53,6 +61,14 @@ bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize aidil's flying image.");
 	}
 
+	//We need to get the rock that blocks aidil's cave; spawned by the Spawner tile that appears
+	//at the entrance to the cave.
+	//The easiest way to do this is to look into the game's spawnLinks.
+	stringstream ss;
+	VECTOR2 spawnCoord = ((Grpg*)gamePtr)->getMapLoader()->translateIdToCoords('/');
+	ss << spawnCoord.x << "," << spawnCoord.y;
+	blockRock = (BlockRock*) ((Grpg*)gamePtr)->getSpawnLink(ss.str());
+
 	//Set essentials
 	//Note that x and y will be changed later.
 	//Set to 
@@ -75,6 +91,7 @@ bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 
 void Aidil::draw(Viewport* viewport)
 {
+	lastKnownViewport = viewport;
 	Entity::draw(viewport);
 	if (dragonfireStatus == aidilNS::DRAGONFIRE_WARNING || dragonfireStatus == aidilNS::DRAGONFIRE_ACTIVE)
 	{
@@ -261,7 +278,9 @@ void Aidil::update(float frameTime, Game* gamePtr)
 					//Also prevent aidil from moving and hitting the player
 					person->setMovementSpeed(0);
 					//Have aidil swipe the entrance, blocking off the one and only escape route.
-					//Tile* t = ((Grpg*)theGame)->getMapLoader()->translateIdToCoords('/');
+					blockRock->setDisabled(false);
+					blockRock->startFall(lastKnownViewport);
+					ui->addChatText("As Aidil ascends up, he swipes the wall of the building, causing a rock to fall!");
 				}
 				else if (image.getScale() >= 1)
 				{
