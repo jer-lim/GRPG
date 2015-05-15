@@ -82,11 +82,11 @@ void BlockRock::update(float frameTime, Game* gamePtr)
 		//Nope, no crossing.
 		if (thePlayer->getY() > getY())
 		{
-			thePlayer->setY(getY() + blockRockNS::imageHeight + blockRockNS::collideMargin);
+			thePlayer->setY(getY() + blockRockNS::imageHeight/2 + blockRockNS::collideMargin);
 		}
 		else
 		{
-			thePlayer->setY(getY() - blockRockNS::imageHeight - blockRockNS::collideMargin);
+			thePlayer->setY(getY() - blockRockNS::imageHeight/2 - blockRockNS::collideMargin);
 		}
 		thePlayer->releaseDestination();
 		thePlayer->setVictim(nullptr);
