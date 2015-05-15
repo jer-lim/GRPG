@@ -49,10 +49,23 @@ namespace aidilNS
 	const float skyFireballActiveTime = 4;
 	const float skyFireballActiveDeviation = 2;
 	const float skyFireballInitialDelay = 2;
+	const float skyFireballCooldownDelay = 0.5;
 
 	const float fieldWidth = 32 * 12;
 	const float fieldHeight = 32 * 12;
 }
+
+struct SkyDragonfire
+{
+	//For use when drawing warning
+	VECTOR2 skyDragonfireTopLeft;
+	//For use when generating fireballs.
+	VECTOR2 skyDragonfireMiddle;
+	int currentStatus;
+	float timeLeft;
+	//Time until the next dragonfire appears.
+	float dragonfireCounter;
+};
 
 // Yes Aidil you get your own class, congratulations!
 // Be prepared to be an even bigger boss like no other!
@@ -106,10 +119,7 @@ private:
 	//For use in update, when passing into blockRock
 	Viewport* lastKnownViewport;
 	Button* skyDragonfireArea;
-	//For use when drawing warning
-	VECTOR2 skyDragonfireTopLeft;
-	//For use when generating fireballs.
-	VECTOR2 skyDragonfireMiddle;
+	vector<SkyDragonfire*> skydragonfires;
 protected:
 	//Calculate the final location of a specific point,
 	//given that, from the passed in x and y co-ordinates, a person travels a certain
