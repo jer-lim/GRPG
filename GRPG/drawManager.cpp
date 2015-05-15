@@ -24,19 +24,25 @@ void DrawManager::initialize(Game* gamPtr, Viewport* vp){
 }
 
 DrawManager::~DrawManager(){
+	_CrtSetDbgFlag(_CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_ALLOC_MEM_DF);
 	for (map<int, map<int, ManagedObject*>>::iterator it = objects.begin(); it != objects.end(); ++it){
 		int zi = it->first;
+		int lastId = 0;
 		for (map<int, ManagedObject*>::iterator it2 = objects[zi].begin(); it2 != objects[zi].end(); ++it2){
 			ManagedObject* mo = it2->second;
-			
 			if (it2->second->entity)
 			{
+				_ASSERTE(_CrtCheckMemory());
 				SAFE_DELETE(it2->second->entity);
+				_ASSERTE(_CrtCheckMemory());
 			}
 			else if (it2->second->image)
 			{
+				_ASSERTE(_CrtCheckMemory());
 				SAFE_DELETE(it2->second->image);
+				_ASSERTE(_CrtCheckMemory());
 			}
+			lastId = it2->first;
 			delete mo;
 			it2->second = nullptr;
 		}

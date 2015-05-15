@@ -63,6 +63,8 @@
     <ClCompile Include="Aidil.cpp" />
     <ClCompile Include="Dragonfire.cpp" />
     <ClCompile Include="AnimatableTile.cpp" />
+    <ClCompile Include="BlockRock.cpp" />
+    <ClCompile Include="BlockRockMineBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -150,6 +152,8 @@
     <ClInclude Include="Aidil.h" />
     <ClInclude Include="Dragonfire.h" />
     <ClInclude Include="AnimatableTile.h" />
+    <ClInclude Include="BlockRock.h" />
+    <ClInclude Include="BlockRockMineBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

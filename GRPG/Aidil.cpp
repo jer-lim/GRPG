@@ -209,16 +209,6 @@ void Aidil::update(float frameTime, Game* gamePtr)
 		//Handle blocking of the wall of aidil's cave.
 		if (currentPhase == 2 || currentPhase == 3)
 		{
-			Tile* t = ((Grpg*)theGame)->getMapLoader()->getTileWithId('/');
-			if (t != nullptr && !tileVisible)
-			{
-				((AnimatableTile*)t)->finishAnimating();
-				t->makeCollidable();
-			}
-			else if (t == nullptr && tileVisible)
-			{
-				tileVisible = false;
-			}
 		}
 
 		if (currentPhase == 1 && health < aidilNS::healthThresholdForPhase2)
@@ -271,17 +261,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 					//Also prevent aidil from moving and hitting the player
 					person->setMovementSpeed(0);
 					//Have aidil swipe the entrance, blocking off the one and only escape route.
-					Tile* t = ((Grpg*)theGame)->getMapLoader()->getTileWithId('/');
-					if (t != nullptr)
-					{
-						((AnimatableTile*)t)->startAnimating();
-						t->makeCollidable();
-						tileVisible = true;
-					}
-					else
-					{
-						tileVisible = false;
-					}
+					//Tile* t = ((Grpg*)theGame)->getMapLoader()->translateIdToCoords('/');
 				}
 				else if (image.getScale() >= 1)
 				{

@@ -25,18 +25,21 @@ public:
 
 	//Starts the tile animation. If the tile animation has already started, resets it to the
 	//first frame and restart it. The tile animation never loops.
+	//Currently does not seem to work properly. Unused.
 	void startAnimating()
 	{
 		image.setCurrentFrame(0);
 		image.setFrames(0, 4);
 		image.setLoop(false);
-		image.setFrameDelay(0.5f);
+		image.setFrameDelay(1);
 	}
 	
 	//Finishes the tile animation, setting the animation to the last frame immediately.
 	//Does this regardless if the tile is currently animating or not
+	//Currently does nothing as code is commented out. Unused.
 	void finishAnimating()
 	{
+		//int i = image.getCurrentFrame();
 		//image.setCurrentFrame(4);
 		//iage.setFrames(4, 4);
 		//image.setLoop(false);

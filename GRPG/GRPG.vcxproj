@@ -18,6 +18,8 @@
     <ClInclude Include="AttackBehavior.h" />
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="BlacksmithBehavior.h" />
+    <ClInclude Include="BlockRock.h" />
+    <ClInclude Include="BlockRockMineBehavior.h" />
     <ClInclude Include="Boost.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="BuyBehavior.h" />
@@ -103,6 +105,8 @@
     <ClCompile Include="AnimatableTile.cpp" />
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="AttackBehavior.cpp" />
+    <ClCompile Include="BlockRock.cpp" />
+    <ClCompile Include="BlockRockMineBehavior.cpp" />
     <ClCompile Include="ChatData.cpp" />
     <ClCompile Include="CookBehavior.cpp" />
     <ClCompile Include="BuyBehavior.cpp" />

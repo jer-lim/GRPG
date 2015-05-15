@@ -90,10 +90,6 @@ private:
 	Behavior* oldAttackBehavior = nullptr;
 	Behavior* oldExamineBehavior = nullptr;
 	float oldMovementSpeed;
-	//Tracks if the entrance of aidil's home has been made not visible at any point of time.
-	//Whenever that happens, if the tile would ever become visible, it needs to be animated back to the end
-	//so that it continues blocking the player.
-	bool tileVisible;
 protected:
 	//Calculate the final location of a specific point,
 	//given that, from the passed in x and y co-ordinates, a person travels a certain

@@ -8,6 +8,7 @@
 #include "drawManager.h"
 #include "Aidil.h"
 #include "grpg.h"
+#include "BlockRock.h"
 
 Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy;
@@ -15,6 +16,12 @@ Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	{
 		enemy = new Aidil();
 		((Aidil*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), gamePtr->getPersonLoader()->getNPC(npcId));
+	}
+	else if (npcId == 30) //Blockrock exception (I know, not really an npc...)
+	{
+		_ASSERTE(_CrtCheckMemory());
+		enemy = new BlockRock();
+		((BlockRock*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
 	}
 	else
 	{
