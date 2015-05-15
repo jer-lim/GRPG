@@ -308,7 +308,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 		if (currentPhase == 1 && health < aidilNS::healthThresholdForPhase2)
 		{
 			currentPhase = 2;
-			normalImage = &image;
+			normalImage = new Image(image);
 			image = *aidilFlyingImage;
 			dragonfireStatus = aidilNS::DRAGONFIRE_COOLDOWN;
 			dragonfireCooldownTimer = aidilNS::phaseTwoTime + aidilNS::dragonfireStartDelay + aidilNS::flyAnimationTime * 2;
@@ -357,7 +357,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 					//Have aidil swipe the entrance, blocking off the one and only escape route.
 					blockRock->setDisabled(false);
 					blockRock->startFall(lastKnownViewport);
-					ui->addChatText("As Aidil ascends up, he swipes the wall of the building, causing a rock to fall!");
+					ui->addChatText("As Aidil ascends, he swipes the wall, causing a rock to fall!");
 					dragonfireCooldownTimer = aidilNS::skyFireballInitialDelay;
 				}
 				else if (image.getScale() >= 1)
