@@ -215,9 +215,9 @@ void Aidil::update(float frameTime, Game* gamePtr)
 
 					//Summon dragonfire!
 					Dragonfire* df = new Dragonfire();
-					df->initialize(theGame, dragonfireTexture, d, r);
 					df->setX(dragonfireLocations[0].x);
 					df->setY(dragonfireLocations[0].y);
+					df->initialize(theGame, dragonfireTexture, d, r);
 					theGame->getDrawManager()->addObject(df);
 					if (dragonfireActiveTimer <= 0)
 					{

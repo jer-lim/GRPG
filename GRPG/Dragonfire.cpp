@@ -12,7 +12,15 @@ bool Dragonfire::initialize(Game *gamePtr, TextureManager* tm, Destination* d, f
 	theGame = gamePtr;
 	bool result = Entity::initialize(gamePtr, 0, 0, 0, tm);
 	setDestination(d);
-	image.setRadians(rotation);
+	//I have no idea why I have to do this with the rotation;
+	//or why the passed in rotation doesn't work in the first place
+	//(When the passed in rotation is the one used to generate the background
+	//primitive triangle to warn the player where the dragonbreath will be coming out;
+	//and it works just fine for that purpose). But if I don't manipulate the angle
+	//in this way it ends up being wrong. Welp; it ends up working anyway.
+	float rot = rotation - PI / 2;
+	rot = 2 * PI - rot;
+	image.setRadians(rot);
 	return result;
 }
 
