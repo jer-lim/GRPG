@@ -35,12 +35,12 @@ Player::Player() : Entity()
 	skills[skillNS::ID_SKILL_THIEVING] = PlayerSkill(this, Skill::THIEVING);
 	
 	//Start off toughness at a good level
-	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(99), true);
-	skills[skillNS::ID_SKILL_DEFENSE].gainXP(Skill::calculateXPRequired(99), true);
-	skills[skillNS::ID_SKILL_ATTACK].gainXP(Skill::calculateXPRequired(99), true);
-	skills[skillNS::ID_SKILL_STRENGTH].gainXP(Skill::calculateXPRequired(50), true);
+	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(51), true);
+	skills[skillNS::ID_SKILL_DEFENSE].gainXP(Skill::calculateXPRequired(31), true);
+	skills[skillNS::ID_SKILL_ATTACK].gainXP(Skill::calculateXPRequired(21), true);
+	skills[skillNS::ID_SKILL_STRENGTH].gainXP(Skill::calculateXPRequired(30), true);
 	skills[skillNS::ID_SKILL_MINING].gainXP(Skill::calculateXPRequired(21), true);
-	health = 99;
+	health = 50;
 
 	nearStove = false;
 }
