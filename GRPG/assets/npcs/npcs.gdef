@@ -13,3 +13,4 @@
 15 Chicken chicken.png 40 2 64 64 4 20 20 A_Chicken. 1 1 1 3 1 -1 70 {F3:1:0}
 19 Kock chicken.png 40 2 64 64 4 20 20 A_Very_Lazy_Chicken. 0 1 1 3 1 -1 70 {}
 30 BlockRock blockrock.png 40 2 32 32 1 20 20 A_Rock._Looks_minable. 0 0 0 1 0 0 0 {}
+31 Dragon_Egg dragonegg.png 0 2 64 64 4 38 38 Looks_like_it's_close_to_hatching. 0 0 20 50 1 1 50 {}

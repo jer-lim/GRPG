@@ -29,6 +29,12 @@ Aidil::~Aidil()
 		SAFE_DELETE(oldExamineBehavior);
 	}
 	SAFE_DELETE(skyDragonfireArea);
+	for (int i = dragonEggs.size() - 1; i >= 0; i--)
+	{
+		//Deal enough typeless damage to insta kill it.
+		dragonEggs[i]->damage(((Enemy*)dragonEggs[i]->getPerson())->getmaxhealth());
+	}
+	dragonEggs.clear();
 }
 
 bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
@@ -334,6 +340,37 @@ void Aidil::update(float frameTime, Game* gamePtr)
 			float distance = D3DXVec2Length(&direction);
 			oldMovementSpeed = person->getMovementSpeed();
 			person->setMovementSpeed(distance / aidilNS::flyAnimationTime);
+
+			//Generate and reveal dragon eggs
+			// Select a random location within the field
+			//Calculate boundary
+			VECTOR2 topMiddleLocation = ((Grpg*)theGame)->getMapLoader()->translateIdToCoords('/');
+			//topMiddleLocation refers to the center of the tile, let's change it so that it is correct.
+			topMiddleLocation.x -= tileNS::WIDTH / 2;
+			topMiddleLocation.y += tileNS::HEIGHT * 3 / 2;
+
+			VECTOR2 topLeftBoundary = VECTOR2(topMiddleLocation.x - aidilNS::fieldWidth / 2, topMiddleLocation.y);
+			VECTOR2 botRightBoundary = VECTOR2(topMiddleLocation.x + aidilNS::fieldWidth / 2, topMiddleLocation.y + aidilNS::fieldHeight);
+
+			ui->addChatText("As aidil leaves his nest, his laid eggs are revealed!");
+			//Ok, now the two boundary refers to any location in which we can generate the egg,
+			for (int i = 0; i < aidilNS::totalDragonEggsToSpawn; i++)
+			{
+				//Generate a random location for eggs to spawn at.
+				float randomX = ((rand() * 1.0 / RAND_MAX) * (botRightBoundary.x - topLeftBoundary.x)) + topLeftBoundary.x;
+				float randomY = ((rand() * 1.0 / RAND_MAX) * (botRightBoundary.y - topLeftBoundary.y)) + topLeftBoundary.y;
+
+				Entity* theEgg = NPC::spawn(gamePtr, aidilNS::dragonEggId, VECTOR2(randomX, randomY));
+				theEgg->setSpawnPoint(VECTOR2(randomX, randomY));
+				dragonEggs.push_back(theEgg);
+				//We need to track the eggs and find out if they are killed or not,
+				//without actually accessing the memory (cause if we do and it's been killed & deleted we'll crash the game)
+				//The easiest way to do so is to use spawnlinks.
+				stringstream ss;
+				ss << aidilNS::spawnLinkPhrase << i;
+				theGame->addSpawnLink(ss.str(), theEgg);
+				ss.str("");
+			}
 		}
 		else if (currentPhase == 2)
 		{
@@ -370,6 +407,32 @@ void Aidil::update(float frameTime, Game* gamePtr)
 					oldAttackBehavior = nullptr;
 					setupVectorActiveBehaviors();
 					person->setMovementSpeed(oldMovementSpeed);
+					ui->addChatText("Aidil's eggs just hatched!");
+					//HATCH!
+					for (int i = dragonEggs.size() - 1; i >= 0; i--)
+					{
+						stringstream ss;
+						ss << aidilNS::spawnLinkPhrase << i;
+						if(theGame->getSpawnLink(ss.str()) != nullptr)
+						{
+							Entity* theEgg = dragonEggs[i];
+							//Spawn a new one
+							Entity* theDragon = NPC::spawn(gamePtr, aidilNS::dragonId, VECTOR2(theEgg->getX(), theEgg->getY()), thePlayer);
+							theDragon->setSpawnPoint(VECTOR2(theEgg->getX(), theEgg->getY()));
+							//Kill it off, allocating it for deletion (Cannot delete now otherwise will crash
+							//with draw manger's iterator.
+							dragonEggs[i]->setX(0);
+							dragonEggs[i]->setY(0);
+							//Eggs will be deleted when Aidil is killed.
+						}
+						else
+						{
+							//Already gone, we can remove it.
+							dragonEggs.erase(dragonEggs.begin() + i);
+						}
+						ss.str("");
+					}
+					dragonEggs.clear();
 				}
 			}
 			else
@@ -382,6 +445,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 					image.setVisible(true);
 					viewBehavior = oldExamineBehavior;
 					setupVectorActiveBehaviors();
+					ui->addChatText("The eggs show signs of hatching!");
 				}
 			}
 		}

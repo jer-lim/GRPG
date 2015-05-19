@@ -53,6 +53,16 @@ namespace aidilNS
 
 	const float fieldWidth = 32 * 12;
 	const float fieldHeight = 32 * 12;
+
+	const int dragonEggId = 31;
+	const int dragonId = 13;
+	const int totalDragonEggsToSpawn = 5;
+	//To keep note of dragon eggs and see if they are dead or not, Aidil uses the spawnlinks
+	//in game, instead of directly accessing the memory, which may cause a crash if the entity is 
+	//already dead and deleted. To ensure that spawnlinks added by Aidil does not collide with spawnlinks
+	//added by other stuff, (i.e. the legitimate, planned uses like Spawners), a phrase is added in front of
+	//the spawn links used by aidil.
+	const string spawnLinkPhrase = "Aidil";
 }
 
 struct SkyDragonfire
@@ -119,6 +129,9 @@ private:
 	Viewport* lastKnownViewport;
 	Button* skyDragonfireArea;
 	vector<SkyDragonfire*> skydragonfires;
+	
+	//vector of all the dragon eggs so they can 'hatch' on landing
+	vector<Entity*> dragonEggs;
 protected:
 	//Calculate the final location of a specific point,
 	//given that, from the passed in x and y co-ordinates, a person travels a certain
