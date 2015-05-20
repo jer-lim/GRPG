@@ -146,4 +146,48 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	smokeQuest->addQuestCondition(talkToNole, talkToNoleMom);
 
 	mapQuests[1] = smokeQuest;
+
+	Button* b3 = new Button();
+	b3->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 2*(QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Stolen Artifact");
+	Quest* artifactStealQuest = new Quest(gem, questData, "Stolen Artifact", "An artifact has been stolen by a rich, pompous man. Help to steal it back!", b3);
+	QuestCondition* talkToPoorMan = new QuestCondition();
+	GameEvent* poorManTalked = new GameEvent_EntityAction(nullptr, "To start this quest, I can talk to the shriveled looking man in the house just south of the chicken pen.", "The man I talked to claims that an artifact belonging to him has been stolen by a rich, pompous man! I should try to get it back! The rick person's house is located aways east of the doctor.");
+	poorManTalked->addChangeRequired("artifactStealStatus", 1);
+	talkToPoorMan->addGameEventRequirement(poorManTalked, 1, nullptr);
+	artifactStealQuest->addQuestCondition(talkToPoorMan);
+	
+	QuestCondition* getKey = new QuestCondition(); //Note: Optional
+	GameEvent* keyRetrieved = new GameEvent_EntityAction(nullptr, "I need to get the key to the house. The man had some ideas, or I can talk to the gardener just outside the house.", "I managed to get the key to the house!");
+	getKey->addGameEventRequirement(keyRetrieved, 1, nullptr);
+	artifactStealQuest->addQuestCondition(getKey, talkToPoorMan);
+
+	QuestCondition* getIntoHouse = new QuestCondition();
+	GameEvent* gotIntoHouse = new GameEvent_EntityAction(nullptr, "Alternatively, I could find another way to get into the house without using the key", "I managed to enter the house!");
+	getIntoHouse->addGameEventRequirement(gotIntoHouse, 1, nullptr);
+	artifactStealQuest->addQuestCondition(getIntoHouse, talkToPoorMan);
+
+	mapQuests[2] = artifactStealQuest;
+
+	Button* b4 = new Button();
+	b4->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 3 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Mysterious Artifact");
+	Quest* mysteriousArtifactQuest = new Quest(gem, questData, "Mysterious artifact", "The artifact has a more back rich history than it originally seems...", b4);
+	QuestCondition* talkToGardener = new QuestCondition();
+	GameEvent* gardenerTalked = new GameEvent_EntityAction(nullptr, "To start this quest, I can talk to the gardener right outside the house located east of the doctor. I need to have completed the Stolen Artifact Quest to start this quest.", "The artifact I stole may not have actually belonged to the poor man. The gardener needs some help and asked me to run a few errands for him.");
+	gardenerTalked->addChangeRequired("mysteriousArtifactStatus", 1);
+	talkToGardener->addGameEventRequirement(gardenerTalked, 1, nullptr);
+	mysteriousArtifactQuest->addQuestCondition(talkToGardener);
+
+	mapQuests[3] = mysteriousArtifactQuest;
+
+	Button* b5 = new Button();
+	b5->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 4 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "One Minor Task");
+	Quest* oneMinorTask = new Quest(gem, questData, "One Minor Task", "This quest's name bears striking similarity for One Small Favour. It's bound to be as annoying.", b5);
+	QuestCondition* talkToX = new QuestCondition();
+	GameEvent* xTalked = new GameEvent_EntityAction(nullptr, "I can start this quest, which is probably going to be really annoying, by talking to X.", "X wants me to do a minor task for him. This probably isn't as simple as it seems; I know how these sort of quests turned out. I really shouldn't have agreed.");
+	xTalked->addChangeRequired("minorTaskStatus", 1);
+	talkToX->addGameEventRequirement(xTalked, 1, nullptr);
+	oneMinorTask->addQuestCondition(talkToX);
+
+	mapQuests[4] = oneMinorTask;
+	
 }

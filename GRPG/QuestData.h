@@ -57,6 +57,18 @@ public:
 		storedInformation["geraldStatus"] = 0;
 		//0 = not started, 1 = started quest
 		storedInformation["mattStatus"] = 0;
+
+		//Represents the information about the stolen artifact quest and how it is progressing
+		//0 = not started, 1 = started
+		storedInformation["artifactStealStatus"] = 0;
+
+		//Represents the information about the mysterious artifact quest and how it is progressing
+		//0 = not started, 1 = started
+		storedInformation["mysteriousArtifactStatus"] = 0;
+
+		//Represents the information about the One Minor Task quest and how it is progressing
+		//0 = not started, 1 = started
+		storedInformation["minorTaskStatus"] = 0;
 	}
 };
 
