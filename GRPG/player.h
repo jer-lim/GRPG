@@ -71,6 +71,15 @@ private:
 	//If <0 = not immune
 	//>0 = immune for that amount of time.
 	float dragonfireImmunity;
+
+	//Marks if the player is teleporting or not.
+	//If teleporting, draw manager will not bother to check mouseOverEntity and set it to nullptr automatically.
+	//Failure to do so may result in a crash during teleportation.
+	//Should be set to 2 when required. This is not a boolean as when a teleportation is done,
+	//the mapLoader load code is still ran ONCE before the maploader actually shifts the map;
+	//resulting in isTeleporting set to false on that run. Thus now it's an int set to 2, 
+	//and whenever teleporting is not detected it reduces it by 1.
+	int isTeleporting;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
@@ -213,6 +222,9 @@ public:
 	}
 
 	virtual string getType(){ return "PLAYER"; }
+
+	virtual int getIsTeleporting() { return isTeleporting; }
+	virtual void setIsTeleporting(int t) { isTeleporting = t; }
 
 	UI* getUI();
 };

@@ -39,6 +39,7 @@ void TeleportBehavior::action()
 		player->setVictim(0);
 		player->releaseDestination();
 		gameptr->setMouseOverEntity(nullptr);
+		player->setIsTeleporting(2);
 	}
 	else
 	{

@@ -10,6 +10,8 @@
 #include "Resource.h"
 #include "cooker.h"
 #include "AnimatableTile.h"
+#include "grpg.h"
+#include "player.h"
 
 using namespace std;
 
@@ -488,6 +490,17 @@ void MapLoader::update(float frameTime){
 					toMoveTo.push(TileVector(newTileX, newTileY));
 				}
 			}
+		}
+	}
+	
+	//No tiles needed to be changed; there must have been no movement;
+	//thus the player is definitely not teleporting
+	if (toMove.empty())
+	{
+		int teleporting = ((Grpg*)gamePtr)->getPlayer()->getIsTeleporting();
+		if (teleporting > 0)
+		{
+			((Grpg*)gamePtr)->getPlayer()->setIsTeleporting(teleporting - 1 );
 		}
 	}
 

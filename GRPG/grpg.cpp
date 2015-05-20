@@ -479,6 +479,7 @@ bool Grpg::processCommand(std::string command)
 		player->setVictim(0);
 		player->releaseDestination();
 		mouseOverEntity = nullptr;
+		player->setIsTeleporting(2);
 
 		return true;
 	}
