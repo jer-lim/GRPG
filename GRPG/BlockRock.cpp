@@ -23,21 +23,19 @@ BlockRock::~BlockRock()
 	SAFE_DELETE(blockRockMineBehavior);
 }
 
-bool BlockRock::initialize(Game* gamePtr, Player* p, Destination* location, string examineText)
+bool BlockRock::initialize(Game* gamePtr, Player* p, Destination* location, string et)
 {
 	graphics = gamePtr->getGraphics();
 	ui = ((Grpg*)gamePtr)->getUI();
 	thePlayer = p;
+	examineText = et;
 
 	if (!rockTexture->initialize(graphics, blockRockNS::location))
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize block rock texture.");
 	}
 	Entity::initialize(gamePtr, blockRockNS::imageWidth, blockRockNS::imageHeight, 0, rockTexture);
-	viewBehavior = new ViewBehavior("A rock", examineText, ui);
-	blockRockMineBehavior = new BlockRockMineBehavior(thePlayer, this, ui);
-	setupVectorActiveBehaviors();
-	
+	setupBehaviors();
 	setX(location->getX());
 	setY(location->getY());
 }
@@ -116,4 +114,11 @@ void BlockRock::startFall(Viewport* vp)
 	destination = new Point(getX(), getY());
 	setY(vp->getTopLeft().y);
 	fallSpeed = 0;
+}
+
+void BlockRock::setupBehaviors()
+{
+	viewBehavior = new ViewBehavior("A rock", examineText, ui);
+	blockRockMineBehavior = new BlockRockMineBehavior(thePlayer, this, ui);
+	setupVectorActiveBehaviors();
 }

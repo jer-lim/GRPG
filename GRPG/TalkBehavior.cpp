@@ -91,6 +91,44 @@ void TalkBehavior::action(){
 					}
 					break;
 				}
+				case 2:
+				{
+					ui->drawWindow("Shriveled Man");
+					if (questData->getValue("artifactStealStatus") == 0)
+					{
+						ui->addTalkText(new ChatInformation("Good day to you.", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->setCaller(this);
+						dt->addOption(20, "Do you have a quest for me?");
+						dt->addOption(0, "Good day to you, too. See you around!");
+						ui->addTalkText(dt);
+					}
+					else if (questData->getValue("artifactStealStatus") == 1)
+					{
+						ui->addTalkText(new ChatInformation("Thank you for agreeing to help me!", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(23, "I need some information on how to get into the house");
+						dt->addOption(0, "Oh yeah, gotta go help you.");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+					}
+					break;
+				}
+				case 3:
+				{
+					ui->drawWindow("Gardener");
+					ui->addTalkText(new ChatInformation("Hello there!", chatNS::RIGHT));
+					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+					dt->addOption(27, "What do you do here?");
+					dt->addOption(29, "Are you allowed to enter the house?");
+					if (questData->getValue("artifactStealStatus") == 1)
+					{
+						dt->addOption(30, "Can I borrow the key to the house?");
+					}
+					dt->setCaller(this);
+					ui->addTalkText(dt);
+					break;
+				}
 				default:
 				{
 					ui->addChatText("Developer warning: detail chat was required, but");
@@ -344,6 +382,131 @@ void TalkBehavior::optionSelected(ChatOption co)
 		cd->addOption(17, "Tell me about the rare easter eggs.");
 		cd->addOption(18, "Tell me about the epic easter eggs.");
 		cd->addOption(0, "Thanks for the information.");
+		ui->addTalkText(cd);
+		break;
+		//===================== Shriveled man
+	case 20: //Do you have a quest for me?
+		ui->addTalkText(new ChatInformation("Well, uh... I don't think I", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The man pauses for a moment", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("I do have a quest for you, actually. I have an item, which was, well, you know, given to me by a precious friend. Unfortunately, it was stolen from me!", chatNS::RIGHT));
+		cd->addOption(21, "Oh no! What can I do?");
+		cd->addOption(22, "This looks like trouble... I don't think I want this quest.");
+		ui->addTalkText(cd);
+		break;
+	case 21: //Start Stolen Artifact Quest (Oh no! What can I do? / All right then.)
+		ui->addTalkText(new ChatInformation("The man who has stolen it lives some ways east of the doctor! Please, help me get the item back! It was rightfully mine after all!", chatNS::RIGHT));
+		cd->addOption(0, "All right, I'll head to the house to scout out more");
+		cd->addOption(23, "I'll help. I'm going to need more information though.");
+		gem->informListeners(new GameEvent_EntityAction(ii));
+		ui->addTalkText(cd);
+		break;
+	case 22: // This looks like trouble... I don't think I want this quest.
+		ui->addTalkText(new ChatInformation("Oh, please help me! The uh, man is, well, you know, very arrogant and pompous, he just steals other people's artifacts for the sake of it!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Please help me get back one of my possessions!", chatNS::RIGHT));
+		cd->addOption(0, "No thanks.");
+		cd->addOption(21, "All right then.");
+		ui->addTalkText(cd);
+		break;
+	case 23: //I'll help. I'm going to need more information though.
+		ui->addTalkText(new ChatInformation("Well, you're going to need to get into the house to get the, um, stolen artifact back. To do so, you need to get into the house, either by using a key or picking the lock.", chatNS::RIGHT));
+		cd->addOption(24, "How do I get the key?");
+		cd->addOption(25, "How do I pick the lock?");
+		cd->addOption(26, "You seem to hesitate a lot while speaking to me. What's up?");
+		cd->addOption(0, "Thanks for the information.");
+		ui->addTalkText(cd);
+		break;
+	case 24: //How do I get the key?
+		ui->addTalkText(new ChatInformation("Thankfully, I have been, well, tracking the owner of the house for some time now. You understand, this is to ensure that I can easily provide help to an adeventurer like you who wishes to help me get into the house.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Of course, I understand", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Good. I've found that the man tends to look in his pond right before he enters his house... you may want to try looking there. Alternatively, the gardener outside his house probably has a key.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("You can also try talking to the gardener to find out any other places he may have hid a key.", chatNS::RIGHT));
+		cd->addOption(25, "That all sounds complicated, how about picking the lock?");
+		cd->addOption(26, "You seem to hesitate a lot while speaking to me. What's up?");
+		cd->addOption(0, "Thanks for the information.");
+		ui->addTalkText(cd);
+		break;
+	case 25: //How do I pick the lock?
+		ui->addTalkText(new ChatInformation("Well, if you don't want to bother about getting the key, you can just pick the lock.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The lock looks pretty complicated though, so I'd expect you need a thieving level of at least 10 to pick it", chatNS::RIGHT));
+		cd->addOption(24, "That's a rather high level, how about getting a key?");
+		cd->addOption(26, "You seem to hesitate a lot while speaking to me. What's up?");
+		cd->addOption(0, "Thanks for the information.");
+		ui->addTalkText(cd);
+		break;
+	case 26: //You seem to hesitate a lot while speaking ot me. What's up?
+		ui->addTalkText(new ChatInformation("Well, uh, you see, uh, well, basically, um, I tend to uh, be somewhat nervous.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Yeah! That's right! I tend to be nervous when, uh, asking people for help because I'd greatly prefer not to do that.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Well, if you say so...", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("This is pretty important to me though, so that's why I'm asking you for help.", chatNS::RIGHT));
+		cd->addOption(24, "How do I get the key?");
+		cd->addOption(25, "How do I pick the lock?");
+		cd->addOption(0, "I'd better get to doing it then.");
+		ui->addTalkText(cd);
+		break;
+		// ====================== Gardener
+	case 27: // What do you do here?
+		ui->addTalkText(new ChatInformation("Oh, I'm the gardener of this house. As you can see, it has a pretty big garden, even with a pond.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("So I'm helping to manage it. You know, grow crops, plant flowers, make it nicer, the like.", chatNS::RIGHT));
+		cd->addOption(28, "But there doesn't seem to be any flowers in the garden...");
+		cd->addOption(29, "So you're the gardener? Can you enter this house?");
+		ui->addTalkText(cd);
+		break;
+	case 28: //But there doesn't seem to be many cops around here.
+		ui->addTalkText(new ChatInformation("How dare you insult me like that? I'll have you know that I'm a master gardener and can grow crops in the most barren of land!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The gardener looks around him", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("All right, I'll admit, this land looks slightly empty at the moment. Give it time. Soon you'll come here just to experience its beauty!", chatNS::RIGHT));
+		cd->addOption(29, "Are you allowed to enter the house?");
+		cd->addOption(0, "I'll leave you to it then.");
+		ui->addTalkText(cd);
+		break;
+	case 29: //Can you enter the house?
+		if (questData->getValue("artifactStealKey") == 0)
+		{
+			ui->addTalkText(new ChatInformation("Of course I can! I have the key right here, with me.", chatNS::RIGHT));
+			if (questData->getValue("artifactStealStatus") == 1)
+			{
+				cd->addOption(30, "Awesome. Can I borrow it?");
+			}
+			cd->addOption(0, "Alright, thanks");
+			ui->addTalkText(cd);
+		}
+		else
+		{
+			ui->addTalkText(new ChatInformation("Of course I can! I loaned you the key, remember?", chatNS::RIGHT));
+			cd->addOption(0, "Oh yeah...");
+			ui->addTalkText(cd);
+		}
+		break;
+	case 30: //Can I borrow the key?
+		ui->addTalkText(new ChatInformation("Well, I'm actually not allowed to. But since I'm a nice guy, how about this? If you beat me in a challenge, I'll let you borrow the key.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I'll need you to drink finish the water in here. If you can do that, I'll lend you the key.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("He shows you the water. It's all murky, you can't tell what's inside it.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("You estimate you need a defense level of at least 6 and 14 Health to stomach that.", chatNS::MIDDLE));
+		if (thePlayer->getSkills()->at(skillNS::ID_SKILL_DEFENSE).getSkillLevel() >= 6 && thePlayer->getHealth() >= 14)
+		{
+			cd->addOption(31, "All right, I'll drink it.");
+		}
+		cd->addOption(32, "What's inside that thing?");
+		cd->addOption(0, "Ew, no thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 31: //All right, I'll drink it (only selectable with >= 6 defense and >=14 HP
+		ui->addTalkText(new ChatInformation("Steeling yourself, you take the drink and finish it", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("The drink mixes in your stomach...you feel a large pain inside", chatNS::MIDDLE));
+		thePlayer->damage(13);
+		ui->addTalkText(new ChatInformation("Nicely done. Here, have the key.", chatNS::RIGHT));
+		gem->informListeners(new GameEvent_ItemReceived(grpg->getItemLoader()->getItem(36)));
+		cd->addOption(0, "Thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 32:
+		ui->addTalkText(new ChatInformation("Why, that's for me to know and for you to find out...by drinking it!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("So, want to try it?", chatNS::RIGHT));
+		if (thePlayer->getSkills()->at(skillNS::ID_SKILL_DEFENSE).getSkillLevel() >= 6 && thePlayer->getHealth() >= 14)
+		{
+			cd->addOption(31, "All right, I'll drink it.");
+		}
+		cd->addOption(0, "Ew, no thanks.");
 		ui->addTalkText(cd);
 		break;
 	default:

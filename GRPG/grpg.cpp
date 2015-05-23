@@ -510,6 +510,43 @@ bool Grpg::processCommand(std::string command)
 
 		return true;
 	}
+	else if (command.substr(0, 2) == "se")
+	{
+		bool error = command.length() < 6;
+		if (!error)
+		{
+			std::string eventType = command.substr(3, 2);
+			std::string furtherSubtype = command.substr(6);
+			if (eventType == "ea")
+			{
+				int npcId = stoi(furtherSubtype);
+				gameEventManager->informListeners(new GameEvent_EntityAction(personLoader->getNPC(npcId)));
+				ui->addChatText("GameEvent_EntityAction sent with Entity: " + personLoader->getNPC(npcId)->getname());
+			}
+			else if (eventType == "ir")
+			{
+				int itemId = stoi(furtherSubtype);
+				gameEventManager->informListeners(new GameEvent_ItemReceived(itemLoader->getItem(itemId)));
+				ui->addChatText("GameEvent_ItemReceived sent with Item: " + itemLoader->getItem(itemId)->getName());
+			}
+			else if (eventType == "iu")
+			{
+				int itemId = stoi(furtherSubtype);
+				gameEventManager->informListeners(new GameEvent_ItemUsed(itemLoader->getItem(itemId)));
+				ui->addChatText("GameEvent_ItemUsed sent with Item: " + itemLoader->getItem(itemId)->getName());
+			}
+			else
+			{
+				error = true;
+			}
+		}
+		if (error)
+		{
+			ui->addChatText("Invalid GameEvent Type. Specify either ea, ir or iu");
+			ui->addChatText("with appropriate parameters");
+		}
+		return true;
+	}
 
 	return false;
 }

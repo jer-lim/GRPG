@@ -59,15 +59,17 @@ public:
 		storedInformation["mattStatus"] = 0;
 
 		//Represents the information about the stolen artifact quest and how it is progressing
-		//0 = not started, 1 = started
+		//0 = not started, 1 = started, 2 = House Entry opened, 3 = artifact retrieved, 4 = artifact returned
 		storedInformation["artifactStealStatus"] = 0;
+		//0 = no key, 1 = player has key
+		storedInformation["artifactStealKey"] = 0;
 
 		//Represents the information about the mysterious artifact quest and how it is progressing
 		//0 = not started, 1 = started
 		storedInformation["mysteriousArtifactStatus"] = 0;
 
 		//Represents the information about the One Minor Task quest and how it is progressing
-		//0 = not started, 1 = started
+		//0 = not started, 1 = startedx
 		storedInformation["minorTaskStatus"] = 0;
 	}
 };

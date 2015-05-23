@@ -878,6 +878,28 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 			}
 			setupVectorActiveBehaviors();
 		}
+		else if (n->getname() == "Gardener")
+		{
+			//Always able to talk
+			((NPC*)person)->setTalkText("detail3");
+			if (health > 0)
+			{
+				talkBehavior = new TalkBehavior((NPC*)person, ((Grpg*)theGame)->getUI(), ((Grpg*)theGame)->getPlayer(), this, (Grpg*)theGame);
+			}
+			//Attackable depending on quest state.
+			if (questData->getValue("artifactStealStatus") == 1)
+			{
+				if (attackBehavior == nullptr)
+				{
+					attackBehavior = new AttackBehavior(((Grpg*)theGame)->getPlayer(), this, (NPC*)person);
+				}
+			}
+			else
+			{
+				SAFE_DELETE(attackBehavior);
+			}
+			setupVectorActiveBehaviors();
+		}
 	}
 }
 
@@ -1271,6 +1293,14 @@ void Entity::damage(int dt)
 				((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_ItemReceived(((Grpg*)theGame)->getItemLoader()->getItem(31)));
 			}
 		}
+		if (questData->getValue("artifactStealStatus") == 1 && questData->getValue("artifactStealKey") == 0)
+		{
+			if (((NPC*)person)->getname() == "Gardener")
+			{
+				((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_ItemReceived(((Grpg*)theGame)->getItemLoader()->getItem(36)));
+				((Grpg*)theGame)->getUI()->addChatText("The gardener drops a key and you pick it up.");
+			}
+		}
 		//Chance to drop bonus loot (i.e. ring of wealth OP)
 		if (questData->getValue("easterComplete"))
 		{
@@ -1283,7 +1313,23 @@ void Entity::damage(int dt)
 				theGame->getDrawManager()->addObject(bonusEgg, 2);
 			}
 		}
-		theGame->deleteEntity(this);
+		if (((NPC*)person)->getname() == "Gardener")
+		{
+			//The gardener should't die on death, he should just...become inactive.
+			//This prevents the spawner from spawning another.
+			//Also allows us to just directly get him and replace him with the new one once the quest finishes.
+			image.setVisible(false);
+			this->setActive(false);
+			//gotta destroy all behaviors
+			SAFE_DELETE(attackBehavior);
+			SAFE_DELETE(viewBehavior);
+			SAFE_DELETE(talkBehavior);
+			setupVectorActiveBehaviors();
+		}
+		else
+		{
+			theGame->deleteEntity(this);
+		}
 	}
 	else
 		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, false));

@@ -14,3 +14,5 @@
 19 Kock chicken.png 40 2 64 64 4 20 20 A_Very_Lazy_Chicken. 0 1 1 3 1 -1 70 {}
 30 BlockRock blockrock.png 40 2 32 32 1 20 20 A_Rock._Looks_minable. 0 0 0 1 0 0 0 {}
 31 Dragon_Egg dragonegg.png 0 2 64 64 4 38 38 Looks_like_it's_close_to_hatching. 0 0 20 50 1 1 50 {}
+33 Gardener gardener1.png 40 2 64 64 4 38 38 Slayer_of_pests!_Protector_of_plants!_Purchaser_of_pesticide! 10 7 10 20 1.0 1 70 {}
+34 Door door.png 40 2 32 32 1 20 20 A_Door._Entryway_to_a_house._Don't_you_know_what_a_door_is? 0 0 0 1 0 0 0 {}

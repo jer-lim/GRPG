@@ -151,20 +151,37 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	b3->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 2*(QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Stolen Artifact");
 	Quest* artifactStealQuest = new Quest(gem, questData, "Stolen Artifact", "An artifact has been stolen by a rich, pompous man. Help to steal it back!", b3);
 	QuestCondition* talkToPoorMan = new QuestCondition();
-	GameEvent* poorManTalked = new GameEvent_EntityAction(nullptr, "To start this quest, I can talk to the shriveled looking man in the house just south of the chicken pen.", "The man I talked to claims that an artifact belonging to him has been stolen by a rich, pompous man! I should try to get it back! The rick person's house is located aways east of the doctor.");
+	GameEvent* poorManTalked = new GameEvent_EntityAction(personLoader->getNPC(32), "To start this quest, I can talk to the shriveled looking man in the house just south of the chicken pen.", "The man I talked to claims that an artifact belonging to him has been stolen by a rich, pompous man! I should try to get it back! The rick person's house is located aways east of the doctor.");
 	poorManTalked->addChangeRequired("artifactStealStatus", 1);
 	talkToPoorMan->addGameEventRequirement(poorManTalked, 1, nullptr);
 	artifactStealQuest->addQuestCondition(talkToPoorMan);
 	
 	QuestCondition* getKey = new QuestCondition(); //Note: Optional
-	GameEvent* keyRetrieved = new GameEvent_EntityAction(nullptr, "I need to get the key to the house. The man had some ideas, or I can talk to the gardener just outside the house.", "I managed to get the key to the house!");
+	GameEvent* keyRetrieved = new GameEvent_ItemReceived(itemLoader->getItem(36), "I could get keys to the house to enter it. The man had some ideas, or I can talk to the gardener just outside the house.", "I managed to get the key to the house!");
 	getKey->addGameEventRequirement(keyRetrieved, 1, nullptr);
+	keyRetrieved->addChangeRequired("artifactStealKey", 1);
 	artifactStealQuest->addQuestCondition(getKey, talkToPoorMan);
 
 	QuestCondition* getIntoHouse = new QuestCondition();
-	GameEvent* gotIntoHouse = new GameEvent_EntityAction(nullptr, "Alternatively, I could find another way to get into the house without using the key", "I managed to enter the house!");
+	GameEvent* gotIntoHouse = new GameEvent_ItemUsed(itemLoader->getItem(36), "Alternatively, I could find another way to get into the house without using the key", "I managed to enter the house!");
 	getIntoHouse->addGameEventRequirement(gotIntoHouse, 1, nullptr);
+	gotIntoHouse->addChangeRequired("artifactStealKey", 1);
+	gotIntoHouse->addChangeRequired("artifactStealStatus", 2);
 	artifactStealQuest->addQuestCondition(getIntoHouse, talkToPoorMan);
+
+	QuestCondition* getArtifact = new QuestCondition();
+	GameEvent* leverPulled = new GameEvent_EntityAction(nullptr, "I've managed to enter the house! I can't get the artifact yet though, something appears to be blocking me.", "I pulled a lever, and the artifact is now within my grasp!");
+	getArtifact->addGameEventRequirement(leverPulled, 1, nullptr);
+	GameEvent* artifactAcquired = new GameEvent_ItemReceived(itemLoader->getItem(37), "All I need to do now is to take it!", "Obviously, I took the artifact.");
+	getArtifact->addGameEventRequirement(artifactAcquired, 1, leverPulled);
+	artifactAcquired->addChangeRequired("artifactStealStatus", 3);
+	artifactStealQuest->addQuestCondition(getArtifact, getIntoHouse);
+
+	QuestCondition* talkToPoorMan2 = new QuestCondition();
+	GameEvent* poorManTalked2 = new GameEvent_EntityAction(personLoader->getNPC(32), "I should now get back to that man to return the artifact.", "I managed to return the artifact to that man. He acted... someone oddly after receiving it, and left.");
+	talkToPoorMan2->addGameEventRequirement(poorManTalked2, 1, nullptr);
+	poorManTalked2->addChangeRequired("artifactStealStatus", 4);
+	artifactStealQuest->addQuestCondition(talkToPoorMan2, getArtifact);
 
 	mapQuests[2] = artifactStealQuest;
 

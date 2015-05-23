@@ -25,7 +25,6 @@ void BlockRockMineBehavior::action()
 				ui->addChatText("You attempt to mine the rock...");
 				ui->addChatText("and successfully break through.");
 				BlockRock* br = ((BlockRock*)entity);
-				br->setDisabled(true);
 				if (br->hasMiningBonus())
 				{
 					ui->addChatText("Mining this rock for the first time taught you more about mining.");
@@ -36,6 +35,8 @@ void BlockRockMineBehavior::action()
 				{
 					player->getSkills()->at(skillNS::ID_SKILL_MINING).gainXP(100);
 				}
+				//Must be last line in this behavior
+				br->setDisabled(true);
 			}
 			else
 			{

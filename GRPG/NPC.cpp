@@ -9,6 +9,7 @@
 #include "Aidil.h"
 #include "grpg.h"
 #include "BlockRock.h"
+#include "RichDoor.h"
 
 Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy;
@@ -22,6 +23,11 @@ Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 		_ASSERTE(_CrtCheckMemory());
 		enemy = new BlockRock();
 		((BlockRock*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
+	}
+	else if (npcId == 34)
+	{
+		enemy = new RichDoor();
+		((RichDoor*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
 	}
 	else
 	{

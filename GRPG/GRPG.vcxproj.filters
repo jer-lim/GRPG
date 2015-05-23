@@ -65,6 +65,9 @@
     <ClCompile Include="AnimatableTile.cpp" />
     <ClCompile Include="BlockRock.cpp" />
     <ClCompile Include="BlockRockMineBehavior.cpp" />
+    <ClCompile Include="RichDoor.cpp" />
+    <ClCompile Include="OpenBehavior.cpp" />
+    <ClCompile Include="PickLockBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -154,6 +157,9 @@
     <ClInclude Include="AnimatableTile.h" />
     <ClInclude Include="BlockRock.h" />
     <ClInclude Include="BlockRockMineBehavior.h" />
+    <ClInclude Include="RichDoor.h" />
+    <ClInclude Include="OpenBehavior.h" />
+    <ClInclude Include="PickLockBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

@@ -43,6 +43,8 @@ protected:
 	//The player gains a huge mining bonus the first time he mines this rock.
 	bool firstMine;
 	Behavior* blockRockMineBehavior = nullptr;
+	string examineText;
+	virtual void setupBehaviors();
 public:
 	// constructor
 	BlockRock();
@@ -63,7 +65,20 @@ public:
 	virtual void onResetDevice();
 
 	virtual bool getDisabled() { return disabled; }
-	virtual void setDisabled(bool d) { disabled = d; }
+	virtual void setDisabled(bool d) 
+	{
+		disabled = d; 
+		if (disabled)
+		{
+			SAFE_DELETE(viewBehavior);
+			SAFE_DELETE(blockRockMineBehavior);
+		}
+		else
+		{
+			setupBehaviors();
+		}
+		setupVectorActiveBehaviors();
+	}
 	virtual bool hasMiningBonus() { return firstMine; }
 	virtual void mined() { firstMine = false; }
 

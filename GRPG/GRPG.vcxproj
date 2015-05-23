@@ -41,6 +41,7 @@
     <ClInclude Include="InventoryBoost.h" />
     <ClInclude Include="InventoryEquipment.h" />
     <ClInclude Include="MineBehavior.h" />
+    <ClInclude Include="OpenBehavior.h" />
     <ClInclude Include="OptionNotifier.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonLoader.h" />
@@ -68,6 +69,7 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="mapLoader.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="PickLockBehavior.h" />
     <ClInclude Include="PickupBehavior.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
@@ -77,6 +79,7 @@
     <ClInclude Include="QuestLoader.h" />
     <ClInclude Include="QuickPluckBehavior.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RichDoor.h" />
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="skill.h" />
     <ClInclude Include="Smithing_Material.h" />
@@ -122,6 +125,7 @@
     <ClCompile Include="InventoryItem.cpp" />
     <ClCompile Include="MineBehavior.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="OpenBehavior.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PersonLoader.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -137,6 +141,7 @@
     <ClCompile Include="itemLoader.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="mapLoader.cpp" />
+    <ClCompile Include="PickLockBehavior.cpp" />
     <ClCompile Include="PickupBehavior.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
@@ -146,6 +151,7 @@
     <ClCompile Include="QuestLoader.cpp" />
     <ClCompile Include="QuickPluckBehavior.cpp" />
     <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="RichDoor.cpp" />
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="Spawner.cpp" />
