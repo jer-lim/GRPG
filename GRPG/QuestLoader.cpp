@@ -170,7 +170,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	artifactStealQuest->addQuestCondition(getIntoHouse, talkToPoorMan);
 
 	QuestCondition* getArtifact = new QuestCondition();
-	GameEvent* leverPulled = new GameEvent_EntityAction(nullptr, "I've managed to enter the house! I can't get the artifact yet though, something appears to be blocking me.", "I pulled a lever, and the artifact is now within my grasp!");
+	GameEvent* leverPulled = new GameEvent_EntityAction(nullptr, "I can't get the artifact yet though, something appears to be blocking me.", "I pulled a lever, and the artifact is now within my grasp!");
 	getArtifact->addGameEventRequirement(leverPulled, 1, nullptr);
 	GameEvent* artifactAcquired = new GameEvent_ItemReceived(itemLoader->getItem(37), "All I need to do now is to take it!", "Obviously, I took the artifact.");
 	getArtifact->addGameEventRequirement(artifactAcquired, 1, leverPulled);

@@ -33,6 +33,12 @@ public:
 
 	// Overrides from tile so it does nothing
 	virtual bool initialize(Game *gamePtr, TextureManager* tm) { return true; }
+
+	// Checks the questData to see if there has been anything updated specifically for this entity
+	// and performs any required changes
+	// Generally called on a game update.
+	virtual void questAction(QuestData* questData, GameEventManager* gem);
+
 };
 
 #endif

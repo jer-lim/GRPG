@@ -68,6 +68,7 @@
     <ClCompile Include="RichDoor.cpp" />
     <ClCompile Include="OpenBehavior.cpp" />
     <ClCompile Include="PickLockBehavior.cpp" />
+    <ClCompile Include="KeyFishBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="RichDoor.h" />
     <ClInclude Include="OpenBehavior.h" />
     <ClInclude Include="PickLockBehavior.h" />
+    <ClInclude Include="KeyFishBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

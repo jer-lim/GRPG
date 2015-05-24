@@ -15,6 +15,7 @@
 #include "UI.h"
 #include "Enemy.h"
 #include "AttackBehavior.h"
+#include "KeyFishBehavior.h"
 #include "PickupBehavior.h"
 #include "GainXPBehavior.h"
 #include "DropBehavior.h"
@@ -103,6 +104,7 @@ Entity::~Entity()
 	SAFE_DELETE(updateQuestsBehavior);
 	SAFE_DELETE(stealBehavior);
 	SAFE_DELETE(gainXPBehavior);
+	SAFE_DELETE(keyFishBehavior);
 	vectorActiveBehaviors.clear();
 	if (backHealth != nullptr)
 	{

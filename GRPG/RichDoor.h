@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "textDX.h"
 #include "player.h"
+#include "GameEvent_ItemUsed.h"
 
 namespace richDoorNS
 {
@@ -50,17 +51,7 @@ public:
 	virtual void onResetDevice();
 
 	virtual bool getOpen() { return open; }
-	virtual void setOpen(bool o)
-	{
-		open = o; 
-		if (open)
-		{
-			SAFE_DELETE(openBehavior);
-			SAFE_DELETE(pickLockBehavior);
-			SAFE_DELETE(viewBehavior);
-			setupVectorActiveBehaviors();
-		}
-	}
+	virtual void setOpen(bool o);
 
 	virtual void setupVectorActiveBehaviors()
 	{

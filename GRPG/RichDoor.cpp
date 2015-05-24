@@ -4,6 +4,7 @@
 #include "destination.h"
 #include "OpenBehavior.h"
 #include "PickLockBehavior.h"
+#include "GameEvent_ItemUsed.h"
 
 RichDoor::RichDoor() : Entity()
 {
@@ -23,6 +24,7 @@ bool RichDoor::initialize(Game* gamePtr, Player* p, Destination* location, strin
 	graphics = gamePtr->getGraphics();
 	ui = ((Grpg*)gamePtr)->getUI();
 	thePlayer = p;
+	theGame = gamePtr;
 
 	if (!doorTexture->initialize(graphics, richDoorNS::location))
 	{
@@ -92,4 +94,17 @@ void RichDoor::onLostDevice()
 void RichDoor::onResetDevice()
 {
 	doorTexture->onResetDevice();
+}
+
+void RichDoor::setOpen(bool o)
+{
+	open = o;
+	if (open)
+	{
+		SAFE_DELETE(openBehavior);
+		SAFE_DELETE(pickLockBehavior);
+		SAFE_DELETE(viewBehavior);
+		setupVectorActiveBehaviors();
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_ItemUsed(((Grpg*)theGame)->getItemLoader()->getItem(36)));
+	}
 }

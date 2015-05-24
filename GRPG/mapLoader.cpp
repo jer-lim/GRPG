@@ -351,6 +351,9 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		}
 		else if (tileset[tileId].type == tileNS::type::FISHINGSPOT) {
 			t = new Resource(tileId);
+			//Hotfix to allow special fishing spots
+			t->setX(tilePos.x);
+			t->setY(tilePos.y);
 			((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 		}
 		else if (tileset[tileId].type == tileNS::type::MININGSPOT) {
@@ -620,6 +623,9 @@ void MapLoader::update(float frameTime){
 					}
 					else if(newTileInfo.type == tileNS::type::FISHINGSPOT){
 						t = new Resource(newTileId);
+						//Hotfix for special fishing spots
+						t->setX(tilePos.x);
+						t->setY(tilePos.y);
 						((Resource*)t)->initialize(gamePtr, resourceNS::FISHING, textureManager);
 						//runtimeLog << "Created Fishing2" << endl;
 						//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING

@@ -40,6 +40,7 @@
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InventoryBoost.h" />
     <ClInclude Include="InventoryEquipment.h" />
+    <ClInclude Include="KeyFishBehavior.h" />
     <ClInclude Include="MineBehavior.h" />
     <ClInclude Include="OpenBehavior.h" />
     <ClInclude Include="OptionNotifier.h" />
@@ -123,6 +124,7 @@
     <ClCompile Include="GameEvent_ItemUsed.h" />
     <ClCompile Include="HealBehavior.cpp" />
     <ClCompile Include="InventoryItem.cpp" />
+    <ClCompile Include="KeyFishBehavior.cpp" />
     <ClCompile Include="MineBehavior.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="OpenBehavior.cpp" />

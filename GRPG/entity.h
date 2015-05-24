@@ -206,6 +206,7 @@ class Entity : public Destination//, public Interactable
 	  Behavior* quickPluckBehavior = nullptr; //For Easter Quest
 	  Behavior* aggressivePluckBehavior = nullptr;
 	  Behavior* easterInteractBehavior = nullptr;
+	  Behavior* keyFishBehavior = nullptr;
 
     // Constructor
     Entity();
@@ -464,6 +465,8 @@ class Entity : public Destination//, public Interactable
 			vectorActiveBehaviors.push_back(quickPluckBehavior);
 		if (stealBehavior)
 			vectorActiveBehaviors.push_back(stealBehavior);
+		if (keyFishBehavior)
+			vectorActiveBehaviors.push_back(keyFishBehavior);
 		if (fishBehavior)
 			vectorActiveBehaviors.push_back(fishBehavior);
 		if (mineBehavior)

@@ -4,7 +4,9 @@
 //  Student Number:     S10132161H
 
 #include "Resource.h"
+#include "KeyFishBehavior.h"
 #include "grpg.h"
+#include "mapLoader.h"
 
 Resource::Resource(char i) : Tile(i) { };
 Resource::~Resource() {};
@@ -14,6 +16,8 @@ Resource::~Resource() {};
 //		type = which type (from resourceNS) this resource should be
 bool Resource::initialize(Game *gamePtr, int type, TextureManager* tm)
 {
+	theGame = gamePtr;
+	thePlayer = ((Grpg*)gamePtr)->getPlayer();
 	if (type == resourceNS::FISHING)
 	{
 		fishBehavior = new FishBehavior(((Grpg*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI());
@@ -24,6 +28,10 @@ bool Resource::initialize(Game *gamePtr, int type, TextureManager* tm)
 		mineBehavior = new MineBehavior(((Grpg*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI());
 		viewBehavior = new ViewBehavior("Ore", "Some ores", ((Grpg*)gamePtr)->getUI());
 	}
+	//Also, call questAction to ensure that any quest states are done properly
+	questAction(((Grpg*)gamePtr)->getQuestLoader()->getQuestData(), ((Grpg*)gamePtr)->getGameEventManager());
+	//And add it so that any further updates are processed
+	((Grpg*)gamePtr)->getGameEventManager()->addListener(this);
 	setupVectorActiveBehaviors();
 	if (Entity::initialize(gamePtr, tileNS::HEIGHT, tileNS::WIDTH, 0, tm, false))
 	{
@@ -36,5 +44,18 @@ bool Resource::initialize(Game *gamePtr, int type, TextureManager* tm)
 	else
 	{
 		return false;
+	}
+
+}
+
+void Resource::questAction(QuestData* questData, GameEventManager* gem)
+{
+	//Am I the special fishing spot at the rich man's house?
+	VECTOR2 coords = ((Grpg*)theGame)->getMapLoader()->translateIdToCoords('%');
+	if (coords.x == x && coords.y == y)
+	{
+		SAFE_DELETE(fishBehavior);
+		keyFishBehavior = new KeyFishBehavior(thePlayer, this, ((Grpg*)theGame)->getUI(), (Grpg*)theGame);
+		setupVectorActiveBehaviors();
 	}
 }
