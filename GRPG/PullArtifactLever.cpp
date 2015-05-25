@@ -5,6 +5,7 @@
 #include "QuestData.h"
 #include "grpg.h"
 #include "ArtifactLever.h"
+#include "PersonLoader.h"
 
 string PullArtifactLeverBehavior::displayText(){
 	return "Pull the lever";
@@ -16,7 +17,7 @@ void PullArtifactLeverBehavior::action()
 	if (player->collidesWith(*entity, collisionVector) && !player->hasFailedThieve())
 	{
 		((ArtifactLever*)entity)->setPulled(!((ArtifactLever*)entity)->getPulled());
-		grpg->getGameEventManager()->informListeners(new GameEvent_EntityAction(entity->getPerson()));
+		grpg->getGameEventManager()->informListeners(new GameEvent_EntityAction(grpg->getPersonLoader()->getNPC(36)));
 	}
 	else
 	{
