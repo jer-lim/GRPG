@@ -15,11 +15,11 @@ namespace aidilNS
 	const int dragonfireWidth = 32;
 	const int dragonfireHeight = 32;
 
-	const float dragonfireStartDelay = 5;
-	const float dragonfireNormalDelay = 15;
-	const float dragonfireDelayDeviation = 5;
-	const float dragonfireWarningTime = 2;
-	const float dragonfireActiveTime = 4;
+	const float dragonfireStartDelay = 0;
+	const float dragonfireNormalDelay = 0;
+	const float dragonfireDelayDeviation = 0;
+	const float dragonfireWarningTime = 1;
+	const float dragonfireActiveTime = 0.2;
 	const float dragonfireSpread = PI/6;
 	const float dragonfireSpeed = 60;
 	const float dragonfireSpawnedPerSecond = 1000;

@@ -10,6 +10,7 @@
 #include "GameEvent.h"
 #include "QuestCondition.h"
 #include "Quest.h"
+#include "NPC.h"
 #include <vector>
 
 class GameEventManager{
@@ -33,6 +34,13 @@ public:
 	}
 	void addListener(Entity* e)
 	{
+		stringstream ss;
+		if (e->getPerson() != nullptr)
+			ss << "Entity listener added: " << ((NPC*)e->getPerson())->getname();
+		else
+			ss << "Entity listener added: " << e->getType();
+		ss << " Position: " << vector_entities.size();
+		ui->addChatText(ss.str());
 		vector_entities.push_back(e);
 	}
 	void removeListener(Quest* qc){
@@ -51,6 +59,9 @@ public:
 		{
 			if (vector_entities.at(i) == e)
 			{
+				stringstream ss;
+				ss << "Entity removed at position: " << i;
+				ui->addChatText(ss.str());
 				vector_entities.erase(vector_entities.begin() + i);
 				break;
 			}
