@@ -30,7 +30,7 @@ bool RichDoor::initialize(Game* gamePtr, Player* p, Destination* location, strin
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize rich door texture.");
 	}
-	Entity::initialize(gamePtr, richDoorNS::imageWidth, richDoorNS::imageHeight, 0, doorTexture);
+	bool result = Entity::initialize(gamePtr, richDoorNS::imageWidth, richDoorNS::imageHeight, 0, doorTexture);
 	viewBehavior = new ViewBehavior("Door", examineText, ui);
 	openBehavior = new OpenBehavior(thePlayer, this, ui, ((Grpg*)gamePtr)->getQuestLoader()->getQuestData());
 	pickLockBehavior = new PickLockBehavior(thePlayer, this, ui);
@@ -38,6 +38,7 @@ bool RichDoor::initialize(Game* gamePtr, Player* p, Destination* location, strin
 
 	setX(location->getX());
 	setY(location->getY());
+	return result;
 }
 
 void RichDoor::draw(Viewport* viewport)

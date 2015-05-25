@@ -15,6 +15,8 @@
     <ClInclude Include="Aidil.h" />
     <ClInclude Include="AnimatableTile.h" />
     <ClInclude Include="Armor.h" />
+    <ClInclude Include="ArtifactDisplay.h" />
+    <ClInclude Include="ArtifactLever.h" />
     <ClInclude Include="AttackBehavior.h" />
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="BlacksmithBehavior.h" />
@@ -74,6 +76,7 @@
     <ClInclude Include="PickupBehavior.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
+    <ClInclude Include="PullArtifactLever.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestCondition.h" />
     <ClInclude Include="QuestData.h" />
@@ -89,6 +92,7 @@
     <ClInclude Include="StealBehavior.h" />
     <ClInclude Include="StoveMoveBehavior.h" />
     <ClInclude Include="string_functions.h" />
+    <ClInclude Include="TakeArtifactBehavior.h" />
     <ClInclude Include="TalkBehavior.h" />
     <ClInclude Include="TeleportBehavior.h" />
     <ClInclude Include="textDX.h" />
@@ -108,6 +112,8 @@
     <ClCompile Include="AggressivePluckBehavior.cpp" />
     <ClCompile Include="AnimatableTile.cpp" />
     <ClCompile Include="Armor.cpp" />
+    <ClCompile Include="ArtifactDisplay.cpp" />
+    <ClCompile Include="ArtifactLever.cpp" />
     <ClCompile Include="AttackBehavior.cpp" />
     <ClCompile Include="BlockRock.cpp" />
     <ClCompile Include="BlockRockMineBehavior.cpp" />
@@ -147,6 +153,7 @@
     <ClCompile Include="PickupBehavior.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
+    <ClCompile Include="PullArtifactLever.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestCondition.cpp" />
     <ClCompile Include="QuestData.cpp" />
@@ -159,6 +166,7 @@
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="StealBehavior.cpp" />
     <ClCompile Include="StoveMoveBehavior.cpp" />
+    <ClCompile Include="TakeArtifactBehavior.cpp" />
     <ClCompile Include="TalkBehavior.cpp" />
     <ClCompile Include="TeleportBehavior.cpp" />
     <ClCompile Include="textDX.cpp" />

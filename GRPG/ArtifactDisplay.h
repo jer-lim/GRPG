@@ -1,5 +1,5 @@
-#ifndef _RICH_DOOR_H                 // Prevent multiple definitions if this 
-#define _RICH_DOOR_H                 // file is included in more than one place
+#ifndef _ARTIFACT_DISPLAY_H                 // Prevent multiple definitions if this 
+#define _ARTIFACT_DISPLAY_H                 // file is included in more than one place
 
 #include "entity.h"
 #include <deque>
@@ -8,34 +8,31 @@
 #include "player.h"
 #include "GameEvent_ItemUsed.h"
 
-namespace richDoorNS
+namespace artifactDisplayNS
 {
-	const char location[] = "assets/misc/door.png";
+	const char location[] = "assets/misc/Artifact_display_case.png";
 	const int imageWidth = 32;
 	const int imageHeight = 32;
-
-	//Margin to move a bit further to prevent further collision detections.
-	const int collideMargin = 2;
+	const int imageCols = 4;
 }
 
-// The rich guy's door.
-class RichDoor : public Entity
+//The artifact, encased in it's display case
+class ArtifactDisplay : public Entity
 {
 private:
-	TextureManager* doorTexture;
+	TextureManager* artifactTexture;
 	UI* ui;
 protected:
 
 	bool open;
-
-	Behavior* openBehavior = nullptr;
-	Behavior* pickLockBehavior = nullptr;
+	
+	Behavior* takeArtifactBehavior = nullptr;
 public:
 	// constructor
-	RichDoor();
+	ArtifactDisplay();
 
 	// Destructor
-	virtual ~RichDoor();
+	virtual ~ArtifactDisplay();
 
 	// inherited member functions
 	virtual void draw(Viewport* viewport);
@@ -55,15 +52,19 @@ public:
 	virtual void setupVectorActiveBehaviors()
 	{
 		vectorActiveBehaviors.clear();
-		if (openBehavior)
-			vectorActiveBehaviors.push_back(openBehavior);
-		if (pickLockBehavior)
-			vectorActiveBehaviors.push_back(pickLockBehavior);
+		if (takeArtifactBehavior)
+			vectorActiveBehaviors.push_back(takeArtifactBehavior);
 		if (viewBehavior)
 			vectorActiveBehaviors.push_back(viewBehavior);
 	}
 
 
-	virtual string getType(){ return "RICH_DOOR"; }
+	virtual string getType(){ return "ARTIFACT_DISPLAY"; }
+
+	virtual void setFrame(int i)
+	{
+		image.setCurrentFrame(i);
+	}
+
 };
 #endif

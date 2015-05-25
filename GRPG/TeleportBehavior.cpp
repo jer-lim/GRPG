@@ -21,6 +21,7 @@ string TeleportBehavior::displayText(){
 	{
 		return "Use " + guyDoingTeleport->getInventoryItem()->getItem()->getName() + " to teleport";
 	}
+	return "No such teleport display text";
 }
 
 void TeleportBehavior::action()

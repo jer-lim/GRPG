@@ -63,6 +63,8 @@ public:
 		storedInformation["artifactStealStatus"] = 0;
 		//0 = no key, 1 = player has key
 		storedInformation["artifactStealKey"] = 0;
+		//0 = artifactDisplayClosed, 1 = artifactDisplayOpen
+		storedInformation["artifactDisplayStatus"] = 0;
 
 		//Represents the information about the mysterious artifact quest and how it is progressing
 		//0 = not started, 1 = started

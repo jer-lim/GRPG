@@ -85,6 +85,8 @@ bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 	//Will be deleted later on every draw step, created once at start for simplicity to not 
 	//code an exception for the first time.
 	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+
+	return true;
 }
 
 void Aidil::draw(Viewport* viewport)

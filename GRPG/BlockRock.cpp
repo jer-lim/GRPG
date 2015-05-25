@@ -34,10 +34,12 @@ bool BlockRock::initialize(Game* gamePtr, Player* p, Destination* location, stri
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize block rock texture.");
 	}
-	Entity::initialize(gamePtr, blockRockNS::imageWidth, blockRockNS::imageHeight, 0, rockTexture);
+	bool result = Entity::initialize(gamePtr, blockRockNS::imageWidth, blockRockNS::imageHeight, 0, rockTexture);
 	setupBehaviors();
 	setX(location->getX());
 	setY(location->getY());
+
+	return result;
 }
 
 void BlockRock::draw(Viewport* viewport)

@@ -69,6 +69,10 @@
     <ClCompile Include="OpenBehavior.cpp" />
     <ClCompile Include="PickLockBehavior.cpp" />
     <ClCompile Include="KeyFishBehavior.cpp" />
+    <ClCompile Include="ArtifactDisplay.cpp" />
+    <ClCompile Include="TakeArtifactBehavior.cpp" />
+    <ClCompile Include="ArtifactLever.cpp" />
+    <ClCompile Include="PullArtifactLever.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -162,6 +166,10 @@
     <ClInclude Include="OpenBehavior.h" />
     <ClInclude Include="PickLockBehavior.h" />
     <ClInclude Include="KeyFishBehavior.h" />
+    <ClInclude Include="ArtifactDisplay.h" />
+    <ClInclude Include="TakeArtifactBehavior.h" />
+    <ClInclude Include="ArtifactLever.h" />
+    <ClInclude Include="PullArtifactLever.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

@@ -349,6 +349,7 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 			image.setCurrentFrame(((Smithing_Material*)inventoryItem->getItem())->getSmithingMatFrameNo());
 		}
 	}
+	return result;
 }
 
 

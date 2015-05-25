@@ -170,15 +170,16 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	artifactStealQuest->addQuestCondition(getIntoHouse, talkToPoorMan);
 
 	QuestCondition* getArtifact = new QuestCondition();
-	GameEvent* leverPulled = new GameEvent_EntityAction(nullptr, "I can't get the artifact yet though, something appears to be blocking me.", "I pulled a lever, and the artifact is now within my grasp!");
+	GameEvent* leverPulled = new GameEvent_EntityAction(personLoader->getNPC(36), "I can't get the artifact yet though, something appears to be blocking me.", "I pulled a lever, and the artifact is now within my grasp! ");
 	getArtifact->addGameEventRequirement(leverPulled, 1, nullptr);
+	leverPulled->addChangeRequired("artifactDisplayStatus", 1);
 	GameEvent* artifactAcquired = new GameEvent_ItemReceived(itemLoader->getItem(37), "All I need to do now is to take it!", "Obviously, I took the artifact.");
 	getArtifact->addGameEventRequirement(artifactAcquired, 1, leverPulled);
 	artifactAcquired->addChangeRequired("artifactStealStatus", 3);
 	artifactStealQuest->addQuestCondition(getArtifact, getIntoHouse);
 
 	QuestCondition* talkToPoorMan2 = new QuestCondition();
-	GameEvent* poorManTalked2 = new GameEvent_EntityAction(personLoader->getNPC(32), "I should now get back to that man to return the artifact.", "I managed to return the artifact to that man. He acted... someone oddly after receiving it, and left.");
+	GameEvent* poorManTalked2 = new GameEvent_EntityAction(personLoader->getNPC(32), "I should now get back to that man to return the artifact.", "I managed to return the artifact to that man. He acted... somewhat oddly after receiving it, and left.");
 	talkToPoorMan2->addGameEventRequirement(poorManTalked2, 1, nullptr);
 	poorManTalked2->addChangeRequired("artifactStealStatus", 4);
 	artifactStealQuest->addQuestCondition(talkToPoorMan2, getArtifact);

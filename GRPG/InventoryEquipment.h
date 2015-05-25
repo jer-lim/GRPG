@@ -27,6 +27,7 @@ public:
 			if (smithingMaterial->getID() == InventoryEquipmentNS::smithingMaterialID[i])
 				return i;		
 		}
+		return -1;
 	}
 
 	// constructor

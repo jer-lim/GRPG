@@ -10,6 +10,8 @@
 #include "grpg.h"
 #include "BlockRock.h"
 #include "RichDoor.h"
+#include "ArtifactDisplay.h"
+#include "ArtifactLever.h"
 
 Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy;
@@ -28,6 +30,16 @@ Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	{
 		enemy = new RichDoor();
 		((RichDoor*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
+	}
+	else if (npcId == 35)
+	{
+		enemy = new ArtifactDisplay();
+		((ArtifactDisplay*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
+	}
+	else if (npcId == 36)
+	{
+		enemy = new ArtifactLever();
+		((ArtifactLever*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
 	}
 	else
 	{

@@ -44,6 +44,7 @@ public:
 			if (getID() == Smithing_MaterialNS::smithingMaterialID[i])//InventoryEquipmentNS::smithingMaterialID[i])
 				return i;
 		}
+		return -1;
 	}
 
 	virtual string getType(){ return "SMITHING_MATERIAL"; }

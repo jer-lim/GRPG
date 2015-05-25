@@ -411,6 +411,8 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		drawManager->addObject(t, tileNS::ZINDEX);
 		return new ManagedTile(t, tileNS::type::FLOOR);
 	}
+
+	return nullptr;
 }
 
 void MapLoader::update(float frameTime){
