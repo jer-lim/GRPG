@@ -39,6 +39,8 @@ public:
 	// Generally called on a game update.
 	virtual void questAction(QuestData* questData, GameEventManager* gem);
 
+	virtual string getType(){ return "RESOURCE"; }
+
 };
 
 #endif

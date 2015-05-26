@@ -92,6 +92,7 @@ public:
 	virtual void informEntities(){
 		for (int i = 0; i < vector_entities.size(); i++)
 		{
+			_ASSERTE(_CrtCheckMemory());
 			vector_entities[i]->questAction(questData, this);
 		}
 	}

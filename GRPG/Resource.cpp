@@ -9,7 +9,10 @@
 #include "mapLoader.h"
 
 Resource::Resource(char i) : Tile(i) { };
-Resource::~Resource() {};
+Resource::~Resource() 
+{
+	((Grpg*)theGame)->getGameEventManager()->removeListener(this);
+}
 
 // Initialize resource by specifying which type it should be
 // Pre: *gamePtr = pointer to Game object
