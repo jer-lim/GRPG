@@ -1328,6 +1328,11 @@ void Entity::damage(int dt)
 			SAFE_DELETE(viewBehavior);
 			SAFE_DELETE(talkBehavior);
 			setupVectorActiveBehaviors();
+			//And pretend he's already dead (i.e. remove health bar and splats
+			splatTime = 0;
+			displayTime = 0;
+			availableHealth->setVisible(false);
+			backHealth->setVisible(false);
 		}
 		else
 		{
