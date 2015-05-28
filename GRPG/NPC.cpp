@@ -12,6 +12,7 @@
 #include "RichDoor.h"
 #include "ArtifactDisplay.h"
 #include "ArtifactLever.h"
+#include "ShriveledMan.h"
 
 Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy;
@@ -25,6 +26,11 @@ Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 		_ASSERTE(_CrtCheckMemory());
 		enemy = new BlockRock();
 		((BlockRock*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
+	}
+	else if (npcId == 32)
+	{
+		enemy = new ShriveledMan();
+		((ShriveledMan*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId));
 	}
 	else if (npcId == 34)
 	{

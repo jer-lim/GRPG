@@ -73,6 +73,7 @@
     <ClCompile Include="TakeArtifactBehavior.cpp" />
     <ClCompile Include="ArtifactLever.cpp" />
     <ClCompile Include="PullArtifactLever.cpp" />
+    <ClCompile Include="ShriveledMan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="TakeArtifactBehavior.h" />
     <ClInclude Include="ArtifactLever.h" />
     <ClInclude Include="PullArtifactLever.h" />
+    <ClInclude Include="ShriveledMan.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />
