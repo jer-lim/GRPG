@@ -33,6 +33,16 @@ struct RequiredCondition
 	vector<QuestCondition*> prereq;
 };
 
+struct ConditionalSkillReward
+{
+	//The name in quest data that is required to have so as to grant the reward.
+	//If empty string, no such condition and can be ignored.
+	string name;
+	int requiredValue;
+	int skillToIncrease;
+	int XPtoGain;
+};
+
 class Quest
 {
 private:
@@ -42,7 +52,7 @@ private:
 	//bool completed;
 	Button* ui_element;
 	QuestData* questData;
-	map<int, int> skillReward;
+	vector<ConditionalSkillReward> skillRewards;
 	vector<InventoryItem*> itemRewards;
 	//Miscallenous rewards that do not belong in either category, but are regardless rewards for the quest
 	//These rewards only contain text that should be displayed to the user, the actual reward has to be coded
@@ -181,12 +191,30 @@ public:
 	}
 
 	//Add a new skill reward to this quest at the very end
+	//the player is guaranteed to gain this xp, with no requirements.
 	void addSkillReward(int theSkillId, int amount)
 	{
-		skillReward[theSkillId] = amount;
+		ConditionalSkillReward csr;
+		csr.skillToIncrease = theSkillId;
+		csr.XPtoGain = amount;
+		skillRewards.push_back(csr);
 	}
 
-	map<int, int>* getSkillsRewards() { return &skillReward; }
+	//Add a new skill reward to this quest at the very end
+	//The player will only gain this reward if QuestData's <stringToCheck> is equal to <value> at the end of the quest.
+	//Effectively a conditional skill reward that can be configured to only be given if certain conditions are met,
+	//checked by questData's condition.
+	void addSkillReward(string stringToCheck, int value, int theSkillId, int amount)
+	{
+		ConditionalSkillReward csr;
+		csr.name = stringToCheck;
+		csr.requiredValue = value;
+		csr.skillToIncrease = theSkillId;
+		csr.XPtoGain = amount;
+		skillRewards.push_back(csr);
+	}
+
+	vector<ConditionalSkillReward>* getSkillsRewards() { return &skillRewards; }
 
 	//Add a new item as a reward to this quest
 	void addItemReward(InventoryItem* ii)

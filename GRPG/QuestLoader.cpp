@@ -119,6 +119,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	easterQuest->addQuestDataChange("easterComplete", true);
 	easterQuest->addSkillReward(skillNS::ID_SKILL_STRENGTH, 1000);
 	easterQuest->addSkillReward(skillNS::ID_SKILL_THIEVING, 1500);
+	easterQuest->addSkillReward("easterGoodFoodGiven", 1, skillNS::ID_SKILL_COOKING, 1000);
 	easterQuest->addItemReward(new InventoryFood(itemLoader->getItem(32), 1, DELICIOUS));
 	//easterQuest->addItemReward(new InventoryBoost(itemLoader->getItem(33), 1));
 	//easterQuest->addItemReward(new InventoryItem(itemLoader->getItem(34), 1));
@@ -179,10 +180,20 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	artifactStealQuest->addQuestCondition(getArtifact, getIntoHouse);
 
 	QuestCondition* talkToPoorMan2 = new QuestCondition();
-	GameEvent* poorManTalked2 = new GameEvent_EntityAction(personLoader->getNPC(32), "I should now get back to that man to return the artifact.", "I managed to return the artifact to that man. He acted... somewhat oddly after receiving it, and left.");
+	GameEvent* poorManTalked2 = new GameEvent_EntityAction(personLoader->getNPC(32), "I should now get back to that man to return the artifact.", "I managed to return the artifact to that man. He acted... somewhat oddly after receiving it, and left... I'm sure there's no way what I just did could ever turn out badly.");
 	talkToPoorMan2->addGameEventRequirement(poorManTalked2, 1, nullptr);
 	poorManTalked2->addChangeRequired("artifactStealStatus", 4);
 	artifactStealQuest->addQuestCondition(talkToPoorMan2, getArtifact);
+
+	artifactStealQuest->addItemReward(new InventoryItem(itemLoader->getItem(0), 500));
+	artifactStealQuest->addSkillReward("artifactStealMethod", 1, skillNS::ID_SKILL_FISHING, 600);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 2, skillNS::ID_SKILL_THIEVING, 600);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_ATTACK, 150);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_STRENGTH, 150);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_DEFENSE, 150);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_TOUGHNESS, 150);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 4, skillNS::ID_SKILL_TOUGHNESS, 300);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 4, skillNS::ID_SKILL_DEFENSE, 300);
 
 	mapQuests[2] = artifactStealQuest;
 

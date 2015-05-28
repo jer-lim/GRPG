@@ -28,6 +28,7 @@ void KeyFishBehavior::action()
 					ui->addChatText("You start fishing...");
 					ui->addChatText("What's this? You maange to fish up a key?");
 					grpg->getGameEventManager()->informListeners(new GameEvent_ItemReceived(grpg->getItemLoader()->getItem(36)));
+					grpg->getQuestLoader()->getQuestData()->setValue("artifactStealMethod", 1);
 				}
 				else
 				{

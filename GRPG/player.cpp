@@ -40,6 +40,8 @@ Player::Player() : Entity()
 	skills[skillNS::ID_SKILL_ATTACK].gainXP(Skill::calculateXPRequired(21), true);
 	skills[skillNS::ID_SKILL_STRENGTH].gainXP(Skill::calculateXPRequired(30), true);
 	skills[skillNS::ID_SKILL_MINING].gainXP(Skill::calculateXPRequired(21), true);
+	skills[skillNS::ID_SKILL_THIEVING].gainXP(Skill::calculateXPRequired(11), true);
+	skills[skillNS::ID_SKILL_FISHING].gainXP(Skill::calculateXPRequired(11), true);
 	health = 50;
 
 	nearStove = false;

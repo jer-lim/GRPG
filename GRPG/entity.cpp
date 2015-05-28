@@ -1333,6 +1333,7 @@ void Entity::damage(int dt)
 			displayTime = 0;
 			availableHealth->setVisible(false);
 			backHealth->setVisible(false);
+			questData->setValue("artifactStealMethod", 3);
 		}
 		else
 		{

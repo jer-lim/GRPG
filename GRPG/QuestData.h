@@ -46,6 +46,10 @@ public:
 		//0 = not yet, 1 = egg required, 2 = egg needs to be given, 3 = done
 		storedInformation["easterEggStatus"] = 0;
 		storedInformation["foodGiven"] = 0;
+		//Indicates if a delicious food was given to the easter bird or not
+		//If 1, delicious rotten meat was given, otherwise, 0 if only cooked.
+		//If delicious was given, then an extra 1000 cooking xp is awarded.
+		storedInformation["easterGoodFoodGiven"] = 0;
 
 		//Represents the information about the smoke quest and how it is progressing
 		//0 = not started, 1 = started, 3 tasks required, 2 = 
@@ -65,6 +69,9 @@ public:
 		storedInformation["artifactStealKey"] = 0;
 		//0 = artifactDisplayClosed, 1 = artifactDisplayOpen
 		storedInformation["artifactDisplayStatus"] = 0;
+		//Method in which the player used to get the door open
+		//0 = unknown; 1 = fishing, 2 = thieving, 3 = fighting, 4 = toughness test
+		storedInformation["artifactStealMethod"] = 0;
 
 		//Represents the information about the mysterious artifact quest and how it is progressing
 		//0 = not started, 1 = started

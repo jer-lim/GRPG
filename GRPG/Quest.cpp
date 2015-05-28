@@ -20,9 +20,12 @@ Quest::Quest(GameEventManager* qcM, QuestData* qd, string nama, string descript,
 void Quest::gainRewards(UI* ui, Player* p, Grpg* grpg)
 {
 	rewardGiven = true;
-	for (map<int, int>::iterator i = skillReward.begin(); i != skillReward.end(); i++)
+	for (vector<ConditionalSkillReward>::iterator i = skillRewards.begin(); i != skillRewards.end(); i++)
 	{
-		p->getSkills()->at(i->first).gainXP(i->second);
+		if (i->name == "" || questData->getValue(i->name) == i->requiredValue)
+		{
+			p->getSkills()->at(i->skillToIncrease).gainXP(i->XPtoGain);
+		}
 	}
 	for (map<string, int>::iterator i = questDataChanges.begin(); i != questDataChanges.end(); i++)
 	{

@@ -112,6 +112,39 @@ void TalkBehavior::action(){
 						dt->setCaller(this);
 						ui->addTalkText(dt);
 					}
+					else if (questData->getValue("artifactStealStatus") == 2)// door opened
+					{
+						ui->addTalkText(new ChatInformation("I've managed to open the door, gaining access to the house!", chatNS::LEFT));
+						ui->addTalkText(new ChatInformation("Excellent! So, do you have the artifact with you?", chatNS::RIGHT));
+						if (questData->getValue("artifactDisplayStatus") == 0)//Display case closed
+						{
+							ui->addTalkText(new ChatInformation("No. I couldn't get to it, there appears to be some barrier protecting the artifact.", chatNS::LEFT));
+							ui->addTalkText(new ChatInformation("Hmph. Well, try looking about near the artifact, there's bound to be something that deactivates it. Be sure to examine everything, some are not revealed at first glance.", chatNS::RIGHT));
+						}
+						else
+						{
+							ui->addTalkText(new ChatInformation("Well, I found the artifact locked behind a barrier, but I managed to pull a lever to unlock it. I haven't taken it yet though.", chatNS::RIGHT));
+							ui->addTalkText(new ChatInformation("Well, what are you waiting for? Go take it!", chatNS::RIGHT));
+						}
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(0, "All right.");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+					}
+					else if (questData->getValue("artifactStealStatus") == 3)
+					{
+						ui->addTalkText(new ChatInformation("Look! I managed to get the artifact for you!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("Awesome! Thank you, now give it here to me.", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("You hand the artifact over.", chatNS::MIDDLE));
+						ui->addTalkText(new ChatInformation("Thank You! Now, with this artifact, I will be able to ...", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("The man seems to realize you are still here.", chatNS::MIDDLE));
+						ui->addTalkText(new ChatInformation("Uh, well, place it back in my, um, house, for protection and never use or touch again. Yes, that's what I'll do. Nothing evil or bad, definitely not.", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(33, "Um, are you ok?");
+						dt->addOption(34, "That's great and all, now how about a reward?");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+					}
 					break;
 				}
 				case 3:
@@ -496,10 +529,11 @@ void TalkBehavior::optionSelected(ChatOption co)
 		thePlayer->damage(13);
 		ui->addTalkText(new ChatInformation("Nicely done. Here, have the key.", chatNS::RIGHT));
 		gem->informListeners(new GameEvent_ItemReceived(grpg->getItemLoader()->getItem(36)));
+		questData->setValue("artifactStealMethod", 4);
 		cd->addOption(0, "Thanks.");
 		ui->addTalkText(cd);
 		break;
-	case 32:
+	case 32: //What's in the drink?
 		ui->addTalkText(new ChatInformation("Why, that's for me to know and for you to find out...by drinking it!", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("So, want to try it?", chatNS::RIGHT));
 		if (thePlayer->getSkills()->at(skillNS::ID_SKILL_DEFENSE).getSkillLevel() >= 6 && thePlayer->getHealth() >= 14)
@@ -507,6 +541,15 @@ void TalkBehavior::optionSelected(ChatOption co)
 			cd->addOption(31, "All right, I'll drink it.");
 		}
 		cd->addOption(0, "Ew, no thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 33: // ============= Shriveled man ============== Um, are you ok?
+		ui->addTalkText(new ChatInformation("Why, yes, I'm ok. Especially ok now that you've helped me with bringing back this artifact that I will keep!", chatNS::RIGHT));
+	case 34: // How about a reward?
+		ui->addTalkText(new ChatInformation("Oh yes, your reward... here you go, as payment for getting back this artifact of Do- ... I mean just this artifact.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Now, I'll be going now, if you don't mind.", chatNS::RIGHT));
+		gem->informListeners(new GameEvent_EntityAction(ii));
+		cd->addOption(0, "Uh, sure");
 		ui->addTalkText(cd);
 		break;
 	default:

@@ -22,6 +22,7 @@ void PickLockBehavior::action()
 		{
 			ui->addChatText("You attempt to pick the lock...");
 			ui->addChatText("You manage to successfully pick the lock!");
+			questData->setValue("artifactStealMethod", 2);
 			((RichDoor*)entity)->setOpen(true);
 		}
 	}

@@ -323,22 +323,25 @@ void UI::draw(Viewport* viewport)
 			actualRect->top = actualRect->bottom + uiNS::talkMargin;
 			testRect->right = widthGiven;
 
-			map<int, int>* skillsReward = questToDisplay->getSkillsRewards();
+			vector<ConditionalSkillReward>* skillsRewards = questToDisplay->getSkillsRewards();
 			stringstream ss;
 			//Now show skills reward
-			for (map<int, int>::iterator i = skillsReward->begin(); i != skillsReward->end(); i++)
+			for (vector<ConditionalSkillReward>::iterator i = skillsRewards->begin(); i != skillsRewards->end(); i++)
 			{
-				string skillName = player->getSkills()->at(i->first).getSkill()->getName();
-				int amountOfXP = i->second;
-				ss << "+" << amountOfXP << " " << skillName << " XP";
-				uiText->print(ss.str().c_str(), *testRect, DT_CALCRECT | DT_WORDBREAK);
-				actualRect->bottom = actualRect->top + testRect->bottom;
-				uiText->print(ss.str().c_str(), *actualRect, DT_CENTER | DT_WORDBREAK);
-				//Reset actaulRect to work for the next text
-				actualRect->top = actualRect->bottom + uiNS::talkMargin;
-				testRect->right = widthGiven;
-				//Reset string to contian nothing
-				ss.str("");
+				if (i->name == "" || ((Grpg*)theGame)->getQuestLoader()->getQuestData()->getValue(i->name) == i->requiredValue)
+				{
+					string skillName = player->getSkills()->at(i->skillToIncrease).getSkill()->getName();
+					int amountOfXP = i->XPtoGain;
+					ss << "+" << amountOfXP << " " << skillName << " XP";
+					uiText->print(ss.str().c_str(), *testRect, DT_CALCRECT | DT_WORDBREAK);
+					actualRect->bottom = actualRect->top + testRect->bottom;
+					uiText->print(ss.str().c_str(), *actualRect, DT_CENTER | DT_WORDBREAK);
+					//Reset actaulRect to work for the next text
+					actualRect->top = actualRect->bottom + uiNS::talkMargin;
+					testRect->right = widthGiven;
+					//Reset string to contian nothing
+					ss.str("");
+				}
 			}
 			//Now show items reward
 			vector<InventoryItem*> itemsReward = questToDisplay->getItemRewards();

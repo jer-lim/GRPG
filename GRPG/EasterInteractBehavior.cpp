@@ -60,6 +60,8 @@ void EasterInteractBehavior::action()
 					actionPerformed = true;
 					ui->addChatText("You give some food to the bird.");
 					gem->informListeners(new GameEvent_ItemUsed(theItem->getInventoryItem()->getItem()));
+					//Grant 1k bonus cooking xp on quest complete for giving delicious food.
+					questData->setValue("easterGoodFoodGiven", 1);
 					//Remove those items
 					for (int i = 0; i < size; ++i)
 					{
