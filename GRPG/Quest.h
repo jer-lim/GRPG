@@ -139,7 +139,8 @@ public:
 	bool completed() {
 		for (int i = 0; i < completeConditions.size(); i++)
 		{
-			if (!completeConditions[i].completeCondition->completed())
+			//IF it wasn't completed and was a required condition
+			if (!completeConditions[i].completeCondition->completed() && completeConditions[i].completeCondition->getRequired())
 			{
 				return false;
 			}

@@ -157,7 +157,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	talkToPoorMan->addGameEventRequirement(poorManTalked, 1, nullptr);
 	artifactStealQuest->addQuestCondition(talkToPoorMan);
 	
-	QuestCondition* getKey = new QuestCondition(); //Note: Optional
+	QuestCondition* getKey = new QuestCondition(false); //Note: Optional
 	GameEvent* keyRetrieved = new GameEvent_ItemReceived(itemLoader->getItem(36), "I could get keys to the house to enter it. The man had some ideas, or I can talk to the gardener just outside the house.", "I managed to get the key to the house!");
 	getKey->addGameEventRequirement(keyRetrieved, 1, nullptr);
 	keyRetrieved->addChangeRequired("artifactStealKey", 1);

@@ -28,6 +28,9 @@ private:
 	//This questData is not passed in during the constructor, but is instead set by the Quest class
 	//When the condition is attached to it.
 	QuestData* questData;
+	//Marks if the quest condition is required to be completed for the quest to be fully completed
+	//or if it's optional/
+	bool required;
 public:
 	~QuestCondition(){
 		for (int i = 0; i < conditions.size(); i++)
@@ -35,7 +38,13 @@ public:
 			delete conditions[i].successGameEvent;
 		}
 	}
-	QuestCondition() {}
+	QuestCondition() {
+		required = true;
+	}
+
+	QuestCondition(bool r) {
+		required = r;
+	}
 
 	void addGameEventRequirement(GameEvent* event, int timesRequired, GameEvent* prereq)
 	{
@@ -83,6 +92,8 @@ public:
 
 	virtual void setQuestData(QuestData* qd) { questData = qd; }
 	virtual QuestData* getQuestData() { return questData; }
+	virtual void setRequired(bool r) { required = r; }
+	virtual bool getRequired() { return required; }
 
 	//int getCurrentCount(){ return currentCount; }
 	//int getCountRequirement() { return countRequirement; }
