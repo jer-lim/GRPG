@@ -7,6 +7,7 @@
 #include "NPC.h"
 #include "UI.h"
 #include "grpg.h"
+#include "ShriveledMan.h"
 
 TalkBehavior::TalkBehavior(NPC* i, UI* u, Player* p, Entity* e, Grpg* g){
 	ii = i;
@@ -549,8 +550,14 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("Oh yes, your reward... here you go, as payment for getting back this artifact of Do- ... I mean just this artifact.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Now, I'll be going now, if you don't mind.", chatNS::RIGHT));
 		gem->informListeners(new GameEvent_EntityAction(ii));
-		cd->addOption(0, "Uh, sure");
+		cd->addOption(35, "Uh, sure");
 		ui->addTalkText(cd);
+		break;
+	case 35: //Start the stolen artifact run from the shriveled man
+		ui->removeWindow();
+		//No use with cd
+		delete cd;
+		((ShriveledMan*)entity)->startStolenArtifactRun();
 		break;
 	default:
 		stringstream ss;
