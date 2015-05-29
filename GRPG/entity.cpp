@@ -14,6 +14,7 @@
 #include <sstream>
 #include "UI.h"
 #include "Enemy.h"
+#include "PersonLoader.h"
 #include "AttackBehavior.h"
 #include "KeyFishBehavior.h"
 #include "PickupBehavior.h"
@@ -883,23 +884,34 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 		}
 		else if (n->getname() == "Gardener")
 		{
-			//Always able to talk
-			((NPC*)person)->setTalkText("detail3");
-			if (health > 0)
+			if (questData->getValue("artifactStealStatus") == 4)
 			{
-				talkBehavior = new TalkBehavior((NPC*)person, ((Grpg*)theGame)->getUI(), ((Grpg*)theGame)->getPlayer(), this, (Grpg*)theGame);
-			}
-			//Attackable depending on quest state.
-			if (questData->getValue("artifactStealStatus") == 1)
-			{
-				if (attackBehavior == nullptr)
-				{
-					attackBehavior = new AttackBehavior(((Grpg*)theGame)->getPlayer(), this, (NPC*)person);
-				}
+				fakeDelete();
+				//Quest complete! I'm no longer the old gardener, I'm re-hired!
+				this->initialize(theGame, ((Grpg*)theGame)->getPersonLoader()->getNPC(37));
+				this->setActive(true);
+				image.setVisible(true);
 			}
 			else
 			{
-				SAFE_DELETE(attackBehavior);
+				//Always able to talk
+				((NPC*)person)->setTalkText("detail3");
+				if (health > 0)
+				{
+					talkBehavior = new TalkBehavior((NPC*)person, ((Grpg*)theGame)->getUI(), ((Grpg*)theGame)->getPlayer(), this, (Grpg*)theGame);
+				}
+				//Attackable depending on quest state.
+				if (questData->getValue("artifactStealStatus") == 1)
+				{
+					if (attackBehavior == nullptr)
+					{
+						attackBehavior = new AttackBehavior(((Grpg*)theGame)->getPlayer(), this, (NPC*)person);
+					}
+				}
+				else
+				{
+					SAFE_DELETE(attackBehavior);
+				}
 			}
 			setupVectorActiveBehaviors();
 		}
@@ -1479,6 +1491,12 @@ void Entity::fakeDelete()
 	//And pretend he's already dead (i.e. remove health bar and splats
 	splatTime = 0;
 	displayTime = 0;
-	availableHealth->setVisible(false);
-	backHealth->setVisible(false);
+	if (availableHealth != nullptr)
+	{
+		availableHealth->setVisible(false);
+	}
+	else if (backHealth != nullptr)
+	{
+		backHealth->setVisible(false);
+	}
 }
