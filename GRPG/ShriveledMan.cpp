@@ -66,6 +66,7 @@ void ShriveledMan::update(float frameTime, Game* gamePtr)
 		releaseDestination();
 		stolenArtifactEndRunStatus = -1;
 		stolenArtifactTimer = 0;
+		fakeDelete();
 		//End the quest for the player
 		thePlayer->releaseDestination();
 		thePlayer->setVictim(nullptr);

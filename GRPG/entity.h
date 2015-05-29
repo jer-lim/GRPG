@@ -513,6 +513,14 @@ class Entity : public Destination//, public Interactable
 	virtual float getAttackSpeedReduction(){ return 1.0; }
 	virtual float getDefenceMultiplier(){ return 1.0; }
 	virtual float getDamageMultiplier(){ return 1.0; }
+
+	//Fakes a delete on this entity
+	//The image's visiblity will be set to false and all behaviors will be removed,
+	//such that it seems like this entity was deleted. However, it is not actaully deleted
+	//it's memory is still allocated, it is still held in spawnLinks in GRPG, and it's still
+	//loaded in drawManager. This is done to effectively remove an entity but revive him later
+	//and also prevents the spawner from spawning another one.
+	virtual void fakeDelete();
 };
 
 #endif

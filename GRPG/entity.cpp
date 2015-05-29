@@ -1321,18 +1321,7 @@ void Entity::damage(int dt)
 			//The gardener should't die on death, he should just...become inactive.
 			//This prevents the spawner from spawning another.
 			//Also allows us to just directly get him and replace him with the new one once the quest finishes.
-			image.setVisible(false);
-			this->setActive(false);
-			//gotta destroy all behaviors
-			SAFE_DELETE(attackBehavior);
-			SAFE_DELETE(viewBehavior);
-			SAFE_DELETE(talkBehavior);
-			setupVectorActiveBehaviors();
-			//And pretend he's already dead (i.e. remove health bar and splats
-			splatTime = 0;
-			displayTime = 0;
-			availableHealth->setVisible(false);
-			backHealth->setVisible(false);
+			fakeDelete();
 			questData->setValue("artifactStealMethod", 3);
 		}
 		else
@@ -1451,4 +1440,45 @@ void Entity::resetHealth(VECTOR2 topLeftViewport)
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Back Health could not be initalized");
 	}
+}
+
+//Fakes a delete on this entity
+//The image's visiblity will be set to false and all behaviors will be removed,
+//such that it seems like this entity was deleted. However, it is not actaully deleted
+//it's memory is still allocated, it is still held in spawnLinks in GRPG, and it's still
+//loaded in drawManager. This is done to effectively remove an entity but revive him later
+//and also prevents the spawner from spawning another one.
+void Entity::fakeDelete()
+{
+	image.setVisible(false);
+	this->setActive(false);
+	//gotta destroy all behaviors	SAFE_DELETE(viewBehavior);//View name -> display description
+	SAFE_DELETE(blacksmithBehavior);//Blacksmith popup
+	SAFE_DELETE(talkBehavior);//Talking
+	SAFE_DELETE(fishBehavior);
+	SAFE_DELETE(mineBehavior);
+	SAFE_DELETE(tradeBehavior);//store popup
+	SAFE_DELETE(attackBehavior);//Attack name -> perform attack
+	SAFE_DELETE(quickPluckBehavior);
+	SAFE_DELETE(aggressivePluckBehavior);
+	SAFE_DELETE(easterInteractBehavior);
+	SAFE_DELETE(pickupBehavior);//Pickup name -> pickup obj
+	SAFE_DELETE(dropBehavior);//Drop name -> drop obj
+	SAFE_DELETE(cookBehavior);//Cook name -> cook obj if fire nearby
+	SAFE_DELETE(eatBehavior);
+	SAFE_DELETE(buyBehavior);
+	SAFE_DELETE(healBehavior);
+	SAFE_DELETE(sellBehavior);
+	SAFE_DELETE(teleportBehavior);
+	SAFE_DELETE(stoveBehavior);
+	SAFE_DELETE(updateQuestsBehavior);
+	SAFE_DELETE(stealBehavior);
+	SAFE_DELETE(gainXPBehavior);
+	SAFE_DELETE(keyFishBehavior);
+	vectorActiveBehaviors.clear();
+	//And pretend he's already dead (i.e. remove health bar and splats
+	splatTime = 0;
+	displayTime = 0;
+	availableHealth->setVisible(false);
+	backHealth->setVisible(false);
 }
