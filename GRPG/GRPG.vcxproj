@@ -74,6 +74,11 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="PickLockBehavior.h" />
     <ClInclude Include="PickupBehavior.h" />
+    <ClInclude Include="PlantPatch.h" />
+    <ClInclude Include="PlantPatchDigBehavior.h" />
+    <ClInclude Include="PlantPatchInspectBehavior.h" />
+    <ClInclude Include="PlantPatchPlantBehavior.h" />
+    <ClInclude Include="PlantPatchRakeBehavior.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="PullArtifactLever.h" />
@@ -152,6 +157,11 @@
     <ClCompile Include="mapLoader.cpp" />
     <ClCompile Include="PickLockBehavior.cpp" />
     <ClCompile Include="PickupBehavior.cpp" />
+    <ClCompile Include="PlantPatch.cpp" />
+    <ClCompile Include="PlantPatchDigBehavior.cpp" />
+    <ClCompile Include="PlantPatchInspectBehavior.cpp" />
+    <ClCompile Include="PlantPatchPlantBehavior.cpp" />
+    <ClCompile Include="PlantPatchRakeBehavior.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="PullArtifactLever.cpp" />

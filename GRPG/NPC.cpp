@@ -13,6 +13,7 @@
 #include "ArtifactDisplay.h"
 #include "ArtifactLever.h"
 #include "ShriveledMan.h"
+#include "PlantPatch.h"
 
 Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy;
@@ -46,6 +47,11 @@ Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	{
 		enemy = new ArtifactLever();
 		((ArtifactLever*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
+	}
+	else if (npcId == 38)
+	{
+		enemy = new PlantPatch();
+		((PlantPatch*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
 	}
 	else
 	{

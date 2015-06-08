@@ -74,6 +74,11 @@
     <ClCompile Include="ArtifactLever.cpp" />
     <ClCompile Include="PullArtifactLever.cpp" />
     <ClCompile Include="ShriveledMan.cpp" />
+    <ClCompile Include="PlantPatch.cpp" />
+    <ClCompile Include="PlantPatchInspectBehavior.cpp" />
+    <ClCompile Include="PlantPatchRakeBehavior.cpp" />
+    <ClCompile Include="PlantPatchDigBehavior.cpp" />
+    <ClCompile Include="PlantPatchPlantBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -172,6 +177,11 @@
     <ClInclude Include="ArtifactLever.h" />
     <ClInclude Include="PullArtifactLever.h" />
     <ClInclude Include="ShriveledMan.h" />
+    <ClInclude Include="PlantPatch.h" />
+    <ClInclude Include="PlantPatchInspectBehavior.h" />
+    <ClInclude Include="PlantPatchRakeBehavior.h" />
+    <ClInclude Include="PlantPatchDigBehavior.h" />
+    <ClInclude Include="PlantPatchPlantBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />
