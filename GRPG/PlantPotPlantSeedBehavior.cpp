@@ -5,7 +5,7 @@
 #include "player.h"
 
 string PlantPotPlantSeedBehavior::displayText(){
-	return "Plant seed in pot"
+	return "Plant seed in pot";
 }
 
 void PlantPotPlantSeedBehavior::action()

@@ -79,6 +79,7 @@
     <ClInclude Include="PlantPatchInspectBehavior.h" />
     <ClInclude Include="PlantPatchPlantBehavior.h" />
     <ClInclude Include="PlantPatchRakeBehavior.h" />
+    <ClInclude Include="PlantPotPlantSeedBehavior.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerSkill.h" />
     <ClInclude Include="PullArtifactLever.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="QuickPluckBehavior.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RichDoor.h" />
+    <ClInclude Include="Rift.h" />
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="ShriveledMan.h" />
     <ClInclude Include="skill.h" />
@@ -162,6 +164,7 @@
     <ClCompile Include="PlantPatchInspectBehavior.cpp" />
     <ClCompile Include="PlantPatchPlantBehavior.cpp" />
     <ClCompile Include="PlantPatchRakeBehavior.cpp" />
+    <ClCompile Include="PlantPotPlantSeedBehavior.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerSkill.cpp" />
     <ClCompile Include="PullArtifactLever.cpp" />
@@ -172,6 +175,7 @@
     <ClCompile Include="QuickPluckBehavior.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="RichDoor.cpp" />
+    <ClCompile Include="Rift.cpp" />
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="ShriveledMan.cpp" />
     <ClCompile Include="skill.cpp" />

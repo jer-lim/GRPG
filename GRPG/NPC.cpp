@@ -14,6 +14,7 @@
 #include "ArtifactLever.h"
 #include "ShriveledMan.h"
 #include "PlantPatch.h"
+#include "Rift.h"
 
 Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy;
@@ -52,6 +53,11 @@ Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	{
 		enemy = new PlantPatch();
 		((PlantPatch*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
+	}
+	else if (npcId == 39)
+	{
+		enemy = new Rift();;
+		((Rift*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), gamePtr->getPersonLoader()->getNPC(npcId));
 	}
 	else
 	{
