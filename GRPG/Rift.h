@@ -25,8 +25,8 @@ private:
 	TextureManager* riftTexture;
 	UI* ui;
 
-
 protected:
+	Behavior* enterBehavior;
 	virtual void setupBehaviors();
 public:
 	// constructor
@@ -50,6 +50,8 @@ public:
 	virtual void setupVectorActiveBehaviors()
 	{
 		vectorActiveBehaviors.clear();
+		if (enterBehavior)
+			vectorActiveBehaviors.push_back(enterBehavior);
 		if (viewBehavior)
 			vectorActiveBehaviors.push_back(viewBehavior);
 	}

@@ -91,6 +91,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RichDoor.h" />
     <ClInclude Include="Rift.h" />
+    <ClInclude Include="RiftEnterBehavior.h" />
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="ShriveledMan.h" />
     <ClInclude Include="skill.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="RichDoor.cpp" />
     <ClCompile Include="Rift.cpp" />
+    <ClCompile Include="RiftEnterBehavior.cpp" />
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="ShriveledMan.cpp" />
     <ClCompile Include="skill.cpp" />

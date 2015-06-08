@@ -77,7 +77,7 @@ public:
 		storedInformation["artifactStealAdmitted"] = 0;
 
 		//Represents the information about the mysterious artifact quest and how it is progressing
-		//0 = not started, 1 = started
+		//0 = not started, 1 = started, 2 = progressed - rift opening ready, 3 = rift opened, 4 = entry OK
 		storedInformation["mysteriousArtifactStatus"] = 0;
 		//Represents if the player has asked the gardener if he can chose to start on a task other than planting flowers.
 		storedInformation["mysteriousArtifactOtherTask"] = 0;

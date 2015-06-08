@@ -17,7 +17,7 @@ int QuestCondition::eventOccured(GameEvent* ge)
 			//Going to assume that once a match is found that means that there will be definitely no other
 			//matches in the later game events. I think that's a resonable assumption
 			//(Why would a quest require multiple of the same gameevent at different stages?)
-			if (conditions[i].successGameEvent->is(ge))
+			if (conditions[i].successGameEvent->is(ge) && conditions[i].countRequirement > conditions[i].currentCount)
 			{
 				result = COMPLETED;
 				conditions[i].currentCount++;

@@ -2,6 +2,7 @@
 #include "grpg.h"
 #include "mapLoader.h"
 #include "destination.h"
+#include "RiftEnterBehavior.h"
 #include "AnimatableTile.h"
 
 Rift::Rift() : Entity()
@@ -62,6 +63,7 @@ void Rift::onResetDevice()
 
 void Rift::setupBehaviors()
 {
+	enterBehavior = new RiftEnterBehavior(thePlayer, this, ui, (Grpg*)theGame);
 	viewBehavior = new ViewBehavior("Rift", ((NPC*)person)->getdescription(), ui);
 	setupVectorActiveBehaviors();
 }

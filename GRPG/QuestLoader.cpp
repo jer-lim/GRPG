@@ -216,8 +216,17 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 
 	QuestCondition* openTheRift = new QuestCondition();
 	GameEvent* openRift = new GameEvent_EntityAction(personLoader->getNPC(39), "", "While leaving the garden, a rift opened up right in front of me!");
+	openRift->addChangeRequired("mysteriousArtifactStatus", 3);
 	openTheRift->addGameEventRequirement(openRift, 1, nullptr);
 	mysteriousArtifactQuest->addQuestCondition(openTheRift, talkToGardener);
+
+	QuestCondition* enterRift = new QuestCondition();
+	GameEvent* talkToAlfred = new GameEvent_EntityAction(personLoader->getNPC(37), "Alfred seems to know what's up with that - I should go and talk to him.", "Alfred says there's no time to explain.");
+	talkToAlfred->addChangeRequired("mysteriousArtifactStatus", 4);
+	enterRift->addGameEventRequirement(talkToAlfred, 1, nullptr);
+	GameEvent* enterTheRift = new GameEvent_EntityAction(personLoader->getNPC(39), "I should enter the rift!", "I entered the rift. Now to find out what's going on.");
+	enterRift->addGameEventRequirement(enterTheRift, 1, talkToAlfred);
+	mysteriousArtifactQuest->addQuestCondition(enterRift, openTheRift);
 
 	mapQuests[3] = mysteriousArtifactQuest;
 

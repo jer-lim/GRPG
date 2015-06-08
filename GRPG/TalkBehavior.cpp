@@ -9,6 +9,7 @@
 #include "grpg.h"
 #include "ShriveledMan.h"
 #include "InventoryItem.h"
+#include "PersonLoader.h"
 
 TalkBehavior::TalkBehavior(NPC* i, UI* u, Player* p, Entity* e, Grpg* g){
 	ii = i;
@@ -167,47 +168,62 @@ void TalkBehavior::action(){
 				case 4:
 				{
 					ui->drawWindow("Alfred");
-					ui->addTalkText(new ChatInformation("Good day, Sir.", chatNS::RIGHT));
-					if (questData->getValue("mysteriousArtifactGardenerTask") == 1)
+					if (questData->getValue("mysteriousArtifactStatus") <= 2)
 					{
-						ui->addTalkText(new ChatInformation("Thanks for agreeing to help me grow some flowers!", chatNS::RIGHT));
-						ui->addTalkText(new ChatInformation("Remember, just rake the weeds off the flower patch, dig a hole, and then plant the seeds.", chatNS::RIGHT));
-					}
-					else if (questData->getValue("mysteriousArtifactGardenerTask") == 2)
-					{
-						ui->addTalkText(new ChatInformation("Thanks for agreeing to help me plant the tree!", chatNS::RIGHT));
-						ui->addTalkText(new ChatInformation("Remember, just plant the seeds into the plant pot, water it, wait for it to grow, and then place them into the plant patch", chatNS::RIGHT));
-					}
-					else if (questData->getValue("mysteriousArtifactGardenerTask") == 3)
-					{
-						ui->addTalkText(new ChatInformation("Thanks for agreeing to help me add some live fish into the pond!", chatNS::RIGHT));
-						ui->addTalkText(new ChatInformation("Unfortunately, like I said, I have no idea how to do it yet. I'm sure you'll think of something though!", chatNS::RIGHT));
-					}
-					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
-					dt->addOption(36, "Who are you?");
-					dt->addOption(37, "What happened to the previous guy?");
-					if (questData->getValue("mysteriousArtifactStatus") == 0)
-					{
-						dt->addOption(38, "Do you need my help?");
+						ui->addTalkText(new ChatInformation("Good day, Sir.", chatNS::RIGHT));
+						if (questData->getValue("mysteriousArtifactGardenerTask") == 1)
+						{
+							ui->addTalkText(new ChatInformation("Thanks for agreeing to help me grow some flowers!", chatNS::RIGHT));
+							ui->addTalkText(new ChatInformation("Remember, just rake the weeds off the flower patch, dig a hole, and then plant the seeds.", chatNS::RIGHT));
+						}
+						else if (questData->getValue("mysteriousArtifactGardenerTask") == 2)
+						{
+							ui->addTalkText(new ChatInformation("Thanks for agreeing to help me plant the tree!", chatNS::RIGHT));
+							ui->addTalkText(new ChatInformation("Remember, just plant the seeds into the plant pot, water it, wait for it to grow, and then place them into the plant patch", chatNS::RIGHT));
+						}
+						else if (questData->getValue("mysteriousArtifactGardenerTask") == 3)
+						{
+							ui->addTalkText(new ChatInformation("Thanks for agreeing to help me add some live fish into the pond!", chatNS::RIGHT));
+							ui->addTalkText(new ChatInformation("Unfortunately, like I said, I have no idea how to do it yet. I'm sure you'll think of something though!", chatNS::RIGHT));
+						}
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(36, "Who are you?");
+						dt->addOption(37, "What happened to the previous guy?");
+						if (questData->getValue("mysteriousArtifactStatus") == 0)
+						{
+							dt->addOption(39, "Do you need my help?");
+						}
+						else
+						{
+							dt->addOption(44, "Tell me about the tasks that needed doing.");
+							if (questData->getValue("mysteriousArtifactWaitTime") == 1)
+							{
+								dt->addOption(53, "I managed to plant the flower seeds, now what?");
+							}
+							else if (questData->getValue("mysteriousArtifactWaitTime") == 2)
+							{
+								dt->addOption(53, "I managed to plant the tree seed into the pot, now what?");
+							}
+							else if (questData->getValue("mysteriousArtifactWaitTime") == 3)
+							{
+								dt->addOption(53, "I managed to transfer the young tree into the patch, now what?");
+							}
+						}
+						dt->setCaller(this);
+						ui->addTalkText(dt);
 					}
 					else
 					{
-						dt->addOption(44, "Tell me about the tasks that needed doing.");
-						if (questData->getValue("mysteriousArtifactWaitTime") == 1)
-						{
-							dt->addOption(53, "I managed to plant the flower seeds, now what?");
-						}
-						else if (questData->getValue("mysteriousArtifactWaitTime") == 2)
-						{
-							dt->addOption(53, "I managed to plant the tree seed into the pot, now what?");
-						}
-						else if (questData->getValue("mysteriousArtifactWaitTime") == 3)
-						{
-							dt->addOption(53, "I managed to transfer the young tree into the patch, now what?");
-						}
+						ui->addTalkText(new ChatInformation("Look at that - it's a rift!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("Whoever stole the artifact must have created it!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("There's no time to explain - you're the only one nearby! Quick, prepare yourself for combat and jump inside!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("You need to seal the rift ASAP!", chatNS::RIGHT));
+						gem->informListeners(new GameEvent_EntityAction(ii));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(0, "I'm on it!");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
 					}
-					dt->setCaller(this);
-					ui->addTalkText(dt);
 					break;
 				}
 				default:
@@ -247,6 +263,15 @@ void TalkBehavior::optionSelected(ChatOption co)
 		//No use with cd
 		delete cd;
 		grpg->attemptQuestCompletions();
+		//Spawn a rift during the relevant quest
+		if (questData->getValue("mysteriousArtifactStatus") == 2)
+		{
+			gem->informListeners(new GameEvent_EntityAction(grpg->getPersonLoader()->getNPC(39)));
+			VECTOR2 riftLocation = VECTOR2(thePlayer->getX(), thePlayer->getY());
+			riftLocation.x += GAME_WIDTH / 4;
+			NPC::spawn(grpg, 39, riftLocation);
+			entity->sayMessage("Whoa - what's that?");
+		}
 		break;
 	case 1: //Easter: Asks what's the matter
 		ui->addTalkText(new ChatInformation("Well...it's a long story.", chatNS::RIGHT));
@@ -610,7 +635,26 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("I'm Alfred. I'm the gardener for this area here. I keep the place tidy, plant flowers, and basically make it look nice.", chatNS::RIGHT));
 		cd->addOption(37, "What happened to the previous guy?");
 		cd->addOption(38, "No offense, but there doesn't seem to be much of a garden here.");
-		cd->addOption(39, "Do you need my help?");
+		if (questData->getValue("mysteriousArtifactStatus") == 0)
+		{
+			cd->addOption(39, "Do you need my help?");
+		}
+		else
+		{
+			cd->addOption(44, "Tell me about the tasks that needed doing.");
+			if (questData->getValue("mysteriousArtifactWaitTime") == 1)
+			{
+				cd->addOption(53, "I managed to plant the flower seeds, now what?");
+			}
+			else if (questData->getValue("mysteriousArtifactWaitTime") == 2)
+			{
+				cd->addOption(53, "I managed to plant the tree seed into the pot, now what?");
+			}
+			else if (questData->getValue("mysteriousArtifactWaitTime") == 3)
+			{
+				cd->addOption(53, "I managed to transfer the young tree into the patch, now what?");
+			}
+		}
 		ui->addTalkText(cd);
 		break;
 	case 37: //What happened to the previous guy?
@@ -636,14 +680,52 @@ void TalkBehavior::optionSelected(ChatOption co)
 			ui->addTalkText(new ChatInformation("The most often heard rumour is that he gave away the key to the house, which of course cannot be tolerated as a gardener, and was thus fired.", chatNS::RIGHT));
 		}
 		cd->addOption(36, "Who are you?");
-		cd->addOption(39, "Do you need my help with anything?");
+		if (questData->getValue("mysteriousArtifactStatus") == 0)
+		{
+			cd->addOption(39, "Do you need my help with anything?");
+		}
+		else
+		{
+			cd->addOption(44, "Tell me about the tasks that needed doing.");
+			if (questData->getValue("mysteriousArtifactWaitTime") == 1)
+			{
+				cd->addOption(53, "I managed to plant the flower seeds, now what?");
+			}
+			else if (questData->getValue("mysteriousArtifactWaitTime") == 2)
+			{
+				cd->addOption(53, "I managed to plant the tree seed into the pot, now what?");
+			}
+			else if (questData->getValue("mysteriousArtifactWaitTime") == 3)
+			{
+				cd->addOption(53, "I managed to transfer the young tree into the patch, now what?");
+			}
+		}
 		ui->addTalkText(cd);
 		break;
 	case 38: //No offense, but there doesn't seem to be much of a garden here.
 		ui->addTalkText(new ChatInformation("None taken. I understand what you mean. I think the last gardener was far too boastful of himself, refusing any help. That's why the garden is in this state now.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("However, I'm hoping to change that, and make the gardener look better. I's likely that I'm going to need some help though.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("However, I'm hoping to change that, and make the gardener look better. It's likely that I'm going to need some help though.", chatNS::RIGHT));
 		cd->addOption(37, "What happened to the last gardener?");
-		cd->addOption(39, "So, you need my help wih the garden?");
+		if (questData->getValue("mysteriousArtifactStatus") == 0)
+		{
+			cd->addOption(39, "What do you need my help with?");
+		}
+		else
+		{
+			cd->addOption(44, "Tell me about the tasks that needed doing.");
+			if (questData->getValue("mysteriousArtifactWaitTime") == 1)
+			{
+				cd->addOption(53, "I managed to plant the flower seeds, now what?");
+			}
+			else if (questData->getValue("mysteriousArtifactWaitTime") == 2)
+			{
+				cd->addOption(53, "I managed to plant the tree seed into the pot, now what?");
+			}
+			else if (questData->getValue("mysteriousArtifactWaitTime") == 3)
+			{
+				cd->addOption(53, "I managed to transfer the young tree into the patch, now what?");
+			}
+		}
 		cd->addOption(0, "I can't right now, sorry.");
 		ui->addTalkText(cd);
 		break;
@@ -835,36 +917,39 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("However, if you want, I can magically grow the plant immediately, without needing you to wait!", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("You'll have to pay me $2 in USD for that though", chatNS::RIGHT));
 		cd->addOption(55, "I'm not paying you that money!");
-		cd->addOption(54, "Will this cause all plants I grow in the future to instantly grow as well?");
-		cd->addOption(56, "That price is absurd!");
-		cd->addOption(57, "Why should I pay you that money when I'm helping you grow it for you?");
+		cd->addOption(54, "Will this cause all plants I grow later to instantly grow?");
+		cd->addOption(55, "That price is absurd!");
+		cd->addOption(56, "Why should I pay you that money when I'm helping you?");
 		ui->addTalkText(cd);
 		break;
 	case 54: //Will this cause all plants I grow in the future to instantly grow as well?
 		ui->addTalkText(new ChatInformation("No, of course not. For every plant you grow afterwards that you want to grow immediately, you must pay me USD $2 to grow it.", chatNS::RIGHT));
 		cd->addOption(55, "I'm not paying you that money!");
-		cd->addOption(54, "Well this cause all plants I grow in the future to instantly grow as well?");
+		cd->addOption(54, "Well this cause all plants I grow later to instantly grow?");
 		cd->addOption(55, "That price is absurd!");
-		cd->addOption(56, "Why should I pay you that money when I'm helping you grow it for you?");
+		cd->addOption(56, "Why should I pay you that money when I'm helping you?");
 		ui->addTalkText(cd);
 		break;
 	case 55: //I'm not paying you that money/that price is absurd!
+		questData->setValue("mysteriousArtifactStatus", 2);
 		ui->addTalkText(new ChatInformation("Well, if you're not paying me that money I guess you'll just have to wait for the plant to grow then.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Go off and adventure a bit, I suppose, it'll grow eventually.", chatNS::RIGHT));
 		cd->addOption(0, "Oh, I'll do that.");
-		cd->addOption(57, "What about your other tasks? Maybe I can do those in the meantime.");
+		cd->addOption(57, "What about your other tasks? Maybe I can do those while waiting.");
+		ui->addTalkText(cd);
 		break;
 	case 56: //Why should I pay you that money when I'm helping you grow it for you?
 		ui->addTalkText(new ChatInformation("Because you want to complete the quest quicker, of course.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Here's a thought for you - why do people play a farming simulation game, and then pay to have their plants grow quickly instead of waiting for them to grow?", chatNS::RIGHT));
 		cd->addOption(55, "I'm not paying you that money!");
-		cd->addOption(54, "Well this cause all plants I grow in the future to instantly grow as well?");
+		cd->addOption(54, "Well this cause all plants I grow later to instantly grow?");
 		cd->addOption(55, "That price is absurd!");
 		ui->addTalkText(cd);
 		break;
 	case 57:
 		ui->addTalkText(new ChatInformation("Patience. One task at a time, let's not rush ourselves here. Go do some other adventures for a while, I'm sure it'll grow by then.", chatNS::RIGHT));
 		cd->addOption(0, "Ok");
+		ui->addTalkText(cd);
 		break;
 	default:
 		stringstream ss;
