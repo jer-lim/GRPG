@@ -201,10 +201,18 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	b4->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 3 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Mysterious Artifact");
 	Quest* mysteriousArtifactQuest = new Quest(gem, questData, "Mysterious artifact", "The artifact has a more back rich history than it originally seems...", b4);
 	QuestCondition* talkToGardener = new QuestCondition();
-	GameEvent* gardenerTalked = new GameEvent_EntityAction(nullptr, "To start this quest, I can talk to the gardener right outside the house located east of the doctor. I need to have completed the Stolen Artifact Quest to start this quest.", "The artifact I stole may not have actually belonged to the poor man. The gardener needs some help and asked me to run a few errands for him.");
+	GameEvent* gardenerTalked = new GameEvent_EntityAction(personLoader->getNPC(37), "To start this quest, I can talk to the gardener, Alfred, right outside the house located east of the doctor. I need to have completed the Stolen Artifact Quest to start this quest.", "The artifact I stole may not have actually belonged to the poor man. Alfred needs some help and asked me to run a few errands for him.");
 	gardenerTalked->addChangeRequired("mysteriousArtifactStatus", 1);
 	talkToGardener->addGameEventRequirement(gardenerTalked, 1, nullptr);
 	mysteriousArtifactQuest->addQuestCondition(talkToGardener);
+
+	QuestCondition* completeGardenerTask = new QuestCondition();
+	completeGardenerTask->setRequired(false);
+	GameEvent* pickATask = new GameEvent_EntityAction(personLoader->getNPC(37), "I should talk with Alfred to choose a task to start on first.", "I've chosen a task to start on.");
+	completeGardenerTask->addGameEventRequirement(pickATask, 1, nullptr);
+	GameEvent* completeTask = new GameEvent_EntityAction(nullptr, "I should work on that. Alfred can remind me on what task needs doing if I've forgotten.", "I've managed to complete the task Alfred assigned me!");
+	completeGardenerTask->addGameEventRequirement(completeTask, 1, pickATask);
+	mysteriousArtifactQuest->addQuestCondition(completeGardenerTask);
 
 	mapQuests[3] = mysteriousArtifactQuest;
 

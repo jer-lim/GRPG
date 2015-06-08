@@ -915,6 +915,14 @@ void Entity::questAction(QuestData* questData, GameEventManager* gem)
 			}
 			setupVectorActiveBehaviors();
 		}
+		else if (n->getname() == "Alfred")
+		{
+			//Always able to talk
+			((NPC*)person)->setTalkText("detail4");
+			talkBehavior = new TalkBehavior((NPC*)person, ((Grpg*)theGame)->getUI(), ((Grpg*)theGame)->getPlayer(), this, (Grpg*)theGame);
+			SAFE_DELETE(attackBehavior);
+			setupVectorActiveBehaviors();
+		}
 	}
 }
 

@@ -73,9 +73,17 @@ public:
 		//0 = unknown; 1 = fishing, 2 = thieving, 3 = fighting, 4 = toughness test
 		storedInformation["artifactStealMethod"] = 0;
 
+		//Represents if the player admitted the theft to Alfred or not. Currently does not affect anything in game.
+		storedInformation["artifactStealAdmitted"] = 0;
+
 		//Represents the information about the mysterious artifact quest and how it is progressing
 		//0 = not started, 1 = started
 		storedInformation["mysteriousArtifactStatus"] = 0;
+		//Represents if the player has asked the gardener if he can chose to start on a task other than planting flowers.
+		storedInformation["mysteriousArtifactOtherTask"] = 0;
+		//Represents the chosen task the player has selected.
+		//0 = none yet, 1 = plant flowers, 2 = plant trees, 3 = add fishes.
+		storedInformation["mysteriousArtifactGardenerTask"] = 0;
 
 		//Represents the information about the One Minor Task quest and how it is progressing
 		//0 = not started, 1 = startedx

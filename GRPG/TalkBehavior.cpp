@@ -8,6 +8,7 @@
 #include "UI.h"
 #include "grpg.h"
 #include "ShriveledMan.h"
+#include "InventoryItem.h"
 
 TalkBehavior::TalkBehavior(NPC* i, UI* u, Player* p, Entity* e, Grpg* g){
 	ii = i;
@@ -158,6 +159,40 @@ void TalkBehavior::action(){
 					if (questData->getValue("artifactStealStatus") == 1)
 					{
 						dt->addOption(30, "Can I borrow the key to the house?");
+					}
+					dt->setCaller(this);
+					ui->addTalkText(dt);
+					break;
+				}
+				case 4:
+				{
+					ui->drawWindow("Alfred");
+					ui->addTalkText(new ChatInformation("Good day, Sir.", chatNS::RIGHT));
+					if (questData->getValue("mysteriousArtifactGardenerTask") == 1)
+					{
+						ui->addTalkText(new ChatInformation("Thanks for agreeing to help me grow some flowers!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("Remember, just rake the weeds off the flower patch, dig a hole, and then plant the seeds.", chatNS::RIGHT));
+					}
+					else if (questData->getValue("mysteriousArtifactGardenerTask") == 2)
+					{
+						ui->addTalkText(new ChatInformation("Thanks for agreeing to help me plant the tree!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("Remember, just plant the seeds into the plant pot, water it, wait for it to grow, and then place them into the plant patch", chatNS::RIGHT));
+					}
+					else if (questData->getValue("mysteriousArtifactGardenerTask") == 3)
+					{
+						ui->addTalkText(new ChatInformation("Thanks for agreeing to help me add some live fish into the pond!", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("Unfortunately, like I said, I have no idea how to do it yet. I'm sure you'll think of something though!", chatNS::RIGHT));
+					}
+					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+					dt->addOption(36, "Who are you?");
+					dt->addOption(37, "What happened to the previous guy?");
+					if (questData->getValue("mysteriousArtifactStatus") == 0)
+					{
+						dt->addOption(38, "Do you need my help?");
+					}
+					else
+					{
+						dt->addOption(44, "Tell me about the tasks that needed doing.");
 					}
 					dt->setCaller(this);
 					ui->addTalkText(dt);
@@ -558,6 +593,230 @@ void TalkBehavior::optionSelected(ChatOption co)
 		//No use with cd
 		delete cd;
 		((ShriveledMan*)entity)->startStolenArtifactRun();
+		break;
+	case 36: // ============ Alfred ================= Who are you?
+		ui->addTalkText(new ChatInformation("I'm Alfred. I'm the gardener for this area here. I keep the place tidy, plant flowers, and basically make it look nice.", chatNS::RIGHT));
+		cd->addOption(37, "What happened to the previous guy?");
+		cd->addOption(38, "No offense, but there doesn't seem to be much of a garden here.");
+		cd->addOption(39, "Do you need my help?");
+		ui->addTalkText(cd);
+		break;
+	case 37: //What happened to the previous guy?
+		ui->addTalkText(new ChatInformation("Oh, him? I'm not too sure of the details of the person before me, but I've heard rumours...", chatNS::RIGHT));
+		if (questData->getValue("artifactStealMethod") == 0) //Unknown? This should never occur cause the player should have did something to get the key to complete the quest & get alfred to spawn, but just in case...
+		{
+			ui->addTalkText(new ChatInformation("Unforunately they are very vague, and some even contradict each other, no one really knows what happened.", chatNS::RIGHT));
+		}
+		else if (questData->getValue("artifactStealMethod") == 1) //Player fished for the key
+		{
+			ui->addTalkText(new ChatInformation("The most often heard rumour is that he wasn't doing his job properly, flowers wasn't being planted and the garden was still looking really bad, so he got fired for not doing his job.", chatNS::RIGHT));
+		}
+		else if (questData->getValue("artifactStealMethod") == 2) //Player picked the lock for access
+		{
+			ui->addTalkText(new ChatInformation("The most often heard rumour is that he didn't properly guard the door, but allowed a thief to simply come in and pick the lock.", chatNS::RIGHT));
+		}
+		else if (questData->getValue("artifactStealMethod") == 3) //Player killed the guy
+		{
+			ui->addTalkText(new ChatInformation("The most often heard rumour is that he got killed by a wandering adventurer! Who knew being a gardener could get you killed like that!", chatNS::RIGHT));
+		}
+		else if (questData->getValue("artifactStealMethod") == 4) //Player took toughness test
+		{
+			ui->addTalkText(new ChatInformation("The most often heard rumour is that he gave away the key to the house, which of course cannot be tolerated as a gardener, and was thus fired.", chatNS::RIGHT));
+		}
+		cd->addOption(36, "Who are you?");
+		cd->addOption(39, "Do you need my help with anything?");
+		ui->addTalkText(cd);
+		break;
+	case 38: //No offense, but there doesn't seem to be much of a garden here.
+		ui->addTalkText(new ChatInformation("None taken. I understand what you mean. I think the last gardener was far too boastful of himself, refusing any help. That's why the garden is in this state now.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("However, I'm hoping to change that, and make the gardener look better. I's likely that I'm going to need some help though.", chatNS::RIGHT));
+		cd->addOption(37, "What happened to the last gardener?");
+		cd->addOption(39, "So, you need my help wih the garden?");
+		cd->addOption(0, "I can't right now, sorry.");
+		ui->addTalkText(cd);
+		break;
+	case 39:
+		ui->addTalkText(new ChatInformation("Yes, I do actually.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("There's been a bit of trouble around here these days, an artifact belonging to my employer apparently got stolen by some hooligan.", chatNS::RIGHT));
+		if (questData->getValue("artifactStealMethod") == 2) //Lock was picked
+		{
+			ui->addTalkText(new ChatInformation("The lock on the door was picked and broken, allowing anyone to just enter the house.", chatNS::RIGHT));
+		}
+		else if (questData->getValue("artifactStealMethod") == 3) //Gardener was killed
+		{
+			ui->addTalkText(new ChatInformation("The previous gardener was killed in order to get his key to perform the theft!", chatNS::RIGHT));
+		}
+		else
+		{
+			ui->addTalkText(new ChatInformation("The thief managed to get a key to the house somehow, allowing him to enter the house", chatNS::RIGHT));
+		}
+		ui->addTalkText(new ChatInformation("Oh, well, um...", chatNS::LEFT));
+		cd->addOption(40, "Actually, I stole the artifact.");
+		cd->addOption(41, "That's bad!");
+		ui->addTalkText(cd);
+		break;
+	case 40: //Actually, I stole the artifact
+		questData->setValue("artifactStealAdmitted", 1);
+		ui->addTalkText(new ChatInformation("You? Stole the artifact?", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Don't make me laugh. You don't seem capable of fighting off a goblin, let alone breaking into a house and stealing the artifact!", chatNS::RIGHT));
+		cd->addOption(42, "So, how can I help?");
+		ui->addTalkText(cd);
+		break;
+	case 41: //That's bad!
+		questData->setValue("artifactStealAdmitted", 0);
+		ui->addTalkText(new ChatInformation("Yup. This area may not be as safe as it would originally seem.", chatNS::RIGHT));
+		cd->addOption(42, "So, how can I help?");
+		ui->addTalkText(cd);
+		break;
+	case 42: //Continuation after artifact talk.
+		ui->addTalkText(new ChatInformation("The theft has made people afraid to work with me these days, so I'm asking you for help.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I'd like to make this garden look nicer, plant some flowers, grow a tree, and bring some fishes into the pond", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Do you think you can help me wih that?", chatNS::RIGHT));
+		cd->addOption(43, "Of course I can, count me in!");
+		cd->addOption(44, "Tell me what needs to be done first.");
+		cd->addOption(0, "I'm afraid I'm not much of a gardener.");
+		ui->addTalkText(cd);
+		break;
+	case 43: //Of course I can, count me in! (Start Quest)
+		ui->addTalkText(new ChatInformation("Awesome! Thank you!", chatNS::RIGHT));
+		gem->informListeners(new GameEvent_EntityAction(ii));
+	case 44: //Tell me what needs to be done first (During or before quest, to find out details)
+		ui->addTalkText(new ChatInformation("There are 3 tasks I need done, however, for simplicity I recommend just doing them in the order I recommend.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The tasks are: planting flowers, growing a tree and adding fish to the pond. I recommend starting with planting flowers first.", chatNS::RIGHT));
+		cd->addOption(45, "Tell me about planting flowers.");
+		cd->addOption(46, "Tell me about growing trees");
+		cd->addOption(47, "Tell me about adding fish.");
+		if (questData->getValue("mysteriousArtifactOtherTask") == 0)
+		{
+			cd->addOption(48, "I don't want to do them in order, can I choose not to?");
+		}
+		if (questData->getValue("mysteriousArtifactStatus") == 0) //If quest not yet started
+		{
+			cd->addOption(43, "I've heard enough. I've decided to help you.");
+		}
+		cd->addOption(0, "All right, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 45: //Tell me about planting flowers.
+		ui->addTalkText(new ChatInformation("I need you to plant some flowers to make the garden look nicer.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("This task should be the easiest for you and I recommend that you start with it, as the gardener I can provide you with the supplies required to do them", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("All you have to do is plant the seeds and wait for them to grow.", chatNS::RIGHT));
+		cd->addOption(44, "Tell me about the tasks again.");
+		cd->addOption(46, "Tell me about growing trees");
+		cd->addOption(47, "Tell me about adding fish.");
+		if (questData->getValue("mysteriousArtifactOtherTask") == 0)
+		{
+			cd->addOption(48, "I don't want to do them in order, can I choose not to?");
+		}
+		if (questData->getValue("mysteriousArtifactStatus") == 0) //If quest not yet started
+		{
+			cd->addOption(43, "I've heard enough. I've decided to help you.");
+		}
+		//Quest started and no task chosen yet.
+		else if (questData->getValue("mysteriousArtifactStatus") == 1 && questData->getValue("mysteriousArtifactGardenerTask") == 0)
+		{
+			cd->addOption(49, "Let's start with this task.");
+		}
+		cd->addOption(0, "All right, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 46: //Tell me about growing trees
+		ui->addTalkText(new ChatInformation("I need you to plant a tree in this garden, it looks bland if it's just flowers.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I recommend doing this task as your second tasks. Trees need to be first nurtured in a plant pot and grown first, then transferred to the soil.", chatNS::RIGHT));
+		cd->addOption(44, "Tell me about the tasks again.");
+		cd->addOption(45, "Tell me about planting flowers.");
+		cd->addOption(47, "Tell me about adding fish.");
+		if (questData->getValue("mysteriousArtifactOtherTask") == 0)
+		{
+			cd->addOption(48, "I don't want to do them in order, can I choose not to?");
+		}
+		if (questData->getValue("mysteriousArtifactStatus") == 0) //If quest not yet started
+		{
+			cd->addOption(43, "I've heard enough. I've decided to help you.");
+		}
+		//if quest started, the player has requested to pick a task other than the recommend task, and no task has been picked yet.
+		else if (questData->getValue("mysteriousArtifactStatus") == 1 && questData->getValue("mysteriousArtifactOtherTask") == 1 && questData->getValue("mysteriousArtifactGardenerTask") == 0)
+		{
+			cd->addOption(50, "Let's start with this task.");
+		}
+		cd->addOption(0, "All right, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 47: //Tell me about adding fish
+		ui->addTalkText(new ChatInformation("I need you to populate the pond with fishes. Addiionally, I would like to be able to ensure that the fishes can survive and reproduce, so that they can slowly populate the pond and do well.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("This task will likely be the hardest; I recommend doing it last. You'll need some way to transfer live fish over to here, without it dying.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Nothing springs to mind on how to complete it at the moment.", chatNS::RIGHT));
+		cd->addOption(44, "Tell me about the tasks again.");
+		cd->addOption(45, "Tell me about planting flowers.");
+		cd->addOption(46, "Tell me about growing trees");
+		if (questData->getValue("mysteriousArtifactOtherTask") == 0)
+		{
+			cd->addOption(48, "I don't want to do them in order, can I choose not to?");
+		}
+		if (questData->getValue("mysteriousArtifactStatus") == 0) //If quest not yet started
+		{
+			cd->addOption(43, "I've heard enough. I've decided to help you.");
+		}
+		else if (questData->getValue("mysteriousArtifactStatus") == 1 && questData->getValue("mysteriousArtifactOtherTask") == 1 && questData->getValue("mysteriousArtifactGardenerTask") == 0)
+		{
+			cd->addOption(51, "Let's start with this task.");
+		}
+		cd->addOption(0, "All right, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 48: //I don't want to do this in order, can I choose not to?
+		questData->setValue("mysteriousArtifactOtherTask", 1);
+		ui->addTalkText(new ChatInformation("Well, sure, I suppose you can.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I wouldn't recommend it though.", chatNS::RIGHT));
+		cd->addOption(44, "Tell me about the tasks again.");
+		cd->addOption(45, "Tell me about planting flowers.");
+		cd->addOption(46, "Tell me about growing trees");
+		cd->addOption(47, "Tell me about adding fish.");
+		if (questData->getValue("mysteriousArtifactStatus") == 0) //If quest not yet started
+		{
+			cd->addOption(43, "I've heard enough. I've decided to help you.");
+		}
+		cd->addOption(0, "All right, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 49: //Let's start with this task (Planting flowers)
+		questData->setValue("mysteriousArtifactGardenerTask", 1);
+		ui->addTalkText(new ChatInformation("Awesome! You'll need the following items, of course.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Alfred hands you a rake, a spade, a seed dibbler and some flower seeds.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("I am going to need you to plant these in the flower patch. You'll need to rake away the weeds currently covering the patch, and then dig a hole and plant the seeds in them.", chatNS::RIGHT));
+		cd->addOption(0, "All right, thanks.");
+		gem->informListeners(new GameEvent_EntityAction(ii));
+		ui->addTalkText(cd);
+		break;
+	case 50: //Let's start with this task (Planting trees)
+		{
+			questData->setValue("mysteriousArtifactGardenerTask", 2);
+			ui->addTalkText(new ChatInformation("Well, I wouldn't really recommend it, like I said.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("But if you want to, you can. Here's a the items that you'll need.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("Alfred hands you a tree seed, a plant pot and a watering can.", chatNS::MIDDLE));
+			//Give the player a plant pot. He actually needs to interact with it
+			Entity* plantpot = new Entity();
+			plantpot->initialize(grpg, new InventoryItem(grpg->getItemLoader()->getItem(38), 1));
+			grpg->getPlayer()->getInventory()->addEntityInventoryItem(plantpot, grpg);
+			ui->addTalkText(new ChatInformation("You'll need to plant the seed into the pot, water it and wait for it to grow, before transferring it to the soil.", chatNS::RIGHT));
+			cd->addOption(0, "All right, thanks");
+			gem->informListeners(new GameEvent_EntityAction(ii));
+			ui->addTalkText(cd);
+			break;
+		}
+	case 51: //Let's start with this task (Adding fish)
+		ui->addTalkText(new ChatInformation("Well, I wouldn't really recommend it, like I said earlier, especially as I have no idea how to get this done for now.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("If you give me some time, and do some of the other tasks first, I might think of sometihing for this.", chatNS::RIGHT));
+		cd->addOption(52, "I'd like to start with this first anyway.");
+		cd->addOption(44, "Very well, what were the other tasks?");
+		break;
+	case 52: //I'd like to start with this first anyway (adding fish)
+		questData->setValue("mysteriousArtifactGardenerTask", 3);
+		ui->addTalkText(new ChatInformation("If you say so. You're on you're own, however, I have no good ideas to do this. Maybe you can think of one?", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Remember, you'll need to get some live fishes, and find some way to transfer them to the pond, without them dying.", chatNS::RIGHT));
+		cd->addOption(0, "I'll get right on it.");
+		gem->informListeners(new GameEvent_EntityAction(ii));
+		ui->addTalkText(cd);
 		break;
 	default:
 		stringstream ss;
