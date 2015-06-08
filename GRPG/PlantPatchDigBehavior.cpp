@@ -19,7 +19,8 @@ void PlantPatchDigBehavior::action()
 		}
 		else if (((PlantPatch*)entity)->getStatus() == plantPatchNS::EMPTY)
 		{
-			ui->addChatText("You use a spade to dig a hole in the patch. Now there's a large ugly hole in it.");
+			ui->addChatText("You use a spade to dig a hole in the patch.");
+			ui->addChatText("Great, now there's a large ugly hole in it.");
 			((PlantPatch*)entity)->setStatus(plantPatchNS::HOLE);
 		}
 		else if (((PlantPatch*)entity)->getStatus() == plantPatchNS::WEEDS)

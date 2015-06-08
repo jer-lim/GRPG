@@ -193,6 +193,18 @@ void TalkBehavior::action(){
 					else
 					{
 						dt->addOption(44, "Tell me about the tasks that needed doing.");
+						if (questData->getValue("mysteriousArtifactWaitTime") == 1)
+						{
+							dt->addOption(53, "I managed to plant the flower seeds, now what?");
+						}
+						else if (questData->getValue("mysteriousArtifactWaitTime") == 2)
+						{
+							dt->addOption(53, "I managed to plant the tree seed into the pot, now what?");
+						}
+						else if (questData->getValue("mysteriousArtifactWaitTime") == 3)
+						{
+							dt->addOption(53, "I managed to transfer the young tree into the patch, now what?");
+						}
 					}
 					dt->setCaller(this);
 					ui->addTalkText(dt);
@@ -817,6 +829,42 @@ void TalkBehavior::optionSelected(ChatOption co)
 		cd->addOption(0, "I'll get right on it.");
 		gem->informListeners(new GameEvent_EntityAction(ii));
 		ui->addTalkText(cd);
+		break;
+	case 53: //I managed to plant the flowers/tree seed/young tree, now what?
+		ui->addTalkText(new ChatInformation("Awesome. Now, all you have to do is to wait for the plant to grow.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("However, if you want, I can magically grow the plant immediately, without needing you to wait!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("You'll have to pay me $2 in USD for that though", chatNS::RIGHT));
+		cd->addOption(55, "I'm not paying you that money!");
+		cd->addOption(54, "Will this cause all plants I grow in the future to instantly grow as well?");
+		cd->addOption(56, "That price is absurd!");
+		cd->addOption(57, "Why should I pay you that money when I'm helping you grow it for you?");
+		ui->addTalkText(cd);
+		break;
+	case 54: //Will this cause all plants I grow in the future to instantly grow as well?
+		ui->addTalkText(new ChatInformation("No, of course not. For every plant you grow afterwards that you want to grow immediately, you must pay me USD $2 to grow it.", chatNS::RIGHT));
+		cd->addOption(55, "I'm not paying you that money!");
+		cd->addOption(54, "Well this cause all plants I grow in the future to instantly grow as well?");
+		cd->addOption(55, "That price is absurd!");
+		cd->addOption(56, "Why should I pay you that money when I'm helping you grow it for you?");
+		ui->addTalkText(cd);
+		break;
+	case 55: //I'm not paying you that money/that price is absurd!
+		ui->addTalkText(new ChatInformation("Well, if you're not paying me that money I guess you'll just have to wait for the plant to grow then.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Go off and adventure a bit, I suppose, it'll grow eventually.", chatNS::RIGHT));
+		cd->addOption(0, "Oh, I'll do that.");
+		cd->addOption(57, "What about your other tasks? Maybe I can do those in the meantime.");
+		break;
+	case 56: //Why should I pay you that money when I'm helping you grow it for you?
+		ui->addTalkText(new ChatInformation("Because you want to complete the quest quicker, of course.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Here's a thought for you - why do people play a farming simulation game, and then pay to have their plants grow quickly instead of waiting for them to grow?", chatNS::RIGHT));
+		cd->addOption(55, "I'm not paying you that money!");
+		cd->addOption(54, "Well this cause all plants I grow in the future to instantly grow as well?");
+		cd->addOption(55, "That price is absurd!");
+		ui->addTalkText(cd);
+		break;
+	case 57:
+		ui->addTalkText(new ChatInformation("Patience. One task at a time, let's not rush ourselves here. Go do some other adventures for a while, I'm sure it'll grow by then.", chatNS::RIGHT));
+		cd->addOption(0, "Ok");
 		break;
 	default:
 		stringstream ss;

@@ -84,6 +84,9 @@ public:
 		//Represents the chosen task the player has selected.
 		//0 = none yet, 1 = plant flowers, 2 = plant trees, 3 = add fishes.
 		storedInformation["mysteriousArtifactGardenerTask"] = 0;
+		//Represents if the player needs to wait for anything to grow
+		//0 = nope, 1 = the flowers in the patch, 2 = the young tree in the plant pot in inventory, 3 = the tree in patch
+		storedInformation["mysteriousArtifactWaitTime"] = 0;
 
 		//Represents the information about the One Minor Task quest and how it is progressing
 		//0 = not started, 1 = startedx

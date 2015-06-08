@@ -7,7 +7,7 @@
 string PlantPatchPlantBehavior::displayText(){
 	if (questData->getValue("mysteriousArtifactGardenerTask") == 1)
 	{
-		return "Plant the flwoers in the Plant Patch";
+		return "Plant the flowers in the Plant Patch";
 	}
 	else if (questData->getValue("mysteriousArtifactGardenerTask") == 2)
 	{
@@ -34,10 +34,12 @@ void PlantPatchPlantBehavior::action()
 			{
 				ui->addChatText("You plant the flower seeds into the patch.");
 				((PlantPatch*)entity)->setStatus(plantPatchNS::PLANTED);
+				questData->setValue("mysteriousArtifactWaitTime", 1);
 			}
 			else if (questData->getValue("mysteriousArtifactGardenerTask") == 2)
 			{
 				ui->addChatText("You need to have a young tree in your inventory first.");
+				questData->setValue("mysteriousArtifactWaitTime", 3);
 			}
 			else
 			{

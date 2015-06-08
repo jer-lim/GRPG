@@ -214,6 +214,11 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	completeGardenerTask->addGameEventRequirement(completeTask, 1, pickATask);
 	mysteriousArtifactQuest->addQuestCondition(completeGardenerTask);
 
+	QuestCondition* openTheRift = new QuestCondition();
+	GameEvent* openRift = new GameEvent_EntityAction(personLoader->getNPC(39), "", "While leaving the garden, a rift opened up right in front of me!");
+	openTheRift->addGameEventRequirement(openRift, 1, nullptr);
+	mysteriousArtifactQuest->addQuestCondition(openTheRift, talkToGardener);
+
 	mapQuests[3] = mysteriousArtifactQuest;
 
 	Button* b5 = new Button();

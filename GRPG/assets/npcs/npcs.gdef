@@ -20,3 +20,4 @@
 36 A_Lever lever.png 40 2 32 32 1 20 20 I_wonder_what_pulling_this_does? 0 0 0 1 0 0 0 {}
 37 Alfred gardener2.png 40 2 64 64 4 38 38 Slayer_of_pests!_Protector_of_plants!_Purchaser_of_pesticide! 0 0 0 1 1.0 1 70 {}
 38 Plant_Patch patch.png 40 2 32 32 1 20 20 For_growing_things_in 0 0 0 1 0 0 0 {}
+39 RIFT rift.png 40 2 32 32 1 20 20 A_rift_in_the_fabric_of_GRPG 0 0 0 1 0 0 0 {}

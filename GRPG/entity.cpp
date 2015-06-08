@@ -18,6 +18,7 @@
 #include "AttackBehavior.h"
 #include "KeyFishBehavior.h"
 #include "PickupBehavior.h"
+#include "PlantPotPlantSeedBehavior.h"
 #include "GainXPBehavior.h"
 #include "DropBehavior.h"
 #include "TradeBehavior.h"
@@ -102,6 +103,7 @@ Entity::~Entity()
 	SAFE_DELETE(sellBehavior);
 	SAFE_DELETE(teleportBehavior);
 	SAFE_DELETE(stoveBehavior);
+	SAFE_DELETE(plantSeedBehavior);
 	SAFE_DELETE(updateQuestsBehavior);
 	SAFE_DELETE(stealBehavior);
 	SAFE_DELETE(gainXPBehavior);
@@ -301,6 +303,10 @@ bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 	else if (invItem->getItem()->getID() == 34) {//Epic easter egg
 		//Teleport to town
 		teleportBehavior = new TeleportBehavior(((Grpg*)gamePtr)->getPlayer(), ((Grpg*)gamePtr)->getMapLoader(), this, gamePtr, '+');
+	}
+	else if (invItem->getItem()->getID() == 38) {//Plant pot
+		//Plant seed
+		plantSeedBehavior = new PlantPotPlantSeedBehavior(((Grpg*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI(), ((Grpg*)gamePtr)->getQuestLoader()->getQuestData());
 	}
 	setupVectorActiveBehaviors();
 
