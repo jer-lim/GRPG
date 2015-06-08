@@ -44,6 +44,8 @@ namespace uiNS
 	const UINT chatWidth = 500;
 	const COLOR_ARGB chatColour = SETCOLOR_ARGB(50, 0, 0, 0);
 
+	const COLOR_ARGB darkRealmColour = SETCOLOR_ARGB(66, 0, 0, 0);
+
 	const UINT healthHeight = 40;
 	// Calculate the width of the health bar
 	// Health bar centralizes in the middle, left maximum chat, right as much as left
@@ -138,6 +140,9 @@ private:
 	float chatTimer;
 	//The quest's reward to display in the window, if any
 	Quest* questToDisplay;
+
+	//Dark realm vision
+	Button darkRealmVision;
 protected:
 	//Draws the specified tab number onto the screen on the correct location
 	//Also see drawTabContents

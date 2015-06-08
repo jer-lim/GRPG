@@ -278,7 +278,11 @@ void Grpg::update()
 						}
 						else if (it2->second->entity->mouseInside(viewport))
 						{
-							addMouseOverEntity(it2->second->entity);
+							//Do not use if realms are different
+							if (player->inDarkRealm() == it2->second->entity->inDarkRealm())
+							{
+								addMouseOverEntity(it2->second->entity);
+							}
 						}
 					}
 				}

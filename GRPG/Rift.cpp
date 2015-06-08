@@ -4,10 +4,13 @@
 #include "destination.h"
 #include "RiftEnterBehavior.h"
 #include "AnimatableTile.h"
+#include "RiftExitBehavior.h"
+#include "player.h"
 
 Rift::Rift() : Entity()
 {
 	riftTexture = new TextureManager();
+	currentWave = 0;
 }
 
 Rift::~Rift()
@@ -34,6 +37,9 @@ bool Rift::initialize(Game* gamePtr, Player* p, NPC* character)
 
 void Rift::draw(Viewport* viewport)
 {
+	//The rift must always be visible for the player to change between realms,
+	//so it must always be drawn and thus be in the same realm as the player
+	setIsInDarkRealm(thePlayer->inDarkRealm());
 	Entity::draw(viewport);
 }
 
@@ -63,7 +69,14 @@ void Rift::onResetDevice()
 
 void Rift::setupBehaviors()
 {
-	enterBehavior = new RiftEnterBehavior(thePlayer, this, ui, (Grpg*)theGame);
+	if (thePlayer->inDarkRealm())
+	{
+		exitBehavior = new RiftExitBehavior(thePlayer, this, ui, (Grpg*)theGame);
+	}
+	else
+	{
+		enterBehavior = new RiftEnterBehavior(thePlayer, this, ui, (Grpg*)theGame);
+	}
 	viewBehavior = new ViewBehavior("Rift", ((NPC*)person)->getdescription(), ui);
 	setupVectorActiveBehaviors();
 }

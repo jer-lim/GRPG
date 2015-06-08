@@ -61,6 +61,7 @@ Entity::Entity()
 	image = Image();
 	destination = 0;
 	attackCooldown = 0;
+	isInDarkRealm = false;
 	image.setFrameDelay(entityNS::animationWait);
 
 	lastPathfindTime.QuadPart = 0;
@@ -395,6 +396,10 @@ void Entity::activate()
 //=============================================================================
 void Entity::draw(Viewport* viewport)
 {
+	if (thePlayer!= nullptr && thePlayer->inDarkRealm() != isInDarkRealm)
+	{
+		return;//No draw if realms are different.
+	}
 	if (backHealth != nullptr)
 	{
 		//Perform a viewport check
@@ -1513,4 +1518,6 @@ void Entity::fakeDelete()
 	{
 		backHealth->setVisible(false);
 	}
+	//Entities that are supposed to be dead definitely shouldn't be attacking anyone
+	victim = nullptr;
 }

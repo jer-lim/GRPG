@@ -80,6 +80,10 @@ private:
 	//resulting in isTeleporting set to false on that run. Thus now it's an int set to 2, 
 	//and whenever teleporting is not detected it reduces it by 1.
 	int isTeleporting;
+
+	//A reference to the rift portal that brought the player here.
+	//If player is not in a rift, this will point to nullptr.
+	Entity* riftPortal;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
@@ -104,6 +108,12 @@ public:
 
 	bool getNearStove() { return nearStove; }
 	void setNearStove(bool r) { nearStove = r; }
+	virtual bool inDarkRealm() { return riftPortal != nullptr; }
+	virtual void setRiftPortal(Entity* e) 
+	{
+		riftPortal = e; 
+		Entity::setIsInDarkRealm(inDarkRealm());
+	}
 
 	// Specific player functions
 

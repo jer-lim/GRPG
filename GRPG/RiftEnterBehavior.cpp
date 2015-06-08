@@ -6,6 +6,7 @@
 #include "QuestData.h"
 #include "GameEvent_EntityAction.h"
 #include "PersonLoader.h"
+#include "Rift.h"
 
 string RiftEnterBehavior::displayText(){
 	return "Enter Rift";
@@ -23,6 +24,8 @@ void RiftEnterBehavior::action()
 		else
 		{
 			grpg->getGameEventManager()->informListeners(new GameEvent_EntityAction(grpg->getPersonLoader()->getNPC(39)));
+			player->setRiftPortal(entity);
+			((Rift*)entity)->setupBehaviors();
 		}
 	}
 	else

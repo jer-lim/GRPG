@@ -269,7 +269,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 			gem->informListeners(new GameEvent_EntityAction(grpg->getPersonLoader()->getNPC(39)));
 			VECTOR2 riftLocation = VECTOR2(thePlayer->getX(), thePlayer->getY());
 			riftLocation.x += GAME_WIDTH / 4;
-			NPC::spawn(grpg, 39, riftLocation);
+			entity->setVictim(NPC::spawn(grpg, 39, riftLocation));
 			entity->sayMessage("Whoa - what's that?");
 		}
 		break;

@@ -143,6 +143,12 @@ class Entity : public Destination//, public Interactable
 	float timeLeft;
 	VECTOR2 textSize;
 
+	//Wheher the entity is in the dark realm or not. Defaults to false.
+	//Entities in the dark realm are not visible and cannot be interacted with while the player is in the dark realm.
+	//Similarly, entities in the dark realm are not visible and cannot be interacted with while the player is not in the dark realm
+	//Typically, if the player leaves the dark realm all dark realm entities are deleted though, so it doesn't matter too much.
+	bool isInDarkRealm;
+
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
     // Circular collision detection 
@@ -321,6 +327,9 @@ class Entity : public Destination//, public Interactable
 	virtual void setSpawnPoint(VECTOR2 location) {
 		spawnLocation = location; 
 	}
+
+	virtual bool inDarkRealm() { return isInDarkRealm; }
+	virtual void setIsInDarkRealm(bool idr) { isInDarkRealm = idr; }
 
     ////////////////////////////////////////
     //         Other functions            //

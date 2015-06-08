@@ -67,6 +67,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	input = in;
 	graphics = gamePtr->getGraphics();
 
+	darkRealmVision.initialize(graphics, 0, 0, GAME_WIDTH, GAME_HEIGHT, uiNS::darkRealmColour, "");
+
 	// 15 pixel high Arial
 	if (uiText->initialize(graphics, uiNS::textSize, false, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
@@ -437,6 +439,13 @@ void UI::draw(Viewport* viewport)
 		graphics->spriteEnd();
 		graphics->spriteBegin();
 		rightClickBackground.draw(uiText);
+	}
+
+	if (player->inDarkRealm())
+	{
+		graphics->spriteEnd();
+		graphics->spriteBegin();
+		darkRealmVision.draw();
 	}
 }
 

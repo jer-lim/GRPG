@@ -82,6 +82,7 @@
     <ClCompile Include="PlantPotPlantSeedBehavior.cpp" />
     <ClCompile Include="Rift.cpp" />
     <ClCompile Include="RiftEnterBehavior.cpp" />
+    <ClCompile Include="RiftExitBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="PlantPotPlantSeedBehavior.h" />
     <ClInclude Include="Rift.h" />
     <ClInclude Include="RiftEnterBehavior.h" />
+    <ClInclude Include="RiftExitBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />
