@@ -16,6 +16,7 @@ ShriveledMan::ShriveledMan() : Entity()
 	stolenArtifactRunPhrases.push_back(sarp);
 	stolenArtifactRunPhrases.push_back(sarp2);
 	stolenArtifactEndRunStatus = -1;
+	disappearWhenOutOfView = false;
 }
 
 ShriveledMan::~ShriveledMan()
@@ -66,7 +67,6 @@ void ShriveledMan::update(float frameTime, Game* gamePtr)
 		releaseDestination();
 		stolenArtifactEndRunStatus = -1;
 		stolenArtifactTimer = 0;
-		fakeDelete();
 		//End the quest for the player
 		thePlayer->releaseDestination();
 		thePlayer->setVictim(nullptr);
@@ -90,6 +90,11 @@ void ShriveledMan::update(float frameTime, Game* gamePtr)
 				stolenArtifactTimer = 999;
 			}
 		}
+	}
+	if (disappearWhenOutOfView && !currentlyVisible)
+	{
+		fakeDelete();
+		disappearWhenOutOfView = false;
 	}
 }
 
@@ -116,4 +121,24 @@ void ShriveledMan::startStolenArtifactRun()
 	StolenArtifactRunPhrase sarp = stolenArtifactRunPhrases[0];
 	stolenArtifactTimer = sarp.time;
 	sayMessage(sarp.phrase);
+	disappearWhenOutOfView = true;
+}
+
+void ShriveledMan::startRiftIntro()
+{
+	sayMessage("Oh, it's you! Welcome, hero!");
+	thePlayer->sayMessage("You again!");
+	setIsInDarkRealm(true);
+}
+
+void ShriveledMan::continueRiftIntro()
+{
+	sayMessage("Oh, you'll find out!");
+	ui->addChatText("You hear Alfred shout from outside the portal!");
+	Rift* theRift = thePlayer->getRiftPortal();
+	theRift->sayMessage("Quick! Escape before you're overwhelmed!");
+	person->setMovementSpeed(thePlayer->getPerson()->getMovementSpeed());
+	disappearWhenOutOfView = true;
+	Point* newDestination = new Point(getX(), getY() - GAME_HEIGHT*2);
+	setDestination(newDestination);
 }

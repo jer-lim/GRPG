@@ -19,6 +19,7 @@
 #include "Resource.h"
 #include "Armor.h"
 #include "Weapon.h"
+#include "Rift.h"
 
 using namespace std;
 
@@ -58,7 +59,7 @@ private:
 	// For cooking
 	bool nearStove;
 	// How long before the player gets the next skill item
-	float actionDelay;	
+	float actionDelay;
 	// The resource image that is drawn above hte player
 	Image fishingImage;
 	TextureManager* tm;
@@ -83,13 +84,13 @@ private:
 
 	//A reference to the rift portal that brought the player here.
 	//If player is not in a rift, this will point to nullptr.
-	Entity* riftPortal;
+	Rift* riftPortal;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
 public:
-    // constructor
-    Player();
+	// constructor
+	Player();
 	~Player(){
 		for (map<int, PlayerSkill>::iterator it = skills.begin(); it != skills.end(); ++it){
 			it->second.destroy();
@@ -109,11 +110,13 @@ public:
 	bool getNearStove() { return nearStove; }
 	void setNearStove(bool r) { nearStove = r; }
 	virtual bool inDarkRealm() { return riftPortal != nullptr; }
-	virtual void setRiftPortal(Entity* e) 
+	virtual void setRiftPortal(Rift* e)
 	{
-		riftPortal = e; 
+		riftPortal = e;
 		Entity::setIsInDarkRealm(inDarkRealm());
 	}
+
+	virtual Rift* getRiftPortal() { return riftPortal; }
 
 	// Specific player functions
 

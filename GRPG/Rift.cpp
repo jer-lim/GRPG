@@ -83,3 +83,9 @@ void Rift::setupBehaviors()
 	viewBehavior = new ViewBehavior("Rift", ((NPC*)person)->getdescription(), ui);
 	setupVectorActiveBehaviors();
 }
+
+void Rift::begin()
+{
+	//Mob spawnig time!
+
+}

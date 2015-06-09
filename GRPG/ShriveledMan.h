@@ -42,6 +42,8 @@ private:
 	int stolenArtifactEndRunStatus;
 	//Timer till the next phrase is said.
 	float stolenArtifactTimer;
+	//Whether to call fakeDelete() once this person is out of view
+	bool disappearWhenOutOfView;
 protected:
 
 public:
@@ -67,5 +69,11 @@ public:
 
 	//Starts the run at the end of the stolen artifact quest.
 	virtual void startStolenArtifactRun();
+
+	//Starts the rift intro in the mysterious artifact quest
+	virtual void startRiftIntro();
+
+	//Continues the rift intro where monsters appear in the mysterious artifact quest
+	virtual void continueRiftIntro();
 };
 #endif

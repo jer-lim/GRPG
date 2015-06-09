@@ -5,7 +5,6 @@
 #include <deque>
 #include "constants.h"
 #include "textDX.h"
-#include "player.h"
 
 namespace riftNS
 {
@@ -76,5 +75,9 @@ public:
 	virtual void setupBehaviors();
 
 	virtual string getType(){ return "RIFT"; }
+
+	//Begins the rift wave. Starts by spawning the default amount of mobs around the rift.
+	//Once those are killed, the real wave starts.
+	virtual void begin();
 };
 #endif

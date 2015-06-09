@@ -226,6 +226,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	enterRift->addGameEventRequirement(talkToAlfred, 1, nullptr);
 	GameEvent* enterTheRift = new GameEvent_EntityAction(personLoader->getNPC(39), "I should enter the rift!", "I entered the rift. Now to find out what's going on.");
 	enterRift->addGameEventRequirement(enterTheRift, 1, talkToAlfred);
+	enterTheRift->addChangeRequired("mysteriousArtifactStatus", 5);
 	mysteriousArtifactQuest->addQuestCondition(enterRift, openTheRift);
 
 	mapQuests[3] = mysteriousArtifactQuest;

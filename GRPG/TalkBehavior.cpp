@@ -148,6 +148,25 @@ void TalkBehavior::action(){
 						dt->setCaller(this);
 						ui->addTalkText(dt);
 					}
+					else if (questData->getValue("artifactStealtatus") == 4)
+					{
+						//Mysterious artifact quest rift section
+						if (questData->getValue("mysteriousArtifactStatus") == 5)
+						{
+							ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+							dt->addOption(58, "What is this place?");
+							dt->addOption(59, "What's going on in here?");
+							dt->addOption(60, "What have you done?");
+							dt->setCaller(this);
+							ui->addTalkText(dt);
+						}
+						else //Somehow talking, either by completing stolen artifact through console commands
+							//or by closing the conversation window without properly ending it.
+						{
+							//Leave
+							((ShriveledMan*)entity)->startStolenArtifactRun();
+						}
+					}
 					break;
 				}
 				case 3:
@@ -943,7 +962,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("Well, if you're not paying me that money I guess you'll just have to wait for the plant to grow then.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Go off and adventure a bit, I suppose, it'll grow eventually.", chatNS::RIGHT));
 		cd->addOption(0, "Oh, I'll do that.");
-		cd->addOption(57, "What about your other tasks? Maybe I can do those while waiting.");
+		cd->addOption(57, "How about I do your other tasks while waiting?");
 		ui->addTalkText(cd);
 		break;
 	case 56: //Why should I pay you that money when I'm helping you grow it for you?
@@ -954,10 +973,35 @@ void TalkBehavior::optionSelected(ChatOption co)
 		cd->addOption(55, "That price is absurd!");
 		ui->addTalkText(cd);
 		break;
-	case 57:
+	case 57: //How about I do your other tasks while waiting?
 		ui->addTalkText(new ChatInformation("Patience. One task at a time, let's not rush ourselves here. Go do some other adventures for a while, I'm sure it'll grow by then.", chatNS::RIGHT));
 		cd->addOption(0, "Ok");
 		ui->addTalkText(cd);
+		break;
+		 //================ Shriveled man part 2: Mysterious Artifact ======
+	case 58: //What is this place?
+		ui->addTalkText(new ChatInformation("You like it? They call this the Dark Realm.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("You can kind of see why they do call it the dark realm, it's so much darker in here after all.", chatNS::RIGHT));
+		cd->addOption(59, "What's going on here?");
+		cd->addOption(60, "What have you done?");
+		ui->addTalkText(cd);
+		break;
+	case 59: //What's going on here?
+		ui->addTalkText(new ChatInformation("Ah, the young and naive hero. Since you seem to know nothing, let me educate you.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I have used the artifact - that you have so kindly stole for me, by the way - and, shall we say, helped the denizens of this realm.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Isn't that what we're all for, anyone? Helping others? Here, I'm helping them to realize their full potential!", chatNS::RIGHT));
+		cd->addOption(58, "What is this place?");
+		cd->addOption(60, "What have you done?");
+		ui->addTalkText(cd);
+		break;
+	case 60: //What have you done?
+		ui->addTalkText(new ChatInformation("Nothing much, really. I've managed to simply get them to congregate in one location, funneling their power.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Oh, here they are, right on cue. I hope you're prepared, hero!", chatNS::RIGHT));
+		cd->addOption(61, "What are you talking about?");
+		ui->addTalkText(cd);
+		break;
+	case 61: //What are you talking about?
+		((ShriveledMan*)entity)->continueRiftIntro();
 		break;
 	default:
 		stringstream ss;
