@@ -69,6 +69,9 @@ void Rift::onResetDevice()
 
 void Rift::setupBehaviors()
 {
+	SAFE_DELETE(enterBehavior);
+	SAFE_DELETE(exitBehavior);
+	SAFE_DELETE(viewBehavior);
 	if (thePlayer->inDarkRealm())
 	{
 		exitBehavior = new RiftExitBehavior(thePlayer, this, ui, (Grpg*)theGame);

@@ -269,8 +269,13 @@ void TalkBehavior::optionSelected(ChatOption co)
 			gem->informListeners(new GameEvent_EntityAction(grpg->getPersonLoader()->getNPC(39)));
 			VECTOR2 riftLocation = VECTOR2(thePlayer->getX(), thePlayer->getY());
 			riftLocation.x += GAME_WIDTH / 4;
-			entity->setVictim(NPC::spawn(grpg, 39, riftLocation));
 			entity->sayMessage("Whoa - what's that?");
+			//Move Alfred to next to the rift
+			Point* nextToRift = new Point(riftLocation);
+			nextToRift->setX(nextToRift->getX() - ii->getWidth());
+			nextToRift->setY(nextToRift->getY() + ii->getHeight());
+			entity->releaseDestination();
+			entity->setDestination(nextToRift);
 		}
 		break;
 	case 1: //Easter: Asks what's the matter

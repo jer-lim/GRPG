@@ -268,6 +268,7 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 //Initialize entity via inventoryitem
 bool Entity::initialize(Game *gamePtr, InventoryItem* invItem, bool inInventory)
 {
+	thePlayer = ((Grpg*)gamePtr)->getPlayer();
 	//setup behaviors
 	viewBehavior = new ViewBehaviorItem(invItem, ((Grpg*)gamePtr)->getUI());
 	if (inInventory)
@@ -396,7 +397,7 @@ void Entity::activate()
 //=============================================================================
 void Entity::draw(Viewport* viewport)
 {
-	if (thePlayer!= nullptr && thePlayer->inDarkRealm() != isInDarkRealm)
+	if (thePlayer != nullptr && thePlayer->inDarkRealm() != isInDarkRealm)
 	{
 		return;//No draw if realms are different.
 	}

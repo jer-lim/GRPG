@@ -60,9 +60,13 @@ void DrawManager::updateAll(float frameTime){
 	{
 		if (gamePtr->getMouseOverEntity() != nullptr)
 		{	//check if mouse is still over the entity we identified
-			if (!gamePtr->getMouseOverEntity()->mouseInside(viewport))
+			if (!gamePtr->getMouseOverEntity()->mouseInside(viewport) || 
+				//And they are still in the same realm
+				((Grpg*)gamePtr)->getPlayer()->inDarkRealm() != gamePtr->getMouseOverEntity()->inDarkRealm())
 			{
-				gamePtr->setMouseOverEntity(nullptr);
+				{
+					gamePtr->setMouseOverEntity(nullptr);
+				}
 			}
 		}
 	}
@@ -105,8 +109,12 @@ void DrawManager::updateAll(float frameTime){
 						}
 						else if (it2->second->entity->mouseInside(viewport))
 						{
-							gamePtr->setMouseOverEntity(it2->second->entity);
-							break;
+							//Make sure they're in the same realm
+							if (((Grpg*)gamePtr)->getPlayer()->inDarkRealm() == it2->second->entity->inDarkRealm())
+							{
+								gamePtr->setMouseOverEntity(it2->second->entity);
+								break;
+							}
 						}
 					}
 				}
