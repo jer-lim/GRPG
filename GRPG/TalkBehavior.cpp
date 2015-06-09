@@ -269,6 +269,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 			gem->informListeners(new GameEvent_EntityAction(grpg->getPersonLoader()->getNPC(39)));
 			VECTOR2 riftLocation = VECTOR2(thePlayer->getX(), thePlayer->getY());
 			riftLocation.x += GAME_WIDTH / 4;
+			NPC::spawn(grpg, 39, riftLocation);
 			entity->sayMessage("Whoa - what's that?");
 			//Move Alfred to next to the rift
 			Point* nextToRift = new Point(riftLocation);
@@ -276,6 +277,8 @@ void TalkBehavior::optionSelected(ChatOption co)
 			nextToRift->setY(nextToRift->getY() + ii->getHeight());
 			entity->releaseDestination();
 			entity->setDestination(nextToRift);
+			//Change spawn location so now it wanders around the portal instead of returning
+			entity->setSpawnPoint(riftLocation);
 		}
 		break;
 	case 1: //Easter: Asks what's the matter
