@@ -27,7 +27,15 @@ void RiftExitBehavior::action()
 	if (player->collidesWith(*entity, collisionVector) && !player->hasFailedThieve())
 	{
 		player->setRiftPortal(nullptr);
-		((Rift*)entity)->setupBehaviors();
+		//Check if this is during the mysterious artifact quest
+		if (grpg->getQuestLoader()->getQuestData()->getValue("mysteriousArtifactStatus") == 5)
+		{
+			//It is; don't do anything, the player needs to enter in here to complete the quest.
+		}
+		else
+		{
+			((Rift*)entity)->close();
+		}
 	}
 	else
 	{

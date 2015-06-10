@@ -13,11 +13,16 @@ Rift::Rift() : Entity()
 {
 	riftTexture = new TextureManager();
 	currentWave = 0;
+	totalWaves = 2 + rand() % 4; //2-5 (2+(0to3))
 }
 
 Rift::~Rift()
 {
+	close();
 	SAFE_DELETE(riftTexture);
+	SAFE_DELETE(enterBehavior);
+	SAFE_DELETE(exitBehavior);
+	SAFE_DELETE(viewBehavior);
 }
 
 bool Rift::initialize(Game* gamePtr, Player* p, NPC* character)
@@ -50,35 +55,53 @@ void Rift::draw(Viewport* viewport)
 
 void Rift::update(float frameTime, Game* gamePtr)
 {
-	//Plant Patch never moves, attacks ... or get attacked, so no use for entity update
+	//Rift never moves, attacks ... or get attacked, so no use for entity update
 	//Entity::update(frameTime, gamePtr);
+
+	//For talking text
+	timeLeft -= frameTime;
+
 	//Rotate accordingly
 	image.setDegrees(image.getDegrees() + (frameTime * 360) / riftNS::timeForFullRotation);
 
 	//Track the monsters spawned so that you know when they are all killed
-	stringstream ss;
-	int enemiesFound = 0;
-	for (int i = 0; i < enemiesSpawned.size(); i++)
+	if (enemiesSpawned.size() > 0)
 	{
-		if (enemiesSpawned[i] != nullptr)
+		stringstream ss;
+		int enemiesFound = 0;
+		for (int i = 0; i < enemiesSpawned.size(); i++)
 		{
-			ss << riftNS::spawnLinkPhrase << i;
-			if (theGame->getSpawnLink(ss.str()) == NULL)
+			if (enemiesSpawned[i] != nullptr)
 			{
-				enemiesSpawned[i] = nullptr;
+				ss << riftNS::spawnLinkPhrase << i;
+				if (theGame->getSpawnLink(ss.str()) == NULL)
+				{
+					enemiesSpawned[i] = nullptr;
+				}
+				else
+				{
+					enemiesFound++;
+				}
+				ss.str("");
+			}
+		}
+		if (enemiesFound == 0)
+		{
+			currentWave++;
+			if (currentWave <= totalWaves)
+			{
+				waveStatus = riftNS::STARTING;
+				begin(true);
 			}
 			else
 			{
-				enemiesFound++;
+				thePlayer->sayMessage("That seems to be all of them.");
 			}
-			ss.str("");
 		}
 	}
-	if (enemiesFound == 0)
+	if (allocatedForDeletion)
 	{
-		currentWave++;
-		waveStatus = riftNS::STARTING;
-		begin();
+		((Grpg*)theGame)->deleteEntity(this);
 	}
 }
 
@@ -115,10 +138,17 @@ void Rift::setupBehaviors()
 	setupVectorActiveBehaviors();
 }
 
-void Rift::begin()
+void Rift::begin(bool requireWalking)
 {
 	//Mob spawnig time!
-	waveStatus = riftNS::STARTED;
+	if (requireWalking)
+	{
+		waveStatus = riftNS::STARTING;
+	}
+	else
+	{
+		waveStatus = riftNS::STARTED;
+	}
 	remainingDifficulty = riftData->getRandomDifficulty(currentWave);
 	stringstream ss;
 	while (remainingDifficulty >= 2)
@@ -131,6 +161,15 @@ void Rift::begin()
 
 		Entity* newEnemy = (NPC::spawn(theGame, getNewNPC(), location));
 		newEnemy->setIsInDarkRealm(true);
+		if (requireWalking)
+		{
+			//Spawn the guy a bit further away, have him walk to the planned location instead.
+			Point* p = new Point(location.x, location.y);
+			location = getFinalLocation(getX(), getY(), randAngle, riftNS::enemyEntryDistance);
+			newEnemy->setX(location.x);
+			newEnemy->setY(location.y);
+			newEnemy->setDestination(p);
+		}
 		//We need to track the enemies and find out if they are killed or not,
 		//without actually accessing the memory (cause if we do and it's been killed & deleted we'll crash the game)
 		//The easiest way to do so is to use spawnlinks.
@@ -138,6 +177,7 @@ void Rift::begin()
 		theGame->addSpawnLink(ss.str(), newEnemy);
 		ss.str("");
 		enemiesSpawned.push_back(newEnemy);
+
 	}
 	remainingDifficulty = 0;
 }
@@ -184,4 +224,18 @@ void Rift::eventOccured(GameEvent* e, UI* ui)
 	{
 		waveStatus = riftNS::PROGRESSING;
 	}
+}
+
+void Rift::close()
+{
+	for (int i = 0; i < enemiesSpawned.size(); i++)
+	{
+		if (enemiesSpawned[i] != nullptr)
+		{
+			((Grpg*)theGame)->deleteEntity(enemiesSpawned[i]);
+		}
+	}
+	enemiesSpawned.clear();
+	allocatedForDeletion = true;
+	image.setVisible(false);
 }

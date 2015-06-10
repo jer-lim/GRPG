@@ -42,7 +42,7 @@ void RiftEnterBehavior::action()
 			}
 			else
 			{
-				((Rift*)entity)->begin();
+				((Rift*)entity)->begin(false);
 			}
 			((Rift*)entity)->setupBehaviors();
 		}

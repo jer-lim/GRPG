@@ -33,7 +33,7 @@ bool ShriveledMan::initialize(Game* gamePtr, Player* p, Destination* location, N
 
 	if (!manTexture->initialize(graphics, shriveledManNS::location))
 	{
-		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize block rock texture.");
+		throw new GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize Shrieveled Man texture.");
 	}
 	bool result = Entity::initialize(gamePtr, shriveledManNS::imageWidth, shriveledManNS::imageHeight, 0, manTexture);
 	talkBehavior = new TalkBehavior(npc, ui, thePlayer, this, (Grpg*)gamePtr);
@@ -126,9 +126,16 @@ void ShriveledMan::startStolenArtifactRun()
 
 void ShriveledMan::startRiftIntro()
 {
+	SAFE_DELETE(talkBehavior);
+	SAFE_DELETE(viewBehavior);
 	sayMessage("Oh, it's you! Welcome, hero!");
 	thePlayer->sayMessage("You again!");
 	setIsInDarkRealm(true);
+	image.setVisible(true);
+	setActive(true);
+	talkBehavior = new TalkBehavior((NPC*)person, ui, thePlayer, this, (Grpg*)theGame);
+	viewBehavior = new ViewBehavior("Shriveled Man", ((NPC*)person)->getdescription(), ui);
+	setupVectorActiveBehaviors();
 }
 
 void ShriveledMan::continueRiftIntro()
@@ -137,6 +144,7 @@ void ShriveledMan::continueRiftIntro()
 	ui->addChatText("You hear Alfred shout from outside the portal!");
 	Rift* theRift = thePlayer->getRiftPortal();
 	theRift->sayMessage("Quick! Escape before you're overwhelmed!");
+	theRift->begin(true);
 	person->setMovementSpeed(thePlayer->getPerson()->getMovementSpeed());
 	disappearWhenOutOfView = true;
 	Point* newDestination = new Point(getX(), getY() - GAME_HEIGHT*2);

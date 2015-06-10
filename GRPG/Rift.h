@@ -34,6 +34,7 @@ namespace riftNS
 	const float maximumDistanceFromRift = 300;
 	const float minimumSpawnFromRift = 50;
 	const float maximumSpawnFromRift = 80;
+	const float enemyEntryDistance = 300;
 
 	//To keep note of spawned enemies and see if they are dead or not, Rift uses the spawnlinks
 	//in game, instead of directly accessing the memory, which may cause a crash if the entity is 
@@ -54,6 +55,9 @@ private:
 	RiftData* riftData;
 	int remainingDifficulty;
 	vector<Entity*> enemiesSpawned;
+	//Whether this entity will be deleted on the next update step.
+	bool allocatedForDeletion;
+	int totalWaves;
 protected:
 	Behavior* enterBehavior;
 	Behavior* exitBehavior;
@@ -107,9 +111,13 @@ public:
 
 	//Begins the rift wave. Starts by spawning the default amount of mobs around the rift.
 	//Once those are killed, the real wave starts.
-	virtual void begin();
+	//Require walking: If true, enemies will walk to their planned spawn points, otherwise, they just appear there
+	virtual void begin(bool requireWalking);
 
 	//Game event needs to tell rift when the player gets damaged or is damaged
 	virtual void eventOccured(GameEvent* e, UI* ui);
+
+	//Closes the rift
+	virtual void close();
 };
 #endif

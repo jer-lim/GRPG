@@ -148,7 +148,7 @@ void TalkBehavior::action(){
 						dt->setCaller(this);
 						ui->addTalkText(dt);
 					}
-					else if (questData->getValue("artifactStealtatus") == 4)
+					else if (questData->getValue("artifactStealStatus") == 4)
 					{
 						//Mysterious artifact quest rift section
 						if (questData->getValue("mysteriousArtifactStatus") == 5)
@@ -164,6 +164,7 @@ void TalkBehavior::action(){
 							//or by closing the conversation window without properly ending it.
 						{
 							//Leave
+							ui->removeWindow();
 							((ShriveledMan*)entity)->startStolenArtifactRun();
 						}
 					}
@@ -1002,6 +1003,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		break;
 	case 61: //What are you talking about?
 		((ShriveledMan*)entity)->continueRiftIntro();
+		ui->removeWindow();
 		break;
 	default:
 		stringstream ss;

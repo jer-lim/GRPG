@@ -67,31 +67,35 @@ public:
 	}
 	void removeListener(Entity* e)
 	{
-		for (int i = 0, l = vector_entities.size(); i < l; ++i)
+		if (e->getType() == "RIFT")
 		{
-			if (vector_entities.at(i) == e)
+			for (int i = 0, l = vector_rifts.size(); i < l; ++i)
 			{
-				/*
+				if (vector_rifts.at(i) == (Rift*)e)
+				{
+					vector_rifts.erase(vector_rifts.begin() + i);
+					break;
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0, l = vector_entities.size(); i < l; ++i)
+			{
+				if (vector_entities.at(i) == e)
+				{
+					/*
 					//For debugging
 					stringstream ss;
 					ss << "Entity removed at position: " << i;
 					ui->addChatText(ss.str());*/
-				vector_entities.erase(vector_entities.begin() + i);
-				break;
+					vector_entities.erase(vector_entities.begin() + i);
+					break;
+				}
 			}
 		}
 	}
-	void removeListener(Rift* r)
-	{
-		for (int i = 0, l = vector_rifts.size(); i < l; ++i)
-		{
-			if (vector_rifts.at(i) == r)
-			{
-				vector_rifts.erase(vector_rifts.begin() + i);
-				break;
-			}
-		}
-	}
+
 	/**
 	GameEvent is deleted after use
 	*/
