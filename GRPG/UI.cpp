@@ -64,6 +64,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 {
 	game = gamePtr;
 	player = p;
+	//Entity's player variable as well. I know, why are there 2? Sigh.
+	thePlayer = player;
 	input = in;
 	graphics = gamePtr->getGraphics();
 
@@ -157,6 +159,9 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 void UI::draw(Viewport* viewport)
 {
 	//UI completely ignores viewport =)
+
+	//Always visible regardless of realm
+	setIsInDarkRealm(thePlayer->inDarkRealm());
 
 	//Fix required otherwise graphics textures drawn will be drawn behind the tiles
 	graphics->spriteEnd();
@@ -535,6 +540,9 @@ void UI::drawTabContents(int tabNumber)
 		for (std::map<int, Entity*>::iterator it = slotList->begin(); it != slotList->end(); ++it)
 		{
 			//this is actually being drawn twice, once by drawmanager
+			//Make sure items held by the player always displays no matter which realm
+			//the player is in
+			it->second->setIsInDarkRealm(thePlayer->inDarkRealm());
 			it->second->draw(nullptr);
 			//draw stack here using uiText
 			InventoryItem* ii = it->second->getInventoryItem();

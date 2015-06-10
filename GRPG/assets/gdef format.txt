@@ -67,3 +67,8 @@ chunks.gdef
 	16x16 square of TILE_ID
 worldmap.gdef
 	whatever size of CHUNK_ID you want
+
+rift_npcs.gdef
+	ID DIFFICULTY_NUMBER PROBABILITY
+rift_difficulty.gdef
+	WAVE_NUMBER MINIMUM_DIFFICULTY MAXIMUM_DIFFICULTY

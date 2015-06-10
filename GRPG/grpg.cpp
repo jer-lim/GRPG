@@ -17,6 +17,7 @@
 #include "ChatData.h"
 #include "InventoryBoost.h"
 #include "Aidil.h"
+#include "RiftData.h"
 
 //=============================================================================
 // Constructor
@@ -85,6 +86,9 @@ void Grpg::initialize(HWND hwnd)
 	itemLoader = new ItemLoader();
 	itemLoader->loadAllItems();
 	personLoader->loadAllNPCs(itemLoader);//ml free
+
+	riftData = new RiftData();
+	riftData->loadData();
 
 	missSplat = new TextureManager();
 	missSplat->initialize(graphics, MISS_IMAGE);

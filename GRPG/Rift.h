@@ -5,6 +5,10 @@
 #include <deque>
 #include "constants.h"
 #include "textDX.h"
+#include "RiftData.h"
+
+class GameEvent;
+class UI;
 
 namespace riftNS
 {
@@ -25,6 +29,18 @@ namespace riftNS
 	const int STARTED = 1;
 	//Wave is in progress, player is currently battling the monsters.
 	const int PROGRESSING = 2;
+
+	//How far away can the player move from the rift?
+	const float maximumDistanceFromRift = 300;
+	const float minimumSpawnFromRift = 50;
+	const float maximumSpawnFromRift = 80;
+
+	//To keep note of spawned enemies and see if they are dead or not, Rift uses the spawnlinks
+	//in game, instead of directly accessing the memory, which may cause a crash if the entity is 
+	//already dead and deleted. To ensure that spawnlinks added by Rift does not collide with spawnlinks
+	//added by other stuff, (i.e. the legitimate, planned uses like Spawners), a phrase is added in front of
+	//the spawn links used by Rift.
+	const string spawnLinkPhrase = "Rift";
 }
 
 //The rift, which start appearing during the Mysterious Artifact quest, and appears everywhere from now on.
@@ -35,10 +51,23 @@ private:
 	UI* ui;
 	int currentWave;
 	int waveStatus;
+	RiftData* riftData;
+	int remainingDifficulty;
+	vector<Entity*> enemiesSpawned;
 protected:
 	Behavior* enterBehavior;
 	Behavior* exitBehavior;
 	
+	//Adds up all the probabilities for all the possible minions that can be created,
+	//picks a random one and then returns the id, reducing the reaminingDifficulty amount
+	//by the difficulty of the selected NPC.
+	virtual int getNewNPC();
+
+	//Calculate the final location of a specific point,
+	//given that, from the passed in x and y co-ordinates, a person travels a certain
+	//distance at a specific angle.
+	//Used to pick a random point for mobs to spawn
+	VECTOR2 getFinalLocation(float startX, float startY, float angle, float distance);
 public:
 	// constructor
 	Rift();
@@ -79,5 +108,8 @@ public:
 	//Begins the rift wave. Starts by spawning the default amount of mobs around the rift.
 	//Once those are killed, the real wave starts.
 	virtual void begin();
+
+	//Game event needs to tell rift when the player gets damaged or is damaged
+	virtual void eventOccured(GameEvent* e, UI* ui);
 };
 #endif

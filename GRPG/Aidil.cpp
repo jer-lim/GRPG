@@ -149,7 +149,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 				if (dragonfireCooldownTimer < 0)
 				{
 					//Effectively a random number from 0 to 1.
-					float random = (rand() % 1000) / 1000;
+					float random = (rand()*1.0 / RAND_MAX);
 					float increase = aidilNS::dragonfireDelayDeviation * 2 * random - aidilNS::dragonfireDelayDeviation;
 					dragonfireCooldownTimer += aidilNS::dragonfireNormalDelay + increase;
 

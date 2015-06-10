@@ -11,6 +11,7 @@
 #include "QuestCondition.h"
 #include "Quest.h"
 #include "NPC.h"
+#include "Rift.h"
 #include <vector>
 
 class GameEventManager{
@@ -20,6 +21,8 @@ private:
 	//Entities to notify on quest change in case they need an update
 	vector<Entity*> vector_entities;
 	QuestData* questData;
+	//Rift needs to know whenever damage is dealt to move on to progress status
+	vector<Rift*> vector_rifts;
 public:
 	~GameEventManager(){
 		//destruction of listeners are to be done by the quests themselves
@@ -43,7 +46,14 @@ public:
 			ss << "Entity listener added: " << e->getType();
 		ss << " Position: " << vector_entities.size();
 		ui->addChatText(ss.str());*/
-		vector_entities.push_back(e);
+		if (e->getType() == "RIFT")
+		{
+			vector_rifts.push_back((Rift*)e);
+		}
+		else
+		{
+			vector_entities.push_back(e);
+		}
 	}
 	void removeListener(Quest* qc){
 		for (int i = 0, l = vector_listeners.size(); i < l; ++i)
@@ -63,10 +73,21 @@ public:
 			{
 				/*
 					//For debugging
-				stringstream ss;
-				ss << "Entity removed at position: " << i;
-				ui->addChatText(ss.str());*/
+					stringstream ss;
+					ss << "Entity removed at position: " << i;
+					ui->addChatText(ss.str());*/
 				vector_entities.erase(vector_entities.begin() + i);
+				break;
+			}
+		}
+	}
+	void removeListener(Rift* r)
+	{
+		for (int i = 0, l = vector_rifts.size(); i < l; ++i)
+		{
+			if (vector_rifts.at(i) == r)
+			{
+				vector_rifts.erase(vector_rifts.begin() + i);
 				break;
 			}
 		}
@@ -83,6 +104,11 @@ public:
 			{
 				changedCaused = true;
 			}
+		}
+		//Inform all rifts
+		for (int i = 0, l = vector_rifts.size(); i < l; ++i)
+		{
+			vector_rifts.at(i)->eventOccured(e, ui);
 		}
 		delete e;
 		if (changedCaused)

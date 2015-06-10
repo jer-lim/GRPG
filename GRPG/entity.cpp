@@ -1315,6 +1315,8 @@ void Entity::damage(int dt)
 			newObj->initialize(theGame, vector_ii.at(i), false);
 			newObj->setX(x);
 			newObj->setY(y);
+			//An entity that dies in the dark realm should drop their loot in the dark realm
+			newObj->setIsInDarkRealm(inDarkRealm());
 			theGame->getDrawManager()->addObject(newObj, 2);
 		}
 		//Chance to drop quest loot

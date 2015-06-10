@@ -36,6 +36,7 @@ private:
 	ItemLoader* itemLoader;
 	QuestLoader* questLoader;
 	GameEventManager* gameEventManager;
+	RiftData* riftData;
 	TextDX* uiFont;
 
 	TextureManager* missSplat;
@@ -74,6 +75,7 @@ public:
 	QuestLoader* getQuestLoader() { return questLoader; }
 	GameEventManager* getGameEventManager() { return gameEventManager; }
 	TextureManager* getDragonfireTexture() { return dragonfireTexture; }
+	RiftData* getRiftData() { return riftData; }
 
 	//Attempt to finish all the quests that have all their required conditions completed, as long as they
 	//have not had their reward given already

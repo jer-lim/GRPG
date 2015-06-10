@@ -83,6 +83,7 @@
     <ClCompile Include="Rift.cpp" />
     <ClCompile Include="RiftEnterBehavior.cpp" />
     <ClCompile Include="RiftExitBehavior.cpp" />
+    <ClCompile Include="RiftData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Rift.h" />
     <ClInclude Include="RiftEnterBehavior.h" />
     <ClInclude Include="RiftExitBehavior.h" />
+    <ClInclude Include="RiftData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />
