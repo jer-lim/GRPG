@@ -5,6 +5,7 @@
 #include "player.h"
 #include "QuestData.h"
 #include "GameEvent_EntityAction.h"
+#include "GameEvent_RiftClosed.h"
 #include "PersonLoader.h"
 #include "Rift.h"
 
@@ -34,6 +35,13 @@ void RiftExitBehavior::action()
 		}
 		else
 		{
+			grpg->getGameEventManager()->informListeners(new GameEvent_RiftClosed((Rift*)entity));
+			if (grpg->getQuestLoader()->getQuestData()->getValue("mysteriousArtifactStatus") == 7)
+			{
+				//Do some special stuff for the mysterious artifact quest
+				//Spawn the owner of the artifact nearby
+				NPC::spawn(grpg, 40, entity->getVector());
+			}
 			((Rift*)entity)->close();
 		}
 	}

@@ -38,6 +38,7 @@
     <ClInclude Include="GameEventManager.h" />
     <ClInclude Include="GameEvent_EntityAction.h" />
     <ClInclude Include="GameEvent_ItemReceived.h" />
+    <ClInclude Include="GameEvent_RiftClosed.h" />
     <ClInclude Include="HealBehavior.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InventoryBoost.h" />

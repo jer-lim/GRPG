@@ -73,11 +73,12 @@ public:
 		//0 = unknown; 1 = fishing, 2 = thieving, 3 = fighting, 4 = toughness test
 		storedInformation["artifactStealMethod"] = 0;
 
-		//Represents if the player admitted the theft to Alfred or not. Currently does not affect anything in game.
+		//Represents if the player admitted the theft to Alfred or not.
 		storedInformation["artifactStealAdmitted"] = 0;
 
 		//Represents the information about the mysterious artifact quest and how it is progressing
 		//0 = not started, 1 = started, 2 = progressed - rift opening ready, 3 = rift opened, 4 = entry OK, 5 = rift entered
+		//6 = monsters summoned in rift, 7 = rift exited, 8 - quest complete!
 		storedInformation["mysteriousArtifactStatus"] = 0;
 		//Represents if the player has asked the gardener if he can chose to start on a task other than planting flowers.
 		storedInformation["mysteriousArtifactOtherTask"] = 0;
@@ -87,6 +88,10 @@ public:
 		//Represents if the player needs to wait for anything to grow
 		//0 = nope, 1 = the flowers in the patch, 2 = the young tree in the plant pot in inventory, 3 = the tree in patch
 		storedInformation["mysteriousArtifactWaitTime"] = 0;
+		//Represents if the player asked the shriveled man what the dark realm is called
+		storedInformation["darkRealmName"] = 0;
+		//Represents if Alfred's reward from the Mysterious Artifact quest has been given.
+		storedInformation["mysteriousArtifactAlfredReward"] = 0;
 
 		//Represents the information about the One Minor Task quest and how it is progressing
 		//0 = not started, 1 = startedx

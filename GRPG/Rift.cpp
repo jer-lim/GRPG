@@ -18,7 +18,9 @@ Rift::Rift() : Entity()
 
 Rift::~Rift()
 {
-	close();
+	//Rifts that are outright deleted without calling close is likely due to the game being closed;
+	//which means that any entity created will be killed in drawmanager already.
+	//close();
 	SAFE_DELETE(riftTexture);
 	SAFE_DELETE(enterBehavior);
 	SAFE_DELETE(exitBehavior);
@@ -96,6 +98,7 @@ void Rift::update(float frameTime, Game* gamePtr)
 			else
 			{
 				thePlayer->sayMessage("That seems to be all of them.");
+				enemiesSpawned.clear();
 			}
 		}
 	}

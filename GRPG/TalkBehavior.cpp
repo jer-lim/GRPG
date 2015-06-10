@@ -9,6 +9,7 @@
 #include "grpg.h"
 #include "ShriveledMan.h"
 #include "InventoryItem.h"
+#include "mapLoader.h"
 #include "PersonLoader.h"
 
 TalkBehavior::TalkBehavior(NPC* i, UI* u, Player* p, Entity* e, Grpg* g){
@@ -232,7 +233,7 @@ void TalkBehavior::action(){
 						dt->setCaller(this);
 						ui->addTalkText(dt);
 					}
-					else
+					else if (questData->getValue("mysteriousArtifactStatus") < 7)
 					{
 						ui->addTalkText(new ChatInformation("Look at that - it's a rift!", chatNS::RIGHT));
 						ui->addTalkText(new ChatInformation("Whoever stole the artifact must have created it!", chatNS::RIGHT));
@@ -244,6 +245,111 @@ void TalkBehavior::action(){
 						dt->setCaller(this);
 						ui->addTalkText(dt);
 					}
+					else if (questData->getValue("mysteriousArtifactStatus") == 7)
+					{
+						ui->addTalkText(new ChatInformation("Great job, you managed to close the rift!", chatNS::RIGHT));
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						if (questData->getValue("artifactStealAdmitted") == 1)
+						{
+							ui->addTalkText(new ChatInformation("You know, when you admitted you stole the artifact I didn't believe you, but now I think you might be telling the truth.", chatNS::RIGHT));
+							ui->addTalkText(new ChatInformation("Humanity has one redeeming trait - we learn from our mistakes. While what you did previously was wrong, especially when breaking into someone's else house, at least you're trying to change it.", chatNS::RIGHT));
+							ui->addTalkText(new ChatInformation("You have a long way to go though, what you did has disastrous consequences.", chatNS::RIGHT));
+							dt->addOption(0, "Wise words. I hope to be able to correct this mistake.");
+						}
+						else
+						{
+							ui->addTalkText(new ChatInformation("Nice work there - I didn't think you would make it.", chatNS::RIGHT));
+						}
+						ui->addTalkText(new ChatInformation("The owner of the artifact is here now, you should go and speak with him", chatNS::RIGHT));
+						gem->informListeners(new GameEvent_EntityAction(ii));
+						dt->addOption(0, "All right.");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+					}
+					else
+					{
+						if (questData->getValue("mysteriousArtifactAlfredReward") == 0)
+						{
+							if (questData->getValue("mysteriousArtifactStatus") == 1)
+							{
+								ui->addTalkText(new ChatInformation("Hi there! About the flowers you planted - thanks for that!", chatNS::RIGHT));
+								ui->addTalkText(new ChatInformation("I think you have bigger stuff to deal with now, so let's finish this task. Here's your reward.", chatNS::RIGHT));
+								ui->addTalkText(new ChatInformation("Alfred hands you 100 gold.", chatNS::MIDDLE));
+								//Give the player 100 gold
+								Entity* $$$ = new Entity();
+								$$$->initialize(grpg, new InventoryItem(grpg->getItemLoader()->getItem(0), 100));
+								grpg->getPlayer()->getInventory()->addEntityInventoryItem($$$, grpg);
+								questData->setValue("mysteriousArtifactAlfredReward", 1);
+							}
+							else if (questData->getValue("mysteriousArtifactStatus") == 2)
+							{
+								if (questData->getValue("mysteriousArtifactWaitTime") == 2)
+								{
+									ui->addTalkText(new ChatInformation("Hi there! About the plant pot you have - it's probably grown into a sprout by now. That tends to happen fairly quickly.", chatNS::RIGHT));
+									ui->addTalkText(new ChatInformation("Let's finish this task, all right? Transfer the sprout over to the plant patch over there.", chatNS::RIGHT));
+								}
+								else
+								{
+									ui->addTalkText(new ChatInformation("Thanks for planting the tree into the patch for me.", chatNS::RIGHT));
+									ui->addTalkText(new ChatInformation("Here's your reward for that task", chatNS::RIGHT));
+									ui->addTalkText(new ChatInformation("Alfred hands you 100 gold", chatNS::MIDDLE));
+									//Give the player 100 gold
+									Entity* $$$ = new Entity();
+									$$$->initialize(grpg, new InventoryItem(grpg->getItemLoader()->getItem(0), 100));
+									grpg->getPlayer()->getInventory()->addEntityInventoryItem($$$, grpg);
+									questData->setValue("mysteriousArtifactAlfredReward", 1);
+								}
+							}
+							else if (questData->getValue("mysteriousArtifactStatus") == 3)
+							{
+								ui->addTalkText(new ChatInformation("Hi there! About the tasks with the fishes - forget about it! I think you probably have more important stuff to deal with right now.", chatNS::RIGHT));
+								questData->setValue("mysteriousArtifactAlfredReward", 1);
+							}
+						}
+						else
+						{
+							ui->addTalkText(new ChatInformation("Hi there!", chatNS::RIGHT));
+						}
+						ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+						dt->addOption(67, "What about your other tasks?");
+						dt->addOption(68, "What do you know about the artifact?");
+						dt->addOption(0, "Leave");
+						dt->setCaller(this);
+						ui->addTalkText(dt);
+					}
+					break;
+				}
+				case 5:
+				{
+					ui->drawWindow("Vangel");
+					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+					dt->addOption(63, "What was that place?");
+					dt->addOption(64, "How did that portal appear?");
+					if (questData->getValue("mysteriousArtifactStatus") == 7)
+					{
+						ui->addTalkText(new ChatInformation("Well done, you managed to escape.", chatNS::RIGHT));
+						if (questData->getValue("artifactStealAdmitted") == 1)
+						{
+							ui->addTalkText(new ChatInformation("Alfred tells me it was you who stole the artifact from me. I hope you know what the consequences are.", chatNS::RIGHT));
+							ui->addTalkText(new ChatInformation("It is a good thing that you are now helping to amend that.", chatNS::RIGHT));
+						}
+						else
+						{
+							ui->addTalkText(new ChatInformation("That portal was created by a person who stole a previous artifact from my house.", chatNS::RIGHT));
+							ui->addTalkText(new ChatInformation("I am glad that there are heroes like you who are attempting to stop these people.", chatNS::RIGHT));
+							dt->addOption(62, "Actually, I was the one whole stole the artifact.");
+						}
+						dt->addOption(65, "Not at the moment.");
+					}
+					else
+					{
+						ui->addTalkText(new ChatInformation("My scouts still have not reported back with anything useful.", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("Rest assured, if I get any useful information, I'll inform you immediately.", chatNS::RIGHT));
+						dt->addOption(0, "Not at the moment");
+					}
+					ui->addTalkText(new ChatInformation("Do you have any questions for me?", chatNS::RIGHT));
+					dt->setCaller(this);
+					ui->addTalkText(dt);
 					break;
 				}
 				default:
@@ -931,6 +1037,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("If you give me some time, and do some of the other tasks first, I might think of sometihing for this.", chatNS::RIGHT));
 		cd->addOption(52, "I'd like to start with this first anyway.");
 		cd->addOption(44, "Very well, what were the other tasks?");
+		ui->addTalkText(cd);
 		break;
 	case 52: //I'd like to start with this first anyway (adding fish)
 		questData->setValue("mysteriousArtifactGardenerTask", 3);
@@ -938,6 +1045,8 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("Remember, you'll need to get some live fishes, and find some way to transfer them to the pond, without them dying.", chatNS::RIGHT));
 		cd->addOption(0, "I'll get right on it.");
 		gem->informListeners(new GameEvent_EntityAction(ii));
+		//Spawn the rift afterwards and move on the quest.
+		questData->setValue("mysteriousArtifactStatus", 2);
 		ui->addTalkText(cd);
 		break;
 	case 53: //I managed to plant the flowers/tree seed/young tree, now what?
@@ -981,6 +1090,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		break;
 		 //================ Shriveled man part 2: Mysterious Artifact ======
 	case 58: //What is this place?
+		questData->setValue("darkRealmName", 1);
 		ui->addTalkText(new ChatInformation("You like it? They call this the Dark Realm.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("You can kind of see why they do call it the dark realm, it's so much darker in here after all.", chatNS::RIGHT));
 		cd->addOption(59, "What's going on here?");
@@ -1003,8 +1113,124 @@ void TalkBehavior::optionSelected(ChatOption co)
 		break;
 	case 61: //What are you talking about?
 		((ShriveledMan*)entity)->continueRiftIntro();
+		gem->informListeners(new GameEvent_EntityAction(ii));
 		ui->removeWindow();
 		break;
+		// ========================== Vangel ========= (End of Mysterious Artifact Quest)
+	case 62: //Actually... I stole the artifact
+		questData->setValue("artifactStealAdmitted", 1);
+		ui->addTalkText(new ChatInformation("I know.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("You did? But... how?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Do you not think I have cameras in my own house to catch people who are attempting to steal the artifact? You were simply lucky that I was out of town that day, and thus couldn't stop you.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("At least you're honest about it.", chatNS::RIGHT));
+		cd->addOption(63, "What was that place?");
+		cd->addOption(64, "How did that portal appear?");
+		cd->addOption(65, "So, what now?");
+		ui->addTalkText(cd);
+		break;
+	case 63: //What was that place?
+		if (questData->getValue("darkRealmName") == 0)
+		{
+			ui->addTalkText(new ChatInformation("People call it the Dark Realm, likely due to how everything's darker there.", chatNS::RIGHT));
+		}
+		else
+		{
+			ui->addTalkText(new ChatInformation("The shriveled man in there called it the Dark Realm.", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("That's right.", chatNS::RIGHT));
+		}
+		ui->addTalkText(new ChatInformation("It holds plenty of monsters, many who would be more than happy to invade our world in large amounts, instead of just the few camps we have here and there.", chatNS::RIGHT));
+		cd->addOption(64, "How did that portal appear?");
+		if (questData->getValue("mysteriousArtifactStatus") == 7)
+		{
+			cd->addOption(65, "So, what now?");
+		}
+		else
+		{
+			cd->addOption(0, "I have no more questions.");
+		}
+		ui->addTalkText(cd);
+		break;
+	case 64: //How did that portal appear? 
+		ui->addTalkText(new ChatInformation("The monsters in there have one power - they are able to create a rift to this world, by gathering together and forcusing their power into a single area.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("However, they need a catalyst to magnify their power - and this is where the artifact comes in.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Essentially, the artifact provides the means for the holder to help the monsters in the Dark Realm focus their power, and create more rifts into this world, which can potentially allow the monsters to break through to here.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Hmm, the shriveled man did say something like that", chatNS::LEFT));
+		cd->addOption(63, "What was that place?");
+		if (questData->getValue("mysteriousArtifactStatus") == 7)
+		{
+			cd->addOption(65, "So, what now?.");
+		}
+		else
+		{
+			cd->addOption(0, "I have no more questions.");
+		}
+		ui->addTalkText(cd);
+		break;
+	case 65: //I have no questions/So, what now?
+		ui->addTalkText(new ChatInformation("I have sent word to my scouts to try and track down that man and get the artifact back", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I will alert you once I have learned anything.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("In the meantime, if you find any more of those rifts, please enter them and help to seal them - leaving them open for far too long will allow the monsters to pour into our whold!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Here's a sword - make good use of it", chatNS::RIGHT));
+		if (questData->getValue("mysteriousArtifactGardenerTask") == 1)
+		{
+			ui->addTalkText(new ChatInformation("Oh, and Alfred says he wants to talk to you about those flowers he asked you to grow.", chatNS::RIGHT));
+		}
+		else if (questData->getValue("mysteriousArtifactGardenerTask") == 2)
+		{
+			ui->addTalkText(new ChatInformation("Oh, and you might want to talk to Alfred about that plant pot.", chatNS::RIGHT));
+		}
+		cd->addOption(66, "Will do.");
+		ui->addTalkText(cd);
+		break;
+	case 66: //Will do
+		{
+			gem->informListeners(new GameEvent_EntityAction(ii));
+			ui->removeWindow();
+			//No use with cd
+			delete cd;
+			grpg->attemptQuestCompletions();
+			//Also move the people back to their positions
+			//Move alfred back to starting point
+			//Get alfred
+			stringstream ss;
+			VECTOR2 location = grpg->getMapLoader()->translateIdToCoords('\\');
+			ss << location.x << "," << location.y;
+			Entity* alfred = grpg->getSpawnLink(ss.str());
+			alfred->setSpawnPoint(location);
+			alfred->setDestination(new Point(location));
+			//Move Vangel to the tile right below the artifact display case
+			VECTOR2 location2 = grpg->getMapLoader()->translateIdToCoords('#');
+			location2.y += tileNS::HEIGHT;
+			entity->setDestination(new Point(location2));
+			break;
+		}
+	case 67: //Alfred again - but what about your other tasks?
+		ui->addTalkText(new ChatInformation("Hey, don't worry about those.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("You have more important stuff to deal with, like closing those rifts and preventing the Dark Realm from breaking into this world.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I'll improve the garden myself - it's my job after all!", chatNS::RIGHT));
+		cd->addOption(68, "What do you know about the artifact?");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 68: //What do you know about the artifact?
+		ui->addTalkText(new ChatInformation("Nothing much, I'm afraid. If you want to know most of the information, you'll have to talk with the actual owner.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("What I do know is that it holds a lot of power in the Dark Realm, and can cause rifts between our world and the Dark Realm.", chatNS::RIGHT));
+		cd->addOption(67, "What about the other tasks?");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 69: //Vangel =========================== What happens when I enter a rift
+		ui->addTalkText(new ChatInformation("Once you'll enter a rift, you'll go into the Dark Realm.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The Dark Realm's structure is mostly the same as our world, so you'll find that many structures that exist in our world will do so in the Dark Realm.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Obviously, people and items here will not appear in the dark realm, and vice versa.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I strongly advise that you do not go too far away from the rift, lest it close and you end up trapped inside the dark realm.", chatNS::RIGHT));
+		break;
+	case 70: //What should I expect when I enter a rift?
+		ui->addTalkText(new ChatInformation("Plenty. My scouts have entered rifts themselves and report that they all follow a similar structure.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Basically, you'll start by seeing some monsters nearby that caused the rift to open. Once you kill these, harder and harder monsters will come to back them up.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("If you need to exit the rift, exiting it inbetween monster waves will allow you to exit safely, otherwise you will take damage will exiting as monsters hammer at you while you leave.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("As you close rift you will gain experience in rift-closing. Fully closing the rift will reward you with some bonus experience, while leaving early will reduce your xp gain.", chatNS::RIGHT));
+
 	default:
 		stringstream ss;
 		ss << "Warning: Unknown ChatData ID: " << co.id;

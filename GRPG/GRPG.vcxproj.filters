@@ -192,6 +192,7 @@
     <ClInclude Include="RiftEnterBehavior.h" />
     <ClInclude Include="RiftExitBehavior.h" />
     <ClInclude Include="RiftData.h" />
+    <ClInclude Include="GameEvent_RiftClosed.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

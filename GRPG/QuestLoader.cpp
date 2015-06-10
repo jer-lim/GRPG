@@ -229,6 +229,24 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	enterTheRift->addChangeRequired("mysteriousArtifactStatus", 5);
 	mysteriousArtifactQuest->addQuestCondition(enterRift, openTheRift);
 
+	QuestCondition* closeTheRift = new QuestCondition();
+	GameEvent* startRift = new GameEvent_EntityAction(personLoader->getNPC(32), "I found the shriveled man in the rift. I should go talk to him.", "The shriveled man turned out to be causing the rift! He sent a bunch of monsters against me! ");
+	startRift->addChangeRequired("mysteriousArtifactStatus", 6);
+	closeTheRift->addGameEventRequirement(startRift, 1, nullptr);
+	GameEvent* exitRift = new GameEvent_RiftClosed(nullptr, "I should fight off the monsters as much as possible, exiting the rift when I cannot handle any more.", "After some fights, I exited the rift, out of the dark realm. The rift closed behind me.");
+	closeTheRift->addGameEventRequirement(exitRift, 1, startRift);
+	exitRift->addChangeRequired("mysteriousArtifactStatus", 7);
+	mysteriousArtifactQuest->addQuestCondition(closeTheRift, enterRift);
+
+	QuestCondition* getAnExplanation = new QuestCondition();
+	GameEvent* getExplanation = new GameEvent_EntityAction(personLoader->getNPC(40), "The owner of the mysterious artifact appears to be here. It's time to find out what's going on.", "After talking to Vangel, I learned some information about what happened. I can talk to him again to recap that information. He has sent his scouts to learn more, and will let me know if my help is required.");
+	getExplanation->addChangeRequired("mysteriousArtifactStatus", 8);
+	getAnExplanation->addGameEventRequirement(getExplanation, 1, nullptr);
+	mysteriousArtifactQuest->addQuestCondition(getAnExplanation, closeTheRift);
+
+	mysteriousArtifactQuest->addItemReward(new InventoryEquipment(itemLoader->getItem(14), 1, (Smithing_Material*)itemLoader->getItem(7)));
+	mysteriousArtifactQuest->addMiscReward("Rifts will now appear throughout GRPG above the wilderness line.");
+
 	mapQuests[3] = mysteriousArtifactQuest;
 
 	Button* b5 = new Button();
