@@ -66,6 +66,38 @@ void Rift::update(float frameTime, Game* gamePtr)
 	//Rotate accordingly
 	image.setDegrees(image.getDegrees() + (frameTime * 360) / riftNS::timeForFullRotation);
 
+	//Prevent players from walking too far away from the rift
+	if (thePlayer->getRiftPortal() == this)
+	{
+		VECTOR2 direction = thePlayer->getVector() - getVector();
+		float distanceToPlayer = D3DXVec2Length(&direction);
+		if (distanceToPlayer >= riftNS::maximumDistanceFromRift)
+		{
+			//Too far
+			//Find angle player is from rift
+			VECTOR2 *normalizedDirection = &VECTOR2();
+			D3DXVec2Normalize(normalizedDirection, &direction);
+			/*
+			Dot Product of 2 unit vectors gives the cosine between the vectors.
+			This can be used to determine angles for trajectory and light reflection.
+			*/
+			float anglePlayerFromRift = acos(normalizedDirection->x / D3DXVec2Length(normalizedDirection));
+
+			float fullCircle = 2 * PI;
+			if (thePlayer->getY() > getY())
+			{
+				anglePlayerFromRift = fullCircle - anglePlayerFromRift;
+			}
+			anglePlayerFromRift += PI / 2;
+			//Move player to as far away as possible from rift
+			VECTOR2 newLocation = getFinalLocation(getX(), getY(), anglePlayerFromRift, riftNS::maximumDistanceFromRift);
+			thePlayer->setX(newLocation.x);
+			thePlayer->setY(newLocation.y);
+			ui->addChatText("Vangel's words echo in your head...");
+			ui->addChatText("Don't stray too far from the Rift in case it closes!");
+		}
+	}
+
 	//Track the monsters spawned so that you know when they are all killed
 	if (enemiesSpawned.size() > 0)
 	{
@@ -102,6 +134,26 @@ void Rift::update(float frameTime, Game* gamePtr)
 			}
 		}
 	}
+	//We also better make sure the monsters don't walk outside the zone the player can go
+	{
+		for (int i = 0; i < enemiesSpawned.size(); i++)
+		{
+			if (enemiesSpawned[i] != nullptr)
+			{
+				if (enemiesSpawned[i]->getDestination() != nullptr)
+				{
+					VECTOR2 direction2 = enemiesSpawned[i]->getDestination()->getVector() - getVector();
+					float distanceToDestFromRift = D3DXVec2Length(&direction);
+					if (distanceToDestFromRift > riftNS::maximumDistanceFromRift)
+					{
+						//Stop going there and find a new place!
+						enemiesSpawned[i]->releaseDestination();
+					}
+				}
+			}
+		}
+	}
+
 	if (allocatedForDeletion)
 	{
 		((Grpg*)theGame)->deleteEntity(this);
@@ -164,6 +216,7 @@ void Rift::begin(bool requireWalking)
 
 		Entity* newEnemy = (NPC::spawn(theGame, getNewNPC(), location));
 		newEnemy->setIsInDarkRealm(true);
+		newEnemy->setSpawnPoint(location);
 		if (requireWalking)
 		{
 			//Spawn the guy a bit further away, have him walk to the planned location instead.
