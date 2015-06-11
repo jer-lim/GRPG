@@ -337,7 +337,6 @@ void Grpg::update()
 	viewport->setY(player->getY());
 
 	//Rift spawning checks
-	/*
 	if (questLoader->getQuestData()->getValue("mysteriousArtifactStatus") == 8)
 	{
 		stringstream ss;
@@ -363,12 +362,20 @@ void Grpg::update()
 		}
 		//We can spawn rifts now!
 		//Search for dead rifts and spawn them at a random location
-		VECTOR2 topLeftAllowedSpawn = mapLoader->translateIdToCoords('{');
-		VECTOR2 bottomRightAllowedSpawn = mapLoader->translateIdToCoords('}');
+		VECTOR2 topLeftAllowedSpawn;
+		VECTOR2 bottomRightAllowedSpawn;
+		bool initalized = false;
 		for (int i = 0; i < GrpgNS::riftLimit; i++)
 		{
 			if (riftsInGame[i] == nullptr)
 			{
+				if (!initalized)
+				{
+					//Cannot run these every frame, EXTREMELY EXPENSIVE
+					topLeftAllowedSpawn = mapLoader->translateIdToCoords('{');
+					bottomRightAllowedSpawn = mapLoader->translateIdToCoords('}');
+					initalized = true;
+				}
 				//Pick a random location
 				float randomX = rand() * 1.0 / RAND_MAX;
 				randomX = randomX * (bottomRightAllowedSpawn.x - topLeftAllowedSpawn.x);
@@ -382,7 +389,7 @@ void Grpg::update()
 				this->addSpawnLink(ss.str(), riftsInGame[i]);
 			}
 		}
-	}*/
+	}
 }
 
 //=============================================================================

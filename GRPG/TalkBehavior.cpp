@@ -1219,7 +1219,22 @@ void TalkBehavior::optionSelected(ChatOption co)
 			//Move Vangel to the tile right below the artifact display case
 			VECTOR2 location2 = grpg->getMapLoader()->translateIdToCoords('#');
 			location2.y += tileNS::HEIGHT;
-			entity->setDestination(new Point(location2));
+			entity->setDestination(new Point(location2));/*
+			//Spawn 10 rifts at random locations
+			VECTOR2 topLeftAllowedSpawn = grpg->getMapLoader()->translateIdToCoords('{');
+			VECTOR2 bottomRightAllowedSpawn = grpg->getMapLoader()->translateIdToCoords('}');
+			for (int i = 0; i < 10; i++)
+			{
+				//Pick a random location
+				float randomX = rand() * 1.0 / RAND_MAX;
+				randomX = randomX * (bottomRightAllowedSpawn.x - topLeftAllowedSpawn.x);
+				randomX += topLeftAllowedSpawn.x;
+				float randomY = rand() * 1.0 / RAND_MAX;
+				randomY = randomY * (bottomRightAllowedSpawn.y - topLeftAllowedSpawn.y);
+				randomY += topLeftAllowedSpawn.y;
+				VECTOR2 newLocation = VECTOR2(randomX, randomY);
+				NPC::spawn(grpg, 39, newLocation);
+			}*/
 			break;
 		}
 	case 67: //Alfred again - but what about your other tasks?

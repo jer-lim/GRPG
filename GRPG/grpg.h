@@ -32,7 +32,7 @@ namespace GrpgNS
 	//added by other stuff, (i.e. the legitimate, planned uses like Spawners), a phrase is added in front of
 	//the spawn links used by Grpg.
 	const string riftSpawnPhrase = "Rifts";
-	const int riftLimit = 1;
+	const int riftLimit = 10;
 }
 
 //=============================================================================
