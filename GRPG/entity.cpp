@@ -534,17 +534,25 @@ void Entity::update(float frameTime, Game* gamePtr)
 		// Is there a victim? If so, set as destination
 		if (victim != 0)
 		{
-			if (destination != nullptr)
+			//Is the victim in the same realm as you? You shouldn't be able to attack cross-realm.
+			if (victim->inDarkRealm() != inDarkRealm())
 			{
-				destination->release();
-			}
-			if (!this->collidesWith(*victim, collisionVector))
-			{
-				destination = victim;
+				victim = nullptr;
 			}
 			else
 			{
-				destination = 0;
+				if (destination != nullptr)
+				{
+					destination->release();
+				}
+				if (!this->collidesWith(*victim, collisionVector))
+				{
+					destination = victim;
+				}
+				else
+				{
+					destination = 0;
+				}
 			}
 		}
 
