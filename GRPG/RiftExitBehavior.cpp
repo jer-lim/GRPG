@@ -33,6 +33,7 @@ void RiftExitBehavior::action()
 		if (grpg->getQuestLoader()->getQuestData()->getValue("mysteriousArtifactStatus") == 5)
 		{
 			//It is; don't do anything, the player needs to enter in here to complete the quest.
+			((Rift*)entity)->setupBehaviors();
 		}
 		else
 		{
