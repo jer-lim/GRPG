@@ -13,7 +13,7 @@ void PlantPatchDigBehavior::action()
 	VECTOR2 collisionVector;
 	if (player->collidesWith(*entity, collisionVector) && !player->hasFailedThieve())
 	{
-		if (questData->getValue("mysteriousArtifactStatus") != 1) //Have not reached part of quest to do this.
+		if (questData->getValue("mysteriousArtifactStatus") == 0) //Have not reached part of quest to do this.
 		{
 			ui->addChatText("I don't think the gardener would want me messing with this.");
 		}

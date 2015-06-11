@@ -43,7 +43,7 @@ namespace riftNS
 	//already dead and deleted. To ensure that spawnlinks added by Rift does not collide with spawnlinks
 	//added by other stuff, (i.e. the legitimate, planned uses like Spawners), a phrase is added in front of
 	//the spawn links used by Rift.
-	const string spawnLinkPhrase = "Rift";
+	const string spawnLinkPhrase = "RiftEnemies";
 
 	const int bonusXpForFullComp = 2000;
 }

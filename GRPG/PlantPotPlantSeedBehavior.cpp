@@ -17,4 +17,8 @@ void PlantPotPlantSeedBehavior::action()
 		questData->setValue("mysteriousArtifactWaitTime", 2);
 		planted = true;
 	}
+	else
+	{
+		ui->addChatText("The seed has already been planted.");
+	}
 }

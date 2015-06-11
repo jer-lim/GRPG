@@ -24,6 +24,17 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
+namespace GrpgNS
+{
+	////To keep note of spawned rifts and see if they are dead or not, Grpg uses the spawnlinks
+	//in game, instead of directly accessing the memory, which may cause a crash if the entity is 
+	//already dead and deleted. To ensure that spawnlinks added by Grpg does not collide with spawnlinks
+	//added by other stuff, (i.e. the legitimate, planned uses like Spawners), a phrase is added in front of
+	//the spawn links used by Grpg.
+	const string riftSpawnPhrase = "Rifts";
+	const int riftLimit = 1;
+}
+
 //=============================================================================
 // This class is the core of the game
 //=============================================================================
@@ -50,6 +61,9 @@ private:
 	bool pro;//for cheaters
 	//For easter egg dropping. Every 5 easter eggs that drop, at least 1 is guaranteed to be rare or better.
 	int easterEggCounter;
+
+	//Tracks the total number of rifts in game. This GRPG class will handle spawning.
+	vector<Rift*> riftsInGame;
 
 public:
     // Constructor

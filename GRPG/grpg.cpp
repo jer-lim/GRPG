@@ -335,6 +335,54 @@ void Grpg::update()
 	//View is always centered on the player
 	viewport->setX(player->getX());
 	viewport->setY(player->getY());
+
+	//Rift spawning checks
+	/*
+	if (questLoader->getQuestData()->getValue("mysteriousArtifactStatus") == 8)
+	{
+		stringstream ss;
+		if (riftsInGame.size() != 0)
+		{
+			//Check for dead rifts
+			for (int i = 0; i < riftsInGame.size(); i++)
+			{
+				ss << GrpgNS::riftSpawnPhrase << i;
+				if (this->getSpawnLink(ss.str()) == nullptr)
+				{
+					riftsInGame[i] = nullptr;
+				}
+				ss.str("");
+			}
+		}
+		else
+		{
+			for (int i = 0; i < GrpgNS::riftLimit; i++)
+			{
+				riftsInGame.push_back(nullptr);
+			}
+		}
+		//We can spawn rifts now!
+		//Search for dead rifts and spawn them at a random location
+		VECTOR2 topLeftAllowedSpawn = mapLoader->translateIdToCoords('{');
+		VECTOR2 bottomRightAllowedSpawn = mapLoader->translateIdToCoords('}');
+		for (int i = 0; i < GrpgNS::riftLimit; i++)
+		{
+			if (riftsInGame[i] == nullptr)
+			{
+				//Pick a random location
+				float randomX = rand() * 1.0 / RAND_MAX;
+				randomX = randomX * (bottomRightAllowedSpawn.x - topLeftAllowedSpawn.x);
+				randomX += topLeftAllowedSpawn.x;
+				float randomY = rand() * 1.0 / RAND_MAX;
+				randomY = randomY * (bottomRightAllowedSpawn.y - topLeftAllowedSpawn.y);
+				randomY += topLeftAllowedSpawn.y;
+				VECTOR2 newLocation = VECTOR2(randomX, randomY);
+				riftsInGame[i] = (Rift*)NPC::spawn(this, 39, newLocation);
+				ss << GrpgNS::riftSpawnPhrase << i;
+				this->addSpawnLink(ss.str(), riftsInGame[i]);
+			}
+		}
+	}*/
 }
 
 //=============================================================================

@@ -24,7 +24,7 @@ void PlantPatchPlantBehavior::action()
 	VECTOR2 collisionVector;
 	if (player->collidesWith(*entity, collisionVector) && !player->hasFailedThieve())
 	{
-		if (questData->getValue("mysteriousArtifactStatus") != 1) //Have not reached part of quest to do this.
+		if (questData->getValue("mysteriousArtifactStatus") == 0) //Have not reached part of quest to do this.
 		{
 			ui->addChatText("I don't think the gardener would want me messing with this.");
 		}
@@ -38,8 +38,16 @@ void PlantPatchPlantBehavior::action()
 			}
 			else if (questData->getValue("mysteriousArtifactGardenerTask") == 2)
 			{
-				ui->addChatText("You need to have a young tree in your inventory first.");
-				questData->setValue("mysteriousArtifactWaitTime", 3);
+				if (questData->getValue("mysteriousArtifactStatus") != 8)
+				{
+					ui->addChatText("You need to have a young tree in your inventory first.");
+				}
+				else
+				{
+					ui->addChatText("You transfer the tree into the patch.");
+					((PlantPatch*)entity)->setStatus(plantPatchNS::PLANTED);
+					questData->setValue("mysteriousArtifactWaitTime", 3);
+				}
 			}
 			else
 			{

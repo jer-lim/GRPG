@@ -169,6 +169,11 @@ void UI::draw(Viewport* viewport)
 
 	chatRect.draw();
 
+	if (player->inDarkRealm())
+	{
+		darkRealmVision.draw();
+	}
+
 	// Display the chat screen
 
 	// set text display rect for one row
@@ -444,13 +449,6 @@ void UI::draw(Viewport* viewport)
 		graphics->spriteEnd();
 		graphics->spriteBegin();
 		rightClickBackground.draw(uiText);
-	}
-
-	if (player->inDarkRealm())
-	{
-		graphics->spriteEnd();
-		graphics->spriteBegin();
-		darkRealmVision.draw();
 	}
 }
 

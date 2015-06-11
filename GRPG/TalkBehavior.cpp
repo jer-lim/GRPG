@@ -298,6 +298,18 @@ void TalkBehavior::action(){
 									$$$->initialize(grpg, new InventoryItem(grpg->getItemLoader()->getItem(0), 100));
 									grpg->getPlayer()->getInventory()->addEntityInventoryItem($$$, grpg);
 									questData->setValue("mysteriousArtifactAlfredReward", 1);
+									//Remove the pot from his inventory
+									Entity* pot = new Entity();
+									pot->initialize(grpg, new InventoryItem(grpg->getItemLoader()->getItem(38), 1));
+									vector<Entity*>* removedItems = new vector<Entity*>;
+									grpg->getPlayer()->getInventory()->removeEntityInventoryItems(pot, true, removedItems, grpg);
+									delete pot;
+									for (int i = 0; i < removedItems->size(); i++)
+									{
+										delete removedItems->at(i);
+									}
+									removedItems->clear();
+									delete removedItems;
 								}
 							}
 							else if (questData->getValue("mysteriousArtifactGardenerTask") == 3)
