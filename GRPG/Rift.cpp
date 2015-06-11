@@ -95,6 +95,8 @@ void Rift::update(float frameTime, Game* gamePtr)
 			thePlayer->setY(newLocation.y);
 			ui->addChatText("Vangel's words echo in your head...");
 			ui->addChatText("Don't stray too far from the Rift in case it closes!");
+			thePlayer->releaseDestination();
+			thePlayer->setVictim(nullptr);
 		}
 	}
 
