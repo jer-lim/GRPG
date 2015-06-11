@@ -15,4 +15,4 @@
 28 Easter_Bunny easter.png 1 0 64 64 1 38 38 Hooray,_Easter_is_here! detail1 0 {F32:1:3,B33:1,34:1,F35:1:3} {} 0
 29 Easter_Bird easter_bird.png 1 0 64 64 1 38 38 The_magical_easter_bird._Still_can't_speak_English. squawk_squawk_squawk 0 {} {} 0
 32 Shriveled_Man shriveled_man.png 400 0 64 64 1 38 38 He_isn't_looking_so_good. detail2 0 {} {} 0
-40 Vangel vangel.png 60 0 64 64 1 38 38 Slayer_of_pests!_Protector_of_plants!_Purchaser_of_pesticide! detail5 0 {} {} 0
+40 Vangel vangel.png 60 0 64 64 1 38 38 Probably_the_true_owner_of_the_artifact. detail5 0 {} {} 0

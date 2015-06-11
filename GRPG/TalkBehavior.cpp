@@ -270,7 +270,7 @@ void TalkBehavior::action(){
 					{
 						if (questData->getValue("mysteriousArtifactAlfredReward") == 0)
 						{
-							if (questData->getValue("mysteriousArtifactStatus") == 1)
+							if (questData->getValue("mysteriousArtifactGardenerTask") == 1)
 							{
 								ui->addTalkText(new ChatInformation("Hi there! About the flowers you planted - thanks for that!", chatNS::RIGHT));
 								ui->addTalkText(new ChatInformation("I think you have bigger stuff to deal with now, so let's finish this task. Here's your reward.", chatNS::RIGHT));
@@ -281,7 +281,7 @@ void TalkBehavior::action(){
 								grpg->getPlayer()->getInventory()->addEntityInventoryItem($$$, grpg);
 								questData->setValue("mysteriousArtifactAlfredReward", 1);
 							}
-							else if (questData->getValue("mysteriousArtifactStatus") == 2)
+							else if (questData->getValue("mysteriousArtifactGardenerTask") == 2)
 							{
 								if (questData->getValue("mysteriousArtifactWaitTime") == 2)
 								{
@@ -300,7 +300,7 @@ void TalkBehavior::action(){
 									questData->setValue("mysteriousArtifactAlfredReward", 1);
 								}
 							}
-							else if (questData->getValue("mysteriousArtifactStatus") == 3)
+							else if (questData->getValue("mysteriousArtifactGardenerTask") == 3)
 							{
 								ui->addTalkText(new ChatInformation("Hi there! About the tasks with the fishes - forget about it! I think you probably have more important stuff to deal with right now.", chatNS::RIGHT));
 								questData->setValue("mysteriousArtifactAlfredReward", 1);
@@ -345,6 +345,8 @@ void TalkBehavior::action(){
 					{
 						ui->addTalkText(new ChatInformation("My scouts still have not reported back with anything useful.", chatNS::RIGHT));
 						ui->addTalkText(new ChatInformation("Rest assured, if I get any useful information, I'll inform you immediately.", chatNS::RIGHT));
+						dt->addOption(69, "What happens when I enter a rift?");
+						dt->addOption(70, "What should I expect when I enter a rift?");
 						dt->addOption(0, "Not at the moment");
 					}
 					ui->addTalkText(new ChatInformation("Do you have any questions for me?", chatNS::RIGHT));
@@ -1146,6 +1148,8 @@ void TalkBehavior::optionSelected(ChatOption co)
 		}
 		else
 		{
+			cd->addOption(69, "What happens when I enter a rift?");
+			cd->addOption(70, "What should I expect when I enter a rift?");
 			cd->addOption(0, "I have no more questions.");
 		}
 		ui->addTalkText(cd);
@@ -1162,6 +1166,8 @@ void TalkBehavior::optionSelected(ChatOption co)
 		}
 		else
 		{
+			cd->addOption(69, "What happens when I enter a rift?");
+			cd->addOption(70, "What should I expect when I enter a rift?");
 			cd->addOption(0, "I have no more questions.");
 		}
 		ui->addTalkText(cd);
@@ -1224,13 +1230,57 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("The Dark Realm's structure is mostly the same as our world, so you'll find that many structures that exist in our world will do so in the Dark Realm.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Obviously, people and items here will not appear in the dark realm, and vice versa.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("I strongly advise that you do not go too far away from the rift, lest it close and you end up trapped inside the dark realm.", chatNS::RIGHT));
+		cd->addOption(63, "What was that place?");
+		cd->addOption(64, "How did the portal appear?");
+		cd->addOption(70, "What should I expect when I enter a rift?");
+		cd->addOption(0, "I have no more questions.");
+		ui->addTalkText(cd);
 		break;
 	case 70: //What should I expect when I enter a rift?
 		ui->addTalkText(new ChatInformation("Plenty. My scouts have entered rifts themselves and report that they all follow a similar structure.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Basically, you'll start by seeing some monsters nearby that caused the rift to open. Once you kill these, harder and harder monsters will come to back them up.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("If you need to exit the rift, exiting it inbetween monster waves will allow you to exit safely, otherwise you will take damage will exiting as monsters hammer at you while you leave.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("As you close rift you will gain experience in rift-closing. Fully closing the rift will reward you with some bonus experience, while leaving early will reduce your xp gain.", chatNS::RIGHT));
-
+		ui->addTalkText(new ChatInformation("In essence, you can enter a rift to fight waves of monsters that will come. Once you have completed the rift, you can then leave it for some rift closing xp. Fully completing the rift will also grant you a large chunk of bonmus xp.", chatNS::RIGHT));
+		cd->addOption(71, "Tell me about the waves in a rift.");
+		cd->addOption(72, "What happens if I want to exit the rift early?");
+		cd->addOption(73, "Tell me about the experience rewards.");
+		cd->addOption(74, "Let's focus less on the rift.");
+		ui->addTalkText(cd);
+	break;
+	case 71: //Tell me about the waves.
+		ui->addTalkText(new ChatInformation("Once you enter the rift, you'll see some monsters nearby that caused the rift to open.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Once you kill these, harder and harder monsters will come to back them up.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("After the first batch of monsters, you'll find that rifts can have 2-5 waves more of enemies.", chatNS::RIGHT));
+		cd->addOption(72, "What happens if I want to exit the rift early?");
+		cd->addOption(73, "Tell me about the experience rewards.");
+		cd->addOption(74, "Let's focus less on the rift.");
+		ui->addTalkText(cd);
+		break;
+	case 72: //What happens if I want to exit the rift early?
+		ui->addTalkText(new ChatInformation("If you need to exit the rift, you can choose to exit it anytime by clicking on the portal.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The best time to exit is when reinforcements are still arriving and no one is attcking you.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("However, if need be you can choose to make a hasty escape while monsters are still attacking you, but you will take some extra damage as monsters hammer at you while you leave.", chatNS::RIGHT));
+		cd->addOption(71, "Tell me about the waves in a rift.");
+		cd->addOption(73, "Tell me about the experience rewards.");
+		cd->addOption(74, "Let's focus less on the rift.");
+		ui->addTalkText(cd);
+		break;
+	case 73: //Tell me about the experience rewards.
+		ui->addTalkText(new ChatInformation("As you close rifts you will gain experience in rift-closing.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("If you manage to fully close the rift, clearing all the waves, you will gain a chunk of experience as a bonus.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("If you leave early, you wil still gain experience based on the waves that you have cleared, but only half of the experience you would have gained had you completed the rift.", chatNS::RIGHT));
+		cd->addOption(71, "Tell me about the waves in a rift.");
+		cd->addOption(72, "What happens if I want to exit the rift early?");
+		cd->addOption(74, "Let's focus less on the rift.");
+		ui->addTalkText(cd);
+		break;
+	case 74: //Let's focus less on the rift (Return to previous conversation menu)
+		ui->addTalkText(new ChatInformation("What would you like to know?", chatNS::RIGHT));
+		cd->addOption(63, "What was that place?");
+		cd->addOption(64, "How did the portal appear?");
+		cd->addOption(69, "What happens when I enter a rift?");
+		cd->addOption(70, "What should I expect when I enter a rift?");
+		cd->addOption(0, "I have no more questions.");
+		ui->addTalkText(cd);
+		break;
 	default:
 		stringstream ss;
 		ss << "Warning: Unknown ChatData ID: " << co.id;

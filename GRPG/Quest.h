@@ -72,6 +72,11 @@ public:
 		{
 			for (vector<InventoryItem*>::iterator i = itemRewards.begin(); i != itemRewards.end(); i++)
 			{
+				if ((*i)->getType() == "INVENTORYEQUIPMENT")
+				{
+					//Smithing material may not be initalized yet
+					((InventoryEquipment*)(*i))->setSmithingMaterial(nullptr);
+				}
 				delete *i;
 			}
 		}

@@ -10,7 +10,11 @@ string PlantPotPlantSeedBehavior::displayText(){
 
 void PlantPotPlantSeedBehavior::action()
 {
-	ui->addChatText("You dig a little hole in the plant pot and place the seed inside.");
-	ui->addChatText("Now to wait for it to mature.");
-	questData->setValue("mysteriousArtifactWaitTime", 2);
+	if (!planted)
+	{
+		ui->addChatText("You dig a little hole in the plant pot and place the seed inside.");
+		ui->addChatText("Now to wait for it to mature.");
+		questData->setValue("mysteriousArtifactWaitTime", 2);
+		planted = true;
+	}
 }

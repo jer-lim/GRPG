@@ -16,6 +16,7 @@ private:
 	Player* player;
 	UI* ui;
 	QuestData* questData;
+	bool planted;
 public:
 	PlantPotPlantSeedBehavior(Player* p, Entity* e, UI* u, QuestData* qd){
 		player = p;
