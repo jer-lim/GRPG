@@ -25,6 +25,7 @@ struct WaveDifficulty
 {
 	int minimumDifficulty;
 	int maximumDifficulty;
+	int xpReward;
 };
 
 class RiftData
@@ -58,6 +59,11 @@ public:
 	}
 
 	virtual int getMaximumWaves() { return rift_waves.size() - 1; }
+
+	virtual int getXPRewardForWave(int waveNumber)
+	{
+		return rift_waves[waveNumber].xpReward;
+	}
 
 };
 #endif

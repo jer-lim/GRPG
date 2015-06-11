@@ -33,6 +33,7 @@ Player::Player() : Entity()
 	skills[skillNS::ID_SKILL_COOKING] = PlayerSkill(this, Skill::COOKING);
 	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
 	skills[skillNS::ID_SKILL_THIEVING] = PlayerSkill(this, Skill::THIEVING);
+	skills[skillNS::ID_SKILL_RIFTSEALING] = PlayerSkill(this, Skill::RIFT_SEALING);
 	
 	//Start off toughness at a good level
 	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(51), true);

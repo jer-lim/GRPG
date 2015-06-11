@@ -130,6 +130,7 @@ void Rift::update(float frameTime, Game* gamePtr)
 			else
 			{
 				thePlayer->sayMessage("That seems to be all of them.");
+				waveStatus = riftNS::COMPLETED;
 				enemiesSpawned.clear();
 			}
 		}
@@ -143,7 +144,7 @@ void Rift::update(float frameTime, Game* gamePtr)
 				if (enemiesSpawned[i]->getDestination() != nullptr)
 				{
 					VECTOR2 direction2 = enemiesSpawned[i]->getDestination()->getVector() - getVector();
-					float distanceToDestFromRift = D3DXVec2Length(&direction);
+					float distanceToDestFromRift = D3DXVec2Length(&direction2);
 					if (distanceToDestFromRift > riftNS::maximumDistanceFromRift)
 					{
 						//Stop going there and find a new place!
@@ -294,4 +295,45 @@ void Rift::close()
 	enemiesSpawned.clear();
 	allocatedForDeletion = true;
 	image.setVisible(false);
+}
+
+//Awards xp based on how many waves are cleared
+void Rift::awardXP()
+{
+	int totalXP = 0;
+	bool waveCleared = currentWave > totalWaves;
+	for (int i = 0; i < currentWave; i++)
+	{
+		totalXP += riftData->getXPRewardForWave(i);
+	}
+	if (waveCleared)
+	{
+		thePlayer->getSkills()->at(skillNS::ID_SKILL_RIFTSEALING).gainXP(totalXP + riftNS::bonusXpForFullComp);
+	}
+	else
+	{
+		thePlayer->getSkills()->at(skillNS::ID_SKILL_RIFTSEALING).gainXP(totalXP / 2);
+	}
+}
+
+//Deals damage to the player based on how many enemies there are left
+void Rift::preMatureExit()
+{
+	if (waveStatus != riftNS::PROGRESSING)
+	{
+		return;
+	}
+	else
+	{
+		int totalDamage = 0;
+		for (int i = 0; i < enemiesSpawned.size(); i++)
+		{
+			if (enemiesSpawned[i] != nullptr)
+			{
+				totalDamage += rand() % 10 + 1;
+			}
+		}
+		thePlayer->damage(totalDamage);
+		ui->addChatText("The enemies attack you as you attempt to leave early.");
+	}
 }

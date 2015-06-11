@@ -27,6 +27,7 @@ namespace skillNS
 	const int ID_SKILL_COOKING = 5;
 	const int ID_SKILL_MINING = 6;
 	const int ID_SKILL_THIEVING = 7;
+	const int ID_SKILL_RIFTSEALING = 8;
 	const int skillInterval = 100;// The intervals between skills in terms of EXP
 	const int maxLevel = 99;//maximum level
 }
@@ -48,6 +49,7 @@ public:
 	static Skill* COOKING;
 	static Skill* MINING;
 	static Skill* THIEVING;
+	static Skill* RIFT_SEALING;
 	static void setupAllSkills();
     // constructor
     Skill();

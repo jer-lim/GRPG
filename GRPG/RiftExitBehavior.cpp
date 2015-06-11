@@ -14,6 +14,7 @@ string RiftExitBehavior::displayText(){
 	{
 	case riftNS::STARTED:
 	case riftNS::STARTING:
+	case riftNS::COMPLETED:
 		return "Safely Exit Rift.";
 	case riftNS::PROGRESSING:
 		return "Recklessly Exit Rift";
@@ -42,6 +43,8 @@ void RiftExitBehavior::action()
 				//Spawn the owner of the artifact nearby
 				NPC::spawn(grpg, 40, entity->getVector());
 			}
+			((Rift*)entity)->preMatureExit();
+			((Rift*)entity)->awardXP();
 			((Rift*)entity)->close();
 		}
 	}

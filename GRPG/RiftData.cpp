@@ -25,13 +25,14 @@ void RiftData::loadData()
 
 	characterstream.open(riftWaveDifficulty);
 	if (characterstream.is_open()){
-		int wave, min, max;
+		int wave, min, max, reward;
 		while (!characterstream.eof()){
-			characterstream >> wave >> min >> max;
+			characterstream >> wave >> min >> max >> reward;
 
 			WaveDifficulty wd;
 			wd.maximumDifficulty = max;
 			wd.minimumDifficulty = min;
+			wd.xpReward = reward;
 
 			rift_waves[wave] = wd;
 		}

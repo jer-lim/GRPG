@@ -29,6 +29,8 @@ namespace riftNS
 	const int STARTED = 1;
 	//Wave is in progress, player is currently battling the monsters.
 	const int PROGRESSING = 2;
+	//Rift has completed
+	const int COMPLETED = 3;
 
 	//How far away can the player move from the rift?
 	const float maximumDistanceFromRift = 300;
@@ -42,6 +44,8 @@ namespace riftNS
 	//added by other stuff, (i.e. the legitimate, planned uses like Spawners), a phrase is added in front of
 	//the spawn links used by Rift.
 	const string spawnLinkPhrase = "Rift";
+
+	const int bonusXpForFullComp = 2000;
 }
 
 //The rift, which start appearing during the Mysterious Artifact quest, and appears everywhere from now on.
@@ -119,5 +123,11 @@ public:
 
 	//Closes the rift
 	virtual void close();
+
+	//Awards xp based on how many waves are cleared
+	virtual void awardXP();
+
+	//Deals damage to the player based on how many enemies there are left
+	virtual void preMatureExit();
 };
 #endif

@@ -15,6 +15,7 @@ Skill* Skill::FISHING = nullptr;
 Skill* Skill::COOKING = nullptr;
 Skill* Skill::MINING = nullptr;
 Skill* Skill::THIEVING = nullptr;
+Skill* Skill::RIFT_SEALING = nullptr;
 
 void Skill::setupAllSkills(){
 	ATTACK = new Skill("Attack", "Influences hit chance", 10);
@@ -25,6 +26,7 @@ void Skill::setupAllSkills(){
 	COOKING = new Skill("Cooking", "Influences Cooking", 30);
 	MINING = new Skill("Mining", "Influences Mining", 10);
 	THIEVING = new Skill("Thieving", "Be quick enough to pilfer small items from others, whether friendly or hostile, so long as they are not too alert.", 30);
+	RIFT_SEALING = new Skill("Rift Sealing", "The ability to seal rifts", 1000);
 }
 
 Skill::Skill(){}
