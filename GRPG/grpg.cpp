@@ -488,25 +488,7 @@ bool Grpg::processCommand(std::string command)
 	else if (command == "shop")
 	{
 		ui->drawWindow("Solomon's General Store");
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(chatNS::YESNO.generateCloneReference());
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::MIDDLE));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::MIDDLE));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::MIDDLE));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::MIDDLE));
-		ui->addTalkText(new ChatInformation("Hello World!", chatNS::RIGHT));
-		ui->addTalkText(chatNS::YESNO.generateCloneReference());
-		//ui->setShopItems(vector<Entity*>());
+		ui->setShopItems(vector<Entity*>());
 		return true;
 	}
 	else if (command == "more")

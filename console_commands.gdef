@@ -1,0 +1,34 @@
+Console commands:
+Warning: Console commands are intended for developer use for testing and are not intended for use during gameplay.
+Console commands may break the game if entered, causing script breaking (http://tvtropes.org/pmwiki/pmwiki.php/Main/ScriptBreaking) or outright crash the game, even if the correct command was entered, as it was entered in the wrong situation.
+That said, console commands make testing signficantly easier if they are used well, and their effects are well known to the user.
+
+The following commands exist:
+
+Simple Commands - no arguments required.
+===
+pro - Causes your stats to rise quickly. They start gaining a random amount of xp (from 0 to 9) every frame.
+easter - immediately begins the easter quest.
+shop - Opens a shop window. While it contains no items, you can sell items immediately to the store, anywhere.
+more - Adds a reference to the player to the drawManager, again. This means that your player's update loop will now be ran an additional time every frame. You will attack faster, move faster, skill faster, and do things faster. Because your player now exists twice in the draw manager, deletion of it will attempt twice at the end, resulting in a guaranteed crash when you close the program. It is strongly recommended that you DO NOT use this command as it can make it harder for you to detect errors and memory leaks within the program as visual studio cannot properly provide a report in the output at the end.
+fish - Causes the player to start fishing immediately.
+mine - Causes the player to start mining immediately.
+
+Complex Commands - 1 or more arguments required
+
+Please take note that complex commands typically have no error checking at all in its behavior, which means that if a command is incorrectly entered, the program will likely crash on the spot.
+===
+tp tildId - Instantly teleports the player to where tileId is. tildId is a character referring to the ID of any tile, as defined in tiles.gdef. This code uses the mapLoader's translateIdToCoords to find the correct coordinates, and then moves the player there. If only one such tile exists in the global map, the player will move there. If more than one such tile exists, the player will move to the first tile found, in which behavior is found in translateIdToCoords.
+In addition, tp has the following alias commands performed:
+alias shop=$
+alias doctor=+
+alias stove=b
+
+spawn enemyId - Immediately spawns an npc 50 pixels to the right and above of the player. EnemyId is an integer referring to the id of an npc, friendly or otherwise, as defined in friendly_npcs.gdef and npcs.gdef. Said npc will also have it's victim set to the player, so it will immediately attack the player on sight even if it would typically be doctile and not attack.
+
+se eventType furtherArgument - Send an Event of a certain type with the corresponding arguements to the Game Event Manager. Fairly complex commands, requires knowledge of how Game Events, Quests and QuestData systems in GRPG work to fully understand the ramifications of entering in such a command.
+Event type can be one of the following:
+	ea - Entity_Action event. furtherArgument must then be an integer, of which the npc with that Id will be taken, passed into the Entity_Action GameEvent, and then fired off to GameEventManager.
+	ir - Item_Received event. furtherArgument must then be an integer, of which the item with that Id will be taken, passed into the Item_Received GameEvent, and then fired off to GameEventManager.
+	iu - Item_Used event. furtherArgument must then be an integer, of which the item with that Id will be taken, passed into the Item_Used GameEvent, and then fired off to GameEventManager.
+Invalid further arguments passed into this command (i.e. not integers) will crash the program immediately.
