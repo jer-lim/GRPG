@@ -25,6 +25,8 @@ using namespace std;
 
 namespace playerNS
 {
+	const string hurtPhraseFileName = "assets/misc/hurt_phrases.gdef";
+
 	const int WIDTH = 64;                   // image width
 	const int HEIGHT = 64;                  // image height
 	const int X = GAME_WIDTH / 2 - WIDTH / 2;   // location on screen
@@ -65,6 +67,7 @@ private:
 	TextureManager* tm;
 	Image miningImage;
 	TextureManager* mm;
+	vector<string> hurtPhrases;
 
 	//Thieving stun
 	float thievingCooldown;
@@ -240,6 +243,11 @@ public:
 	virtual void setIsTeleporting(int t) { isTeleporting = t; }
 
 	UI* getUI();
+
+	virtual void sayRandomHurtPhrase()
+	{
+		sayMessage(hurtPhrases[rand() % hurtPhrases.size()]);
+	}
 };
 #endif
 

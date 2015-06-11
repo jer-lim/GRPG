@@ -335,5 +335,6 @@ void Rift::preMatureExit()
 		}
 		thePlayer->damage(totalDamage);
 		ui->addChatText("The enemies attack you as you attempt to leave early.");
+		thePlayer->sayRandomHurtPhrase();
 	}
 }

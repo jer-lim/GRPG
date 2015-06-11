@@ -128,6 +128,7 @@ public:
 	virtual void awardXP();
 
 	//Deals damage to the player based on how many enemies there are left
+	//If the rift is safe to exit, will return without dealing any damage.
 	virtual void preMatureExit();
 };
 #endif

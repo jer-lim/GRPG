@@ -68,6 +68,19 @@ bool Player::initialize(Game *gamePtr)
 
 	if (!miningImage.initialize(gamePtr->getGraphics(), 0, 0, 1, mm))
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Error initalizing mining image");
+
+	//Load hurt phrases
+	ifstream characterstream;
+	//Friendly Characters
+	characterstream.open(playerNS::hurtPhraseFileName);
+	if (characterstream.is_open()){
+		string phrase;
+		while (!characterstream.eof()){
+			characterstream >> phrase;
+			hurtPhrases.push_back(phrase);
+		}
+		characterstream.close();
+	}
 	
     return(Entity::initialize(gamePtr, Person::thePlayer));
 }
