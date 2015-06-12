@@ -366,6 +366,19 @@ void TalkBehavior::action(){
 					ui->addTalkText(dt);
 					break;
 				}
+				case 6:
+				{
+					ui->drawWindow("Fisherman");
+					ui->addTalkText(new ChatInformation("Is there anything you would like to know about fishing?", chatNS::RIGHT));
+					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+					dt->addOption(75, "How do I fish?");
+					dt->addOption(76, "How do I get better at fishing?");
+					dt->addOption(77, "What can I get from fishing?");
+					dt->addOption(0, "I already know everything I need to know.");
+					dt->setCaller(this);
+					ui->addTalkText(dt);
+					break;
+				}
 				default:
 				{
 					ui->addChatText("Developer warning: detail chat was required, but");
@@ -1306,6 +1319,42 @@ void TalkBehavior::optionSelected(ChatOption co)
 		cd->addOption(69, "What happens when I enter a rift?");
 		cd->addOption(70, "What should I expect when I enter a rift?");
 		cd->addOption(0, "I have no more questions.");
+		ui->addTalkText(cd);
+		break;
+	case 75: //How do I fish?
+		ui->addTalkText(new ChatInformation("Fishing is easy! Simply walk up to a fishing spot, like the ones right beside me.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Once there, click on a fishing spot to immediately begin fishing. You will fish automatically, over time.", chatNS::RIGHT));
+		cd->addOption(76, "How do I get better at fishing?");
+		cd->addOption(77, "What can I get from fishing?");
+		cd->addOption(0, "That's all, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 76: //How do I get better at fishing?
+		ui->addTalkText(new ChatInformation("Simple. To get better at fishing, you need to fish more!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("As you catch fish, you'll naturally grow more proficient at fishing.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("As your fishing level improves, you'll also start to catch fish faster, which means that you'll gain more experience! It's a great cycle!", chatNS::RIGHT));
+		cd->addOption(75, "How do I fish?");
+		cd->addOption(77, "What can I get from fishing?");
+		cd->addOption(0, "That's all, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 77: //What can I get from fishing??
+		ui->addTalkText(new ChatInformation("Fish, of course, what else?", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Why would I want fishes?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Why would you not want fishes? You can sell them to others for gold if you want.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Alternatively, you can cook them with your cooking skill and then eat them to restore your health.", chatNS::RIGHT));
+		cd->addOption(75, "How do I fish?");
+		cd->addOption(76, "How do I get better at fishing?");
+		cd->addOption(78, "Will you buy fish from me?");
+		cd->addOption(0, "That's all, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 78:
+		ui->addTalkText(new ChatInformation("Me? No, why would I do that? I can catch all the fish I want!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Not everyone is as skilled as me, though. Try the Grocer or the Blacksmith - they might be willing to buy some fish.", chatNS::RIGHT));
+		cd->addOption(75, "How do I fish?");
+		cd->addOption(76, "How do I get better at fishing?");
+		cd->addOption(0, "That's all, thanks.");
 		ui->addTalkText(cd);
 		break;
 	default:
