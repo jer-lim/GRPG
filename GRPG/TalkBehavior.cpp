@@ -391,6 +391,10 @@ void TalkBehavior::action(){
 						ui->addTalkText(new ChatInformation("Hang on. Say, you look like an adventurer. Could you do me a favour? Please? I need it back urgently.", chatNS::RIGHT));
 						dt->addOption(81, "You need a favour?");
 					}
+					else if (questData->getValue("minorTaskStatus") == 1)
+					{
+						dt->addOption(90, "About your favour...");
+					}
 					dt->setCaller(this);
 					ui->addTalkText(dt);
 					break;
@@ -1384,6 +1388,10 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("No.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("No?", chatNS::LEFT));
 		ui->addTalkText(new ChatInformation("Yes, I'm not going to tell you anything. I think the challenge of fighting the dragon will be better and more fun if you fought him first without learning all of his mechanics beforehand.", chatNS::RIGHT));
+		if (questData->getValue("minorTaskStatus") > 0)
+		{
+			ui->addTalkText(new ChatInformation("But, as agreed, I'll tell you anything I know about the dragon once you've helped me with that favour.", chatNS::RIGHT));
+		}
 		cd->addOption(79, "I'm ready then. Bring me to the island!");
 		if (questData->getValue("minorTaskStatus") == 0)
 		{
@@ -1486,6 +1494,21 @@ void TalkBehavior::optionSelected(ChatOption co)
 		delete cd;
 		ui->removeWindow();
 		entity->sayMessage("Don't worry, it'll be a short quest!");
+		break;
+	case 90: //About your favour...
+		ui->addTalkText(new ChatInformation("Ah yes, how are you getting along?", chatNS::RIGHT));
+		if (questData->getValue("minorTaskStatus") == 2)
+		{
+			ui->addTalkText(new ChatInformation("I haven't got around to doing it yet, actaully.", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("Well, please do, I'm getting bored without haveing fishing to pass the time.", chatNS::RIGHT));
+		}
+		else if (questData->getValue("minorTaskStatus") == 3)
+		{
+			//ui->addTalkText(new ChatInformation(""))
+		}
+		cd->addOption(79, "Can you ferry me to ideal island?");
+		cd->addOption(0, "I'll get right on your favour.");
+		ui->addTalkText(cd);
 		break;
 	default:
 		stringstream ss;
