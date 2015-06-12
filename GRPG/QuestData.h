@@ -94,8 +94,12 @@ public:
 		storedInformation["mysteriousArtifactAlfredReward"] = 0;
 
 		//Represents the information about the One Minor Task quest and how it is progressing
-		//0 = not started, 1 = startedx
+		//0 = not started, 1 = quest giver offered, 2 = really started
 		storedInformation["minorTaskStatus"] = 0;
+		//Represents if the player has asked Captain Point of No Return why he can't bring the net himself.
+		storedInformation["minorTaskAskerBringNet"] = 0;
+		//Represents if the player has asked Captain Point of No Return why he needs the net.
+		storedInformation["minorTaskAskerNeedsNet"] = 0;
 	}
 };
 

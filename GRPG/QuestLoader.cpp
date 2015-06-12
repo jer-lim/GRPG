@@ -251,11 +251,13 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 
 	Button* b5 = new Button();
 	b5->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 4 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "One Minor Task");
-	Quest* oneMinorTask = new Quest(gem, questData, "One Minor Task", "This quest's name bears striking similarity for One Small Favour. It's bound to be as annoying.", b5);
+	Quest* oneMinorTask = new Quest(gem, questData, "One Small Favour", "This quest's name is really familiar. It's bound to be as annoying.", b5);
 	QuestCondition* talkToX = new QuestCondition();
-	GameEvent* xTalked = new GameEvent_EntityAction(nullptr, "I can start this quest, which is probably going to be really annoying, by talking to X.", "X wants me to do a minor task for him. This probably isn't as simple as it seems; I know how these sort of quests turned out. I really shouldn't have agreed.");
-	xTalked->addChangeRequired("minorTaskStatus", 1);
+	GameEvent* xTalked = new GameEvent_EntityAction(personLoader->getNPC(24), "I can start this quest, which is probably going to be really annoying, by talking to Captain Point of No Return. He can be found at the east side of the northen edge of the southern river.", "Captain Point of No Return wants me to do a minor task for him. This probably isn't as simple as it seems; I know how these sort of quests turned out. ");
 	talkToX->addGameEventRequirement(xTalked, 1, nullptr);
+	GameEvent* acceptQuest = new GameEvent_ItemReceived(itemLoader->getItem(39), "I'm not convinced I should waste so much of my time to help him.", "I really shouldn't have agreed to it, but he seemed so pitiful.");
+	acceptQuest->addChangeRequired("minorTaskStatus", 1);
+	talkToX->addGameEventRequirement(acceptQuest, 1, xTalked);
 	oneMinorTask->addQuestCondition(talkToX);
 
 	mapQuests[4] = oneMinorTask;

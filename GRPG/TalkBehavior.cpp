@@ -379,6 +379,22 @@ void TalkBehavior::action(){
 					ui->addTalkText(dt);
 					break;
 				}
+				case 7:
+				{	
+					ui->drawWindow("Captain Point of No Return");
+					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+					dt->addOption(79, "I'm ready. Bring me to that island!");
+					dt->addOption(80, "Tell me more about the dragon.");
+					ui->addTalkText(new ChatInformation("Ahoy! To the south is Ideal Island, where a great and powerful dragon lives. Make sure you're ready to face him, for there is no turning back. Are you sure you want to go there?", chatNS::RIGHT));
+					if (questData->getValue("minorTaskStatus") == 0)
+					{
+						ui->addTalkText(new ChatInformation("Hang on. Say, you look like an adventurer. Could you do me a favour? Please? I need it back urgently.", chatNS::RIGHT));
+						dt->addOption(81, "You need a favour?");
+					}
+					dt->setCaller(this);
+					ui->addTalkText(dt);
+					break;
+				}
 				default:
 				{
 					ui->addChatText("Developer warning: detail chat was required, but");
@@ -1349,13 +1365,127 @@ void TalkBehavior::optionSelected(ChatOption co)
 		cd->addOption(0, "That's all, thanks.");
 		ui->addTalkText(cd);
 		break;
-	case 78:
+	case 78: //Will you buy fish from me?
 		ui->addTalkText(new ChatInformation("Me? No, why would I do that? I can catch all the fish I want!", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("Not everyone is as skilled as me, though. Try the Grocer or the Blacksmith - they might be willing to buy some fish.", chatNS::RIGHT));
 		cd->addOption(75, "How do I fish?");
 		cd->addOption(76, "How do I get better at fishing?");
 		cd->addOption(0, "That's all, thanks.");
 		ui->addTalkText(cd);
+		break;
+	case 79: //I'm ready, bring me to the island!
+		ui->addTalkText(new ChatInformation("Of course. For future reference, if you want me to bring you to the island quickly you can simply right click on me and choose to request a teleport.", chatNS::RIGHT));
+		cd->addOption(0, "Thanks for the trip!");
+		cd->addOption(0, "I'll keep that in mind.");
+		ui->addTalkText(cd);
+		entity->teleportBehavior->action();
+		break;
+	case 80: //Tell me about the great and powerful dragon.
+		ui->addTalkText(new ChatInformation("No.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("No?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Yes, I'm not going to tell you anything. I think the challenge of fighting the dragon will be better and more fun if you fought him first without learning all of his mechanics beforehand.", chatNS::RIGHT));
+		cd->addOption(79, "I'm ready then. Bring me to the island!");
+		if (questData->getValue("minorTaskStatus") == 0)
+		{
+			cd->addOption(81, "You were saying something about a favour?");
+		}
+		cd->addOption(0, "Hold on for now, I'll be back later once I'm ready.");
+		ui->addTalkText(cd);
+		break;
+	case 81: //You needed a favour?'
+		ui->addTalkText(new ChatInformation("That's right, I need one small favour.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Oh no. No no no no no no.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("I need you to help me bring", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Did you not hear me? No.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("But...", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("No buts. I know how your \"One Small Favour\" works. It is never small. Never quick. And it will end up with me doing a large amount of favours just becuase of it.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("No, this will be different. It will be a very fast favour - trust me!", chatNS::RIGHT));
+		cd->addOption(82, "Very well, what is it?");
+		cd->addOption(0, "No means no.");
+		ui->addTalkText(cd);
+		break;
+	case 82: //Very well, what is it?
+		gem->informListeners(new GameEvent_EntityAction(ii));
+		ui->addTalkText(new ChatInformation("I need you to help me bring this broken net to the fisherman, and ask him to help me fix up the net for him.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Yup. As I predicted. This is not going to be a good quest.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Please! Just bring it to the fisherman, and bring it back here. Simple and fast.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("This is not going to be like that. It'll be a lot worse. The fisherman will have some trouble, and therefore can't fix your net.", chatNS::LEFT));
+		cd->addOption(83, "Tell me, why can't you do this yourself?");
+		cd->addOption(85, "Why do you need that net fixed anyway?");
+		cd->addOption(87, "What's in it for me if I do this extremely long quest?");
+		cd->addOption(0, "Sorry, ask someone else.");
+		ui->addTalkText(cd);
+		break;
+	case 83: //Tell me, why can't you do this yourself?
+		ui->addTalkText(new ChatInformation("I can't leave this post! My job is to stay here and help ferry people to ideal island to fight the dragon, and warn them about it!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("What if I leave to travel and then someone comes looking to go to ideal island? What then? I have to stay here!", chatNS::RIGHT));
+		cd->addOption(84, "How about I stay here and ferry adventurers across for you?");
+		cd->addOption(85, "Why do you need that net fixed anyway?");
+		cd->addOption(87, "What's in it for me if I do this extremely long quest?");
+		cd->addOption(0, "Sorry, ask someone else.");
+		ui->addTalkText(cd);
+		break;
+	case 84: //How about I stay here and ferry adventurers for you?
+		questData->setValue("minorTaskAskerBringNet", 1);
+		ui->addTalkText(new ChatInformation("In the meantime, you can go and get that net fixed, and return once you're done!", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("That's a nice idea, but no. Do you even know how to sail? Can you ferry adventurers across the river? You don't seem to know anything about sailing!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Furthermore, there's no way I'm leaving my boat with a stranger. What if you just took it and left?", chatNS::RIGHT));
+		cd->addOption(85, "Why do you need that net fixed anyway?");
+		cd->addOption(87, "What's in it for me if I do this extremely long quest?");
+		cd->addOption(0, "Sorry, ask someone else.");
+		ui->addTalkText(cd);
+		break;
+	case 85: //Why do you need that net fixed anyway?
+		questData->setValue("minorTaskAskerNeedsNet", 1);
+		ui->addTalkText(new ChatInformation("Well, I stay here everyday, just ferrying adventurers across. I get bored!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("One of the things I do to pass the time is fish. I grab my net and fish. But I need my net fixed to fish!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Please help me! The net has been broken for a long time now, it's been really boring.", chatNS::RIGHT));
+		cd->addOption(83, "Tell me, why can't you do this yourself?");
+		cd->addOption(86, "You can fish here? But I don't see any fishing spots.");
+		cd->addOption(87, "What's in it for me if I do this extremely long quest?");
+		cd->addOption(0, "Sorry, ask someone else.");
+		ui->addTalkText(cd);
+		break;
+	case 86: //You can fish here? But I don't see any fishing spots.
+		ui->addTalkText(new ChatInformation("Ah. I see you know a thing or two about fishing.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Yes, it's true, you typically need fishing spots to fish, but a skilled fisherman like me can fish anywhere as long as there is water!", chatNS::RIGHT));
+		cd->addOption(83, "Tell me, why can't you do this yourself?");
+		cd->addOption(87, "What's in it for me if I do this extremely long quest?");
+		cd->addOption(0, "Sorry, ask someone else.");
+		ui->addTalkText(cd);
+		break;
+	case 87: //What's in it for me if I do this extremely long quest?
+		ui->addTalkText(new ChatInformation("Come on now, You're exaggerating it. This quest won't be long, it'll be a quick one.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("No, it certainly won't. I know how these quests work.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Well, if you help me I'll tell you what I know about the dragon below.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Trust me, I know a lot about it from all the adventurers that have passed by and that I've ferried to that island.", chatNS::RIGHT));
+		cd->addOption(83, "Tell me, why can't you do this yourself?");
+		cd->addOption(85, "Why do you need that net fixed anyway?");
+		if (questData->getValue("minorTaskAskerNeedsNet") == 1 && questData->getValue("minorTaskAskerBringNet") == 1)
+		{
+			cd->addOption(88, "Against my better judgement, I'll help.");
+		}
+		else
+		{
+			ui->addTalkText(new ChatInformation("You are still unconvinced that this annoying quest should be done.", chatNS::MIDDLE));
+		}
+		cd->addOption(0, "Sorry, ask someone else.");
+		ui->addTalkText(cd);
+		break;
+	case 88: //Against my better judgement, I'll help.
+		gem->informListeners(new GameEvent_ItemReceived(grpg->getItemLoader()->getItem(39)));
+		ui->addTalkText(new ChatInformation("But only because you seem to really need that help.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Thank you! You won't regret this. Here you go, here's the broken net.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("And I'm sure I'll regret saying yes.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("You take the net.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("You can find the fisherman west of the chicken pen.", chatNS::RIGHT));
+		cd->addOption(89, "Time to start the most annoying quest ever.");
+		ui->addTalkText(cd);
+		break;
+	case 89: //Time to start the most annoying quest ever.
+		delete cd;
+		ui->removeWindow();
+		entity->sayMessage("Don't worry, it'll be a short quest!");
 		break;
 	default:
 		stringstream ss;
