@@ -374,6 +374,14 @@ void TalkBehavior::action(){
 					dt->addOption(75, "How do I fish?");
 					dt->addOption(76, "How do I get better at fishing?");
 					dt->addOption(77, "What can I get from fishing?");
+					if (questData->getValue("minorTaskStatus") == 1)
+					{
+						dt->addOption(91, "Could you help me fix this net?");
+					}
+					else if (questData->getValue("minorTaskStatus") == 3)
+					{
+						dt->addOption(98, "How are you feeling now?");
+					}
 					dt->addOption(0, "I already know everything I need to know.");
 					dt->setCaller(this);
 					ui->addTalkText(dt);
@@ -391,11 +399,36 @@ void TalkBehavior::action(){
 						ui->addTalkText(new ChatInformation("Hang on. Say, you look like an adventurer. Could you do me a favour? Please? I need it back urgently.", chatNS::RIGHT));
 						dt->addOption(81, "You need a favour?");
 					}
-					else if (questData->getValue("minorTaskStatus") == 1)
+					else if (questData->getValue("minorTaskStatus") < 5)
 					{
 						dt->addOption(90, "About your favour...");
 					}
 					dt->setCaller(this);
+					ui->addTalkText(dt);
+					break;
+				}
+				case 8: 
+				{
+					ui->drawWindow("Doctor");
+					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+					dt->setCaller(this);
+					if (questData->getValue("minorTaskStatus") == 3) //Exception for one minor task
+					{
+						ui->addTalkText(new ChatInformation("Hey there. The fisherman should be all better now.", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("He wants to talk to you - you should go see what he wants.", chatNS::RIGHT));
+						ui->addTalkText(new ChatInformation("I'll be going back now.", chatNS::RIGHT));
+						entity->setDestination(new Point(grpg->getMapLoader()->translateIdToCoords('+')));
+						dt->addOption(0, "You didn't ask for a favour? Thanks!");
+						ui->addTalkText(dt);
+						return;
+					}
+					ui->addTalkText(new ChatInformation("Hello! I can heal you!", chatNS::RIGHT));
+					dt->addOption(93, "Please do.");
+					dt->addOption(94, "How do you heal me like that?");
+					if (questData->getValue("minorTaskStatus") == 2)
+					{
+						dt->addOption(97, "The fisherman says he needs some help.");
+					}
 					ui->addTalkText(dt);
 					break;
 				}
@@ -1497,17 +1530,138 @@ void TalkBehavior::optionSelected(ChatOption co)
 		break;
 	case 90: //About your favour...
 		ui->addTalkText(new ChatInformation("Ah yes, how are you getting along?", chatNS::RIGHT));
-		if (questData->getValue("minorTaskStatus") == 2)
+		if (questData->getValue("minorTaskStatus") == 1)
 		{
 			ui->addTalkText(new ChatInformation("I haven't got around to doing it yet, actaully.", chatNS::LEFT));
-			ui->addTalkText(new ChatInformation("Well, please do, I'm getting bored without haveing fishing to pass the time.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("Well, please do, I'm getting bored without having fishing to pass the time.", chatNS::RIGHT));
+		}
+		else if (questData->getValue("minorTaskStatus") == 2)
+		{
+			ui->addTalkText(new ChatInformation("Well, I just went and talked to the fisherman.", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("And...?", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("He asked me to do another favour for him, because he's feeling sick and can't fix the net while he's sick!", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("See? I told you this quest is not going to be simple.", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("Please? It's just one more favour.", chatNS::RIGHT));
+			cd->addOption(99, "No. I've proven my point.");
+			cd->addOption(100, "Very well, I'll continue the quest.");
 		}
 		else if (questData->getValue("minorTaskStatus") == 3)
 		{
-			//ui->addTalkText(new ChatInformation(""))
+			ui->addTalkText(new ChatInformation("The fisherman is sick and cannot help you fix the net.", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("However, I've spoke with the doctor and he agrees to try and help the fisherman.", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("Awesome! Perhaps you should check up on them and see how they're doing?", chatNS::RIGHT));
+		}
+		else if (questData->getValue("minorTaskStatus") == 4)
+		{
+			ui->addTalkText(new ChatInformation("It's done! The net is fixed! Here you go!", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("You hand the net over to the captain.", chatNS::MIDDLE));
+			ui->addTalkText(new ChatInformation("Awesome! Now that wasn't too hard, was it?", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("No, no it wasn't as long as I expected it to be.", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("That's good. Do some favours for people once in a while. It won't be annoying or long.", chatNS::RIGHT));
+			gem->informListeners(new GameEvent_ItemUsed(grpg->getItemLoader()->getItem(39)));
+			cd->addOption(0, "I'll keep that in mind.");
+			ui->addTalkText(cd);
+			break;
 		}
 		cd->addOption(79, "Can you ferry me to ideal island?");
-		cd->addOption(0, "I'll get right on your favour.");
+		cd->addOption(0, "I'll get right on doing your favour.");
+		ui->addTalkText(cd);
+		break;
+	case 91: //Can you fix this broken net?    ============== Fisherman
+		ui->addTalkText(new ChatInformation("Oh yes, I would love to.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("But...", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("My, you sure can read minds. But yes, I'm afraid I'm feeling slightly sick. I'm in no mood to be mending nets right now.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("You sigh.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("Perhaps you could do me a favour?", chatNS::RIGHT));
+		cd->addOption(92, "I knew it. It would just lead to another favour.");
+		cd->addOption(0, "I don't want to do this quest. Forget I asked.");
+		ui->addTalkText(cd);
+		break;
+	case 92: //I knew it. It would just lead to another favour.
+		gem->informListeners(new GameEvent_EntityAction(ii));
+		ui->addTalkText(new ChatInformation("All I need you to do is to head to the doctor and ask him if he could help me.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Great. Asking a favour from someone else again.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Come on! It'll be a very fast one, the doctor's not far from here. Won't take you long at all.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("That's what the captain said. And now? You're asking for a favour. This is absolutely NOT going to be a fast quest.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("...But I agreed to help, so I'll see this annoying quest through.", chatNS::LEFT));
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+		// ======================== doctor
+	case 93: //Can you heal me?
+		ui->addTalkText(new ChatInformation("The doctor heals you.", chatNS::MIDDLE));
+		thePlayer->setHealth(thePlayer->getSkills()->at(skillNS::ID_SKILL_TOUGHNESS).getSkillLevel());
+		ui->addTalkText(new ChatInformation("For reference, next time you can just right click from me and choose to request healing.", chatNS::RIGHT));
+		cd->addOption(0, "I'll keep that in mind.");
+		ui->addTalkText(cd);
+		break;
+	case 94: //How do you heal me like that?
+		ui->addTalkText(new ChatInformation("If I told you, I'd have to kill you.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Whaaaa...?", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Let's just say it's a secret.", chatNS::RIGHT));
+		cd->addOption(95, "Can you make me a portable healing object?");
+		cd->addOption(0, "I'll keep that in mind.");
+		ui->addTalkText(cd);
+		break;
+	case 95: //Can you somehow make an object that will heal me fully if I use it?
+		ui->addTalkText(new ChatInformation("I'll pay good money for it", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("No.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("And now you're going to ask why, and the answer is, that's a secret as well. If you want healing, come to me, and I'll heal you for free.", chatNS::RIGHT));
+		cd->addOption(96, "Could you follow me everywhere I go to heal me all the time?");
+		cd->addOption(0, "Very well.");
+		ui->addTalkText(cd);
+		break;
+	case 96: //Can you follow me everywhere I go to heal me all the time?
+		ui->addTalkText(new ChatInformation("Your requests are getting more ridiculous!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Adventurer, you are not the only person in this world. Get that into your big, fat head.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I have other people to care for.", chatNS::RIGHT));
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 97: //The fisherman says he needs some help.
+		{
+			gem->informListeners(new GameEvent_EntityAction(ii));
+			ui->addTalkText(new ChatInformation("He does? Very well, I'll go take a look at him them.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("The Doctor leaves for the fisherman.", chatNS::MIDDLE));
+			VECTOR2 newDestination = grpg->getMapLoader()->translateIdToCoords('-');
+			newDestination.x += tileNS::WIDTH;
+			entity->setDestination(new Point(newDestination));
+			cd->addOption(0, "Exit chat");
+			ui->addTalkText(cd);
+			break;
+		}
+	case 98: //How are you feeling now> =============== Fisherman
+		{
+			gem->informListeners(new GameEvent_EntityAction(ii));
+			ui->addTalkText(new ChatInformation("Much better. Thank you.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("So... no more favours?", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("Yes, that's right. I can fix the net now.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("The fisherman quickly takes your net and repairs it.", chatNS::MIDDLE));
+			ui->addTalkText(new ChatInformation("There you go, good as new.", chatNS::RIGHT));
+			//Move doctor back to position
+			VECTOR2 doctorStart = grpg->getMapLoader()->translateIdToCoords('+');
+			stringstream ss;
+			ss << doctorStart.x << "," << doctorStart.y;
+			Entity* doctor = grpg->getSpawnLink(ss.str());
+			doctor->setDestination(new Point(doctorStart));
+			cd->addOption(0, "Wow, thanks");
+			ui->addTalkText(cd);
+			break;
+		}
+	case 99: //Back to Captain Point of No Return - see case 90 - No, I've proven my point.
+		gem->informListeners(new GameEvent_EntityAction(ii));
+		ui->addTalkText(new ChatInformation("Everyone I ask is just going to ask me to do one additional favour for them. ", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("Oh, come on. Please? I get really bored without my net.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("I'm sure it'll just end at one additional favour... it won't be too long!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("No, it won't. Everyone will just ask for another favour.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("How about this. If you help me complete this quest now, I'll teach you some tips I learned about fishing over the time I spent here.", chatNS::RIGHT));
+		cd->addOption(0, "I'll think about it");
+		ui->addTalkText(cd);
+		break;
+	case 100: //Very well, I'll continue the quest
+		ui->addTalkText(new ChatInformation("Thank you.", chatNS::RIGHT));
+		cd->addOption(79, "Can you ferry me to ideal island?");
+		cd->addOption(0, "I'll get right on doing your favour.");
 		ui->addTalkText(cd);
 		break;
 	default:

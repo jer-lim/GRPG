@@ -94,12 +94,14 @@ public:
 		storedInformation["mysteriousArtifactAlfredReward"] = 0;
 
 		//Represents the information about the One Minor Task quest and how it is progressing
-		//0 = not started, 1 = quest giver offered, 2 = really started, 3 = fisherman talked
+		//0 = not started, 1 = started, 2 = fisherman illness revealed, 3 = doctor talked and walking to fisherman, 4 = fisherman illness resolved, 5 = Quest Complete!
 		storedInformation["minorTaskStatus"] = 0;
 		//Represents if the player has asked Captain Point of No Return why he can't bring the net himself.
 		storedInformation["minorTaskAskerBringNet"] = 0;
 		//Represents if the player has asked Captain Point of No Return why he needs the net.
 		storedInformation["minorTaskAskerNeedsNet"] = 0;
+		//Represents if the player complained to the captain about the quest after the fisherman asked for a favour as well
+		storedInformation["minorTaskComplained"] = 0;
 	}
 };
 

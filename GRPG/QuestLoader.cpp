@@ -250,15 +250,46 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	mapQuests[3] = mysteriousArtifactQuest;
 
 	Button* b5 = new Button();
-	b5->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 4 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "One Minor Task");
+	b5->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 4 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "One Small Favour");
 	Quest* oneMinorTask = new Quest(gem, questData, "One Small Favour", "This quest's name is really familiar. It's bound to be as annoying.", b5);
-	QuestCondition* talkToX = new QuestCondition();
-	GameEvent* xTalked = new GameEvent_EntityAction(personLoader->getNPC(24), "I can start this quest, which is probably going to be really annoying, by talking to Captain Point of No Return. He can be found at the east side of the northen edge of the southern river.", "Captain Point of No Return wants me to do a minor task for him. This probably isn't as simple as it seems; I know how these sort of quests turned out. ");
-	talkToX->addGameEventRequirement(xTalked, 1, nullptr);
+	QuestCondition* getQuest = new QuestCondition();
+	GameEvent* captainTalked = new GameEvent_EntityAction(personLoader->getNPC(24), "I can start this quest, which is probably going to be really annoying, by talking to Captain Point of No Return. He can be found at the east side of the northen edge of the southern river.", "Captain Point of No Return wants me to do a minor task for him. This probably isn't as simple as it seems; I know how these sort of quests turned out. ");
+	getQuest->addGameEventRequirement(captainTalked, 1, nullptr);
 	GameEvent* acceptQuest = new GameEvent_ItemReceived(itemLoader->getItem(39), "I'm not convinced I should waste so much of my time to help him.", "I really shouldn't have agreed to it, but he seemed so pitiful.");
 	acceptQuest->addChangeRequired("minorTaskStatus", 1);
-	talkToX->addGameEventRequirement(acceptQuest, 1, xTalked);
-	oneMinorTask->addQuestCondition(talkToX);
+	getQuest->addGameEventRequirement(acceptQuest, 1, captainTalked);
+	oneMinorTask->addQuestCondition(getQuest);
+
+	QuestCondition* talkToFisherman = new QuestCondition();
+	GameEvent* fishermanTalked = new GameEvent_EntityAction(personLoader->getNPC(43), "I should talk to the fisherman to get the his net fixed.", "I talked with the fisherman. As expected, he was not willing to just let this quest be short, but instead asked for another favour. This is going to be a long quest.");
+	talkToFisherman->addGameEventRequirement(fishermanTalked, 1, nullptr);
+	fishermanTalked->addChangeRequired("minorTaskStatus", 2);
+	oneMinorTask->addQuestCondition(talkToFisherman, getQuest);
+
+	QuestCondition* complainAboutQuest = new QuestCondition();
+	complainAboutQuest->setRequired(false);
+	GameEvent* captainComplained = new GameEvent_EntityAction(personLoader->getNPC(24), "", "I took a short detour and complained to Captain Point of No Return about this quest. He is now willing to teach me about fishing if I can continue helping the fisherman as well.");
+	complainAboutQuest->addGameEventRequirement(captainComplained, 1, nullptr);
+	captainComplained->addChangeRequired("minorTaskComplained", 1);
+	oneMinorTask->addQuestCondition(complainAboutQuest, talkToFisherman);
+
+	QuestCondition* solveFishermanIllness = new QuestCondition();
+	GameEvent* doctorTalked = new GameEvent_EntityAction(personLoader->getNPC(0), "I should talk with the doctor to see about the fisherman's problems.", "The doctor didn't ask for another favour, but went to see the fisherman immediately.");
+	solveFishermanIllness->addGameEventRequirement(doctorTalked, 1, nullptr);
+	doctorTalked->addChangeRequired("minorTaskStatus", 3);
+	GameEvent* fishermanTalked2 = new GameEvent_EntityAction(personLoader->getNPC(43), "I expect to be asked to do another favour once he figures out he cannot solve the fisherman's problems and needs something.", "This defies all logic. I expected him to ask for another favour, but he didn't! He solved the fisherman's illness and the fisherman was able to fix the net for me!");
+	solveFishermanIllness->addGameEventRequirement(fishermanTalked2, 1, doctorTalked);
+	fishermanTalked2->addChangeRequired("minorTaskStatus", 4);
+	oneMinorTask->addQuestCondition(solveFishermanIllness, talkToFisherman);
+
+	QuestCondition* finishQuest = new QuestCondition();
+	GameEvent* captainTalked2 = new GameEvent_ItemUsed(itemLoader->getItem(39), "I can now return the net to the captain.", "I returned to the net to the captain, and completed the quest. This quest turned out to be significantly less annoying than I originally anticipated.");
+	finishQuest->addGameEventRequirement(captainTalked2, 1, nullptr);
+	captainTalked2->addChangeRequired("minorTaskStatus", 5);
+	oneMinorTask->addQuestCondition(finishQuest, solveFishermanIllness);
+
+	oneMinorTask->addSkillReward("minorTaskComplained", 1, skillNS::ID_SKILL_FISHING, 1000);
+	oneMinorTask->addMiscReward("The captain will tell you more on how Aildiuln fights.");
 
 	mapQuests[4] = oneMinorTask;
 	
