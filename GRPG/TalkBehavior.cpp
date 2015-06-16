@@ -1418,17 +1418,32 @@ void TalkBehavior::optionSelected(ChatOption co)
 		entity->teleportBehavior->action();
 		break;
 	case 80: //Tell me about the great and powerful dragon.
-		ui->addTalkText(new ChatInformation("No.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("No?", chatNS::LEFT));
-		ui->addTalkText(new ChatInformation("Yes, I'm not going to tell you anything. I think the challenge of fighting the dragon will be better and more fun if you fought him first without learning all of his mechanics beforehand.", chatNS::RIGHT));
-		if (questData->getValue("minorTaskStatus") > 0)
+		if (questData->getValue("minorTaskStatus") == 5) //Complete!
 		{
-			ui->addTalkText(new ChatInformation("But, as agreed, I'll tell you anything I know about the dragon once you've helped me with that favour.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("Sure. I have never fought the dragon, but I've heard stories from people fighting it.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("I'd just like to warn you that these stories may not be entirely accurate; but may insteadc contain some false or exaggerated information. They are stories, after all.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("The tales say that Aildiuln has 3 phrases in his fights, as well as the ability to breathe magical dragonfire.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("As Aildiuln's health depletes, he will change to a different phrase.", chatNS::RIGHT));
+			cd->addOption(101, "Tell me more about the first phrase.");
+			cd->addOption(102, "Tell me more about the second phrase.");
+			cd->addOption(103, "Tell me more about the third phrase.");
+			cd->addOption(104, "Tell me more about his dragonfire.");
+			cd->addOption(79, "I'm ready then. Bring me to the island!");
 		}
-		cd->addOption(79, "I'm ready then. Bring me to the island!");
-		if (questData->getValue("minorTaskStatus") == 0)
+		else
 		{
-			cd->addOption(81, "You were saying something about a favour?");
+			ui->addTalkText(new ChatInformation("No.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("No?", chatNS::LEFT));
+			ui->addTalkText(new ChatInformation("Yes, I'm not going to tell you anything. I think the challenge of fighting the dragon will be better and more fun if you fought him first without learning all of his mechanics beforehand.", chatNS::RIGHT));
+			cd->addOption(79, "I'm ready then. Bring me to the island!");
+			if (questData->getValue("minorTaskStatus") == 0) //Not staarted
+			{
+				cd->addOption(81, "You were saying something about a favour?");
+			}
+			else
+			{
+				ui->addTalkText(new ChatInformation("But, as agreed, I'll tell you anything I know about the dragon once you've helped me with that favour.", chatNS::RIGHT));
+			}
 		}
 		cd->addOption(0, "Hold on for now, I'll be back later once I'm ready.");
 		ui->addTalkText(cd);
@@ -1662,6 +1677,48 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(new ChatInformation("Thank you.", chatNS::RIGHT));
 		cd->addOption(79, "Can you ferry me to ideal island?");
 		cd->addOption(0, "I'll get right on doing your favour.");
+		ui->addTalkText(cd);
+		break;
+	case 101: //Tell me more about the first phrase
+		ui->addTalkText(new ChatInformation("The first phrase will be how you will fight Aildiuln once you engage him", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("In this phrase, he will have no special mechanics except for simply breathing fire.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Many say that this phrase is the shortest, and will change quickly, so don't expect it to stay that easy.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("A lot of people say it is best if you do as much damage to him as possible during the short amount of time it lasts.", chatNS::RIGHT));
+		cd->addOption(105, "Thank you for that information");
+		ui->addTalkText(cd);
+		break;
+	case 102: //Tell me more about the second phrase
+		ui->addTalkText(new ChatInformation("Ah, the second phrase. Everyone claims that once this starts, Aildiuln will take to the skies, using his wings to fly up!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("He will then continue to breathe dragonfire down at you!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Some people have say that he has managed to trap them into a corner, and breathe dragonfire right at you, causing you to be unable to dodge them", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Few say they managed to see some eggs when he flew! Imagine! A nest of dragon eggs!", chatNS::RIGHT));
+		cd->addOption(105, "Thank you for that information");
+		ui->addTalkText(cd);
+		break;
+	case 103: //Tell me more about the third phrase
+		ui->addTalkText(new ChatInformation("Ah, not many have reached to this phrase.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Those that have disagree on how to reach this phrase. Some say you need to insult Aildiuln enough so he comes down to hit you. Others say you need to hide until he cannot see you from above.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Many, however, agree that when this phrase is reached, a group of hidden dragons appear to come out and fight you, on Aildiuln's side!", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Unfortunately, that's all I've heard about it.", chatNS::RIGHT));
+		cd->addOption(105, "Thank you for that information");
+		ui->addTalkText(cd);
+		break;
+	case 104: //Tell me more about the magical dragonfire
+		ui->addTalkText(new ChatInformation("Aildiuln is a dragon with the ability to breathe magical dragonfire.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Everyone who has been hit by it agree that their armour was completely useless to protecting them", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("Some, however, claim that they managed to forge a special shield that managed to protect themselves from the dragonfire.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("One person even said that he managed to create a potion that would help his body defend against it! I doubt that's true though, seems very unlikely.", chatNS::RIGHT));
+		cd->addOption(105, "Thank you for that information");
+		ui->addTalkText(cd);
+		break;
+	case 105: //Thank you for that information
+		ui->addTalkText(new ChatInformation("You're welcome. Is there anything else you would like to know?", chatNS::RIGHT));
+		cd->addOption(101, "Tell me more about the first phrase.");
+		cd->addOption(102, "Tell me more about the second phrase.");
+		cd->addOption(103, "Tell me more about the third phrase.");
+		cd->addOption(104, "Tell me more about his dragonfire.");
+		cd->addOption(79, "Nope, I'm ready now. Bring me to the island!");
+		cd->addOption(0, "No, thanks for everything!");
 		ui->addTalkText(cd);
 		break;
 	default:
