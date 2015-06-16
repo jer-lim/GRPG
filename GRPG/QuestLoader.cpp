@@ -62,7 +62,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	b->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY, QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Easter Event 2015");
 	Quest* easterQuest = new Quest(gem, questData, "Easter Event 2015", "Help the easter bunny!", b);
 	QuestCondition* talkToEasterBunny = new QuestCondition();
-	GameEvent* easterBunnyTalked = new GameEvent_EntityAction(personLoader->getNPC(28), "I can start this quest by talking to the easter bunny near the store, or by typing 'easter' into the console.", "The easter bunny needs help getting his bird to lay eggs after his workers rioted. I need to retrieve 3 items to help them.");
+	GameEvent* easterBunnyTalked = new GameEvent_EntityAction(personLoader->getNPC(28), "I can start this quest by talking to the easter bunny near the store.", "The easter bunny needs help getting his bird to lay eggs after his workers rioted. I need to retrieve 3 items to help them.");
 	//Once quest has started, allow feather plucking
 	easterBunnyTalked->addChangeRequired("easterBirdNestStatus", 1);
 	easterBunnyTalked->addChangeRequired("easterEggStatus", 1);
@@ -128,29 +128,9 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 
 	mapQuests[0] = easterQuest;
 
-	//Create quest "Breath of Fresh Air"
 	Button* b2 = new Button();
-	b2->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + QuestNS::HEIGHT + QuestNS::MARGIN, QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Breath of Fresh Air");
-	Quest* smokeQuest = new Quest(gem, questData, "Breath of Fresh Air", "Help Nole figure out what his problem is and solve it", b2);
-	QuestCondition* talkToNoleMom = new QuestCondition();
-	GameEvent* noleMomTalked = new GameEvent_EntityAction(nullptr, "To start this quest, I can talk to Nole's mom in the house just east of the doctor.", "I have talked with Nole's mom. She's worried about her son, Nole, and wonders if anything is troubling him.");
-	noleMomTalked->addChangeRequired("smokeStatus", 1);
-	talkToNoleMom->addGameEventRequirement(noleMomTalked,1,nullptr);
-	smokeQuest->addQuestCondition(talkToNoleMom);
-
-	QuestCondition* talkToNole = new QuestCondition();
-	GameEvent* noleTalked = new GameEvent_EntityAction(nullptr, "Maybe I should go and talk with him.", "I talked with Nole. After some time, he had to go for a smoke, but revealed that he was unhappy about constantly getting 4th. Maybe I can do something about it.");
-	noleTalked->addChangeRequired("elliotStatus", 1);
-	noleTalked->addChangeRequired("geraldStatus", 1);
-	noleTalked->addChangeRequired("mattStatus", 1);
-	talkToNole->addGameEventRequirement(noleTalked, 1, nullptr);
-	smokeQuest->addQuestCondition(talkToNole, talkToNoleMom);
-
-	mapQuests[1] = smokeQuest;
-
-	Button* b3 = new Button();
-	b3->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 2*(QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Stolen Artifact");
-	Quest* artifactStealQuest = new Quest(gem, questData, "Stolen Artifact", "An artifact has been stolen by a rich, pompous man. Help to steal it back!", b3);
+	b2->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Stolen Artifact");
+	Quest* artifactStealQuest = new Quest(gem, questData, "Stolen Artifact", "An artifact has been stolen by a rich, pompous man. Help to steal it back!", b2);
 	QuestCondition* talkToPoorMan = new QuestCondition();
 	GameEvent* poorManTalked = new GameEvent_EntityAction(personLoader->getNPC(32), "To start this quest, I can talk to the shriveled looking man in the house just south of the chicken pen.", "The man I talked to claims that an artifact belonging to him has been stolen by a rich, pompous man! I should try to get it back! The rick person's house is located aways east of the doctor.");
 	poorManTalked->addChangeRequired("artifactStealStatus", 1);
@@ -195,11 +175,11 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	artifactStealQuest->addSkillReward("artifactStealMethod", 4, skillNS::ID_SKILL_TOUGHNESS, 300);
 	artifactStealQuest->addSkillReward("artifactStealMethod", 4, skillNS::ID_SKILL_DEFENSE, 300);
 
-	mapQuests[2] = artifactStealQuest;
+	mapQuests[1] = artifactStealQuest;
 
-	Button* b4 = new Button();
-	b4->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 3 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Mysterious Artifact");
-	Quest* mysteriousArtifactQuest = new Quest(gem, questData, "Mysterious artifact", "The artifact has a more back rich history than it originally seems...", b4);
+	Button* b3 = new Button();
+	b3->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 2 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Mysterious Artifact");
+	Quest* mysteriousArtifactQuest = new Quest(gem, questData, "Mysterious artifact", "The artifact has a more back rich history than it originally seems...", b3);
 	QuestCondition* talkToGardener = new QuestCondition();
 	GameEvent* gardenerTalked = new GameEvent_EntityAction(personLoader->getNPC(37), "To start this quest, I can talk to the gardener, Alfred, right outside the house located east of the doctor. I need to have completed the Stolen Artifact Quest to start this quest.", "The artifact I stole may not have actually belonged to the poor man. Alfred needs some help and asked me to run a few errands for him.");
 	gardenerTalked->addChangeRequired("mysteriousArtifactStatus", 1);
@@ -247,11 +227,11 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	mysteriousArtifactQuest->addItemReward(new InventoryEquipment(itemLoader->getItem(14), 1, (Smithing_Material*)itemLoader->getItem(7)));
 	mysteriousArtifactQuest->addMiscReward("Rifts will now appear throughout GRPG above the wilderness line.");
 
-	mapQuests[3] = mysteriousArtifactQuest;
+	mapQuests[2] = mysteriousArtifactQuest;
 
-	Button* b5 = new Button();
-	b5->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 4 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "One Small Favour");
-	Quest* oneMinorTask = new Quest(gem, questData, "One Small Favour", "This quest's name is really familiar. It's bound to be as annoying.", b5);
+	Button* b4 = new Button();
+	b4->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 3 * (QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "One Small Favour");
+	Quest* oneMinorTask = new Quest(gem, questData, "One Small Favour", "This quest's name is really familiar. It's bound to be as annoying.", b4);
 	QuestCondition* getQuest = new QuestCondition();
 	GameEvent* captainTalked = new GameEvent_EntityAction(personLoader->getNPC(24), "I can start this quest, which is probably going to be really annoying, by talking to Captain Point of No Return. He can be found at the east side of the northen edge of the southern river.", "Captain Point of No Return wants me to do a minor task for him. This probably isn't as simple as it seems; I know how these sort of quests turned out. ");
 	getQuest->addGameEventRequirement(captainTalked, 1, nullptr);
@@ -291,6 +271,27 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	oneMinorTask->addSkillReward("minorTaskComplained", 1, skillNS::ID_SKILL_FISHING, 1000);
 	oneMinorTask->addMiscReward("The captain will tell you more on how Aildiuln fights.");
 
-	mapQuests[4] = oneMinorTask;
+	mapQuests[3] = oneMinorTask;
 	
+	//Create quest "Breath of Fresh Air"
+	//KIV atm
+	/*
+	Button* b5 = new Button();
+	b5->initialize(g, QuestNS::SIDE_DISPLACEMENT + uiX, QuestNS::INITIAL_DISPLACEMENT + uiY + 4*(QuestNS::HEIGHT + QuestNS::MARGIN), QuestNS::WIDTH, QuestNS::HEIGHT, QuestNS::BACK_COLOR, "Breath of Fresh Air");
+	Quest* smokeQuest = new Quest(gem, questData, "Breath of Fresh Air", "Help Nole figure out what his problem is and solve it", b5);
+	QuestCondition* talkToNoleMom = new QuestCondition();
+	GameEvent* noleMomTalked = new GameEvent_EntityAction(nullptr, "To start this quest, I can talk to Nole's mom in the house just east of the doctor.", "I have talked with Nole's mom. She's worried about her son, Nole, and wonders if anything is troubling him.");
+	noleMomTalked->addChangeRequired("smokeStatus", 1);
+	talkToNoleMom->addGameEventRequirement(noleMomTalked,1,nullptr);
+	smokeQuest->addQuestCondition(talkToNoleMom);
+
+	QuestCondition* talkToNole = new QuestCondition();
+	GameEvent* noleTalked = new GameEvent_EntityAction(nullptr, "Maybe I should go and talk with him.", "I talked with Nole. After some time, he had to go for a smoke, but revealed that he was unhappy about constantly getting 4th. Maybe I can do something about it.");
+	noleTalked->addChangeRequired("elliotStatus", 1);
+	noleTalked->addChangeRequired("geraldStatus", 1);
+	noleTalked->addChangeRequired("mattStatus", 1);
+	talkToNole->addGameEventRequirement(noleTalked, 1, nullptr);
+	smokeQuest->addQuestCondition(talkToNole, talkToNoleMom);
+
+	mapQuests[1] = smokeQuest;*/
 }
