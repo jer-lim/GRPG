@@ -1258,10 +1258,8 @@ bool Entity::outsideRect(RECT rect)
 
 int Entity::calculateDamage(int atk, int str, int def)
 {
-	float attackerR = getRandomNumber();
-	float defenderR = getRandomNumber();
-	float chanceToHit = (ceil((0.5*attackerR + 0.5)*atk) - (0.5*defenderR + 0.5)*def)* 0.8;
-	if (getRandomNumber() < chanceToHit)
+	int attackerR = getRandomNumber() * 11 - 5; //-5 to 5, inclusive of -5 and 5
+	if (attackerR + atk >= def)
 	{
 		damageTaken = ceil((0.5*getRandomNumber() + 0.5)*str);
 		if (person != nullptr )
