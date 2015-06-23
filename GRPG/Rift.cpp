@@ -217,7 +217,7 @@ void Rift::begin(bool requireWalking)
 		float randDistance = (rand() * 1.0 / RAND_MAX) * (riftNS::maximumDistanceFromRift - riftNS::minimumSpawnFromRift) + riftNS::minimumSpawnFromRift;
 		VECTOR2 location = getFinalLocation(getX(), getY(), randAngle, randDistance);
 
-		Entity* newEnemy = (NPC::spawn(theGame, getNewNPC(), location, thePlayer));
+		Entity* newEnemy = (NPC::spawn(theGame, getNewNPC(), location, thePlayer)); //Alternatively, don't pass in thePlayer for no automatic aggro.
 		newEnemy->setIsInDarkRealm(true);
 		newEnemy->setSpawnPoint(location);
 		if (requireWalking)
@@ -236,7 +236,6 @@ void Rift::begin(bool requireWalking)
 		theGame->addSpawnLink(ss.str(), newEnemy);
 		ss.str("");
 		enemiesSpawned.push_back(newEnemy);
-
 	}
 	remainingDifficulty = 0;
 }

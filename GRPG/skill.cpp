@@ -18,9 +18,9 @@ Skill* Skill::THIEVING = nullptr;
 Skill* Skill::RIFT_SEALING = nullptr;
 
 void Skill::setupAllSkills(){
-	ATTACK = new Skill("Attack", "Influences hit chance", 10);
-	STRENGTH = new Skill("Strength", "Influences Strength", 10);
-	DEFENSE = new Skill("Defense", "Influences Defense", 10);
+	ATTACK = new Skill("Accuracy", "Influences hit chance", 10);
+	STRENGTH = new Skill("Power", "Influences Strength", 10);
+	DEFENSE = new Skill("Evasion", "Influences Defense", 10);
 	TOUGHNESS = new Skill("Toughness", "Influences Toughness", 10);
 	FISHING = new Skill("Fishing", "Influences Fishing", 10);
 	COOKING = new Skill("Cooking", "Influences Cooking", 30);

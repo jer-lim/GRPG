@@ -522,7 +522,7 @@ void UI::drawTabContents(int tabNumber)
 			topLeftY += heightAllowed;
 			
 			counter++;
-			if (counter == 7)
+			if (counter == 4) //End of combat skills
 			{
 				topLeftY = getTopLeftY();// getY() - uiNS::HEIGHT / 2;
 				topLeftX = getX();
