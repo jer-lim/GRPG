@@ -198,7 +198,7 @@ void Rift::setupBehaviors()
 
 void Rift::begin(bool requireWalking)
 {
-	//Mob spawnig time!
+	//Mob spawning time!
 	if (requireWalking)
 	{
 		waveStatus = riftNS::STARTING;
@@ -217,7 +217,7 @@ void Rift::begin(bool requireWalking)
 		float randDistance = (rand() * 1.0 / RAND_MAX) * (riftNS::maximumDistanceFromRift - riftNS::minimumSpawnFromRift) + riftNS::minimumSpawnFromRift;
 		VECTOR2 location = getFinalLocation(getX(), getY(), randAngle, randDistance);
 
-		Entity* newEnemy = (NPC::spawn(theGame, getNewNPC(), location));
+		Entity* newEnemy = (NPC::spawn(theGame, getNewNPC(), location, thePlayer));
 		newEnemy->setIsInDarkRealm(true);
 		newEnemy->setSpawnPoint(location);
 		if (requireWalking)
