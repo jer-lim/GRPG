@@ -203,7 +203,7 @@ void Grpg::update()
 {
 	if (!input->getMouseLButton() && leftMouseWasDown)
 	{
-
+		ui->setShowMainMenu(false);
 		bool actionSuccess = false;
 		bool inUI = false;
 		if (ui->mouseInside(viewport))

@@ -53,6 +53,8 @@ namespace entityNS
 	const UINT healthBarWidth = 64;
 	const UINT healthBarHeight = 8;
 	const float healthDisplay = 2;
+	//Player's health bar display should last longer (additional time)
+	const float increasedHealthDisplayForPlayer = 3;
 
 	// Blood splat
 	extern Image miss;

@@ -262,14 +262,23 @@ void Player::damage(int dt)
 	damageTaken = dt;
 	splatTime = entityNS::splatTime;
 	health -= damageTaken;
+	resetAvailableHealth(oldViewport);
+	displayTime = entityNS::healthDisplay + entityNS::increasedHealthDisplayForPlayer;
+	availableHealth->setVisible(true);
+	backHealth->setVisible(true);
 
 	if (health <= 0)
 	{
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, true));
 		game->getUI()->addChatText("You died!");
 		setX(game->getStartLocation().x);
 		setY(game->getStartLocation().y);
 		health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
 		//TODO: Strip all items from player
+	}
+	else
+	{
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, false));
 	}
 }
 

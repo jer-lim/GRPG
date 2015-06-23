@@ -248,12 +248,11 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 	if (whichCharacter != Person::thePlayer)
 	{
 		health = ((NPC*)whichCharacter)->getmaxhealth();
-		//Health bars above the player
-		backHealth = new Button();
-		availableHealth = new Button();
-		backHealth->setVisible(false);
-		availableHealth->setVisible(false);
 	}
+	backHealth = new Button();
+	availableHealth = new Button();
+	backHealth->setVisible(false);
+	availableHealth->setVisible(false);
 	
 	edge.top = whichCharacter->getColliHeight() / 2;
 	edge.bottom = whichCharacter->getColliHeight() / 2;
@@ -1315,7 +1314,7 @@ void Entity::damage(int dt)
 	if (health <= 0)
 	{
 		//drop loot
-		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, true, "", ""));
+		((Grpg*)theGame)->getGameEventManager()->informListeners(new GameEvent_Damage(nullptr, person, damageTaken, true));
 		vector<InventoryItem*> vector_ii = ((Enemy*)person)->getDropsListCopy();
 		for (int i = 0, l = vector_ii.size(); i < l; ++i)
 		{
@@ -1458,7 +1457,15 @@ bool Entity::isEnemy()
 void Entity::resetAvailableHealth(VECTOR2 topLeftViewport)
 {
 	availableHealth->deleteVertexBuffer();
-	float healthWidth = (health / ((NPC*)person)->getmaxhealth()) * entityNS::healthBarWidth;
+	float healthWidth;
+	if (person != NPC::thePlayer)
+	{
+		healthWidth = (health / ((NPC*)person)->getmaxhealth()) * entityNS::healthBarWidth;
+	}
+	else
+	{
+		healthWidth = (health / ((Player*)this)->getSkills()->at(skillNS::ID_SKILL_TOUGHNESS).getSkillLevel()) * entityNS::healthBarWidth;
+	}
 
 	if (!availableHealth->initialize(graphics,
 		getX() - topLeftViewport.x - entityNS::healthBarWidth / 2,

@@ -21,6 +21,8 @@ class Quest;
 
 namespace uiNS
 {
+	const char mainMenuLocation[] = "assets/ui/main_menu.png";
+
 	const int WIDTH = 190;                   // image width
 	const int HEIGHT = 264;                  // image height
 	const int X = GAME_WIDTH - WIDTH / 2;   // location on screen
@@ -143,6 +145,11 @@ private:
 
 	//Dark realm vision
 	Button darkRealmVision;
+
+	//Main menu
+	Image mainMenuImage;
+	TextureManager* mainMenuTexture;
+	bool showMainMenu;
 protected:
 	//Draws the specified tab number onto the screen on the correct location
 	//Also see drawTabContents
@@ -283,5 +290,8 @@ public:
 	{
 		activeTab = i;
 	}
+
+	bool getShowMainMenu() { return showMainMenu; }
+	void setShowMainMenu(bool s) { showMainMenu = s; }
 };
 #endif

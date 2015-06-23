@@ -31,6 +31,7 @@ UI::UI() : Entity()
 	uiImgTexture = new TextureManager();
 	windowTexture = new TextureManager();
 	shopTexture = new TextureManager();
+	mainMenuTexture = new TextureManager();
 	activeTab = uiNS::SKILLS;
 	questToDisplay = nullptr;
 
@@ -52,6 +53,7 @@ UI::~UI()
 	SAFE_DELETE(windowTexture);
 	SAFE_DELETE(shopRect);
 	SAFE_DELETE(shopTexture);
+	SAFE_DELETE(mainMenuTexture);
 
 	delete coin;
 }
@@ -86,12 +88,19 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Tabs image could not be initalized"));
 	if (!windowTexture->initialize(graphics, WINDOW_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing window texture"));
+	if (!mainMenuTexture->initialize(graphics, uiNS::mainMenuLocation))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing main menu texture"));
 	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Window image could not be initalized"));
 	if (!shopTexture->initialize(graphics, SHOP_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing Shop Note Texture"));
 	if (!shopImage.initialize(graphics, 0, 0, 1, shopTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Shop Image could not be initalized"));	
+	if (!mainMenuImage.initialize(graphics, 0, 0, 1, mainMenuTexture, true))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Main menu Image could not be initalized"));
+	mainMenuImage.setX(GAME_WIDTH / 2);
+	mainMenuImage.setY(GAME_HEIGHT / 2);
+	showMainMenu = true;
 
 	//Initalize the shop rectangle that will be used to draw the text at the top of the shop interface
 	windowImage.setX(GAME_WIDTH / 2);
@@ -441,6 +450,11 @@ void UI::draw(Viewport* viewport)
 			}
 			delete textRect;
 		}
+	}
+
+	if (showMainMenu)
+	{
+		mainMenuImage.draw();
 	}
 
 	// Now draw the right click menu
