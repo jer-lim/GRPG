@@ -21,7 +21,7 @@ class Quest;
 
 namespace uiNS
 {
-	const char mainMenuLocation[] = "assets/ui/main_menu.png";
+	const char mainMenuLocation[] = "assets/ui/main_menu3.png";
 
 	const int WIDTH = 190;                   // image width
 	const int HEIGHT = 264;                  // image height
