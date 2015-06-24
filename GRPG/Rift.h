@@ -12,9 +12,9 @@ class UI;
 
 namespace riftNS
 {
-	const char location[] = "assets/misc/rift.png";
-	const int imageWidth = 32;
-	const int imageHeight = 32;
+	const char location[] = "assets/misc/rift2.png";
+	const int imageWidth = 64;
+	const int imageHeight = 64;
 	const int imageCols = 1;
 
 	//in seconds
