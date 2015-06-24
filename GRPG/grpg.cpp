@@ -537,6 +537,14 @@ bool Grpg::processCommand(std::string command)
 		NPC::spawn(this, enemyId, VECTOR2(player->getX() + 50, player->getY() - 50), player);
 		return true;
 	}
+	else if (command.substr(0, 2) == "sk")
+	{
+		int a = stoi(command.substr(3));
+		stringstream ss = stringstream();
+		ss << Skill::calculateXPRequired(a);
+		ui->addChatText(ss.str());
+		return true;
+	}
 	else if (command.substr(0, 2) == "se")
 	{
 		bool error = command.length() < 6;

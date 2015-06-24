@@ -31,6 +31,8 @@ private:
 	Player* thePlayer;
 	//The skill that this refers to
 	Skill* skill;
+	//The level
+	int level;
 public:
 	// default constructor
 	PlayerSkill();
@@ -51,7 +53,7 @@ public:
 	// Get the total number of XP the player has gained in this skill
 	long getXP() { return experience; }
 
-	//Makes use of Runescape's experience formula to calculate the level
+	//Returns the current skill level
 	int getSkillLevel();
 
 	// inherited member functions
@@ -59,5 +61,8 @@ public:
 	// IF XP is -1, adds the default amount of xp. -1 by default.
 	// Skip::Whether to display the level up message if a level up occurs. False by default.
 	void gainXP(long xp = -1, bool skip = false);
+
+	//Attempts to check if a new level up has occured, updates level variable.
+	void hasLevelledUp();
 };
 #endif

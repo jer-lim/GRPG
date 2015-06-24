@@ -73,15 +73,16 @@ public:
 		return exp_gain;
 	}
 
-	//Uses runescape's xp formula currently
+	//Currently every level requires 80 base XP, plus 20 more XP per level after 2.
+	//(So level 1->2 = 80 XP, 2->3 = 100XP, 3->4 = 120 XP, so on...
 	static int calculateXPRequired(float level)
 	{
 		float points = 0;
 		for (float lvl = 1; lvl < level; lvl++)
 		{
-			points += floor(lvl + 300 * pow(2, lvl / 7));
+			points += 60 + lvl * 20;
 		}
-		return floor(points / 4);
+		return points;
 	}
 
 	static void deleteAllSkills()

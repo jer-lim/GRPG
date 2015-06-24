@@ -117,9 +117,9 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	easterQuest->addQuestCondition(talkToEasterBunny3, sootheBird);
 
 	easterQuest->addQuestDataChange("easterComplete", true);
-	easterQuest->addSkillReward(skillNS::ID_SKILL_STRENGTH, 1000);
-	easterQuest->addSkillReward(skillNS::ID_SKILL_THIEVING, 1500);
-	easterQuest->addSkillReward("easterGoodFoodGiven", 1, skillNS::ID_SKILL_COOKING, 1000);
+	easterQuest->addSkillReward(skillNS::ID_SKILL_STRENGTH, 200);
+	easterQuest->addSkillReward(skillNS::ID_SKILL_THIEVING, 300);
+	easterQuest->addSkillReward("easterGoodFoodGiven", 1, skillNS::ID_SKILL_COOKING, 200);
 	easterQuest->addItemReward(new InventoryFood(itemLoader->getItem(32), 1, DELICIOUS));
 	//easterQuest->addItemReward(new InventoryBoost(itemLoader->getItem(33), 1));
 	//easterQuest->addItemReward(new InventoryItem(itemLoader->getItem(34), 1));
@@ -166,14 +166,14 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	artifactStealQuest->addQuestCondition(talkToPoorMan2, getArtifact);
 
 	artifactStealQuest->addItemReward(new InventoryItem(itemLoader->getItem(0), 500));
-	artifactStealQuest->addSkillReward("artifactStealMethod", 1, skillNS::ID_SKILL_FISHING, 600);
-	artifactStealQuest->addSkillReward("artifactStealMethod", 2, skillNS::ID_SKILL_THIEVING, 600);
-	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_ATTACK, 150);
-	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_STRENGTH, 150);
-	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_DEFENSE, 150);
-	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_TOUGHNESS, 150);
-	artifactStealQuest->addSkillReward("artifactStealMethod", 4, skillNS::ID_SKILL_TOUGHNESS, 300);
-	artifactStealQuest->addSkillReward("artifactStealMethod", 4, skillNS::ID_SKILL_DEFENSE, 300);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 1, skillNS::ID_SKILL_FISHING, 200);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 2, skillNS::ID_SKILL_THIEVING, 200);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_ATTACK, 50);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_STRENGTH, 50);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_DEFENSE, 50);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 3, skillNS::ID_SKILL_TOUGHNESS, 50);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 4, skillNS::ID_SKILL_TOUGHNESS, 100);
+	artifactStealQuest->addSkillReward("artifactStealMethod", 4, skillNS::ID_SKILL_DEFENSE, 100);
 
 	mapQuests[1] = artifactStealQuest;
 
@@ -268,7 +268,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	captainTalked2->addChangeRequired("minorTaskStatus", 5);
 	oneMinorTask->addQuestCondition(finishQuest, solveFishermanIllness);
 
-	oneMinorTask->addSkillReward("minorTaskComplained", 1, skillNS::ID_SKILL_FISHING, 1000);
+	oneMinorTask->addSkillReward("minorTaskComplained", 1, skillNS::ID_SKILL_FISHING, 200);
 	oneMinorTask->addMiscReward("The captain will tell you more on how Aildiuln fights.");
 
 	mapQuests[3] = oneMinorTask;

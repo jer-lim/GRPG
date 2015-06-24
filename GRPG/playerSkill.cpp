@@ -24,6 +24,7 @@ PlayerSkill::PlayerSkill(Player* p, Skill* s)
 	thePlayer = p;
 	skill = s;
 	experience = 0;
+	level = 1;
 }
 
 //Destructor
@@ -40,16 +41,20 @@ PlayerSkill::~PlayerSkill()
 //Makes use of Runescape's experience formula to calculate the level
 int PlayerSkill::getSkillLevel()
 {
-	float points = 0;
-	for (float lvl = 2; lvl <= 99; lvl++)
+	return level;
+}
+
+void PlayerSkill::hasLevelledUp()
+{
+	for (int i = level; i <= 99; i++)
 	{
-		points += floor(lvl + 300 * pow(2, lvl / 7.));
-		if (points / 4 > experience)
+		if (skill->calculateXPRequired(i) > experience)
 		{
-			return lvl - 1;
+			level = i - 1;
+			return;
 		}
 	}
-	return 99;
+	level = 99;
 }
 
 void PlayerSkill::gainXP(long XP, bool skip)
@@ -59,6 +64,8 @@ void PlayerSkill::gainXP(long XP, bool skip)
 		experience += XP;
 	else
 		experience += skill->getExpGain();
+
+	hasLevelledUp();
 
 	if (!skip)
 	{
