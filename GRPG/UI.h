@@ -30,12 +30,17 @@ namespace uiNS
 	const int textSize = 20;
 	const int skillsSize = 17;
 
-	const int COMBATSTYLE = 1;
+	const int OPTIONS = 1;
 	const int SKILLS = 2;
 	const int INVENTORY = 3;
 	const int EQUIPS = 4;
 	const int QUESTS = 5;
 	const int totalTabs = 5;
+	const char optionsImage[] = "assets/ui/options.png";
+	const char skillsImage[] = "assets/ui/skills.png";
+	const char inventoryImage[] = "assets/ui/inventory.png";
+	const char equipmentImage[] = "assets/ui/equipment.png";
+	const char questsImage[] = "assets/ui/quests.png";
 
 	const int tabWIDTH = 34;
 	const int tabHEIGHT = 40;
@@ -101,8 +106,11 @@ private:
 	Image tabImage;
 	TextureManager* tabTexture; // The texture of the tabs
 	TextureManager* uiImgTexture;
-	//The current active tab. From uiNS, either COMBATSTYLE, SKILLS or INVENTORY
+	//The current active tab. From uiNS, either OPTIONS, SKILLS, INVENTORY, EQUIPMENT or QUESTS
 	int activeTab;
+	//A vector of UI tabbing images
+	vector<Image*> tabImages;
+	vector<TextureManager*> tabTextures;
 
 	// CHAT VARIABLES
 

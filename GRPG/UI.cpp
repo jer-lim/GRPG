@@ -54,6 +54,14 @@ UI::~UI()
 	SAFE_DELETE(shopRect);
 	SAFE_DELETE(shopTexture);
 	SAFE_DELETE(mainMenuTexture);
+	for (int i = 0; i < tabTextures.size(); i++)
+	{
+		delete tabTextures[i];
+	}
+	for (int i = 0; i < tabImages.size(); i++)
+	{
+		delete tabImages[i];
+	}
 
 	delete coin;
 }
@@ -98,6 +106,52 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Shop Image could not be initalized"));	
 	if (!mainMenuImage.initialize(graphics, 0, 0, 1, mainMenuTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Main menu Image could not be initalized"));
+	
+	TextureManager* optionsTexture = new TextureManager();
+	if (!optionsTexture->initialize(graphics, uiNS::optionsImage))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing options texture"));
+	tabTextures.push_back(optionsTexture);
+	Image* optionsImage = new Image();
+	if (!optionsImage->initialize(graphics, 0, 0, 1, optionsTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Options Image could not be initalized"));
+	tabImages.push_back(optionsImage);
+
+	TextureManager* skillsTexture = new TextureManager();
+	if (!skillsTexture->initialize(graphics, uiNS::skillsImage))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing skills texture"));
+	tabTextures.push_back(skillsTexture);
+	Image* skillsImage = new Image();
+	if (!skillsImage->initialize(graphics, 0, 0, 1, skillsTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Skills Image could not be initalized"));
+	tabImages.push_back(skillsImage);
+
+	TextureManager* inventoryTexture = new TextureManager();
+	if (!inventoryTexture->initialize(graphics, uiNS::inventoryImage))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing inventory texture"));
+	tabTextures.push_back(inventoryTexture);
+	Image* inventoryImage = new Image();
+	if (!inventoryImage->initialize(graphics, 0, 0, 1, inventoryTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Inventory Image could not be initalized"));
+	tabImages.push_back(inventoryImage);
+
+	TextureManager* equipmentTexture = new TextureManager();
+	if (!equipmentTexture->initialize(graphics, uiNS::equipmentImage))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing equipment texture"));
+	tabTextures.push_back(equipmentTexture);
+	Image* equipmentImage = new Image();
+	if (!equipmentImage->initialize(graphics, 0, 0, 1, equipmentTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Equipment Image could not be initalized"));
+	tabImages.push_back(equipmentImage);
+
+	TextureManager* questTexture = new TextureManager();
+	if (!questTexture->initialize(graphics, uiNS::questsImage))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing quest texture"));
+	tabTextures.push_back(questTexture);
+	Image* questImage = new Image();
+	if (!questImage->initialize(graphics, 0, 0, 1, questTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Quests Image could not be initalized"));
+	tabImages.push_back(questImage);
+
 	mainMenuImage.setX(GAME_WIDTH / 2);
 	mainMenuImage.setY(GAME_HEIGHT / 2);
 	showMainMenu = true;
@@ -228,8 +282,8 @@ void UI::draw(Viewport* viewport)
 
 	uiText->print(prompt + playerText, textRect, DT_LEFT);      // display prompt and command
 	
-	if (uiNS::COMBATSTYLE != activeTab)
-		drawTab(uiNS::COMBATSTYLE);
+	if (uiNS::OPTIONS != activeTab)
+		drawTab(uiNS::OPTIONS);
 	if (uiNS::SKILLS != activeTab)
 		drawTab(uiNS::SKILLS);
 	if (uiNS::INVENTORY != activeTab)
@@ -477,6 +531,11 @@ void UI::drawTab(int tabNumber)
 	tabImage.setY(getY() - uiNS::HEIGHT / 2 - uiNS::tabHEIGHT / 4);
 
 	tabImage.draw();
+
+	Image* relevantImage = tabImages[tabNumber - 1];
+	relevantImage->setX(tabImage.getX());
+	relevantImage->setY(tabImage.getY());
+	relevantImage->draw();
 }
 
 //=============================================================================
@@ -489,9 +548,9 @@ void UI::drawTabContents(int tabNumber)
 	float topLeftX = getTopLeftX();//getX() - uiNS::WIDTH / 2;
 	float topLeftY = getTopLeftY();// getY() - uiNS::HEIGHT / 2;
 
-	if (tabNumber == uiNS::COMBATSTYLE)
+	if (tabNumber == uiNS::OPTIONS)
 	{
-		uiText->print("Combat styles", topLeftX + 5, topLeftY + 5);
+		uiText->print("Options", topLeftX + 5, topLeftY + 5);
 	}
 	else if (tabNumber == uiNS::SKILLS)
 	{
