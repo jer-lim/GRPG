@@ -32,8 +32,11 @@ UI::UI() : Entity()
 	windowTexture = new TextureManager();
 	shopTexture = new TextureManager();
 	mainMenuTexture = new TextureManager();
+	checkboxTexture = new TextureManager();
+	checkboxSelectedTexture = new TextureManager();
 	activeTab = uiNS::SKILLS;
 	questToDisplay = nullptr;
+	showHealth = false;
 
 	//Not visible till you right click
 	rightClickBackground.setVisible(false);
@@ -54,6 +57,8 @@ UI::~UI()
 	SAFE_DELETE(shopRect);
 	SAFE_DELETE(shopTexture);
 	SAFE_DELETE(mainMenuTexture);
+	SAFE_DELETE(checkboxTexture);
+	SAFE_DELETE(checkboxSelectedTexture);
 	for (int i = 0; i < tabTextures.size(); i++)
 	{
 		delete tabTextures[i];
@@ -98,6 +103,10 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing window texture"));
 	if (!mainMenuTexture->initialize(graphics, uiNS::mainMenuLocation))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing main menu texture"));
+	if (!checkboxTexture->initialize(graphics, uiNS::checkboxImage))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing checkbox texture"));
+	if (!checkboxSelectedTexture->initialize(graphics, uiNS::checkboxSelectedImage))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing checkbox selected texture"));
 	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Window image could not be initalized"));
 	if (!shopTexture->initialize(graphics, SHOP_IMAGE))
@@ -106,6 +115,10 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Shop Image could not be initalized"));	
 	if (!mainMenuImage.initialize(graphics, 0, 0, 1, mainMenuTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Main menu Image could not be initalized"));
+	if (!checkboxImage.initialize(graphics, uiNS::optionWidth, uiNS::optionHeight, 1, checkboxTexture, true))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Checkbox Image could not be initalized"));
+	if (!checkboxSelectedImage.initialize(graphics, uiNS::optionWidth, uiNS::optionHeight, 1, checkboxSelectedTexture, true))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Checkbox selected Image could not be initalized"));
 	
 	TextureManager* optionsTexture = new TextureManager();
 	if (!optionsTexture->initialize(graphics, uiNS::optionsImage))
@@ -307,8 +320,11 @@ void UI::draw(Viewport* viewport)
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Health could not be drawn");
 	}
 
-	health.draw();
-	availableHealth.draw();
+	if (showHealth)
+	{
+		health.draw();
+		availableHealth.draw();
+	}
 
 	Entity::draw(viewport);
 
@@ -551,6 +567,21 @@ void UI::drawTabContents(int tabNumber)
 	if (tabNumber == uiNS::OPTIONS)
 	{
 		uiText->print("Options", topLeftX + 5, topLeftY + 5);
+		//Draw show health bar options
+		topLeftY += 25;
+		Image* imageToShow;
+		if (showHealth)
+		{
+			imageToShow = &checkboxSelectedImage;
+		}
+		else
+		{
+			imageToShow = &checkboxImage;
+		}
+		imageToShow->setX(topLeftX + uiNS::optionWidth/2 + 5);
+		imageToShow->setY(topLeftY + uiNS::optionHeight / 2);
+		imageToShow-> draw();
+		uiText->print("Show bottom\nHealthbar", topLeftX + uiNS::optionWidth + 10, topLeftY);
 	}
 	else if (tabNumber == uiNS::SKILLS)
 	{
@@ -834,6 +865,15 @@ bool UI::performClick()
 				it->second->printHelpTextToUI(this);
 				return true;
 			}
+		}
+	}
+	else if (activeTab == uiNS::OPTIONS)
+	{
+		//Show health option
+		if (input->getMouseX() > getTopLeftX() && input->getMouseX() < getTopLeftX() + uiNS::WIDTH &&
+			input->getMouseY() > getTopLeftY() + 25 && input->getMouseY() < getTopLeftY() + 25 + uiNS::optionHeight)
+		{
+			showHealth = !showHealth;
 		}
 	}
 

@@ -41,6 +41,11 @@ namespace uiNS
 	const char inventoryImage[] = "assets/ui/inventory.png";
 	const char equipmentImage[] = "assets/ui/equipment.png";
 	const char questsImage[] = "assets/ui/quests.png";
+	const char checkboxImage[] = "assets/ui/checkbox.png";
+	const char checkboxSelectedImage[] = "assets/ui/checkbox_selected.png";
+
+	const int optionHeight = 25;
+	const int optionWidth = 25;
 
 	const int tabWIDTH = 34;
 	const int tabHEIGHT = 40;
@@ -111,6 +116,11 @@ private:
 	//A vector of UI tabbing images
 	vector<Image*> tabImages;
 	vector<TextureManager*> tabTextures;
+	//For options tab
+	Image checkboxImage;
+	TextureManager* checkboxTexture;
+	Image checkboxSelectedImage;
+	TextureManager* checkboxSelectedTexture;
 
 	// CHAT VARIABLES
 
@@ -123,6 +133,7 @@ private:
 	// HEALTH BAR
 	Button health;				//Vertex data for the entirety of the health bar
 	Button availableHealth;		// Vertex data for only the health that the player has
+	bool showHealth;
 
 	// Right click menu
 	vector<Behavior*> menus;
