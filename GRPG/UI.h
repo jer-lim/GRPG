@@ -54,6 +54,7 @@ namespace uiNS
 
 	const UINT chatHeight = 200;
 	const UINT chatWidth = 500;
+	const float initialMessageDisplayTime = 2;
 	const COLOR_ARGB chatColour = SETCOLOR_ARGB(50, 0, 0, 0);
 
 	const COLOR_ARGB darkRealmColour = SETCOLOR_ARGB(66, 0, 0, 0);
@@ -129,6 +130,16 @@ private:
 	std::deque<std::string> text;       // UI text
 	int rows;	//Total number of rows in the chat
 	int rowHeight;	//Amount of pixels each height take in the chat box
+
+	//Display last known message at bottom right of the screen
+	string message;
+	//Whether the message has been shown. If yes, then will overwrite message on next message request.
+	bool messageShown;
+	bool newChatVersion;
+	RECT* newTextRect;
+	Button newTextBackground;
+	float messageDisplayTime;
+	bool showChatHistory;
 
 	// HEALTH BAR
 	Button health;				//Vertex data for the entirety of the health bar

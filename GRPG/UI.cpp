@@ -25,6 +25,7 @@ UI::UI() : Entity()
 	image.setFrames(0, 0);
 	collisionType = entityNS::NONE;
 	image.setFrameDelay(1);
+	newTextRect = new RECT();
 	uiText = new TextDX();
 	skillsText = new TextDX();
 	tabTexture = new TextureManager();
@@ -37,6 +38,8 @@ UI::UI() : Entity()
 	activeTab = uiNS::SKILLS;
 	questToDisplay = nullptr;
 	showHealth = false;
+	newChatVersion = true;
+	showChatHistory = false;
 
 	//Not visible till you right click
 	rightClickBackground.setVisible(false);
@@ -59,6 +62,7 @@ UI::~UI()
 	SAFE_DELETE(mainMenuTexture);
 	SAFE_DELETE(checkboxTexture);
 	SAFE_DELETE(checkboxSelectedTexture);
+	SAFE_DELETE(newTextRect);
 	for (int i = 0; i < tabTextures.size(); i++)
 	{
 		delete tabTextures[i];
@@ -191,9 +195,19 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	{
 		throw new GameError(gameErrorNS::FATAL_ERROR, "Available Health could not be initalized");
 	}
-	if (!chatRect.initialize(graphics, 0, GAME_HEIGHT - uiNS::chatHeight, uiNS::chatWidth, uiNS::chatHeight, uiNS::chatColour, ""))
+	if (!newChatVersion)
 	{
-		throw new GameError(gameErrorNS::FATAL_ERROR, "Chat background could not be initalized");
+		if (!chatRect.initialize(graphics, 0, GAME_HEIGHT - uiNS::chatHeight, uiNS::chatWidth, uiNS::chatHeight, uiNS::chatColour, ""))
+		{
+			throw new GameError(gameErrorNS::FATAL_ERROR, "Chat background could not be initalized");
+		}
+	}
+	else
+	{
+		if (!chatRect.initialize(graphics, 0, 0, uiNS::chatWidth, GAME_HEIGHT, graphicsNS::BLACK, ""))
+		{
+			throw new GameError(gameErrorNS::FATAL_ERROR, "Chat background could not be initalized");
+		}
 	}
 
 	//Initalize the chat screen
@@ -215,7 +229,14 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		rowHeight = 20;                     // force a workable result
 
 	// Find the number of rows that will fit into the height of the chat
-	rows = (uiNS::chatHeight) / rowHeight;
+	if (newChatVersion)
+	{
+		rows = GAME_HEIGHT / rowHeight;
+	}
+	else
+	{
+		rows = (uiNS::chatHeight) / rowHeight;
+	}
 	rows -= 1;                              // room for input prompt at bottom
 	if (rows <= 0)                          // this should never be true
 		rows = 5;                           // force a workable result
@@ -243,7 +264,10 @@ void UI::draw(Viewport* viewport)
 	graphics->spriteEnd();
 	graphics->spriteBegin();
 
-	chatRect.draw();
+	if (!newChatVersion || showChatHistory)
+	{
+		chatRect.draw();
+	}
 
 	if (player->inDarkRealm())
 	{
@@ -251,49 +275,51 @@ void UI::draw(Viewport* viewport)
 	}
 
 	// Display the chat screen
-
-	// set text display rect for one row
-	// Defines the text rectangle left and right locations
-	textRect.left = (long)(uiNS::tabMargin);
-	textRect.right = (long)(textRect.left + uiNS::chatWidth - uiNS::tabMargin);
-
-	// Now set the drawing parts top and bottom.
-	//textRect.top = ; // Top doesn't actually need to be set because it will be later set in the for loop
-	// -rowHeight is room for input prompt
-	// Chat is fixated at the bottom
-	textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin - rowHeight);
-
-	// for all rows (max text.size()) from bottom to top
-	for (int r = 0; r<rows && r<(int)(text.size()); r++)
+	if (!newChatVersion || showChatHistory)
 	{
-		// set text display rect top for this row
-		// So the text is drawn from here (Bottom up!)
-		textRect.top = textRect.bottom - rowHeight;
-		// display one row of text
-		uiText->print(text[r], textRect, DT_LEFT);
-		// adjust text display rect bottom for next row, moving it up
-		textRect.bottom -= rowHeight;
-	}
+		// set text display rect for one row
+		// Defines the text rectangle left and right locations
+		textRect.left = (long)(uiNS::tabMargin);
+		textRect.right = (long)(textRect.left + uiNS::chatWidth - uiNS::tabMargin);
 
-	// display command prompt and current command string
-	// set text display rect for prompt
-	textRect.bottom = (long)(GAME_HEIGHT- uiNS::tabMargin);
-	textRect.top = textRect.bottom - rowHeight;
+		// Now set the drawing parts top and bottom.
+		//textRect.top = ; // Top doesn't actually need to be set because it will be later set in the for loop
+		// -rowHeight is room for input prompt
+		// Chat is fixated at the bottom
+		textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin - rowHeight);
 
-	std::string prompt = ">";                   // build prompt string
-	std::string playerText = input->getTextIn();
-
-	//If something was entered into the game
-	if (playerText.length() > 0)
-	{
-		if (playerText.at(playerText.length() - 1) == '\r')   // if 'Enter' key is pressed
+		// for all rows (max text.size()) from bottom to top
+		for (int r = 0; r<rows && r<(int)(text.size()); r++)
 		{
-			playerText.erase(playerText.length() - 1);		// erase '\r' from end of command string
-			processCommand(playerText);						//Execute the command
+			// set text display rect top for this row
+			// So the text is drawn from here (Bottom up!)
+			textRect.top = textRect.bottom - rowHeight;
+			// display one row of text
+			uiText->print(text[r], textRect, DT_LEFT);
+			// adjust text display rect bottom for next row, moving it up
+			textRect.bottom -= rowHeight;
 		}
-	}
 
-	uiText->print(prompt + playerText, textRect, DT_LEFT);      // display prompt and command
+		// display command prompt and current command string
+		// set text display rect for prompt
+		textRect.bottom = (long)(GAME_HEIGHT - uiNS::tabMargin);
+		textRect.top = textRect.bottom - rowHeight;
+
+		std::string prompt = ">";                   // build prompt string
+		std::string playerText = input->getTextIn();
+
+		//If something was entered into the game
+		if (playerText.length() > 0)
+		{
+			if (playerText.at(playerText.length() - 1) == '\r')   // if 'Enter' key is pressed
+			{
+				playerText.erase(playerText.length() - 1);		// erase '\r' from end of command string
+				processCommand(playerText);						//Execute the command
+			}
+		}
+
+		uiText->print(prompt + playerText, textRect, DT_LEFT);      // display prompt and command
+	}
 	
 	if (uiNS::OPTIONS != activeTab)
 		drawTab(uiNS::OPTIONS);
@@ -527,6 +553,12 @@ void UI::draw(Viewport* viewport)
 		mainMenuImage.draw();
 	}
 
+	if (newChatVersion && messageDisplayTime > 0)
+	{
+		newTextBackground.draw();
+		uiText->print(message, *newTextRect, DT_CENTER);
+	}
+
 	// Now draw the right click menu
 	if (rightClickBackground.getVisible())
 	{
@@ -582,6 +614,23 @@ void UI::drawTabContents(int tabNumber)
 		imageToShow->setY(topLeftY + uiNS::optionHeight / 2);
 		imageToShow-> draw();
 		uiText->print("Show bottom\nHealthbar", topLeftX + uiNS::optionWidth + 10, topLeftY);
+
+		if (newChatVersion)
+		{
+			topLeftY += 12 + uiNS::optionHeight;
+			if (showChatHistory)
+			{
+				imageToShow = &checkboxSelectedImage;
+			}
+			else
+			{
+				imageToShow = &checkboxImage;
+			}
+			imageToShow->setX(topLeftX + uiNS::optionWidth / 2 + 5);
+			imageToShow->setY(topLeftY + uiNS::optionHeight / 2);
+			imageToShow->draw();
+			uiText->print("Show Chat History", topLeftX + uiNS::optionWidth + 10, topLeftY);
+		}
 	}
 	else if (tabNumber == uiNS::SKILLS)
 	{
@@ -722,6 +771,11 @@ bool UI::processCommand(const std::string commandStr)
 //=============================================================================
 void UI::addChatText(const std::string &str)     // add text to console
 {
+	if (messageShown)
+	{
+		messageShown = false;
+		message = "";
+	}
 	stringstream ss;
 	string line = "";
 	char tempChar;
@@ -730,6 +784,10 @@ void UI::addChatText(const std::string &str)     // add text to console
 	while (tempChar != EOF){
 		if (tempChar == '\n'){
 			text.push_front(line);
+			if (newChatVersion)
+			{
+				message += line + "\n";
+			}
 			line = "";
 		}
 		else{
@@ -740,6 +798,10 @@ void UI::addChatText(const std::string &str)     // add text to console
 	text.push_front(line);
 	while (text.size() > rows)
 		text.pop_back();                        // delete oldest line
+	if (newChatVersion)
+	{
+		message += line + "\n";
+	}
 }
 
 //=============================================================================
@@ -749,6 +811,32 @@ void UI::addChatText(const std::string &str)     // add text to console
 //=============================================================================
 void UI::update(float frameTime, Game* gamePtr)
 {
+	if (messageDisplayTime > 0)
+	{
+		messageDisplayTime -= frameTime;
+	}
+
+	if (!messageShown)
+	{
+		messageShown = true;
+		newTextRect->left = 0;
+		newTextRect->top = 0;
+		uiText->print(message, *newTextRect, DT_CALCRECT);
+		int width = newTextRect->right;
+		int height = newTextRect->bottom;
+		newTextRect->bottom = GAME_HEIGHT - uiNS::healthHeight;
+		newTextRect->top = newTextRect->bottom - height;
+		newTextRect->left = GAME_WIDTH / 2 - width / 2;
+		newTextRect->right = newTextRect->left + width;
+		if (!newTextBackground.initialize(graphics, newTextRect->left, newTextRect->top, width, height, graphicsNS::BLACK, ""))
+			throw new GameError(gameErrorNS::FATAL_ERROR, "Error initalizing text message black background");
+		messageDisplayTime = uiNS::initialMessageDisplayTime;
+		//Increase time based on how long the message is
+		for (size_t i = 0; i < message.length(); i++)
+		if (message[i] == '\n')
+			messageDisplayTime += uiNS::initialMessageDisplayTime;
+	}
+
 	if (chatTimer != -1)
 	{
 		chatTimer -= frameTime;
@@ -869,11 +957,21 @@ bool UI::performClick()
 	}
 	else if (activeTab == uiNS::OPTIONS)
 	{
-		//Show health option
-		if (input->getMouseX() > getTopLeftX() && input->getMouseX() < getTopLeftX() + uiNS::WIDTH &&
-			input->getMouseY() > getTopLeftY() + 25 && input->getMouseY() < getTopLeftY() + 25 + uiNS::optionHeight)
+		if (input->getMouseX() > getTopLeftX() && input->getMouseX() < getTopLeftX() + uiNS::WIDTH)
 		{
-			showHealth = !showHealth;
+			//Show health option
+			if (input->getMouseY() > getTopLeftY() + 25 && input->getMouseY() < getTopLeftY() + 25 + uiNS::optionHeight)
+			{
+				showHealth = !showHealth;
+			}
+			//show chat history option
+			if (newChatVersion)
+			{
+				if (input->getMouseY() > getTopLeftY() + 25 + uiNS::optionHeight + 12 && input->getMouseY() < getTopLeftY() + 25 + uiNS::optionHeight + 12 + uiNS::optionHeight)
+				{
+					showChatHistory = !showChatHistory;
+				}
+			}
 		}
 	}
 
