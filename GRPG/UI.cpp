@@ -27,6 +27,7 @@ UI::UI() : Entity()
 	image.setFrameDelay(1);
 	newTextRect = new RECT();
 	uiText = new TextDX();
+	levelUpFont = new TextDX();
 	skillsText = new TextDX();
 	tabTexture = new TextureManager();
 	uiImgTexture = new TextureManager();
@@ -36,6 +37,8 @@ UI::UI() : Entity()
 	checkboxTexture = new TextureManager();
 	checkboxSelectedTexture = new TextureManager();
 	chatHistoryTexture = new TextureManager();
+	levelUpTexture = new TextureManager();
+	levelUpImage = new Image();
 	activeTab = uiNS::SKILLS;
 	questToDisplay = nullptr;
 	showHealth = false;
@@ -54,6 +57,7 @@ UI::~UI()
 	removeAllChatData();
 	onLostDevice();
 	SAFE_DELETE(uiText);
+	SAFE_DELETE(levelUpFont);
 	SAFE_DELETE(skillsText);
 	SAFE_DELETE(tabTexture);
 	SAFE_DELETE(uiImgTexture);
@@ -64,6 +68,8 @@ UI::~UI()
 	SAFE_DELETE(checkboxTexture);
 	SAFE_DELETE(checkboxSelectedTexture);
 	SAFE_DELETE(chatHistoryTexture);
+	SAFE_DELETE(levelUpTexture);
+	SAFE_DELETE(levelUpImage);
 	SAFE_DELETE(newTextRect);
 	for (int i = 0; i < tabTextures.size(); i++)
 	{
@@ -95,6 +101,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	// 15 pixel high Arial
 	if (uiText->initialize(graphics, uiNS::textSize, false, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing UI Font"));
+	if (levelUpFont->initialize(graphics, uiNS::textSize, true, true, "Arial") == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Level up Font"));
 	if (skillsText->initialize(graphics, uiNS::skillsSize, false, false, "Arial") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Skills font"));
 
@@ -115,6 +123,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing checkbox selected texture"));
 	if (!chatHistoryTexture->initialize(graphics, uiNS::chatHistoryImage))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing chat history texture"));
+	if (!levelUpTexture->initialize(graphics, skillLevelUpNS::arrowLocation))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing up arrow texture"));
 	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Window image could not be initalized"));
 	if (!shopTexture->initialize(graphics, SHOP_IMAGE))
@@ -129,6 +139,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Checkbox selected Image could not be initalized"));
 	if (!chatHistoryImage.initialize(graphics, 0, 0, 1, chatHistoryTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Chat History Image could not be initalized"));
+	if (!levelUpImage->initialize(graphics, skillLevelUpNS::imageWidth, skillLevelUpNS::imageHeight, 1, levelUpTexture, true))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Level up Image could not be initalized"));
 	
 	TextureManager* optionsTexture = new TextureManager();
 	if (!optionsTexture->initialize(graphics, uiNS::optionsImage))
@@ -190,6 +202,7 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 
 	//Also white cause background black
 	uiText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
+	levelUpFont->setFontColor(graphicsNS::BLACK);
 	skillsText->setFontColor(SETCOLOR_ARGB(255, 255, 255, 255));
 
 	//Initalize the health bar
@@ -261,6 +274,10 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 //=============================================================================
 void UI::draw(Viewport* viewport)
 {
+	if (lastLevelUpSkill != nullptr)
+	{
+		lastLevelUpSkill->draw(viewport);
+	}
 	//UI completely ignores viewport =)
 
 	//Always visible regardless of realm
@@ -872,6 +889,11 @@ void UI::update(float frameTime, Game* gamePtr)
 			}
 		}
 	}	
+
+	if (lastLevelUpSkill != nullptr)
+	{
+		lastLevelUpSkill->update(frameTime, gamePtr);
+	}
 }
 
 
@@ -1140,6 +1162,16 @@ void UI::displayQuestReward(Quest* quest)
 	drawWindow(quest->getname() + " complete!");
 }
 
+void UI::newSkillLevelUP(string skillName)
+{
+	SkillLevelUp* slu = new SkillLevelUp(levelUpImage, lastLevelUpSkill, skillName, levelUpFont, this);
+	if (lastLevelUpSkill != nullptr)
+	{
+		lastLevelUpSkill->setNextLevelUp(slu);
+	}
+	lastLevelUpSkill = slu;
+}
+
 //=============================================================================
 // called when graphics device is lost
 //=============================================================================
@@ -1152,6 +1184,7 @@ void UI::onLostDevice()
 	newTextBackground.onLostDevice();
 	rightClickBackground.onLostDevice();
 	darkRealmVision.onLostDevice();
+	levelUpFont->onLostDevice();
 }
 
 //=============================================================================
@@ -1166,4 +1199,5 @@ void UI::onResetDevice()
 	newTextBackground.onResetDevice();
 	rightClickBackground.onResetDevice();
 	darkRealmVision.onResetDevice();
+	levelUpFont->onResetDevice();
 }

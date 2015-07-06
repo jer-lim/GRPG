@@ -80,6 +80,7 @@ void PlayerSkill::gainXP(long XP, bool skip)
 			}
 			ss << " in " << skill->getName();
 			thePlayer->getUI()->addChatText(ss.str());
+			thePlayer->getUI()->newSkillLevelUP(skill->getName());
 		}
 	}
 }

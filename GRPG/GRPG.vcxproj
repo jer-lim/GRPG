@@ -98,6 +98,7 @@
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="ShriveledMan.h" />
     <ClInclude Include="skill.h" />
+    <ClInclude Include="SkillLevelUp.h" />
     <ClInclude Include="Smithing_Material.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spawner.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="ShriveledMan.cpp" />
     <ClCompile Include="skill.cpp" />
+    <ClCompile Include="SkillLevelUp.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="StealBehavior.cpp" />
     <ClCompile Include="StoveMoveBehavior.cpp" />

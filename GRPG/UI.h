@@ -16,6 +16,7 @@
 #include "BuyBehavior.h"
 #include "SellBehavior.h"
 #include "ChatData.h"
+#include "SkillLevelUp.h"
 
 class Quest;
 
@@ -186,6 +187,12 @@ private:
 	Image mainMenuImage;
 	TextureManager* mainMenuTexture;
 	bool showMainMenu;
+
+	//Level up images
+	TextureManager* levelUpTexture;
+	Image* levelUpImage;
+	SkillLevelUp* lastLevelUpSkill;
+	TextDX* levelUpFont;
 protected:
 	//Draws the specified tab number onto the screen on the correct location
 	//Also see drawTabContents
@@ -329,5 +336,8 @@ public:
 
 	bool getShowMainMenu() { return showMainMenu; }
 	void setShowMainMenu(bool s) { showMainMenu = s; }
+
+	void newSkillLevelUP(string skillName);
+	void removeLastSkillLevelUp() { lastLevelUpSkill = nullptr; }
 };
 #endif

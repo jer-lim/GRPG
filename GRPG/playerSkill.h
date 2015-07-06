@@ -14,9 +14,10 @@
 //Why do we need this? Well the compiler needs to know about player so that it can properly define
 //the player variable. Why can't we just include "player.h"? Well player.h includes playerSkill.h
 //as well cause it needs it to define the player's skill. Circular reference! Fix this by
-//telling the compile the Player class exists ahead of time and only defining pointers to it
+//telling the compiler the Player class exists ahead of time and only defining pointers to it
 //For more information, check out https://stackoverflow.com/questions/625799/resolve-circular-dependencies-in-c
 class Player;
+class UI;
 
 class PlayerSkill
 {

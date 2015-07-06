@@ -24,27 +24,6 @@ Player::Player() : Entity()
 	health = 10;
 	regenerationDelay = playerNS::startingRegnerationTime;
 
-	//skills
-	skills[skillNS::ID_SKILL_ATTACK] = PlayerSkill(this, Skill::ATTACK);
-	skills[skillNS::ID_SKILL_STRENGTH] = PlayerSkill(this, Skill::STRENGTH);
-	skills[skillNS::ID_SKILL_DEFENSE] = PlayerSkill(this, Skill::DEFENSE);
-	skills[skillNS::ID_SKILL_TOUGHNESS] = PlayerSkill(this, Skill::TOUGHNESS);
-	skills[skillNS::ID_SKILL_FISHING] = PlayerSkill(this, Skill::FISHING);
-	skills[skillNS::ID_SKILL_COOKING] = PlayerSkill(this, Skill::COOKING);
-	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
-	skills[skillNS::ID_SKILL_THIEVING] = PlayerSkill(this, Skill::THIEVING);
-	skills[skillNS::ID_SKILL_RIFTSEALING] = PlayerSkill(this, Skill::RIFT_SEALING);
-	
-	//Start off toughness at a good level
-	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(50), true);
-	skills[skillNS::ID_SKILL_DEFENSE].gainXP(Skill::calculateXPRequired(99), true);
-	skills[skillNS::ID_SKILL_ATTACK].gainXP(Skill::calculateXPRequired(20), true);
-	skills[skillNS::ID_SKILL_STRENGTH].gainXP(Skill::calculateXPRequired(30), true);
-	skills[skillNS::ID_SKILL_MINING].gainXP(Skill::calculateXPRequired(20), true);
-	skills[skillNS::ID_SKILL_THIEVING].gainXP(Skill::calculateXPRequired(10), true);
-	skills[skillNS::ID_SKILL_FISHING].gainXP(Skill::calculateXPRequired(10), true);
-	health = 50;
-
 	nearStove = false;
 }
 
@@ -81,6 +60,27 @@ bool Player::initialize(Game *gamePtr)
 		}
 		characterstream.close();
 	}
+
+	//skills
+	skills[skillNS::ID_SKILL_ATTACK] = PlayerSkill(this, Skill::ATTACK);
+	skills[skillNS::ID_SKILL_STRENGTH] = PlayerSkill(this, Skill::STRENGTH);
+	skills[skillNS::ID_SKILL_DEFENSE] = PlayerSkill(this, Skill::DEFENSE);
+	skills[skillNS::ID_SKILL_TOUGHNESS] = PlayerSkill(this, Skill::TOUGHNESS);
+	skills[skillNS::ID_SKILL_FISHING] = PlayerSkill(this, Skill::FISHING);
+	skills[skillNS::ID_SKILL_COOKING] = PlayerSkill(this, Skill::COOKING);
+	skills[skillNS::ID_SKILL_MINING] = PlayerSkill(this, Skill::MINING);
+	skills[skillNS::ID_SKILL_THIEVING] = PlayerSkill(this, Skill::THIEVING);
+	skills[skillNS::ID_SKILL_RIFTSEALING] = PlayerSkill(this, Skill::RIFT_SEALING);
+
+	//Start off toughness at a good level
+	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(50), true);
+	skills[skillNS::ID_SKILL_DEFENSE].gainXP(Skill::calculateXPRequired(99), true);
+	skills[skillNS::ID_SKILL_ATTACK].gainXP(Skill::calculateXPRequired(20), true);
+	skills[skillNS::ID_SKILL_STRENGTH].gainXP(Skill::calculateXPRequired(30), true);
+	skills[skillNS::ID_SKILL_MINING].gainXP(Skill::calculateXPRequired(20), true);
+	skills[skillNS::ID_SKILL_THIEVING].gainXP(Skill::calculateXPRequired(10), true);
+	skills[skillNS::ID_SKILL_FISHING].gainXP(Skill::calculateXPRequired(10), true);
+	health = 50;
 	
     return(Entity::initialize(gamePtr, Person::thePlayer));
 }
