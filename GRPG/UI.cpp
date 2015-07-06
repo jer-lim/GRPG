@@ -35,6 +35,7 @@ UI::UI() : Entity()
 	mainMenuTexture = new TextureManager();
 	checkboxTexture = new TextureManager();
 	checkboxSelectedTexture = new TextureManager();
+	chatHistoryTexture = new TextureManager();
 	activeTab = uiNS::SKILLS;
 	questToDisplay = nullptr;
 	showHealth = false;
@@ -62,6 +63,7 @@ UI::~UI()
 	SAFE_DELETE(mainMenuTexture);
 	SAFE_DELETE(checkboxTexture);
 	SAFE_DELETE(checkboxSelectedTexture);
+	SAFE_DELETE(chatHistoryTexture);
 	SAFE_DELETE(newTextRect);
 	for (int i = 0; i < tabTextures.size(); i++)
 	{
@@ -111,6 +113,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing checkbox texture"));
 	if (!checkboxSelectedTexture->initialize(graphics, uiNS::checkboxSelectedImage))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing checkbox selected texture"));
+	if (!chatHistoryTexture->initialize(graphics, uiNS::chatHistoryImage))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initalizing chat history texture"));
 	if (!windowImage.initialize(graphics, 0, 0, 1, windowTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Window image could not be initalized"));
 	if (!shopTexture->initialize(graphics, SHOP_IMAGE))
@@ -123,6 +127,8 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Checkbox Image could not be initalized"));
 	if (!checkboxSelectedImage.initialize(graphics, uiNS::optionWidth, uiNS::optionHeight, 1, checkboxSelectedTexture, true))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Checkbox selected Image could not be initalized"));
+	if (!chatHistoryImage.initialize(graphics, 0, 0, 1, chatHistoryTexture, true))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Chat History Image could not be initalized"));
 	
 	TextureManager* optionsTexture = new TextureManager();
 	if (!optionsTexture->initialize(graphics, uiNS::optionsImage))
@@ -235,7 +241,7 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	}
 	else
 	{
-		rows = (uiNS::chatHeight) / rowHeight;
+		rows = (GAME_HEIGHT - uiNS::chatHistoryBottomMargin) / rowHeight;
 	}
 	rows -= 1;                              // room for input prompt at bottom
 	if (rows <= 0)                          // this should never be true
@@ -264,7 +270,7 @@ void UI::draw(Viewport* viewport)
 	graphics->spriteEnd();
 	graphics->spriteBegin();
 
-	if (!newChatVersion || showChatHistory)
+	if (!newChatVersion)
 	{
 		chatRect.draw();
 	}
@@ -277,6 +283,13 @@ void UI::draw(Viewport* viewport)
 	// Display the chat screen
 	if (!newChatVersion || showChatHistory)
 	{
+		DWORD oldFontColor;
+		if (showChatHistory)
+		{
+			chatHistoryImage.draw();
+			oldFontColor = uiText->getFontColor();
+			uiText->setFontColor(graphicsNS::BLACK);
+		}
 		// set text display rect for one row
 		// Defines the text rectangle left and right locations
 		textRect.left = (long)(uiNS::tabMargin);
@@ -319,6 +332,11 @@ void UI::draw(Viewport* viewport)
 		}
 
 		uiText->print(prompt + playerText, textRect, DT_LEFT);      // display prompt and command
+
+		if (showChatHistory)
+		{
+			uiText->setFontColor(oldFontColor);
+		}
 	}
 	
 	if (uiNS::OPTIONS != activeTab)
@@ -1131,6 +1149,9 @@ void UI::onLostDevice()
 	chatRect.onLostDevice();
 	health.onLostDevice();
 	availableHealth.onLostDevice();
+	newTextBackground.onLostDevice();
+	rightClickBackground.onLostDevice();
+	darkRealmVision.onLostDevice();
 }
 
 //=============================================================================
@@ -1142,4 +1163,7 @@ void UI::onResetDevice()
 	chatRect.onResetDevice();
 	health.onResetDevice();
 	availableHealth.onResetDevice();
+	newTextBackground.onResetDevice();
+	rightClickBackground.onResetDevice();
+	darkRealmVision.onResetDevice();
 }

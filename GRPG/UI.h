@@ -43,6 +43,10 @@ namespace uiNS
 	const char questsImage[] = "assets/ui/quests.png";
 	const char checkboxImage[] = "assets/ui/checkbox.png";
 	const char checkboxSelectedImage[] = "assets/ui/checkbox_selected.png";
+	const char chatHistoryImage[] = "assets/ui/chatHistory.png";
+	const float chatHistoryLeftMargin = 94;
+	const float chatHistoryBottomMargin = 127;
+	const float chatHistoryWidth = 383;
 
 	const int optionHeight = 25;
 	const int optionWidth = 25;
@@ -140,6 +144,8 @@ private:
 	Button newTextBackground;
 	float messageDisplayTime;
 	bool showChatHistory;
+	Image chatHistoryImage;
+	TextureManager* chatHistoryTexture;
 
 	// HEALTH BAR
 	Button health;				//Vertex data for the entirety of the health bar
