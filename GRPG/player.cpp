@@ -275,6 +275,7 @@ void Player::damage(int dt)
 		setX(game->getStartLocation().x);
 		setY(game->getStartLocation().y);
 		health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
+		setIsInDarkRealm(false);
 		//TODO: Strip all items from player
 	}
 	else

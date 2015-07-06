@@ -693,8 +693,15 @@ void Entity::update(float frameTime, Game* gamePtr)
 					{
 						if (person->getType() == "ENEMY")
 						{
+							int victimHealth = victim->getHealth();
 							SoundManager::playSound(SoundManagerNS::HIT);
-							victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
+							int damageDealt = victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
+							if (damageDealt >= victimHealth)
+							{
+								victim = nullptr;
+								releaseDestination();
+								health = ((Enemy*)person)->getmaxhealth();
+							}
 						}
 						else
 						{
