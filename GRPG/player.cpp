@@ -279,6 +279,8 @@ void Player::damage(int dt)
 		setIsInDarkRealm(false);
 		totalDeaths++;
 		setIsTeleporting(2);
+		releaseDestination();
+		victim = nullptr;
 		//TODO: Strip all items from player
 	}
 	else

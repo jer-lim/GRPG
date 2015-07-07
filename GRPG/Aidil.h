@@ -157,5 +157,8 @@ public:
 	virtual void onResetDevice();
 
 	virtual string getType(){ return "AIDIL"; }
+
+	//Removes everything aidil has spawned and despawns aidil from the game.
+	virtual void reset();
 };
 #endif

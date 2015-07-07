@@ -125,8 +125,21 @@ void Aidil::draw(Viewport* viewport)
 
 void Aidil::update(float frameTime, Game* gamePtr)
 {
+	int playerDeathTemp = Entity::playerLastTotalDeaths;
 	Entity::update(frameTime, gamePtr);
-	
+	if (playerDeathTemp < Entity::playerLastTotalDeaths)
+	{
+		reset();
+		return;
+	}
+
+	//Player teleports out
+	if (thePlayer->getIsTeleporting() > 0)
+	{
+		reset();
+		return;
+	}
+
 	//If combat has begun against the player
 	if (!combatBegun && victim == thePlayer)
 	{
@@ -477,4 +490,9 @@ VECTOR2 Aidil::getFinalLocation(float startX, float startY, float angle, float d
 	result.x = startX + sin(angle)*distance;
 	result.y = startY + cos(angle)*distance;
 	return result;
+}
+
+void Aidil::reset()
+{
+	theGame->deleteEntity(this);
 }
