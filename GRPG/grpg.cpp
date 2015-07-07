@@ -388,6 +388,7 @@ void Grpg::update()
 				ss << GrpgNS::riftSpawnPhrase << i;
 				this->addSpawnLink(ss.str(), riftsInGame[i]);
 			}
+			ss.str("");
 		}
 	}
 }
