@@ -42,7 +42,7 @@ UI::UI() : Entity()
 	activeTab = uiNS::SKILLS;
 	questToDisplay = nullptr;
 	showHealth = false;
-	newChatVersion = true;
+	newChatVersion = false;
 	showChatHistory = false;
 
 	//Not visible till you right click
@@ -254,7 +254,7 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 	}
 	else
 	{
-		rows = (GAME_HEIGHT - uiNS::chatHistoryBottomMargin) / rowHeight;
+		rows = uiNS::chatHeight / rowHeight;
 	}
 	rows -= 1;                              // room for input prompt at bottom
 	if (rows <= 0)                          // this should never be true
