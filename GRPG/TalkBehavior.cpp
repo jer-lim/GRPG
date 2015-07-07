@@ -1331,7 +1331,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		break;
 	case 70: //What should I expect when I enter a rift?
 		ui->addTalkText(new ChatInformation("Plenty. My scouts have entered rifts themselves and report that they all follow a similar structure.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("In essence, you can enter a rift to fight waves of monsters that will come. Once you have completed the rift, you can then leave it for some rift closing xp. Fully completing the rift will also grant you a large chunk of bonmus xp.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("In essence, you can enter a rift to fight waves of monsters that will come. Once you have completed the rift, you can then leave it for some rift closing xp. Fully completing the rift will also grant you a large chunk of bonus xp.", chatNS::RIGHT));
 		cd->addOption(71, "Tell me about the waves in a rift.");
 		cd->addOption(72, "What happens if I want to exit the rift early?");
 		cd->addOption(73, "Tell me about the experience rewards.");

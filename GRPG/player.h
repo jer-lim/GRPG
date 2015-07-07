@@ -207,36 +207,42 @@ public:
 	}
 
 	virtual float getDefenceMultiplier(){
-		if (getInventory()->getSlotBody() == nullptr)
-			return 1;
-		else
+		float defMultiplier = 1;
+		if ((InventoryEquipment*)getInventory()->getSlotBody() != nullptr)
 		{
-			float defMultiplier = ((InventoryEquipment*)getInventory()->getSlotBody()->getInventoryItem())->getSmithingMaterial()->getDefMultiplier();
-			defMultiplier += ((Armor*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getdefMultiplier();
-			return defMultiplier;
+			defMultiplier = ((InventoryEquipment*)getInventory()->getSlotBody()->getInventoryItem())->getSmithingMaterial()->getDefMultiplier();
 		}
+		if ((Armor*)getInventory()->getSlotBody() != nullptr)
+		{
+			defMultiplier += ((Armor*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getdefMultiplier();
+		}
+		return defMultiplier;
 	}
 
 	virtual float getAttackSpeedReduction(){
-		if (getInventory()->getSlotHand() == nullptr)
-			return 1;
-		else
+		float attackSpeed = 1;
+		if ((InventoryEquipment*)getInventory()->getSlotHand() != nullptr)
 		{
-			float attackSpeed = ((InventoryEquipment*)getInventory()->getSlotHand()->getInventoryItem())->getSmithingMaterial()->getSpdMultiplier();
-			attackSpeed += ((Weapon*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getspdMultiplier();
-			return attackSpeed;
+			attackSpeed = ((InventoryEquipment*)getInventory()->getSlotHand()->getInventoryItem())->getSmithingMaterial()->getSpdMultiplier();
 		}
+		if ((Weapon*)getInventory()->getSlotBody() != nullptr)
+		{
+			attackSpeed += ((Weapon*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getspdMultiplier();
+		}
+		return attackSpeed;
 	}
 
 	virtual float getDamageMultiplier(){
-		if (getInventory()->getSlotHand() == nullptr)
-			return 1;
-		else
+		float dmgMultiplier = 1;
+		if ((InventoryEquipment*)getInventory()->getSlotHand() != nullptr)
 		{
-			float dmgMultiplier = ((InventoryEquipment*)getInventory()->getSlotHand()->getInventoryItem())->getSmithingMaterial()->getStrMultiplier();
-			dmgMultiplier += ((Weapon*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getstrMultiplier();
-			return dmgMultiplier;
+			dmgMultiplier = ((InventoryEquipment*)getInventory()->getSlotHand()->getInventoryItem())->getSmithingMaterial()->getStrMultiplier();
 		}
+		if ((Weapon*)getInventory()->getSlotBody() != nullptr)
+		{
+			dmgMultiplier += ((Weapon*)getInventory()->getSlotBody()->getInventoryItem()->getItem())->getstrMultiplier();
+		}
+		return dmgMultiplier;
 	}
 
 	virtual string getType(){ return "PLAYER"; }
