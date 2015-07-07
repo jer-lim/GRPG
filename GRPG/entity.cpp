@@ -61,6 +61,7 @@ Entity::Entity()
 	image = Image();
 	destination = 0;
 	attackCooldown = 0;
+	playerLastTotalDeaths = 0;
 	isInDarkRealm = false;
 	image.setFrameDelay(entityNS::animationWait);
 
@@ -232,6 +233,10 @@ bool Entity::initialize(Game *gamePtr, Person* whichCharacter, bool anc)
 		questAction(((Grpg*)gamePtr)->getQuestLoader()->getQuestData(), ((Grpg*)gamePtr)->getGameEventManager());
 		//And add it so that any further updates are processed
 		((Grpg*)gamePtr)->getGameEventManager()->addListener(this);
+	}
+	if (thePlayer != nullptr)
+	{
+		playerLastTotalDeaths = thePlayer->getTotalDeaths();
 	}
 	setupVectorActiveBehaviors();
 
@@ -533,8 +538,15 @@ void Entity::update(float frameTime, Game* gamePtr)
 		// Is there a victim? If so, set as destination
 		if (victim != 0)
 		{
+			//Is the victim the player, and did the player just die?
+			if (victim->getPerson() == NPC::thePlayer && ((Player*)victim)->getTotalDeaths() > playerLastTotalDeaths)
+			{
+				victim = nullptr;
+				playerLastTotalDeaths = thePlayer->getTotalDeaths();
+				releaseDestination();
+			}
 			//Is the victim in the same realm as you? You shouldn't be able to attack cross-realm.
-			if (victim->inDarkRealm() != inDarkRealm())
+			else if (victim->inDarkRealm() != inDarkRealm())
 			{
 				victim = nullptr;
 			}

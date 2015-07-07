@@ -132,8 +132,13 @@ class Entity : public Destination//, public Interactable
 	//To know what to do when the player is near an NPC
 	Behavior* npcAction = nullptr;
 
-	//To calculate aggro (Range & player's combat level)
+	//To calculate aggro (Range & player's combat level)	
 	Player* thePlayer;
+	//Tracks how many times the player is known to have died,
+	//so that if the player DOES die again, we know to stop attacking
+	//the player (Otherwise we could potentially ask Jeremy's code to pathfind all the way to the
+	//other end of the map, until it timesout. Every frame. And that's bad.)
+	int playerLastTotalDeaths;
 	//The entity can never move too far from the spawn location
 	VECTOR2 spawnLocation;
 

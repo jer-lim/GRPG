@@ -22,6 +22,7 @@ Player::Player() : Entity()
     radius = playerNS::WIDTH/2.0;
     collisionType = entityNS::BOX;
 	health = 10;
+	totalDeaths = 0;
 	regenerationDelay = playerNS::startingRegnerationTime;
 
 	//skills
@@ -276,6 +277,8 @@ void Player::damage(int dt)
 		setY(game->getStartLocation().y);
 		health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
 		setIsInDarkRealm(false);
+		totalDeaths++;
+		setIsTeleporting(2);
 		//TODO: Strip all items from player
 	}
 	else

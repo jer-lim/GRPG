@@ -88,6 +88,8 @@ private:
 	//A reference to the rift portal that brought the player here.
 	//If player is not in a rift, this will point to nullptr.
 	Rift* riftPortal;
+
+	int totalDeaths;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
@@ -247,6 +249,11 @@ public:
 	virtual void sayRandomHurtPhrase()
 	{
 		sayMessage(hurtPhrases[rand() % hurtPhrases.size()]);
+	}
+
+	virtual int getTotalDeaths()
+	{
+		return totalDeaths;
 	}
 };
 #endif
