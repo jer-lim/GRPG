@@ -261,6 +261,9 @@ void Game::deleteEntity(Entity* e)
 
 	//Tell game event manager
 	((Grpg*)this)->getGameEventManager()->removeListener(e);
+
+	//Tell ui to remove the right click menu, in case it references the deleted entity
+	((Grpg*)this)->getUI()->removeRightClickMenu();
 	
 	//Remove from spawn links if there
 	//Safe delete the entity that is still alive
