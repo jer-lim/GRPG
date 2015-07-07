@@ -11,6 +11,8 @@
 #include <sstream>
 #include "grpg.h"
 #include "Quest.h"
+#include <fstream>
+#include <iostream>
 
 //=============================================================================
 // default constructor
@@ -42,7 +44,31 @@ UI::UI() : Entity()
 	activeTab = uiNS::SKILLS;
 	questToDisplay = nullptr;
 	showHealth = false;
-	newChatVersion = false;
+	//Choose a chat version based on the text file
+	string line;
+	ifstream chatVersion("grpg.txt");
+	if (chatVersion.is_open())
+	{
+		getline(chatVersion, line);
+		newChatVersion = line == "true";
+		chatVersion.close();
+	}
+	else //Generate a random value for newchatversion, save it for future runs
+	{
+		newChatVersion = rand() % 2 == 0;
+		ofstream myfile;
+		myfile.open("grpg.txt");
+		if (newChatVersion)
+		{
+			myfile << "true";
+		}
+		else
+		{
+			myfile << "false";
+		}
+		myfile.close();
+	}
+
 	showChatHistory = false;
 
 	//Not visible till you right click
