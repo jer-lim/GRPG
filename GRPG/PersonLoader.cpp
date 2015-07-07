@@ -71,18 +71,44 @@ void PersonLoader::loadAllNPCs(ItemLoader* itemLoader)
 			}
 
 			//Get steal items data
-			vector<Item*>* stealList = nullptr;
+			vector<InventoryItem*>* stealList = nullptr;
 
 			stealsData.erase(stealsData.begin());
 			stealsData.erase(stealsData.end() - 1);
 			if (stealsData.size() > 0)
 			{
-				stealList = new vector<Item*>();
+				stealList = new vector<InventoryItem*>();
 				Item* iPtr;
+				InventoryItem* iiPtr;
 				vector<string> vector_stealData = String_Functions::split(stealsData, ',');
 				for (int i = 0, l = vector_stealData.size(); i < l; ++i)
 				{
-					stealList->push_back(itemLoader->getItem(atoi(vector_stealData[i].c_str())));
+					vector<string> vector_drop = String_Functions::split(vector_stealData[i], ':');
+					if (vector_drop[0].at(0) == 'F')
+					{//Food "id:count:food_state"
+						vector_drop[0].erase(0, 1);
+						iiPtr = new InventoryFood(itemLoader->getItem(atoi(vector_drop[0].c_str())), 1,
+							static_cast<FOOD_STATE>(atoi(vector_drop[1].c_str())));
+					}
+					else if (vector_drop[0].at(0) == 'E')
+					{//Equipment "id:count:smithing_material"
+						vector_drop[0].erase(0, 1);
+						iiPtr = new InventoryEquipment(itemLoader->getItem(atoi(vector_drop[0].c_str())),
+							1,
+							(Smithing_Material*)itemLoader->getItem(atoi(vector_drop[1].c_str())));
+					}
+					else if (vector_drop[0].at(0) == 'B')
+					{//Boost item "id:count"
+						vector_drop[0].erase(0, 1);
+						iiPtr = new InventoryBoost(itemLoader->getItem(atoi(vector_drop[0].c_str())),
+							1);
+					}
+					else
+					{//Normal item "id:count"
+						iiPtr = new InventoryItem(itemLoader->getItem(atoi(vector_drop[0].c_str())),
+							1);
+					}
+					stealList->push_back(iiPtr);
 				}
 			}
 

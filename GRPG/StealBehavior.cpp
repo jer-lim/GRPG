@@ -51,13 +51,13 @@ void StealBehavior::action(){
 				}
 				if (!questItemStolen)
 				{
-					vector<Item*>* possibleLoot = ii->getStealItemsList();
+					vector<InventoryItem*>* possibleLoot = ii->getStealItemsList();
 					int lootIndex = rand() % possibleLoot->size();
-					Item* lootedItem = possibleLoot->at(lootIndex);
-					InventoryItem* newLoot = new InventoryItem(lootedItem, 1);
+					InventoryItem* lootedItem = possibleLoot->at(lootIndex);
+					InventoryItem* newLoot = lootedItem->clone();
 					stringstream ss;
 					ss << "You successfully steal ";
-					if (lootedItem->getID() == 0)//If coins
+					if (lootedItem->getItem()->getID() == 0)//If coins
 					{
 						//Give some more
 						newLoot->setCurrentStackCount(4);
