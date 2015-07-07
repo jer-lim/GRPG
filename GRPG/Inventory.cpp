@@ -87,7 +87,7 @@ bool Inventory::addEntityInventoryItem(int i, Entity* ii)
 	return false;
 }
 
-INVENTORY_CHANGE Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
+INVENTORY_CHANGE Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr, bool noDelete)
 {
 	//First check if can merge
 	int result = IMPOSSIBLE;
@@ -102,7 +102,10 @@ INVENTORY_CHANGE Inventory::addEntityInventoryItem(Entity* ii, Grpg* gamePtr)
 			{
 				gamePtr->setMouseOverEntity(nullptr);
 				gamePtr->getDrawManager()->removeObject(ii);
-				SAFE_DELETE(ii);
+				if (!noDelete)
+				{
+					SAFE_DELETE(ii);
+				}
 			}
 			return MERGED;
 			//return MERGED;//already deleted entity inside merge and no need to add item since its merged

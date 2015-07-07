@@ -54,6 +54,7 @@ private:
 	QuestData* questData;
 	vector<ConditionalSkillReward> skillRewards;
 	vector<InventoryItem*> itemRewards;
+	vector<Entity*> itemsAllocatedForDeletion;
 	//Miscallenous rewards that do not belong in either category, but are regardless rewards for the quest
 	//These rewards only contain text that should be displayed to the user, the actual reward has to be coded
 	//inside the program at the relevant locations.
@@ -78,6 +79,14 @@ public:
 					((InventoryEquipment*)(*i))->setSmithingMaterial(nullptr);
 				}
 				delete *i;
+			}
+		}
+		else
+		{
+			for (vector<Entity*>::iterator i = itemsAllocatedForDeletion.begin(); i != itemsAllocatedForDeletion.end(); i++)
+			{
+				//I don't get why i don't need to do this. I thought it would leak. It doesn't????
+				//SAFE_DELETE(*i);
 			}
 		}
 		SAFE_DELETE(ui_element);	

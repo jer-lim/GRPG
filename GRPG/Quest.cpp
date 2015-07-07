@@ -6,6 +6,7 @@
 #include "Quest.h"
 #include "GameEventManager.h"
 #include "grpg.h"
+#include "PickupBehavior.h"
 
 Quest::Quest(GameEventManager* qcM, QuestData* qd, string nama, string descript, Button* b)
 {
@@ -36,6 +37,21 @@ void Quest::gainRewards(UI* ui, Player* p, Grpg* grpg)
 		InventoryItem* theItem = *i;
 		Entity* e = new Entity();
 		e->initialize(grpg, theItem, false);
-		p->getInventory()->addEntityInventoryItem(e, grpg);
+		INVENTORY_CHANGE result = p->getInventory()->addEntityInventoryItem(e, grpg, true);
+		if (result == MERGED)
+		{
+			itemsAllocatedForDeletion.push_back(e);
+		}
+		else if (result == PARTIAL_MERGE || result == FAILED)
+		{
+			//Drop the remainder on the ground
+			e->setX(p->getX());
+			e->setY(p->getY());
+			e->setPickupBehavior(new PickupBehavior(grpg, grpg->getDrawManager(), e, grpg->getPlayer()));//change behaviors
+			e->setDropBehavior(nullptr);
+			e->setupVectorActiveBehaviors();
+			e->setAnchored(false);
+			grpg->getDrawManager()->addObject(e);
+		}
 	}
 }
