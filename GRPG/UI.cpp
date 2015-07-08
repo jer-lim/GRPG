@@ -616,6 +616,8 @@ void UI::draw(Viewport* viewport)
 
 	if (newChatVersion && messageDisplayTime > 0)
 	{
+		graphics->spriteEnd();
+		graphics->spriteBegin();
 		newTextBackground.draw();
 		uiText->print(message, *newTextRect, DT_CENTER);
 	}
