@@ -3,3 +3,16 @@ Equipment: https://www.iconfinder.com/icons/393609/armor_helmet_knight_medieval_
 Maybe?
 Backpack: https://www.iconfinder.com/icons/45092/backpack_icon
 Skills: https://www.iconfinder.com/icons/45290/college_hat_diploma_graduation_hat_student_icon
+Quests: http://www.iconarchive.com/show/iWork-10-icons-by-gordon-irving/pages-black-icon.html
+Up arrow: https://www.iconfinder.com/icons/27881/arrow_up_icon
+
+Sounds:
+Sword attack: http://www.soundsnap.com/tags/sword - Sword schwing, 4th item on the list
+
+Music:
+Easy Lemon, Movement Proposition, Volatile Reaction
+Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 3.0
+http://creativecommons.org/licenses/by/3.0/
+(Likely will have to add NPC)
+Skill level up sound: http://opengameart.org/content/level-up-sound-effects(CC by 3.0)

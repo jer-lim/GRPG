@@ -14,6 +14,7 @@
 namespace soundManagerNS {
 	const char aidilHitSoundFileName[] = "assets/sound/rocket.wav";
 	const char hitSoundFileName[] = "assets/sound/sword_v_sword.wav";
+	const char levelUpSoundFileName[] = "assets/sound/levelup.wav";
 
 	const int generalMusicID = 0;
 	const int fightingMusicID = 1;

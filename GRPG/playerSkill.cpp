@@ -7,6 +7,7 @@
 #include <cmath>
 #include <sstream>
 #include "player.h"
+#include "NoiseManager.h"
 #include "UI.h"
 
 //=============================================================================
@@ -81,6 +82,7 @@ void PlayerSkill::gainXP(long XP, bool skip)
 			ss << " in " << skill->getName();
 			thePlayer->getUI()->addChatText(ss.str());
 			thePlayer->getUI()->newSkillLevelUP(skill->getName());
+			SoundManager::playSound(soundManagerNS::levelUpSoundFileName);
 		}
 	}
 }

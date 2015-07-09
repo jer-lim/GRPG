@@ -139,9 +139,7 @@ void Rift::update(float frameTime, Game* gamePtr)
 				SoundManager::playMusic(soundManagerNS::generalMusicID);
 			}
 		}
-	}
-	//We also better make sure the monsters don't walk outside the zone the player can go
-	{
+		//We also better make sure the monsters don't walk outside the zone the player can go
 		for (int i = 0; i < enemiesSpawned.size(); i++)
 		{
 			if (enemiesSpawned[i] != nullptr)
