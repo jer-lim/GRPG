@@ -3,6 +3,7 @@
 #include "mapLoader.h"
 #include "destination.h"
 #include "AnimatableTile.h"
+#include "NoiseManager.h"
 
 Aidil::Aidil()
 {
@@ -85,6 +86,9 @@ bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 	//Will be deleted later on every draw step, created once at start for simplicity to not 
 	//code an exception for the first time.
 	graphics->createVertexBuffer(vtx, sizeof vtx, vertexBuffer);
+
+	//FIGHT
+	SoundManager::playMusic(soundManagerNS::aidilFightMusicID);
 
 	return true;
 }

@@ -159,11 +159,14 @@ void Player::update(float frameTime, Game* gamePtr)
 	//Check for combat music
 	if (inCombat)
 	{
-		combatLeaveDelay -= frameTime;
-		if (SoundManager::getcurrentMusicId() == soundManagerNS::generalMusicID)
+		//Don't forcibly change music if it seems like combat ended and 
+		//the music has forcibly changed to something else (Say due to a MusicTile from a teleport)
+		if (SoundManager::getcurrentMusicId() == soundManagerNS::generalMusicID &&
+			combatLeaveDelay == 3)
 		{
 			SoundManager::playMusic(soundManagerNS::fightingMusicID);
 		}
+		combatLeaveDelay -= frameTime;
 	}
 	else
 	{

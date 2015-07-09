@@ -4,7 +4,7 @@
 * 0 1 1 dock_endbottomleft.png -1 0 0
 x 1 1 1 border.png -1 0 0
 $ 2 1 1 woodhouse_floor.png -1 1 0
-+ 2 1 1 woodhouse_floor.png -1 0 0
++ 2 1 1 woodhouse_floor.png 0 0 0
 ! 3 1 1 spawn.png 0 0 0
 A 0 1 1 castle_floor.png -1 0 0
 B 1 1 1 castle_topleftcorner.png -1 0 0
