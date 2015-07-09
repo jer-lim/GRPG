@@ -198,7 +198,7 @@ void Grpg::initialize(HWND hwnd)
 
 	//Play music
 	SoundManager::initialize();
-	SoundManager::playMusic(soundManagerNS::easyLemonMusicID);
+	SoundManager::playMusic(soundManagerNS::fightingMusicID);
 
 	return;
 }

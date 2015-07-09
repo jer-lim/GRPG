@@ -9,11 +9,17 @@ float SoundManager::musicTimer = 0;
 void SoundManager::initialize()
 {
 	musicList = vector<Music>();
-	Music m;
-	m.fileName = TEXT("assets/sound/easylemon.wav");
-	m.playTime = 126;
-	m.id = soundManagerNS::easyLemonMusicID;
-	musicList.push_back(m);
+	Music easyLemon;
+	easyLemon.fileName = TEXT("assets/sound/easylemon.wav");
+	easyLemon.playTime = 126;
+	easyLemon.id = soundManagerNS::generalMusicID;
+	musicList.push_back(easyLemon);
+
+	Music movementProposition;
+	movementProposition.fileName = TEXT("assets/sound/movementproposition.wav");
+	movementProposition.playTime = 141;
+	movementProposition.id = soundManagerNS::fightingMusicID;
+	musicList.push_back(movementProposition);
 }
 
 void SoundManager::mute()
@@ -76,4 +82,9 @@ void SoundManager::playSound(const char soundName[])
 		ss << "\"";
 		int errorCode = mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
 	}
+}
+
+int SoundManager::getcurrentMusicId()
+{
+	return currentlyPlayingMusic.id;
 }

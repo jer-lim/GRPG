@@ -90,6 +90,7 @@ private:
 	Rift* riftPortal;
 
 	int totalDeaths;
+	bool inCombat;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
@@ -261,6 +262,8 @@ public:
 	{
 		return totalDeaths;
 	}
+
+	virtual void setInCombat(bool i) { inCombat = i; }
 };
 #endif
 

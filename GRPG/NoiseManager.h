@@ -14,7 +14,8 @@
 namespace soundManagerNS {
 	const char hitSoundFileName[] = "assets/sound/rocket.wav";
 
-	const int easyLemonMusicID = 0;
+	const int generalMusicID = 0;
+	const int fightingMusicID = 1;
 }
 
 struct Music
@@ -71,6 +72,8 @@ struct Music
 // Turns out, NO IT DOESN'T. The sound will only play once, then no longer play. Both PLAY and STOP commands will return an error
 // code of 0. I give up. From now on, all sounds/music will just be played with loading the sound file whenever it's required
 // instead of preloading it for all users. AT LEAST THAT ONE WORKS!
+// Also I'm converting all mp3 files to wav files despite their significantly larger file size because mcisendstring doesn't
+// play mp3 files. The error code returned if I try is 277, which is MCIERR_INTERNAL... Wow.
 class SoundManager {
 	static bool muted;
 	static vector<Music> musicList;
@@ -86,6 +89,8 @@ public:
 	static void playMusic(int musicID);
 
 	static void playSound(const char soundName[]);
+
+	static int getcurrentMusicId();
 };
 
 #endif

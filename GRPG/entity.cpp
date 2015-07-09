@@ -538,6 +538,12 @@ void Entity::update(float frameTime, Game* gamePtr)
 		// Is there a victim? If so, set as destination
 		if (victim != 0)
 		{
+			//Play combat music if attacking player
+			if (victim->getPerson() == Person::thePlayer)
+			{
+				thePlayer->setInCombat(true);
+			}
+
 			//Is the victim the player, and did the player just die?
 			if (victim->getPerson() == NPC::thePlayer && ((Player*)victim)->getTotalDeaths() > playerLastTotalDeaths)
 			{

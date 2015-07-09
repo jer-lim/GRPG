@@ -7,6 +7,7 @@
 
 #include "player.h"
 #include "grpg.h"
+#include "NoiseManager.h"
 
 //=============================================================================
 // default constructor
@@ -154,6 +155,25 @@ void Player::update(float frameTime, Game* gamePtr)
 		//NO shopping
 		game->getUI()->removeWindow();
 	}
+
+	//Check for combat music
+	if (inCombat)
+	{
+		if (SoundManager::getcurrentMusicId() == soundManagerNS::generalMusicID)
+		{
+			SoundManager::playMusic(soundManagerNS::fightingMusicID);
+		}
+	}
+	else
+	{
+		if (SoundManager::getcurrentMusicId() == soundManagerNS::fightingMusicID)
+		{
+			SoundManager::playMusic(soundManagerNS::generalMusicID);
+		}
+	}
+
+	//Need an enemy to set to true, else considered no longer in combat
+	inCombat = false;
 
 	if (actionDelay > 0)
 	{
