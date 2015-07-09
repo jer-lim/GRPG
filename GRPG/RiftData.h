@@ -26,6 +26,9 @@ struct WaveDifficulty
 	int minimumDifficulty;
 	int maximumDifficulty;
 	int xpReward;
+	int musicId;
+	//May be the text "NULL", if so, no such sound
+	string soundFilePath;
 };
 
 class RiftData
@@ -63,6 +66,16 @@ public:
 	virtual int getXPRewardForWave(int waveNumber)
 	{
 		return rift_waves[waveNumber].xpReward;
+	}
+
+	virtual int getMusicForWave(int waveNumber)
+	{
+		return rift_waves[waveNumber].musicId;
+	}
+
+	virtual string getSoundForWave(int waveNumber)
+	{
+		return rift_waves[waveNumber].soundFilePath;
 	}
 
 };

@@ -32,6 +32,36 @@ void SoundManager::initialize()
 	aidilFight.playTime = 126;
 	aidilFight.id = soundManagerNS::aidilFightMusicID;
 	musicList.push_back(aidilFight);
+
+	Music firstWave;
+	firstWave.fileName = TEXT("assets/sound/firstwave.wav");
+	firstWave.playTime = 87;
+	firstWave.id = soundManagerNS::firstWaveID;
+	musicList.push_back(firstWave);
+
+	Music secondwave;
+	secondwave.fileName = TEXT("assets/sound/secondwave.wav");
+	secondwave.playTime = 83;
+	secondwave.id = soundManagerNS::secondWaveID;
+	musicList.push_back(secondwave);
+
+	Music thirdwave;
+	thirdwave.fileName = TEXT("assets/sound/thirdwave.wav");
+	thirdwave.playTime = 53;
+	thirdwave.id = soundManagerNS::thirdWaveID;
+	musicList.push_back(thirdwave);
+
+	Music fourthwave;
+	fourthwave.fileName = TEXT("assets/sound/fourthwave.wav");
+	fourthwave.playTime = 53;
+	fourthwave.id = soundManagerNS::fourthWaveID;
+	musicList.push_back(fourthwave);
+
+	Music fifthwave;
+	fifthwave.fileName = TEXT("assets/sound/fifthwave.wav");
+	fifthwave.playTime = 57;
+	fifthwave.id = soundManagerNS::fifthWaveID;
+	musicList.push_back(fifthwave);
 }
 
 void SoundManager::mute()

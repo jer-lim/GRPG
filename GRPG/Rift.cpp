@@ -8,6 +8,7 @@
 #include "NPC.h"
 #include "player.h"
 #include "GameEventManager.h"
+#include "NoiseManager.h"
 
 Rift::Rift() : Entity()
 {
@@ -134,6 +135,7 @@ void Rift::update(float frameTime, Game* gamePtr)
 				thePlayer->sayMessage("That seems to be all of them.");
 				waveStatus = riftNS::COMPLETED;
 				enemiesSpawned.clear();
+				SoundManager::playMusic(soundManagerNS::generalMusicID);
 			}
 		}
 	}
@@ -238,6 +240,9 @@ void Rift::begin(bool requireWalking)
 		enemiesSpawned.push_back(newEnemy);
 	}
 	remainingDifficulty = 0;
+
+	//Start music
+	SoundManager::playMusic(riftData->getMusicForWave(currentWave));
 }
 
 int Rift::getNewNPC()

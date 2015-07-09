@@ -19,6 +19,11 @@ namespace soundManagerNS {
 	const int fightingMusicID = 1;
 	const int aidilPreFightMusicID = 2;
 	const int aidilFightMusicID = 3;
+	const int firstWaveID = 4;
+	const int secondWaveID = 5;
+	const int thirdWaveID = 6;
+	const int fourthWaveID = 7;
+	const int fifthWaveID = 8;
 }
 
 struct Music

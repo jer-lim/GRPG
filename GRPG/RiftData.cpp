@@ -25,14 +25,17 @@ void RiftData::loadData()
 
 	characterstream.open(riftWaveDifficulty);
 	if (characterstream.is_open()){
-		int wave, min, max, reward;
+		int wave, min, max, reward, musicId;
+		string soundFile;
 		while (!characterstream.eof()){
-			characterstream >> wave >> min >> max >> reward;
+			characterstream >> wave >> min >> max >> reward >> musicId >> soundFile;
 
 			WaveDifficulty wd;
 			wd.maximumDifficulty = max;
 			wd.minimumDifficulty = min;
 			wd.xpReward = reward;
+			wd.musicId = musicId;
+			wd.soundFilePath = soundFile;
 
 			rift_waves[wave] = wd;
 		}
