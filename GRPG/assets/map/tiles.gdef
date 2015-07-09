@@ -1,87 +1,87 @@
-0 0 4 0.5 grass.png 0 0
-1 0 1 1 dirt.png 0 0
-2 1 7 0.18 water.png 0 0
-* 0 1 1 dock_endbottomleft.png 0 0
-x 1 1 1 border.png 0 0
-$ 2 1 1 woodhouse_floor.png 1 0
-+ 2 1 1 woodhouse_floor.png 0 0
-! 3 1 1 spawn.png 0 0
-A 0 1 1 castle_floor.png 0 0
-B 1 1 1 castle_topleftcorner.png 0 0
-C 1 1 1 castle_toprightcorner.png 0 0
-D 1 1 1 castle_left.png 0 0
-E 1 1 1 castle_right.png 0 0
-F 1 1 1 castle_front.png 0 0
-G 0 1 1 castle_entrance.png 0 0
-H 0 1 1 woodhouse_floor.png 0 0
-I 1 1 1 woodhouse_topleftcorner.png 0 0
-J 1 1 1 woodhouse_toprightcorner.png 0 0
-K 1 1 1 woodhouse_left.png 0 0
-L 1 1 1 woodhouse_right.png 0 0
-M 1 1 1 woodhouse_front.png 0 0
-N 0 1 1 woodhouse_entrance.png 0 0
-O 1 1 1 woodhouse_hosp1.png 0 0
-P 1 1 1 woodhouse_hosp2.png 0 0
-Q 1 1 1 woodhouse_store1.png 0 0
-R 1 1 1 woodhouse_store2.png 0 0
-S 1 1 1 fence_post.png 0 0
-T 1 1 1 fence_topleftcorner.png 0 0
-U 1 1 1 fence_toprightcorner.png 0 0
-V 1 1 1 fence_bottomleftcorner.png 0 0
-W 1 1 1 fence_bottomrightcorner.png 0 0
-X 1 1 1 fence_wall.png 0 0
-Y 1 1 1 fence_front.png 0 0
-Z 1 1 1 fence_leftgate.png 0 0
-a 1 1 1 fence_rightgate.png 0 0
-b 6 4 0.25 stove.png 0 0
-c 0 1 1 dock_landleft.png 0 0
-d 0 1 1 dock_landright.png 0 0
-e 0 1 1 dock_waterleft.png 0 0
-f 0 1 1 dock_waterright.png 0 0
-g 0 1 1 dock_endtopleft.png 0 0
-h 0 1 1 dock_endtopright.png 0 0
-i 0 1 1 dock_endbottomleft.png 0 0
-j 0 1 1 dock_endbottomright.png 0 0
-k 0 1 1 dock_shipleft.png 0 0
-l 0 1 1 dock_shipright.png 0 0
-m 2 4 0.5 grass.png 15 10
-n 4 7 0.18 fish.png 0 0
-o 1 1 1 tree_bottom.png 0 0
-p 1 8 0.25 tree_top.png 0 0
-q 2 4 0.5 grass.png 16 0
-r 2 4 0.5 grass.png 17 0
-s 2 4 0.5 grass.png 18 0
-t 2 4 0.5 grass.png 19 15
-u 2 4 0.5 grass.png 20 0
-v 2 1 1 castle_floor.png 21 0
-w 2 1 1 castle_floor.png 22 0
-y 2 1 1 castle_floor.png 23 0
-z 0 47 0.1 credits.png 0 0
-3 2 4 0.5 grass.png 5 15
-4 2 1 1 woodhouse_floor.png 6 30
-5 2 1 1 dirt.png 3 15
-6 2 1 1 dirt.png 9 30
-7 2 1 1 dirt.png 10 300
-8 2 1 1 castle_floor.png 13 300
-9 2 1 1 castle_floor.png 14 600
-( 0 1 1 dock_endbottomleft.png 0 0
-) 0 1 1 dock_endtopleft.png 0 0
-[ 2 4 0.5 grass.png 24 0
-] 2 4 0.5 grass.png 25 0
-? 2 1 1 castle_floor.png 32 0
-| 2 1 1 woodhouse_floor.png 2 0
-; 5 1 1 copper_rock.png 0 0
-^ 2 1 1 castle_floor.png 27 0
-= 0 1 1 castle_floor.png 0 0
-< 2 1 1 grass.png 28 0
-> 2 1 1 woodhouse_floor.png 29 0
-/ 2 1 1 castle_entrance.png 30 0
-\ 2 1 1 grass.png 33 0
-: 2 1 1 castle_entrance.png 34 0
-% 4 7 0.18 fish.png 0 0
-# 2 1 1 castle_floor.png 35 0
-@ 2 1 1 castle_floor.png 36 0
-' 2 4 0.5 grass.png 38 0
-{ 0 4 0.5 grass.png 0 0
-} 0 4 0.5 grass.png 0 0
-- 2 1 1 dirt.png 44 0
+0 0 4 0.5 grass.png -1 0 0
+1 0 1 1 dirt.png -1 0 0
+2 1 7 0.18 water.png -1 0 0
+* 0 1 1 dock_endbottomleft.png -1 0 0
+x 1 1 1 border.png -1 0 0
+$ 2 1 1 woodhouse_floor.png -1 1 0
++ 2 1 1 woodhouse_floor.png -1 0 0
+! 3 1 1 spawn.png 0 0 0
+A 0 1 1 castle_floor.png -1 0 0
+B 1 1 1 castle_topleftcorner.png -1 0 0
+C 1 1 1 castle_toprightcorner.png -1 0 0
+D 1 1 1 castle_left.png -1 0 0
+E 1 1 1 castle_right.png -1 0 0
+F 1 1 1 castle_front.png -1 0 0
+G 0 1 1 castle_entrance.png -1 0 0
+H 0 1 1 woodhouse_floor.png -1 0 0
+I 1 1 1 woodhouse_topleftcorner.png -1 0 0
+J 1 1 1 woodhouse_toprightcorner.png -1 0 0
+K 1 1 1 woodhouse_left.png -1 0 0
+L 1 1 1 woodhouse_right.png -1 0 0
+M 1 1 1 woodhouse_front.png -1 0 0
+N 0 1 1 woodhouse_entrance.png -1 0 0
+O 1 1 1 woodhouse_hosp1.png -1 0 0
+P 1 1 1 woodhouse_hosp2.png -1 0 0
+Q 1 1 1 woodhouse_store1.png -1 0 0
+R 1 1 1 woodhouse_store2.png -1 0 0
+S 1 1 1 fence_post.png -1 0 0
+T 1 1 1 fence_topleftcorner.png -1 0 0
+U 1 1 1 fence_toprightcorner.png -1 0 0
+V 1 1 1 fence_bottomleftcorner.png -1 0 0
+W 1 1 1 fence_bottomrightcorner.png -1 0 0
+X 1 1 1 fence_wall.png -1 0 0
+Y 1 1 1 fence_front.png -1 0 0
+Z 1 1 1 fence_leftgate.png -1 0 0
+a 1 1 1 fence_rightgate.png -1 0 0
+b 6 4 0.25 stove.png -1 0 0
+c 0 1 1 dock_landleft.png -1 0 0
+d 0 1 1 dock_landright.png -1 0 0
+e 0 1 1 dock_waterleft.png -1 0 0
+f 0 1 1 dock_waterright.png -1 0 0
+g 0 1 1 dock_endtopleft.png -1 0 0
+h 0 1 1 dock_endtopright.png -1 0 0
+i 0 1 1 dock_endbottomleft.png -1 0 0
+j 0 1 1 dock_endbottomright.png -1 0 0
+k 0 1 1 dock_shipleft.png -1 0 0
+l 0 1 1 dock_shipright.png -1 0 0
+m 2 4 0.5 grass.png -1 15 10
+n 4 7 0.18 fish.png -1 0 0
+o 1 1 1 tree_bottom.png -1 0 0
+p 1 8 0.25 tree_top.png -1 0 0
+q 2 4 0.5 grass.png -1 16 0
+r 2 4 0.5 grass.png -1 17 0
+s 2 4 0.5 grass.png -1 18 0
+t 2 4 0.5 grass.png -1 19 15
+u 2 4 0.5 grass.png -1 20 0
+v 2 1 1 castle_floor.png -1 21 0
+w 2 1 1 castle_floor.png -1 22 0
+y 2 1 1 castle_floor.png -1 23 0
+z 0 47 0.1 credits.png -1 0 0
+3 2 4 0.5 grass.png -1 5 15
+4 2 1 1 woodhouse_floor.png -1 6 30
+5 2 1 1 dirt.png -1 3 15
+6 2 1 1 dirt.png -1 9 30
+7 2 1 1 dirt.png -1 10 300
+8 2 1 1 castle_floor.png -1 13 300
+9 2 1 1 castle_floor.png -1 14 600
+( 0 1 1 dock_endbottomleft.png 0 0 0
+) 0 1 1 dock_endtopleft.png 2 0 0
+[ 2 4 0.5 grass.png -1 24 0
+] 2 4 0.5 grass.png -1 25 0
+? 2 1 1 castle_floor.png -1 32 0
+| 2 1 1 woodhouse_floor.png -1 2 0
+; 5 1 1 copper_rock.png -1 0 0
+^ 2 1 1 castle_floor.png -1 27 0
+= 0 1 1 castle_floor.png -1 0 0
+< 2 1 1 grass.png -1 28 0
+> 2 1 1 woodhouse_floor.png -1 29 0
+/ 2 1 1 castle_entrance.png -1 30 0
+\ 2 1 1 grass.png -1 33 0
+: 2 1 1 castle_entrance.png -1 34 0
+% 4 7 0.18 fish.png -1 0 0
+# 2 1 1 castle_floor.png -1 35 0
+@ 2 1 1 castle_floor.png -1 36 0
+' 2 4 0.5 grass.png -1 38 0
+{ 0 4 0.5 grass.png -1 0 0
+} 0 4 0.5 grass.png -1 0 0
+- 2 1 1 dirt.png -1 44 0

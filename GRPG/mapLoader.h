@@ -40,6 +40,7 @@ struct tileStruct {
 	double frameTime;
 	float globalFrameTime;
 	int currentFrame = 0;
+	int songId;
 };
 
 // Stores a tile, which can be either an entity or an image

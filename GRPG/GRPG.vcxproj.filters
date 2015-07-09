@@ -86,6 +86,7 @@
     <ClCompile Include="RiftData.cpp" />
     <ClCompile Include="SkillLevelUp.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="MusicTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="GameEvent_RiftClosed.h" />
     <ClInclude Include="SkillLevelUp.h" />
     <ClInclude Include="NoiseManager.h" />
+    <ClInclude Include="MusicTile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

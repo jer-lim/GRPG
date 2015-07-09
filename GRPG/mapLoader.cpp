@@ -12,6 +12,7 @@
 #include "AnimatableTile.h"
 #include "grpg.h"
 #include "player.h"
+#include "MusicTile.h"
 
 using namespace std;
 
@@ -86,6 +87,7 @@ void MapLoader::loadData(){
 		int tileType;
 		int numFrames;
 		double frameTime;
+		int songId;
 		string tileFileName;
 		while (!tilestream.eof()){
 
@@ -95,6 +97,7 @@ void MapLoader::loadData(){
 				tilestream >> numFrames;
 				tilestream >> frameTime;
 				tilestream >> tileFileName;
+				tilestream >> songId;
 
 				//Insert into a map
 				if (tileType == tileNS::type::SPAWNPOINT){
@@ -109,6 +112,7 @@ void MapLoader::loadData(){
 				tileset[tileId].numFrames = numFrames;
 				tileset[tileId].frameTime = frameTime;
 				tileset[tileId].globalFrameTime = 0.0f;
+				tileset[tileId].songId = songId;
 
 				if (tileType == tileNS::type::SPAWNER){
 					tilestream >> tileset[tileId].spawnId;
@@ -344,7 +348,7 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		tileTms[tileId] = textureManager;
 	}
 
-	if (tileset[tileId].type != tileNS::type::FLOOR){
+	if (tileset[tileId].type != tileNS::type::FLOOR || tileset[tileId].songId != -1){
 		Tile* t = nullptr;
 		if (tileset[tileId].type == tileNS::type::COOKER){
 			t = new Cooker(tileId);
@@ -373,9 +377,11 @@ ManagedTile* MapLoader::loadTile(int tileX, int tileY){
 		}
 		else if (tileset[tileId].type == tileNS::type::ANIMATABLE){
 			t = new AnimatableTile(tileId, false);
-			t->initialize(gamePtr, textureManager);
 			//runtimeLog << "Created animtable1" << endl;
 			//runtimeLog << "New memory allocation at 0x" << t << endl; // NEWLOGGING
+		}
+		else if (tileset[tileId].type == tileNS::type::FLOOR) {
+			t = new MusicTile(tileId, tileset[tileId].songId, false);
 		}
 
 		//Hello developers! Found a crash here?
@@ -538,7 +544,9 @@ void MapLoader::update(float frameTime){
 		if (newTileId != oldTileId || (newTileInfo.type != tileNS::type::FLOOR && newTileInfo.type != tileNS::type::WALL)){
 
 			// If both are the same class, just change textureManagers and misc info (Floors and walls only, others need to be recreated)
-			if (newTileInfo.type == mt->type && (newTileInfo.type == tileNS::type::FLOOR || newTileInfo.type == tileNS::type::WALL)){
+			// Recreation is also required if the previous tile didn't require a song (So does not have a PlayableMusic attached to it) and this new one does
+			if (newTileInfo.type == mt->type && (newTileInfo.type == tileNS::type::FLOOR || newTileInfo.type == tileNS::type::WALL) &&
+				(!(newTileInfo.songId != -1 && tileset[oldTileId].songId == -1))){
 				TextureManager* textureManager;
 				stringstream ss;
 				ss << tileImageFolder << newTileInfo.imageName;
@@ -562,6 +570,11 @@ void MapLoader::update(float frameTime){
 					mt->tile->getImage()->setCols(newTileInfo.numFrames);
 					mt->tile->getImage()->setCurrentFrame(newTileInfo.currentFrame);
 					mt->tile->getImage()->setAnimTimer(newTileInfo.globalFrameTime);
+					//Song snycing
+					if (tileset[oldTileId].songId != -1)
+					{
+						((PlayableMusic*)mt->tile)->setSongID(newTileInfo.songId);
+					}
 
 					mt->tile->setId(newTileId);
 				}
@@ -607,7 +620,7 @@ void MapLoader::update(float frameTime){
 					textureManager->initialize(gamePtr->getGraphics(), ss.str().c_str());
 					tileTms[newTileId] = textureManager;
 				}
-				if (newTileInfo.type != tileNS::type::FLOOR){
+				if (newTileInfo.type != tileNS::type::FLOOR || newTileInfo.songId != -1){
 					Tile* t = nullptr;
 					if (newTileInfo.type == tileNS::type::COOKER){
 						t = new Cooker(newTileId);
@@ -640,7 +653,9 @@ void MapLoader::update(float frameTime){
 					}
 					else if (newTileInfo.type == tileNS::type::ANIMATABLE) {
 						t = new AnimatableTile(newTileId, false);
-						t->initialize(gamePtr, textureManager);
+					}
+					else if (newTileInfo.type == tileNS::type::FLOOR) {
+						t = new MusicTile(newTileId, newTileInfo.songId, false);
 					}
 
 					t->initialize(gamePtr, textureManager);
