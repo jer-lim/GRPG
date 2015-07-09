@@ -62,6 +62,7 @@ private:
 	//Whether this entity will be deleted on the next update step.
 	bool allocatedForDeletion;
 	int totalWaves;
+	bool playerInRift;
 protected:
 	Behavior* enterBehavior;
 	Behavior* exitBehavior;

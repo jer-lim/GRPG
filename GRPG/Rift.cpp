@@ -44,6 +44,7 @@ bool Rift::initialize(Game* gamePtr, Player* p, NPC* character)
 	setupBehaviors();
 
 	((Grpg*)gamePtr)->getGameEventManager()->addListener(this);
+	playerInRift = false;
 
 	return result;
 }
@@ -159,6 +160,13 @@ void Rift::update(float frameTime, Game* gamePtr)
 		}
 	}
 
+	//If the player died while in this rift
+	//Close it, award no xp
+	if (playerInRift && playerLastTotalDeaths < thePlayer->getTotalDeaths())
+	{
+		close();
+	}
+
 	if (allocatedForDeletion)
 	{
 		((Grpg*)theGame)->deleteEntity(this);
@@ -200,6 +208,10 @@ void Rift::setupBehaviors()
 
 void Rift::begin(bool requireWalking)
 {
+	//Start tracking deaths, so that we know if the player dies
+	playerLastTotalDeaths = thePlayer->getTotalDeaths();
+	playerInRift = true;
+
 	//Mob spawning time!
 	if (requireWalking)
 	{

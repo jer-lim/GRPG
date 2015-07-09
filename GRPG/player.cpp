@@ -303,7 +303,7 @@ void Player::damage(int dt)
 		setX(game->getStartLocation().x);
 		setY(game->getStartLocation().y);
 		health = skills[skillNS::ID_SKILL_TOUGHNESS].getSkillLevel();
-		setIsInDarkRealm(false);
+		setRiftPortal(nullptr);
 		totalDeaths++;
 		setIsTeleporting(2);
 		releaseDestination();
