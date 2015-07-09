@@ -75,23 +75,13 @@ class SoundManager {
 	static bool muted;
 	static vector<Music> musicList;
 	static Music currentlyPlayingMusic;
-
+	static float musicTimer;
 public:
 	static void initialize();
 
 	static void mute();
 
-	static void update(float frametime, Game* gamePtr)
-	{
-		/*		if (!muted)
-		{
-		musicTimer -= frametime;
-		if (musicTimer < 0)
-		{
-		playMusic(currentlyPlayingMusic.id);
-		}
-		}*/
-	}
+	static void update(float frametime, Game* gamePtr);
 
 	static void playMusic(int musicID);
 

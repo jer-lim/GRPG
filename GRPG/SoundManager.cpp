@@ -4,6 +4,7 @@
 vector<Music> SoundManager::musicList = vector<Music>();
 bool SoundManager::muted = false;
 Music SoundManager::currentlyPlayingMusic = Music();
+float SoundManager::musicTimer = 0;
 
 void SoundManager::initialize()
 {
@@ -26,6 +27,18 @@ void SoundManager::mute()
 	currentlyPlayingMusic = Music();
 }
 
+void SoundManager::update(float frametime, Game* gamePtr)
+{
+	if (!muted)
+	{
+		musicTimer -= frametime;
+		if (musicTimer < 0)
+		{
+			playMusic(currentlyPlayingMusic.id);
+		}
+	}
+}
+
 void SoundManager::playMusic(int musicID)
 {
 	if (!muted)
@@ -45,6 +58,7 @@ void SoundManager::playMusic(int musicID)
 		ss << "play \"";
 		ss << musicList[musicID].fileName;
 		ss << "\"";
+		musicTimer = musicList[musicID].playTime;
 		errorCode = mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
 		currentlyPlayingMusic = musicList[musicID];
 		int a = errorCode;
