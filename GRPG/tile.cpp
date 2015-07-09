@@ -40,7 +40,7 @@ bool Tile::initialize(Game *gamePtr, TextureManager* tm)
 	if (id == 'b')
 	{
 		stoveBehavior = new StoveMoveBehavior(((Grpg*)gamePtr)->getPlayer(), this, ((Grpg*)gamePtr)->getUI());
-		viewBehavior = new ViewBehavior("Stove", "Matt's Favourite stove idk what to put here damn Matt", ((Grpg*)gamePtr)->getUI());
+		viewBehavior = new ViewBehavior("Stove", "Matt's Favourite stove", ((Grpg*)gamePtr)->getUI());
 		setupVectorActiveBehaviors();
 	}
 	return(Entity::initialize(gamePtr, tileNS::WIDTH, tileNS::HEIGHT, 1, tm));

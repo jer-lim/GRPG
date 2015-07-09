@@ -12,10 +12,13 @@
 #include <winerror.h>
 
 namespace soundManagerNS {
-	const char hitSoundFileName[] = "assets/sound/rocket.wav";
+	const char aidilHitSoundFileName[] = "assets/sound/rocket.wav";
+	const char hitSoundFileName[] = "assets/sound/sword_v_sword.wav";
 
 	const int generalMusicID = 0;
 	const int fightingMusicID = 1;
+	const int aidilPreFightMusicID = 2;
+	const int aidilFightMusicID = 3;
 }
 
 struct Music

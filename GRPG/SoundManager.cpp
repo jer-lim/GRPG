@@ -20,6 +20,18 @@ void SoundManager::initialize()
 	movementProposition.playTime = 141;
 	movementProposition.id = soundManagerNS::fightingMusicID;
 	musicList.push_back(movementProposition);
+
+	Music aidilPreFight;
+	aidilPreFight.fileName = TEXT("assets/sound/aidil_prefight.wav");
+	aidilPreFight.playTime = 29;
+	aidilPreFight.id = soundManagerNS::aidilPreFightMusicID;
+	musicList.push_back(aidilPreFight);
+
+	Music aidilFight;
+	aidilFight.fileName = TEXT("assets/sound/aidil_fight.wav");
+	aidilFight.playTime = 126;
+	aidilFight.id = soundManagerNS::aidilFightMusicID;
+	musicList.push_back(aidilFight);
 }
 
 void SoundManager::mute()
