@@ -484,7 +484,7 @@ bool Grpg::processCommand(std::string command)
 {
 	if (command == "pro")
 	{
-		pro = true;
+		pro = !pro;
 		return true;
 	}
 	else if (command == "easter")
