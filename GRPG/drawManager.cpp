@@ -71,56 +71,81 @@ void DrawManager::updateAll(float frameTime){
 		}
 	}
 
+	queue<pair<int, int>> toErase;
+
 	for (map<int, map<int, ManagedObject*>>::reverse_iterator it = objects.rbegin(); it != objects.rend(); ++it){
 		int zi = it->first;
 		for (map<int, ManagedObject*>::reverse_iterator it2 = objects[zi].rbegin(); it2 != objects[zi].rend(); ++it2){
-			if (it2->second->entity != nullptr)
+			//Common erase idiom for associative containers.
+			if (it2->second->toBeErased)
 			{
-				it2->second->entity->update(frameTime, gamePtr);
-				if (gamePtr->getMouseOverEntity() == nullptr)
-				{//if don't have an existing mouse over
-					if (it2->second->entity->getPerson() != Person::thePlayer)
-					{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
-						if (it2->second->entity->getType() == "UI")
-						{//check inventory items							
-							if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
-							{
-								map<int, Entity*>* slotList = ((Grpg*)gamePtr)->getPlayer()->getInventory()->getSlotList();
-								for (std::map<int, Entity*>::iterator it3 = slotList->begin(); it3 != slotList->end(); ++it3)
+				//Do nothing, erase at the end of loop
+				//This way we guarantee erasure while the array isn't currently looping
+				toErase.push(pair<int, int>(zi, it2->first));
+			}
+			else
+			{
+				if (it2->second->entity != nullptr)
+				{
+					it2->second->entity->update(frameTime, gamePtr);
+					if (it2->second->toBeErased)
+					{
+						continue;
+					}
+					if (gamePtr->getMouseOverEntity() == nullptr)
+					{//if don't have an existing mouse over
+						if (it2->second->entity->getPerson() != Person::thePlayer)
+						{//I don't want to mouse over player (for obvious reasons) nor UI to handle entities acting as my inventory
+							if (it2->second->entity->getType() == "UI")
+							{//check inventory items							
+								if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
 								{
-									if (it3->second->mouseInside(viewport))
+									map<int, Entity*>* slotList = ((Grpg*)gamePtr)->getPlayer()->getInventory()->getSlotList();
+									for (std::map<int, Entity*>::iterator it3 = slotList->begin(); it3 != slotList->end(); ++it3)
 									{
-										gamePtr->setMouseOverEntity(it3->second);
+										if (it3->second->mouseInside(viewport))
+										{
+											gamePtr->setMouseOverEntity(it3->second);
+											break;
+										}
+									}
+								}
+								//Check shop items
+								vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
+								for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+								{
+									Entity* theItem = *it3;
+									if (theItem->mouseInside(viewport))
+									{
+										gamePtr->setMouseOverEntity(theItem);
 										break;
 									}
 								}
 							}
-							//Check shop items
-							vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
-							for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+							else if (it2->second->entity->mouseInside(viewport))
 							{
-								Entity* theItem = *it3;
-								if (theItem->mouseInside(viewport))
+								//Make sure they're in the same realm
+								if (((Grpg*)gamePtr)->getPlayer()->inDarkRealm() == it2->second->entity->inDarkRealm())
 								{
-									gamePtr->setMouseOverEntity(theItem);
+									gamePtr->setMouseOverEntity(it2->second->entity);
 									break;
 								}
 							}
 						}
-						else if (it2->second->entity->mouseInside(viewport))
-						{
-							//Make sure they're in the same realm
-							if (((Grpg*)gamePtr)->getPlayer()->inDarkRealm() == it2->second->entity->inDarkRealm())
-							{
-								gamePtr->setMouseOverEntity(it2->second->entity);
-								break;
-							}
-						}
 					}
 				}
+				else it2->second->image->update(frameTime);
 			}
-			else it2->second->image->update(frameTime);
 		}
+	}
+
+	while (!toErase.empty())
+	{
+		pair<int, int> p = toErase.front();
+		ManagedObject* mo = objects[p.first][p.second];
+		delete mo;
+		objects[p.first].erase(p.second);
+		toErase.pop();
 	}
 }
 
@@ -128,8 +153,11 @@ void DrawManager::renderAll(){
 	for (map<int, map<int, ManagedObject*>>::iterator it = objects.begin(); it != objects.end(); ++it){
 		int zi = it->first;
 		for (map<int, ManagedObject*>::iterator it2 = objects[zi].begin(); it2 != objects[zi].end(); ++it2){
-			if (it2->second->entity != nullptr) it2->second->entity->draw(viewport);
-			else it2->second->image->draw(viewport);
+			if (!it2->second->toBeErased)
+			{
+				if (it2->second->entity != nullptr) it2->second->entity->draw(viewport);
+				else it2->second->image->draw(viewport);
+			}
 		}
 	}
 }
@@ -138,8 +166,11 @@ void DrawManager::releaseAll(){
 	for (map<int, map<int, ManagedObject*>>::iterator it = objects.begin(); it != objects.end(); ++it){
 		int zi = it->first;
 		for (map<int, ManagedObject*>::iterator it2 = objects[zi].begin(); it2 != objects[zi].end(); ++it2){
-			if (it2->second->entity != nullptr) it2->second->entity->getTextureManager()->onLostDevice();
-			else it2->second->image->getTextureManager()->onLostDevice();
+			if (!it2->second->toBeErased)
+			{
+				if (it2->second->entity != nullptr) it2->second->entity->getTextureManager()->onLostDevice();
+				else it2->second->image->getTextureManager()->onLostDevice();
+			}
 		}
 	}
 }
@@ -148,15 +179,18 @@ void DrawManager::resetAll(){
 	for (map<int, map<int, ManagedObject*>>::iterator it = objects.begin(); it != objects.end(); ++it){
 		int zi = it->first;
 		for (map<int, ManagedObject*>::iterator it2 = objects[zi].begin(); it2 != objects[zi].end(); ++it2){
-			if (it2->second->entity != nullptr)
+			if (!it2->second->toBeErased)
 			{
-				it2->second->entity->getTextureManager()->onResetDevice();
-				it2->second->entity->getImage()->spriteData.texture = it2->second->entity->getTextureManager()->getTexture();
-			}
-			else
-			{
-				it2->second->image->getTextureManager()->onResetDevice();
-				it2->second->image->spriteData.texture = it2->second->image->getTextureManager()->getTexture();
+				if (it2->second->entity != nullptr)
+				{
+					it2->second->entity->getTextureManager()->onResetDevice();
+					it2->second->entity->getImage()->spriteData.texture = it2->second->entity->getTextureManager()->getTexture();
+				}
+				else
+				{
+					it2->second->image->getTextureManager()->onResetDevice();
+					it2->second->image->spriteData.texture = it2->second->image->getTextureManager()->getTexture();
+				}
 			}
 		}
 	}
@@ -217,8 +251,9 @@ void DrawManager::removeObject(Entity* ent){
 	while (!toErase.empty()){
 		pair<int, int> p = toErase.front();
 		ManagedObject* mo = objects[p.first][p.second];
-		delete mo;
-		objects[p.first].erase(p.second);
+		mo->toBeErased = true;
+		//delete mo;
+		//objects[p.first].erase(p.second);
 		toErase.pop();
 	}
 }
@@ -240,8 +275,9 @@ void DrawManager::removeObject(Image* img){
 	while (!toErase.empty()){
 		pair<int, int> p = toErase.front();
 		ManagedObject* mo = objects[p.first][p.second];
-		delete mo;
-		objects[p.first].erase(p.second);
+		mo->toBeErased = true;
+		//delete mo;
+		//objects[p.first].erase(p.second);
 		toErase.pop();
 	}
 }

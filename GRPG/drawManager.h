@@ -16,6 +16,7 @@ class Viewport;
 struct ManagedObject {
 	Entity* entity = nullptr;
 	Image* image = nullptr;
+	bool toBeErased = false;
 };
 
 class DrawManager {
