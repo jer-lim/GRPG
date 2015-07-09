@@ -31,7 +31,7 @@
 #include "StealBehavior.h"
 #include "UpdateQuestsBehavior.h"
 #include "grpg.h"
-#include "SoundManager.h"
+#include "NoiseManager.h"
 #include "InventoryEquipment.h"
 #include "GameEventManager.h"
 //#include "Smithing_Material.h"
@@ -706,7 +706,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 						if (person->getType() == "ENEMY")
 						{
 							int victimHealth = victim->getHealth();
-							SoundManager::playSound(SoundManagerNS::HIT);
+							//SoundManager::playSound(soundManagerNS::hitSoundID);
 							int damageDealt = victim->damage(((Enemy*)person)->getattackLv(), ((Enemy*)person)->getstrengthLv());
 							if (damageDealt >= victimHealth)
 							{
@@ -726,7 +726,7 @@ void Entity::update(float frameTime, Game* gamePtr)
 					{
 						if (victim->getPerson() != nullptr && victim->getPerson()->getType() == "ENEMY" && npcAction == nullptr)
 						{
-							SoundManager::playSound(SoundManagerNS::HIT);
+							SoundManager::playSound(soundManagerNS::hitSoundFileName);
 							//Victim should retaliate
 							victim->setVictim(this);
 							int victimHealth = victim->getHealth();

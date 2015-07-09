@@ -85,6 +85,7 @@
     <ClCompile Include="RiftExitBehavior.cpp" />
     <ClCompile Include="RiftData.cpp" />
     <ClCompile Include="SkillLevelUp.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -156,7 +157,6 @@
     <ClInclude Include="UpdateQuestsBehavior.h" />
     <ClInclude Include="GameEventManager.h" />
     <ClInclude Include="QuestLoader.h" />
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StealBehavior.h" />
     <ClInclude Include="ChatData.h" />
     <ClInclude Include="OptionNotifier.h" />
@@ -195,6 +195,7 @@
     <ClInclude Include="RiftData.h" />
     <ClInclude Include="GameEvent_RiftClosed.h" />
     <ClInclude Include="SkillLevelUp.h" />
+    <ClInclude Include="NoiseManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

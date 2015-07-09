@@ -1,0 +1,65 @@
+#include "NoiseManager.h"
+#include <thread>
+
+vector<Music> SoundManager::musicList = vector<Music>();
+bool SoundManager::muted = false;
+Music SoundManager::currentlyPlayingMusic = Music();
+
+void SoundManager::initialize()
+{
+	musicList = vector<Music>();
+	Music m;
+	m.fileName = TEXT("assets/sound/easylemon.wav");
+	m.playTime = 126;
+	m.id = soundManagerNS::easyLemonMusicID;
+	musicList.push_back(m);
+}
+
+void SoundManager::mute()
+{
+	muted = true;
+	stringstream ss;
+	ss << "stop \"";
+	ss << currentlyPlayingMusic.fileName;
+	ss << "\"";
+	mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
+	currentlyPlayingMusic = Music();
+}
+
+void SoundManager::playMusic(int musicID)
+{
+	if (!muted)
+	{
+		int errorCode;
+		stringstream ss;
+		//Stop currently playing music
+		if (currentlyPlayingMusic.fileName != "")
+		{
+			ss << "stop \"";
+			ss << currentlyPlayingMusic.fileName;
+			ss << "\""; 
+			errorCode = mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
+			ss.str("");
+		}
+		//Search for music
+		ss << "play \"";
+		ss << musicList[musicID].fileName;
+		ss << "\"";
+		errorCode = mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
+		currentlyPlayingMusic = musicList[musicID];
+		int a = errorCode;
+	}
+}
+
+void SoundManager::playSound(const char soundName[])
+{
+	if (!muted)
+	{
+		//Search for sound
+		stringstream ss;
+		ss << "play \"";
+		ss << soundName;
+		ss << "\"";
+		int errorCode = mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
+	}
+}

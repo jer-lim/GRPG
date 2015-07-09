@@ -17,6 +17,7 @@
 #include "ChatData.h"
 #include "InventoryBoost.h"
 #include "Aidil.h"
+#include "NoiseManager.h"
 #include "RiftData.h"
 
 //=============================================================================
@@ -34,6 +35,7 @@ Grpg::Grpg()
 //=============================================================================
 Grpg::~Grpg()
 {
+	SoundManager::mute();
     releaseAll();           // call onLostDevice() for every graphics item
 	SAFE_DELETE(uiFont);
 	//SAFE_DELETE(ui);//handled by drawmanager
@@ -193,6 +195,11 @@ void Grpg::initialize(HWND hwnd)
 	drawManager->addObject(newObj, 2);
 	*/
 	//END SCENE
+
+	//Play music
+	SoundManager::initialize();
+	SoundManager::playMusic(soundManagerNS::easyLemonMusicID);
+
 	return;
 }
 
@@ -329,6 +336,7 @@ void Grpg::update()
 	}
 	mapLoader->update(frameTime);
 	drawManager->updateAll(frameTime);
+	SoundManager::update(frameTime, this);
 
 	//player->setX(player->getX() + 2);
 	

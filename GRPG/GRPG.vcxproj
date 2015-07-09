@@ -45,6 +45,7 @@
     <ClInclude Include="InventoryEquipment.h" />
     <ClInclude Include="KeyFishBehavior.h" />
     <ClInclude Include="MineBehavior.h" />
+    <ClInclude Include="NoiseManager.h" />
     <ClInclude Include="OpenBehavior.h" />
     <ClInclude Include="OptionNotifier.h" />
     <ClInclude Include="Person.h" />
@@ -100,7 +101,6 @@
     <ClInclude Include="skill.h" />
     <ClInclude Include="SkillLevelUp.h" />
     <ClInclude Include="Smithing_Material.h" />
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="StealBehavior.h" />
     <ClInclude Include="StoveMoveBehavior.h" />
@@ -188,6 +188,7 @@
     <ClCompile Include="ShriveledMan.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="SkillLevelUp.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="StealBehavior.cpp" />
     <ClCompile Include="StoveMoveBehavior.cpp" />
