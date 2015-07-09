@@ -41,6 +41,7 @@ namespace playerNS
 	const float miningWaitTime = 10;
 	const float thievinWaitTime = 3;
 	const float dragonfireImmuneTime = 1;
+	const float combatLeaveDelay = 3;
 }
 
 class Grpg;
@@ -91,6 +92,8 @@ private:
 
 	int totalDeaths;
 	bool inCombat;
+	//delay before leaving combat
+	float combatLeaveDelay;
 protected:
 	void restartCounter(int startingTime, int skilLevel);
 
@@ -263,7 +266,7 @@ public:
 		return totalDeaths;
 	}
 
-	virtual void setInCombat(bool i) { inCombat = i; }
+	virtual void setInCombat(bool i) { inCombat = i; combatLeaveDelay = playerNS::combatLeaveDelay; }
 };
 #endif
 
