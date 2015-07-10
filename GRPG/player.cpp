@@ -372,3 +372,29 @@ UI* Player::getUI()
 {
 	return game->getUI();
 }
+
+map<string, int> Player::getSkillsToSave()
+{
+	map<string, int> theSkills;
+	for (map<int, PlayerSkill>::iterator i = skills.begin(); i != skills.end(); ++i)
+	{
+		PlayerSkill aSkill = i->second;
+		theSkills[aSkill.getSkill()->getName()] = aSkill.getXP();
+	}
+	return theSkills;
+}
+
+void Player::loadSkills(map<string, int> skillsData)
+{
+	for (map<string, int>::iterator i = skillsData.begin(); i != skillsData.end(); ++i)
+	{
+		for (map<int, PlayerSkill>::iterator ii = skills.begin(); ii != skills.end(); ++ii)
+		{
+			PlayerSkill* aSkill = &(ii->second);
+			if (aSkill->getSkill()->getName() == i->first)
+			{
+				aSkill->setXP(i->second);
+			}
+		}
+	}
+}

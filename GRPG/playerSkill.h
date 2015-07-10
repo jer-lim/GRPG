@@ -27,7 +27,7 @@ private:
 	//std::string description;//description of skill
 	//int exp_gain;//skill gain per action done
 
-	long experience;//amt of experience
+	int experience;//amt of experience
 	//The player that has this skill and it's corresponding XP
 	Player* thePlayer;
 	//The skill that this refers to
@@ -52,7 +52,11 @@ public:
 	const Skill* getSkill() { return skill; }
 
 	// Get the total number of XP the player has gained in this skill
-	long getXP() { return experience; }
+	int getXP() { return experience; }
+
+	// Set the total number of XP the player has gained in this skill
+	// Used for loading save files.
+	void setXP(int xp) { experience = xp; hasLevelledUp(); }
 
 	//Returns the current skill level
 	int getSkillLevel();

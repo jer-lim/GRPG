@@ -267,6 +267,10 @@ public:
 	}
 
 	virtual void setInCombat(bool i) { inCombat = i; combatLeaveDelay = playerNS::combatLeaveDelay; }
+
+	virtual map<string, int> getSkillsToSave();
+
+	virtual void loadSkills(map<string, int> skillsData);
 };
 #endif
 

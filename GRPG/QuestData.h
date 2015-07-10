@@ -12,6 +12,7 @@ using namespace std;
 //of the game can be tracked accordingly.
 class QuestData
 {
+private:
 public:
 	//Easter quest data
 	map<string, int> storedInformation;
@@ -102,6 +103,13 @@ public:
 		storedInformation["minorTaskAskerNeedsNet"] = 0;
 		//Represents if the player complained to the captain about the quest after the fisherman asked for a favour as well
 		storedInformation["minorTaskComplained"] = 0;
+	}
+
+	virtual map<string, int> getAllValues() { return storedInformation; }
+
+	virtual void loadQuestData(map<string, int> data)
+	{
+		storedInformation = data;
 	}
 };
 

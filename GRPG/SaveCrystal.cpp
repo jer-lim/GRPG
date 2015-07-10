@@ -87,6 +87,6 @@ void SaveCrystal::onResetDevice()
 void SaveCrystal::setupBehaviors()
 {
 	viewBehavior = new ViewBehavior("Save Crystal", examineText, ui);
-	useBehavior = new SaveCrystalUseBehavior(thePlayer, this, ui);
+	useBehavior = new SaveCrystalUseBehavior(thePlayer, this, ui, (Grpg*) theGame);
 	setupVectorActiveBehaviors();
 }

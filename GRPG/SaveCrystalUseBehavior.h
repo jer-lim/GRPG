@@ -7,6 +7,7 @@ class NPC;
 class UI;
 using namespace std;
 class Player;
+class Grpg;
 
 class SaveCrystalUseBehavior : public Behavior
 {
@@ -14,11 +15,13 @@ private:
 	Entity* entity;
 	Player* player;
 	UI* ui;
+	Grpg* grpg;
 public:
-	SaveCrystalUseBehavior(Player* p, Entity* e, UI* u){
+	SaveCrystalUseBehavior(Player* p, Entity* e, UI* u, Grpg* g){
 		player = p;
 		entity = e;
 		ui = u;
+		grpg = g;
 	}
 	virtual bool exists(){ return true; }
 	virtual string displayText();

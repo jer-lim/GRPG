@@ -6,6 +6,17 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "grpg.h"
+
+#include <cereal\types\map.hpp>
+#include <cereal\archives\json.hpp>
+#include <cereal\types\complex.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal\cereal.hpp>
+
+#include <iostream>
+#include <fstream>
 
 string SaveCrystalUseBehavior::displayText(){
 	return "Use Save Crystal";
@@ -16,12 +27,30 @@ void SaveCrystalUseBehavior::action()
 	VECTOR2 collisionVector;
 	if (player->collidesWith(*entity, collisionVector) && !player->hasFailedThieve())
 	{
+		/*map<string, map<string, int>> saveData;
 		ui->addChatText("Save data saved.");
 		//ui->drawWindow("Save Crystal");
 		//ui->addTalkText(new ChatInformation("This "))
-		ofstream out("savefile.txt", ios::binary);
-		out.write(player->getSkills()->at(1).getSkill()->getName().c_str(), sizeof(player->getSkills()->at(1).getSkill()->getName().c_str()));
-		out.close();
+		saveData["questData"] = grpg->getQuestLoader()->getQuestData()->getAllValues();
+		saveData["skillsData"] = player->getSkillsToSave();
+
+		ofstream myfile;
+		myfile.open("savefile.txt");
+		cereal::JSONOutputArchive output(myfile);
+		output(cereal::make_nvp("savedata", saveData));
+		*/
+
+		ui->addChatText("Save data loaded.");
+		map<string, map<string, int>> loadData;
+		ifstream loadFile("savefile.txt");
+		if (loadFile.is_open())
+		{
+			cereal::JSONInputArchive i_archive(loadFile);
+			i_archive(loadData);
+		}
+		player->loadSkills(loadData["skillsData"]);
+		grpg->getQuestLoader()->getQuestData()->loadQuestData(loadData["questData"]);
+
 	}
 	else
 	{

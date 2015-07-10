@@ -1,1 +1,154 @@
-Powe
+{
+    "savedata": [
+        {
+            "key": "questData",
+            "value": [
+                {
+                    "key": "artifactDisplayStatus",
+                    "value": 0
+                },
+                {
+                    "key": "artifactStealAdmitted",
+                    "value": 0
+                },
+                {
+                    "key": "artifactStealKey",
+                    "value": 0
+                },
+                {
+                    "key": "artifactStealMethod",
+                    "value": 0
+                },
+                {
+                    "key": "artifactStealStatus",
+                    "value": 0
+                },
+                {
+                    "key": "darkRealmName",
+                    "value": 0
+                },
+                {
+                    "key": "easterBirdNestStatus",
+                    "value": 0
+                },
+                {
+                    "key": "easterComplete",
+                    "value": 0
+                },
+                {
+                    "key": "easterEggStatus",
+                    "value": 0
+                },
+                {
+                    "key": "easterGoodFoodGiven",
+                    "value": 0
+                },
+                {
+                    "key": "easterStatus",
+                    "value": 0
+                },
+                {
+                    "key": "elliotStatus",
+                    "value": 0
+                },
+                {
+                    "key": "foodGiven",
+                    "value": 0
+                },
+                {
+                    "key": "geraldStatus",
+                    "value": 0
+                },
+                {
+                    "key": "mattStatus",
+                    "value": 0
+                },
+                {
+                    "key": "minorTaskAskerBringNet",
+                    "value": 0
+                },
+                {
+                    "key": "minorTaskAskerNeedsNet",
+                    "value": 0
+                },
+                {
+                    "key": "minorTaskComplained",
+                    "value": 0
+                },
+                {
+                    "key": "minorTaskStatus",
+                    "value": 0
+                },
+                {
+                    "key": "mysteriousArtifactAlfredReward",
+                    "value": 0
+                },
+                {
+                    "key": "mysteriousArtifactGardenerTask",
+                    "value": 0
+                },
+                {
+                    "key": "mysteriousArtifactOtherTask",
+                    "value": 0
+                },
+                {
+                    "key": "mysteriousArtifactStatus",
+                    "value": 0
+                },
+                {
+                    "key": "mysteriousArtifactWaitTime",
+                    "value": 0
+                },
+                {
+                    "key": "smokeComplete",
+                    "value": 0
+                },
+                {
+                    "key": "smokeStatus",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "key": "skillsData",
+            "value": [
+                {
+                    "key": "Accuracy",
+                    "value": 631
+                },
+                {
+                    "key": "Cooking",
+                    "value": 671
+                },
+                {
+                    "key": "Evasion",
+                    "value": 682
+                },
+                {
+                    "key": "Fishing",
+                    "value": 659
+                },
+                {
+                    "key": "Mining",
+                    "value": 674
+                },
+                {
+                    "key": "Power",
+                    "value": 631
+                },
+                {
+                    "key": "Rift Sealing",
+                    "value": 624
+                },
+                {
+                    "key": "Thieving",
+                    "value": 628
+                },
+                {
+                    "key": "Toughness",
+                    "value": 2134
+                }
+            ]
+        }
+    ]
+}
