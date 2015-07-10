@@ -54,6 +54,13 @@ private:
 	QuestData* questData;
 	vector<ConditionalSkillReward> skillRewards;
 	vector<InventoryItem*> itemRewards;
+	//If an item reward is awarded to the player and merged into a stack (for example, an award of coins
+	//when the player already has coins), by default Inventory will attempt to delete the object as it is merged
+	//We can't do that this time, however, as otherwise we cannot display the quest reward screen
+	//with all the items that the quest rewards. To solve this problem, we prevent deletion, and then allocate the item
+	//for deletion later, such as when the game is closed (i.e. in destructor)
+	//HOWEVER, for some reason the items are already deleted by that time...and attempting to delete them crashes
+	//the game. Hmm...
 	vector<Entity*> itemsAllocatedForDeletion;
 	//Miscallenous rewards that do not belong in either category, but are regardless rewards for the quest
 	//These rewards only contain text that should be displayed to the user, the actual reward has to be coded
