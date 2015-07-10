@@ -12,7 +12,7 @@ namespace saveCrystalNS
 	const char location[] = "assets/misc/savecrystal.png";
 	const int imageWidth = 32;
 	const int imageHeight = 32;
-	const int frames = 5;
+	const int frames = 8;
 }
 
 // The save crystal, to save and load stats, as well as display stats
