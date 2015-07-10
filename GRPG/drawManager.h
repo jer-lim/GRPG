@@ -47,6 +47,8 @@ public:
 	void removeObject(Image* img);
 
 	map<int, map<int, ManagedObject*>> getDrawnObjects() { return objects; }
+
+	void removeAllDroppedItems();
 };
 
 #endif

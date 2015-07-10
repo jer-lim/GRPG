@@ -283,3 +283,30 @@ void DrawManager::removeObject(Image* img){
 		toErase.pop();
 	}
 }
+
+//Remove all items that has been dropped on the floor
+//Items are identified as dropped if their anchored is false.
+void DrawManager::removeAllDroppedItems()
+{
+	for (map<int, map<int, ManagedObject*>>::reverse_iterator it = objects.rbegin(); it != objects.rend(); ++it){
+		int zi = it->first;
+		for (map<int, ManagedObject*>::reverse_iterator it2 = objects[zi].rbegin(); it2 != objects[zi].rend(); ++it2){
+			if (it2->second->toBeErased)
+			{
+				//do nothing, already allocated for Erasure.
+			}
+			else
+			{
+				if (it2->second->entity != nullptr)
+				{
+					if (it2->second->entity->getInventoryItem() != nullptr && !it2->second->entity->getAnchored())
+					{
+						delete it2->second->entity;
+						it2->second->toBeErased = true;
+						it2->second->entity = nullptr;
+					}
+				}
+			}
+		}
+	}
+}

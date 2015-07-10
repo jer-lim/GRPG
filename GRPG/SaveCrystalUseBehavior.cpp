@@ -43,6 +43,7 @@ void SaveCrystalUseBehavior::action()
 		cereal::JSONOutputArchive output(myfile);
 		output(cereal::make_nvp("savedata", saveData));*/
 
+		grpg->getDrawManager()->removeAllDroppedItems();
 		
 		ui->addChatText("Save data loaded.");
 		map<string, map<string, int>> loadData;
