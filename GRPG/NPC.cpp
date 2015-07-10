@@ -15,6 +15,7 @@
 #include "ShriveledMan.h"
 #include "PlantPatch.h"
 #include "Rift.h"
+#include "SaveCrystal.h"
 
 Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	Entity* enemy;
@@ -58,6 +59,11 @@ Entity* NPC::spawn(Game* gamePtr, int npcId, VECTOR2 coords, Entity* victim){
 	{
 		enemy = new Rift();;
 		((Rift*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), gamePtr->getPersonLoader()->getNPC(npcId));
+	}
+	else if (npcId == 45)
+	{
+		enemy = new SaveCrystal();
+		((SaveCrystal*)enemy)->initialize(gamePtr, ((Grpg*)gamePtr)->getPlayer(), new Point(coords.x, coords.y), gamePtr->getPersonLoader()->getNPC(npcId)->getdescription());
 	}
 	else
 	{

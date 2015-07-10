@@ -87,6 +87,8 @@
     <ClCompile Include="SkillLevelUp.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="MusicTile.cpp" />
+    <ClCompile Include="SaveCrystal.cpp" />
+    <ClCompile Include="SaveCrystalUseBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -198,6 +200,8 @@
     <ClInclude Include="SkillLevelUp.h" />
     <ClInclude Include="NoiseManager.h" />
     <ClInclude Include="MusicTile.h" />
+    <ClInclude Include="SaveCrystal.h" />
+    <ClInclude Include="SaveCrystalUseBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />

@@ -75,7 +75,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
         DestroyWindow(hwnd);
         MessageBox(NULL, err.getMessage(), "Error", MB_OK);
     }
-    catch(...)
+    catch(exception e)
     {
         game->deleteAll();
         DestroyWindow(hwnd);
