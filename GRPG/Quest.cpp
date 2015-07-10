@@ -55,3 +55,87 @@ void Quest::gainRewards(UI* ui, Player* p, Grpg* grpg)
 		}
 	}
 }
+
+string Quest::getQuestString()
+{
+	stringstream result;
+	if (rewardGiven)
+	{
+		result << "1";
+	}
+	else
+	{
+		result << "0";
+	}
+	result << ":";
+	for (vector<RequiredCondition>::iterator i = completeConditions.begin(); i != completeConditions.end(); ++i)
+	{
+		vector<GameEventStorage>* eventsRequired = i->completeCondition->getConditions();
+		for (vector<GameEventStorage>::iterator ii = eventsRequired->begin(); ii != eventsRequired->end(); ++ii)
+		{
+			//The comma here might imply that when reading later, on the last item, the last comma should be ignored
+			//or not read. In actuality this is fine because the String function split will ignore empty strings.
+			result << ii->currentCount << ",";
+		}
+		//Same thing with the colon here, as described in the above comment.
+		result << ":";
+	}
+	return result.str();
+}
+
+void Quest::loadQuestString(string s)
+{
+	vector<string> vector_questData = String_Functions::split(s, ':');
+	if (vector_questData[0] == "1")
+	{
+		rewardGiven = true;
+		//Delete rewards, already given
+		for (vector<InventoryItem*>::iterator i = itemRewards.begin(); i != itemRewards.end(); i++)
+		{
+			if ((*i)->getType() == "INVENTORYEQUIPMENT")
+			{
+				//Smithing material may not be initalized yet
+				((InventoryEquipment*)(*i))->setSmithingMaterial(nullptr);
+			}
+			delete *i;
+		}
+	}
+	else
+	{
+		rewardGiven = false;
+	}
+
+	for (int i = 1, l = vector_questData.size(); i < l; ++i)
+	{
+		vector<string> vector_questConditionData = String_Functions::split(vector_questData[i], ',');
+		
+		vector<GameEventStorage>* questConditionConditions = completeConditions[i - 1].completeCondition->getConditions();
+		
+		for (int ii = 0; ii < questConditionConditions->size(); ii++)
+		{
+			int newValue = stoi(vector_questConditionData[ii]);
+			questConditionConditions->at(ii).currentCount = newValue;
+			//Update help text if completed
+			if (newValue >= questConditionConditions->at(ii).countRequirement)
+			{
+				questConditionConditions->at(ii).helpText = questConditionConditions->at(ii).successGameEvent->getAfterText();
+			}
+		}
+
+		//Now remove all prereqs if this condition is marked as completed
+		if (completeConditions[i - 1].completeCondition->completed())
+		{
+			for (int j = 0; j < completeConditions.size(); j++)
+			{
+				for (int k = 0; k < completeConditions[j].prereq.size(); k++)
+				{
+					if (completeConditions[j].prereq[k] == completeConditions[i - 1].completeCondition)
+					{
+						completeConditions[j].prereq.erase(completeConditions[j].prereq.begin() + k);
+
+					}
+				}
+			}
+		}
+	}
+}

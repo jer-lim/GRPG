@@ -192,7 +192,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	completeGardenerTask->addGameEventRequirement(pickATask, 1, nullptr);
 	GameEvent* completeTask = new GameEvent_EntityAction(nullptr, "I should work on that. Alfred can remind me on what task needs doing if I've forgotten.", "I've managed to complete the task Alfred assigned me!");
 	completeGardenerTask->addGameEventRequirement(completeTask, 1, pickATask);
-	mysteriousArtifactQuest->addQuestCondition(completeGardenerTask);
+	mysteriousArtifactQuest->addQuestCondition(completeGardenerTask, talkToGardener);
 
 	QuestCondition* openTheRift = new QuestCondition();
 	GameEvent* openRift = new GameEvent_EntityAction(personLoader->getNPC(39), "", "While leaving the garden, a rift opened up right in front of me!");

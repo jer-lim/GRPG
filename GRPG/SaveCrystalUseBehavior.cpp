@@ -27,8 +27,7 @@ void SaveCrystalUseBehavior::action()
 	VECTOR2 collisionVector;
 	if (player->collidesWith(*entity, collisionVector) && !player->hasFailedThieve())
 	{
-		/*
-		map<string, map<string, int>> saveData;
+		/*map<string, map<string, int>> saveData;
 		ui->addChatText("Save data saved.");
 		//ui->drawWindow("Save Crystal");
 		//ui->addTalkText(new ChatInformation("This "))
@@ -37,6 +36,13 @@ void SaveCrystalUseBehavior::action()
 		map<string, int> otherData;
 		otherData[player->getInventory()->getInventoryString()] = 0;
 		saveData["inventory"] = otherData;
+		map<string, int> questData;
+		map<int, Quest*>* questList = grpg->getQuestLoader()->getMapQuests();
+		for (map<int, Quest*>::iterator i = questList->begin(); i != questList->end(); ++i)
+		{
+			questData[i->second->getQuestString()] = i->first;
+		}
+		saveData["quests"] = questData;
 
 		ofstream myfile;
 		myfile.open("savefile.txt");
@@ -61,8 +67,22 @@ void SaveCrystalUseBehavior::action()
 			keys.push_back(i->first);
 		}
 		player->getInventory()->loadInventoryString(keys[0], grpg->getItemLoader(), grpg);
-		
+		//Delete and reload all quests, they may have progressed passed their save state
+		map<int, Quest*>* mapQuests = grpg->getQuestLoader()->getMapQuests();
+		for (map<int, Quest*>::iterator i = mapQuests->begin(); i != mapQuests->end(); ++i)
+		{
+			//Remove them
+			grpg->getGameEventManager()->removeListener(i->second);
+			SAFE_DELETE(i->second);
+		}
+		mapQuests->clear();
 
+		grpg->getQuestLoader()->loadAllQuests(grpg->getGameEventManager(), grpg->getPersonLoader(), grpg->getItemLoader(), grpg->getGraphics(), ui->getTopLeftX(), ui->getTopLeftY());
+		mapQuests = grpg->getQuestLoader()->getMapQuests();
+		for (map<string, int>::iterator i = loadData["quests"].begin(); i != loadData["quests"].end(); i++)
+		{
+			mapQuests->at(i->second)->loadQuestString(i->first);
+		}
 	}
 	else
 	{

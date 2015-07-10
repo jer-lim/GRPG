@@ -14,7 +14,7 @@
             "value": [
                 {
                     "key": "artifactDisplayStatus",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "artifactStealAdmitted",
@@ -22,7 +22,7 @@
                 },
                 {
                     "key": "artifactStealKey",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "artifactStealMethod",
@@ -30,7 +30,7 @@
                 },
                 {
                     "key": "artifactStealStatus",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "key": "darkRealmName",
@@ -38,7 +38,7 @@
                 },
                 {
                     "key": "easterBirdNestStatus",
-                    "value": 0
+                    "value": 2
                 },
                 {
                     "key": "easterComplete",
@@ -46,7 +46,7 @@
                 },
                 {
                     "key": "easterEggStatus",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "easterGoodFoodGiven",
@@ -54,7 +54,7 @@
                 },
                 {
                     "key": "easterStatus",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "elliotStatus",
@@ -62,7 +62,7 @@
                 },
                 {
                     "key": "foodGiven",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "geraldStatus",
@@ -114,6 +114,27 @@
                 },
                 {
                     "key": "smokeStatus",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "key": "quests",
+            "value": [
+                {
+                    "key": "0:0,:0,0,:0,:0,0,:0,0,:0,:",
+                    "value": 2
+                },
+                {
+                    "key": "0:1,0,:0,:0,:0,0,:0,:",
+                    "value": 3
+                },
+                {
+                    "key": "0:1,:0,:1,:1,1,:0,:",
+                    "value": 1
+                },
+                {
+                    "key": "0:1,:1,0,:0,0,:1,:0,:0,:0,:",
                     "value": 0
                 }
             ]

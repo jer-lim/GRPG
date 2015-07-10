@@ -98,6 +98,8 @@ public:
 	//int getCurrentCount(){ return currentCount; }
 	//int getCountRequirement() { return countRequirement; }
 	int eventOccured(GameEvent* ge);
+
+	virtual vector<GameEventStorage>* getConditions() { return &conditions; }
 };
 
 #endif

@@ -279,6 +279,16 @@ public:
 	}
 
 	void gainRewards(UI* ui, Player* p, Grpg* grpg);
+
+	//Saves the quest data, that can potentially change, into a string so that it can be
+	//saved and loaded at any point of time
+	//The saved string follows the following format:
+	// {rewardGiven}:{conditionCount},{conditionCount},...,:{nextConditionCount},...,:{nextNextConditionCount},:...
+	string getQuestString();
+
+	//Loads the quest data as per the string sent in
+	//string should be generated from getQuestString()
+	void loadQuestString(string s);
 };
 
 #endif
