@@ -259,40 +259,47 @@ void Grpg::update()
 			for (map<int, map<int, ManagedObject*>>::reverse_iterator it = allEntities.rbegin(); it != allEntities.rend(); ++it){
 				int zi = it->first;
 				for (map<int, ManagedObject*>::reverse_iterator it2 = allEntities[zi].rbegin(); it2 != allEntities[zi].rend(); ++it2){
-					if (it2->second->entity != nullptr && it2->second->entity->getPerson() != Person::thePlayer)
+					if (it2->second->toBeErased)
 					{
-						if (it2->second->entity->getType() == "UI")
-						{//check inventory items
-							if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
-							{
-								map<int, Entity*>* slotList = player->getInventory()->getSlotList();
-								for (std::map<int, Entity*>::iterator it3 = slotList->begin(); it3 != slotList->end(); ++it3)
+						//do nothing
+					}
+					else
+					{
+						if (it2->second->entity != nullptr && it2->second->entity->getPerson() != Person::thePlayer)
+						{
+							if (it2->second->entity->getType() == "UI")
+							{//check inventory items
+								if (((UI*)it2->second->entity)->getActiveTab() == uiNS::INVENTORY)
 								{
-									if (it3->second->mouseInside(viewport))
+									map<int, Entity*>* slotList = player->getInventory()->getSlotList();
+									for (std::map<int, Entity*>::iterator it3 = slotList->begin(); it3 != slotList->end(); ++it3)
 									{
-										addMouseOverEntity(it3->second);
-										break; //The player can only mouse over only 1 item in his inventory at a time
+										if (it3->second->mouseInside(viewport))
+										{
+											addMouseOverEntity(it3->second);
+											break; //The player can only mouse over only 1 item in his inventory at a time
+										}
+									}
+								}
+								//Check shop items
+								vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
+								for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+								{
+									Entity* theItem = *it3;
+									if (theItem->mouseInside(viewport))
+									{
+										addMouseOverEntity(theItem);
+										break;
 									}
 								}
 							}
-							//Check shop items
-							vector<Entity*> shopItems = ((UI*)it2->second->entity)->getShopItems();
-							for (vector<Entity*>::iterator it3 = shopItems.begin(); it3 != shopItems.end(); ++it3)
+							else if (it2->second->entity->mouseInside(viewport))
 							{
-								Entity* theItem = *it3;
-								if (theItem->mouseInside(viewport))
+								//Do not use if realms are different
+								if (player->inDarkRealm() == it2->second->entity->inDarkRealm())
 								{
-									addMouseOverEntity(theItem);
-									break;
+									addMouseOverEntity(it2->second->entity);
 								}
-							}
-						}
-						else if (it2->second->entity->mouseInside(viewport))
-						{
-							//Do not use if realms are different
-							if (player->inDarkRealm() == it2->second->entity->inDarkRealm())
-							{
-								addMouseOverEntity(it2->second->entity);
 							}
 						}
 					}

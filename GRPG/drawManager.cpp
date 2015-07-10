@@ -252,6 +252,7 @@ void DrawManager::removeObject(Entity* ent){
 		pair<int, int> p = toErase.front();
 		ManagedObject* mo = objects[p.first][p.second];
 		mo->toBeErased = true;
+		mo->entity = nullptr;
 		//delete mo;
 		//objects[p.first].erase(p.second);
 		toErase.pop();
@@ -276,6 +277,7 @@ void DrawManager::removeObject(Image* img){
 		pair<int, int> p = toErase.front();
 		ManagedObject* mo = objects[p.first][p.second];
 		mo->toBeErased = true;
+		mo->image = nullptr;
 		//delete mo;
 		//objects[p.first].erase(p.second);
 		toErase.pop();
