@@ -1,6 +1,15 @@
 {
     "savedata": [
         {
+            "key": "inventory",
+            "value": [
+                {
+                    "key": "{0:8670:,F2:1:0,F2:1:2,F3:1:0,F3:1:2,F5:1:0,F5:1:2,F2:1:0,F2:1:2,F3:1:0,F3:1:2,F5:1:0,F5:1:2,E14:1:7,E15:1:8,E14:1:10,E22:1:10,E21:1:8,E20:1:7,E20:1:10,}",
+                    "value": 0
+                }
+            ]
+        },
+        {
             "key": "questData",
             "value": [
                 {
@@ -114,39 +123,39 @@
             "value": [
                 {
                     "key": "Accuracy",
-                    "value": 631
+                    "value": 0
                 },
                 {
                     "key": "Cooking",
-                    "value": 671
+                    "value": 0
                 },
                 {
                     "key": "Evasion",
-                    "value": 682
+                    "value": 0
                 },
                 {
                     "key": "Fishing",
-                    "value": 659
+                    "value": 0
                 },
                 {
                     "key": "Mining",
-                    "value": 674
+                    "value": 0
                 },
                 {
                     "key": "Power",
-                    "value": 631
+                    "value": 0
                 },
                 {
                     "key": "Rift Sealing",
-                    "value": 624
+                    "value": 0
                 },
                 {
                     "key": "Thieving",
-                    "value": 628
+                    "value": 0
                 },
                 {
                     "key": "Toughness",
-                    "value": 2134
+                    "value": 1440
                 }
             ]
         }

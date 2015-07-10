@@ -10,6 +10,7 @@
 #include "grpg.h"
 #include "DropBehavior.h"
 #include "PickupBehavior.h"
+#include "InventoryBoost.h"
 
 Inventory::Inventory(){
 	slot_body = -1;
@@ -360,4 +361,110 @@ vector<Entity* > Inventory::getVectorItems()
 		returnValue.push_back(it->second);
 	}
 	return returnValue;
+}
+
+string Inventory::getInventoryString()
+{
+	stringstream result;
+	result << "{";
+	vector<Entity*> inventoryItems = getVectorItems();
+	for (vector<Entity*>::iterator i = inventoryItems.begin(); i != inventoryItems.end(); i++)
+	{
+		Entity* theItem = *i;
+		InventoryItem* theInventoryItem = theItem->getInventoryItem();
+		if (theInventoryItem->getType() == "INVENTORYFOOD")
+		{
+			result << "F";
+			result << theInventoryItem->getItem()->getID() << ":";
+			result << theInventoryItem->getCurrentStackCount() << ":";
+			result << ((InventoryFood*)theInventoryItem)->getFoodState();
+		}
+		else if (theInventoryItem->getType() == "INVENTORYEQUIPMENT")
+		{
+			result << "E";
+			result << theInventoryItem->getItem()->getID() << ":";
+			result << theInventoryItem->getCurrentStackCount() << ":";
+			result << ((InventoryEquipment*)theInventoryItem)->getSmithingMaterial()->getID();
+		}
+		else if (theInventoryItem->getType() == "INVENTORYBOOST")
+		{
+			result << "B";
+			result << theInventoryItem->getItem()->getID() << ":";
+			result << theInventoryItem->getCurrentStackCount() << ":";
+		}
+		else
+		{
+			result << theInventoryItem->getItem()->getID() << ":";
+			result << theInventoryItem->getCurrentStackCount() << ":";
+		}
+		result << ",";
+	}
+	result << "}";
+	return result.str();
+}
+
+void Inventory::loadInventoryString(string s, ItemLoader* itemLoader, Grpg* grpg)
+{
+	//Remove all inventory items
+	vector<Entity*> inventoryItems = getVectorItems();
+	for (vector<Entity*>::iterator i = inventoryItems.begin(); i != inventoryItems.end(); i++)
+	{
+		Entity* theItem = *i;
+
+		Entity* itemClone = new Entity();
+		itemClone->initialize(grpg, theItem->getInventoryItem()->clone(), true);
+
+		vector<Entity*> entitiesToDelete;
+		int size;
+		size = removeEntityInventoryItems(itemClone, true, &entitiesToDelete, grpg);
+		delete itemClone;
+
+		for (int i = 0; i < size; ++i)
+		{
+			delete entitiesToDelete.at(i);
+			entitiesToDelete[i] = nullptr;
+		}
+	}
+
+	//Load items from string into inventory
+	s.erase(s.begin());
+	s.erase(s.end() - 1);
+
+	InventoryItem* iiPtr;
+	vector<string> vector_itemsData = String_Functions::split(s, ',');
+	for (int i = 0, l = vector_itemsData.size(); i < l; ++i)
+	{
+		vector<string> vector_drop = String_Functions::split(vector_itemsData[i], ':');
+		if (vector_drop[0].at(0) == 'F')
+		{//Food "id:count:food_state"
+			vector_drop[0].erase(0, 1);
+			iiPtr = new InventoryFood(itemLoader->getItem(atoi(vector_drop[0].c_str())), atoi(vector_drop[1].c_str()),
+				static_cast<FOOD_STATE>(atoi(vector_drop[2].c_str())));
+		}
+		else if (vector_drop[0].at(0) == 'E')
+		{//Equipment "id:count:smithing_material"
+			vector_drop[0].erase(0, 1);
+			iiPtr = new InventoryEquipment(itemLoader->getItem(atoi(vector_drop[0].c_str())),
+				atoi(vector_drop[1].c_str()),
+				(Smithing_Material*)itemLoader->getItem(atoi(vector_drop[2].c_str())));
+		}
+		else if (vector_drop[0].at(0) == 'B')
+		{//Boost item "id:count"
+			vector_drop[0].erase(0, 1);
+			iiPtr = new InventoryBoost(itemLoader->getItem(atoi(vector_drop[0].c_str())),
+				atoi(vector_drop[1].c_str()));
+		}
+		else
+		{//Normal item "id:count"
+			iiPtr = new InventoryItem(itemLoader->getItem(atoi(vector_drop[0].c_str())),
+				atoi(vector_drop[1].c_str()));
+		}
+		
+		//Just create a new item and add it in - (c) Matt
+		//If it returns MERGE, FAILED and PARTIAL_MERGE delete
+		Entity* newObj = new Entity();
+		newObj->initialize(grpg, iiPtr, false);
+
+		addEntityInventoryItem(newObj, grpg);
+	}
 }

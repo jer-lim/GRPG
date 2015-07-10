@@ -16,6 +16,7 @@ class PickupBehavior;
 class DropBehavior;
 class Grpg;
 class Entity;
+class ItemLoader;
 class Inventory
 {
 private:
@@ -75,6 +76,13 @@ public:
 	entity that is not yet added into the inventory.
 	*/
 	ITEM_MERGE merge(Entity* a, Entity* b);
+
+	//Attempts to convert this inventory items into a string format as specified in gdef format in the assets folder.
+	//returns the result.
+	string getInventoryString();
+
+	//Attempts to load the string passed in into appropriate inventory items as specified in gdef format in the assets folder.
+	void loadInventoryString(string s, ItemLoader* itemLoader, Grpg* grpg);
 
 	int getMaxSlotCount() { return maxSlotListCount; }
 	int getXDrawPosition(){ return xDrawPosition; }

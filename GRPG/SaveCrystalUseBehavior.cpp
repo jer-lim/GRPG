@@ -27,19 +27,23 @@ void SaveCrystalUseBehavior::action()
 	VECTOR2 collisionVector;
 	if (player->collidesWith(*entity, collisionVector) && !player->hasFailedThieve())
 	{
-		/*map<string, map<string, int>> saveData;
+		/*
+		map<string, map<string, int>> saveData;
 		ui->addChatText("Save data saved.");
 		//ui->drawWindow("Save Crystal");
 		//ui->addTalkText(new ChatInformation("This "))
 		saveData["questData"] = grpg->getQuestLoader()->getQuestData()->getAllValues();
 		saveData["skillsData"] = player->getSkillsToSave();
+		map<string, int> otherData;
+		otherData[player->getInventory()->getInventoryString()] = 0;
+		saveData["inventory"] = otherData;
 
 		ofstream myfile;
 		myfile.open("savefile.txt");
 		cereal::JSONOutputArchive output(myfile);
-		output(cereal::make_nvp("savedata", saveData));
-		*/
+		output(cereal::make_nvp("savedata", saveData));*/
 
+		
 		ui->addChatText("Save data loaded.");
 		map<string, map<string, int>> loadData;
 		ifstream loadFile("savefile.txt");
@@ -50,6 +54,13 @@ void SaveCrystalUseBehavior::action()
 		}
 		player->loadSkills(loadData["skillsData"]);
 		grpg->getQuestLoader()->getQuestData()->loadQuestData(loadData["questData"]);
+		vector<string> keys;
+		for (map<string, int>::iterator i = loadData["inventory"].begin(); i != loadData["inventory"].end(); i++)
+		{
+			keys.push_back(i->first);
+		}
+		player->getInventory()->loadInventoryString(keys[0], grpg->getItemLoader(), grpg);
+		
 
 	}
 	else
