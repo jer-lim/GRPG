@@ -265,6 +265,7 @@ public:
 	{
 		return totalDeaths;
 	}
+	virtual void setTotalDeaths(int t) { totalDeaths = t; }
 
 	virtual void setInCombat(bool i) { inCombat = i; combatLeaveDelay = playerNS::combatLeaveDelay; }
 

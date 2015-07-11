@@ -2,14 +2,16 @@
 #define SAVECRYSTALUSE_BEHAVIOR_H
 
 #include "Behavior.h"
-#include "entity.h"
+#include "ChatData.h"
 class NPC;
 class UI;
 using namespace std;
 class Player;
 class Grpg;
+class ChatOption;
+class Entity;
 
-class SaveCrystalUseBehavior : public Behavior
+class SaveCrystalUseBehavior : public Behavior, public OptionNotifier
 {
 private:
 	Entity* entity;
@@ -27,5 +29,7 @@ public:
 	virtual string displayText();
 
 	virtual void action();
+
+	virtual void optionSelected(ChatOption co);
 };
 #endif

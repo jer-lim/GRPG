@@ -98,6 +98,7 @@
     <ClInclude Include="RiftEnterBehavior.h" />
     <ClInclude Include="RiftExitBehavior.h" />
     <ClInclude Include="SaveCrystal.h" />
+    <ClInclude Include="SaveCrystalQuickSaveBehavior.h" />
     <ClInclude Include="SaveCrystalUseBehavior.h" />
     <ClInclude Include="SellBehavior.h" />
     <ClInclude Include="ShriveledMan.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="RiftEnterBehavior.cpp" />
     <ClCompile Include="RiftExitBehavior.cpp" />
     <ClCompile Include="SaveCrystal.cpp" />
+    <ClCompile Include="SaveCrystalQuickSaveBehavior.cpp" />
     <ClCompile Include="SaveCrystalUseBehavior.cpp" />
     <ClCompile Include="SellBehavior.cpp" />
     <ClCompile Include="ShriveledMan.cpp" />

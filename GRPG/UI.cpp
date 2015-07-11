@@ -566,7 +566,10 @@ void UI::draw(Viewport* viewport)
 			{
 				if (abortNo != -1)
 				{
-					delete chatText[i];
+					if (chatText[i] != &chatNS::YESNO)
+					{
+						delete chatText[i];
+					}
 				}
 				else
 				{
@@ -576,7 +579,10 @@ void UI::draw(Viewport* viewport)
 					if (heightGiven < 0)
 					{
 						//Not going to work out, abort this line and everything after it
-						delete chatText[i];
+						if (chatText[i] != &chatNS::YESNO)
+						{
+							delete chatText[i];
+						}
 						abortNo = i;
 					}
 				}

@@ -23,6 +23,7 @@ private:
 	UI* ui;
 protected:
 	Behavior* useBehavior = nullptr;
+	Behavior* quickSaveBehavior = nullptr;
 	string examineText;
 	virtual void setupBehaviors();
 public:
@@ -49,11 +50,26 @@ public:
 		vectorActiveBehaviors.clear();
 		if (useBehavior)
 			vectorActiveBehaviors.push_back(useBehavior);
+		if (quickSaveBehavior)
+			vectorActiveBehaviors.push_back(quickSaveBehavior);
 		if (viewBehavior)
 			vectorActiveBehaviors.push_back(viewBehavior);
 	}
 
 
 	virtual string getType(){ return "SAVE_CRYSTAL"; }
+
+	//Saves the game state into savefile.gdef
+	//The following items are saved: Deaths of the player, all questData, quest's help text
+	//and current complete counts, whether their rewards are given, all inventory items,
+	//and player skill's XP.
+	//Notably, player's current position and items dropped on the floor are left unsaved.
+	virtual void save();
+
+	//Loads the game state from savefile.gdef
+	//Will erase mapQuests and reload them, in case any change has progressed them beyond what was
+	//in the save file, and delete all items in the player's inventory and on the floor, then loads
+	//all the items from the save file (As specified in save()
+	virtual bool load();
 };
 #endif

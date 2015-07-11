@@ -46,6 +46,15 @@ namespace chatNS
 	const int VERTICALLY = 1;
 	const int HORIZONTALLY = 2;
 
+	//Originally intended to be a simple yes / no decision split that can be put into any chat decision
+	//for ease of use instead of having to constantly recreate a YES/NO ChatDecision whenever you need one.
+	//But does not work well, don't use. Problems:
+	// 1) Lots of special code need to be placed into the talking phrase to handle this object
+	// and ensure it is not deleted
+	// 2) After used, it needs to be reset otherwise the unselected option will remain dark blue and cannot
+	// be selected, and the object will ignore all further commands.
+	// 3) Cannot customize the yes / no id, they are affixed to 1 and 2, which means you must reserve those
+	// just for the use of this Yes / No object.
 	extern ChatDecision YESNO;
 
 	const COLOR_ARGB optionBackground = graphicsNS::BLUE;

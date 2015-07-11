@@ -309,7 +309,10 @@ public:
 		//Remove text in chat if required
 		for (int i = 0; i < chatText.size(); i++)
 		{
-			delete chatText[i];
+			if (chatText[i] != &chatNS::YESNO)
+			{
+				delete chatText[i];
+			}
 		}
 		chatText.clear();
 		for (int i = 0; i < preChatText.size(); i++)

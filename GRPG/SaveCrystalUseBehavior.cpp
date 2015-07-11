@@ -8,16 +8,6 @@
 #include <string>
 #include "grpg.h"
 
-#include <cereal\types\map.hpp>
-#include <cereal\archives\json.hpp>
-#include <cereal\types\complex.hpp>
-#include <cereal/types/vector.hpp>
-#include <cereal/types/string.hpp>
-#include <cereal\cereal.hpp>
-
-#include <iostream>
-#include <fstream>
-
 string SaveCrystalUseBehavior::displayText(){
 	return "Use Save Crystal";
 }
@@ -27,67 +17,117 @@ void SaveCrystalUseBehavior::action()
 	VECTOR2 collisionVector;
 	if (player->collidesWith(*entity, collisionVector) && !player->hasFailedThieve())
 	{
-		/*map<string, map<string, int>> saveData;
-		ui->addChatText("Save data saved.");
-		//ui->drawWindow("Save Crystal");
-		//ui->addTalkText(new ChatInformation("This "))
-		saveData["questData"] = grpg->getQuestLoader()->getQuestData()->getAllValues();
-		saveData["skillsData"] = player->getSkillsToSave();
-		map<string, int> otherData;
-		otherData[player->getInventory()->getInventoryString()] = 0;
-		saveData["inventory"] = otherData;
-		map<string, int> questData;
-		map<int, Quest*>* questList = grpg->getQuestLoader()->getMapQuests();
-		for (map<int, Quest*>::iterator i = questList->begin(); i != questList->end(); ++i)
-		{
-			questData[i->second->getQuestString()] = i->first;
-		}
-		saveData["quests"] = questData;
-
-		ofstream myfile;
-		myfile.open("savefile.txt");
-		cereal::JSONOutputArchive output(myfile);
-		output(cereal::make_nvp("savedata", saveData));*/
-
-		grpg->getDrawManager()->removeAllDroppedItems();
-		
-		ui->addChatText("Save data loaded.");
-		map<string, map<string, int>> loadData;
-		ifstream loadFile("savefile.txt");
-		if (loadFile.is_open())
-		{
-			cereal::JSONInputArchive i_archive(loadFile);
-			i_archive(loadData);
-		}
-		player->loadSkills(loadData["skillsData"]);
-		grpg->getQuestLoader()->getQuestData()->loadQuestData(loadData["questData"]);
-		vector<string> keys;
-		for (map<string, int>::iterator i = loadData["inventory"].begin(); i != loadData["inventory"].end(); i++)
-		{
-			keys.push_back(i->first);
-		}
-		player->getInventory()->loadInventoryString(keys[0], grpg->getItemLoader(), grpg);
-		//Delete and reload all quests, they may have progressed passed their save state
-		map<int, Quest*>* mapQuests = grpg->getQuestLoader()->getMapQuests();
-		for (map<int, Quest*>::iterator i = mapQuests->begin(); i != mapQuests->end(); ++i)
-		{
-			//Remove them
-			grpg->getGameEventManager()->removeListener(i->second);
-			SAFE_DELETE(i->second);
-		}
-		mapQuests->clear();
-
-		grpg->getQuestLoader()->loadAllQuests(grpg->getGameEventManager(), grpg->getPersonLoader(), grpg->getItemLoader(), grpg->getGraphics(), ui->getTopLeftX(), ui->getTopLeftY());
-		mapQuests = grpg->getQuestLoader()->getMapQuests();
-		for (map<string, int>::iterator i = loadData["quests"].begin(); i != loadData["quests"].end(); i++)
-		{
-			mapQuests->at(i->second)->loadQuestString(i->first);
-		}
+		ui->drawWindow("Save Crystal");
+		ui->addTalkText(new ChatInformation("This is a save crystal. It will allow you to save and load your games, as well as check your stats.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("What would you like to do?", chatNS::MIDDLE));
+		ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+		dt->setCaller(this);
+		dt->addOption(3, "Save game");
+		dt->addOption(4, "Load game");
+		dt->addOption(5, "Check stats");
+		dt->addOption(6, "More information...");
+		dt->addOption(0, "Do nothing");
+		ui->addTalkText(dt);
 	}
 	else
 	{
 		player->setVictim(entity);
 		player->releaseDestination();
 		player->setNPCAction(this);
+	}
+}
+
+void SaveCrystalUseBehavior::optionSelected(ChatOption co)
+{
+	//The messages here are less of talking and more of selecting options, no need to reprint them.
+	//ui->addTalkText(new ChatInformation(co.text, chatNS::LEFT));
+
+	//Note to developers: This method will already initalize the final ChatDecision* here for you. Use it.
+	//Caller has been set with a default displayType of VERTICALLY, call the set codes to change it if required
+	//If not used, please call delete cd; to ensure that there are no leaks.
+	ChatDecision* cd = new ChatDecision(chatNS::VERTICALLY);
+	cd->setCaller(this);
+	switch (co.id)
+	{
+	case 0: //Always exit
+		ui->removeWindow();
+		//No use with cd
+		delete cd;
+		break;
+	case 1: //Yes to loading
+	{
+		bool result = ((SaveCrystal*)entity)->load();
+		if (result)
+		{
+			ui->addTalkText(new ChatInformation("Game data loaded.", chatNS::MIDDLE));
+		}
+		else
+		{
+			ui->addTalkText(new ChatInformation("There was an error loading the save file. Your save file is likely corrupted.", chatNS::MIDDLE));
+		}
+		cd->addOption(5, "Check stats");
+		cd->addOption(6, "More information...");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	}
+	case 2: //No to loading
+		ui->addTalkText(new ChatInformation("Alright, nothing's done.", chatNS::MIDDLE));
+		cd->addOption(3, "Save game");
+		cd->addOption(5, "Check stats");
+		cd->addOption(6, "More information...");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 3:
+		((SaveCrystal*)entity)->save();
+		ui->addTalkText(new ChatInformation("Game data saved.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("You can save your game quickly by right clicking on the save crystal and choosing quicksave.", chatNS::MIDDLE));
+		cd->addOption(5, "Check stats");
+		cd->addOption(6, "More information...");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 4:
+		ui->addTalkText(new ChatInformation("Are you sure? You will lose all unsaved data. All items on the ground will be removed.", chatNS::MIDDLE));
+		cd->setDisplayType(chatNS::HORIZONTALLY);
+		cd->addOption(1, "Yes");
+		cd->addOption(2, "No");
+		ui->addTalkText(cd);
+		break;
+	case 5:
+	{
+		stringstream ss;
+		ss << "You have died " << player->getTotalDeaths() << " times";
+		ui->addTalkText(new ChatInformation(ss.str(), chatNS::MIDDLE));
+		cd->addOption(3, "Save game");
+		cd->addOption(4, "Load game");
+		cd->addOption(6, "More information...");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	}
+	case 6:
+		ui->addTalkText(new ChatInformation("The save crystal will allow you to save and load your game. There is only 1 save file available. You can also view your stats (Currently only deaths amount) here.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("Only certain items are saved and loaded.", chatNS::MIDDLE));
+		cd->addOption(7, "Check what is saved");
+		cd->addOption(8, "Check what happens on load");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 7:
+		ui->addTalkText(new ChatInformation("The following items are saved: your skills, inventory items, quests, player stats. Everything else is not saved.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("Specifically, this means the following is not saved: your current position, all dropped items, any enemy health.", chatNS::MIDDLE));
+		cd->addOption(8, "Check what happens on load");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 8:
+		ui->addTalkText(new ChatInformation("On load, the entire game is reset to a clean slate, then your save data is loaded.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("To prevent exploits, this means that all items on the ground is deleted.", chatNS::MIDDLE));
+		cd->addOption(7, "Check what is saved");
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
 	}
 }

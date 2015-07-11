@@ -89,6 +89,7 @@
     <ClCompile Include="MusicTile.cpp" />
     <ClCompile Include="SaveCrystal.cpp" />
     <ClCompile Include="SaveCrystalUseBehavior.cpp" />
+    <ClCompile Include="SaveCrystalQuickSaveBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="MusicTile.h" />
     <ClInclude Include="SaveCrystal.h" />
     <ClInclude Include="SaveCrystalUseBehavior.h" />
+    <ClInclude Include="SaveCrystalQuickSaveBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />
