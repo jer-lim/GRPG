@@ -46,6 +46,17 @@ bool SaveCrystal::initialize(Game* gamePtr, Player* p, Destination* location, st
 	setX(location->getX());
 	setY(location->getY());
 
+	//Don't display me if this is the first time the player is running the game
+	//and I'm the save crystal at the tutorial zome
+	if (!saveFileExists())
+	{
+		VECTOR2 startSaveCrystalCoords = ((Grpg*)theGame)->getMapLoader()->translateIdToCoords('.');
+		if (x == startSaveCrystalCoords.x && y == startSaveCrystalCoords.y)
+		{
+			fakeDelete();
+		}
+	}
+
 	return result;
 }
 
@@ -156,6 +167,13 @@ bool SaveCrystal::load()
 
 	ui->addChatText("Game loaded.");
 	return true;
+}
+
+bool SaveCrystal::saveFileExists()
+{
+	map<string, map<string, int>> loadData;
+	ifstream loadFile("savefile.gdef");
+	return loadFile.good();
 }
 
 //=============================================================================

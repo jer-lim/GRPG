@@ -71,5 +71,7 @@ public:
 	//in the save file, and delete all items in the player's inventory and on the floor, then loads
 	//all the items from the save file (As specified in save()
 	virtual bool load();
+
+	virtual bool saveFileExists();
 };
 #endif
