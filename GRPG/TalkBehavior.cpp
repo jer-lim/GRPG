@@ -425,6 +425,10 @@ void TalkBehavior::action(){
 					ui->addTalkText(new ChatInformation("Hello! I can heal you!", chatNS::RIGHT));
 					dt->addOption(93, "Please do.");
 					dt->addOption(94, "How do you heal me like that?");
+					if (questData->getValue("saveCrystalDoctorAsked") == 0)
+					{
+						dt->addOption(106, "What's up with that shiny crystal?");
+					}
 					if (questData->getValue("minorTaskStatus") == 2)
 					{
 						dt->addOption(97, "The fisherman says he needs some help.");
@@ -1719,6 +1723,28 @@ void TalkBehavior::optionSelected(ChatOption co)
 		cd->addOption(104, "Tell me more about his dragonfire.");
 		cd->addOption(79, "Nope, I'm ready now. Bring me to the island!");
 		cd->addOption(0, "No, thanks for everything!");
+		ui->addTalkText(cd);
+		break;
+	case 106: //Doctor - what's up with that shiny crystal?
+		ui->addTalkText(new ChatInformation("What shiny crystal?", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("That one, inside this house.", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("I don't see any shiny crystal in here. It's just me and you. Are you trying to trick me or something?", chatNS::RIGHT));
+		cd->addOption(107, "I believe you.");
+		cd->addOption(108, "You're lying");
+		ui->addTalkText(cd);
+		break;
+	case 107:
+		questData->setValue("saveCrystalDoctorAsked", 1);
+		ui->addTalkText(new ChatInformation("Is there something wrong wtih you? Maybe you need some healing. I can do that.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("No thanks, I'm good.", chatNS::LEFT));
+		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 108:
+		questData->setValue("saveCrystalDoctorAsked", 2);
+		ui->addTalkText(new ChatInformation("Come on, you have to see the crystal - it's right there!", chatNS::LEFT));
+		ui->addTalkText(new ChatInformation("I've told you, there is no crystal in this house. Now leave me be, joker! I have important work to attend to, and people who need my help.", chatNS::RIGHT));
+		cd->addOption(0, "Leave");
 		ui->addTalkText(cd);
 		break;
 	default:

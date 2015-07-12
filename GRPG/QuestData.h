@@ -103,6 +103,11 @@ public:
 		storedInformation["minorTaskAskerNeedsNet"] = 0;
 		//Represents if the player complained to the captain about the quest after the fisherman asked for a favour as well
 		storedInformation["minorTaskComplained"] = 0;
+
+		//Miscallenous data
+		//Represents whether the player has asked the doctor about the save crystal or not, and the result
+		//0 = not yet, 1 = asked, said believe, 2 = asked, said didn't believe
+		storedInformation["saveCrystalDoctorAsked"] = 0;
 	}
 
 	virtual map<string, int> getAllValues() { return storedInformation; }
