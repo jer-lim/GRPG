@@ -8,6 +8,7 @@
 #include "UI.h"
 #include <map>
 #include "playerSkill.h"
+#include "NoiseManager.h"
 #include <sstream>
 #include "grpg.h"
 #include "Quest.h"
@@ -684,6 +685,21 @@ void UI::drawTabContents(int tabNumber)
 		imageToShow-> draw();
 		uiText->print("Show bottom\nHealthbar", topLeftX + uiNS::optionWidth + 10, topLeftY);
 
+		//Show mute option
+		topLeftY += 12 + uiNS::optionHeight;
+		if (SoundManager::getMuted())
+		{
+			imageToShow = &checkboxSelectedImage;
+		}
+		else
+		{
+			imageToShow = &checkboxImage;
+		}
+		imageToShow->setX(topLeftX + uiNS::optionWidth / 2 + 5);
+		imageToShow->setY(topLeftY + uiNS::optionHeight / 2);
+		imageToShow->draw();
+		uiText->print("Mute", topLeftX + uiNS::optionWidth + 10, topLeftY);
+
 		if (newChatVersion)
 		{
 			topLeftY += 12 + uiNS::optionHeight;
@@ -1038,10 +1054,15 @@ bool UI::performClick()
 			{
 				showHealth = !showHealth;
 			}
+			//Mute option
+			if (input->getMouseY() > getTopLeftY() + 25 + uiNS::optionHeight + 12 && input->getMouseY() < getTopLeftY() + 25 + uiNS::optionHeight + 12 + uiNS::optionHeight)
+			{
+				SoundManager::toggleMute();
+			}
 			//show chat history option
 			if (newChatVersion)
 			{
-				if (input->getMouseY() > getTopLeftY() + 25 + uiNS::optionHeight + 12 && input->getMouseY() < getTopLeftY() + 25 + uiNS::optionHeight + 12 + uiNS::optionHeight)
+				if (input->getMouseY() > getTopLeftY() + 25 + ((uiNS::optionHeight + 12)*2) && input->getMouseY() < getTopLeftY() + 25 + uiNS::optionHeight + (12 + uiNS::optionHeight)*2)
 				{
 					showChatHistory = !showChatHistory;
 				}

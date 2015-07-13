@@ -64,15 +64,21 @@ void SoundManager::initialize()
 	musicList.push_back(fifthwave);
 }
 
-void SoundManager::mute()
+void SoundManager::toggleMute()
 {
-	muted = true;
-	stringstream ss;
-	ss << "stop \"";
-	ss << currentlyPlayingMusic.fileName;
-	ss << "\"";
-	mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
-	currentlyPlayingMusic = Music();
+	muted = !muted;
+	if (muted)
+	{
+		stringstream ss;
+		ss << "stop \"";
+		ss << currentlyPlayingMusic.fileName;
+		ss << "\"";
+		mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
+	}
+	else
+	{
+		playMusic(currentlyPlayingMusic.id);
+	}
 }
 
 void SoundManager::update(float frametime, Game* gamePtr)
@@ -108,9 +114,8 @@ void SoundManager::playMusic(int musicID)
 		ss << "\"";
 		musicTimer = musicList[musicID].playTime;
 		errorCode = mciSendString(TEXT(ss.str().c_str()), NULL, 0, NULL);
-		currentlyPlayingMusic = musicList[musicID];
-		int a = errorCode;
 	}
+	currentlyPlayingMusic = musicList[musicID];
 }
 
 void SoundManager::playSound(const char soundName[])
@@ -129,4 +134,9 @@ void SoundManager::playSound(const char soundName[])
 int SoundManager::getcurrentMusicId()
 {
 	return currentlyPlayingMusic.id;
+}
+
+bool SoundManager::getMuted()
+{
+	return muted;
 }

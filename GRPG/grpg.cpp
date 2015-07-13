@@ -35,7 +35,11 @@ Grpg::Grpg()
 //=============================================================================
 Grpg::~Grpg()
 {
-	SoundManager::mute();
+	//Make it stop playing music
+	if (!SoundManager::getMuted())
+	{
+		SoundManager::toggleMute();
+	}
     releaseAll();           // call onLostDevice() for every graphics item
 	SAFE_DELETE(uiFont);
 	//SAFE_DELETE(ui);//handled by drawmanager

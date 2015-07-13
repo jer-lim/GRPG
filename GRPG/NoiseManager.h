@@ -91,7 +91,7 @@ class SoundManager {
 public:
 	static void initialize();
 
-	static void mute();
+	static void toggleMute();
 
 	static void update(float frametime, Game* gamePtr);
 
@@ -100,6 +100,8 @@ public:
 	static void playSound(const char soundName[]);
 
 	static int getcurrentMusicId();
+
+	static bool getMuted();
 };
 
 #endif
