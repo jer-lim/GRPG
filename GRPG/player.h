@@ -252,6 +252,7 @@ public:
 	virtual string getType(){ return "PLAYER"; }
 
 	virtual int getIsTeleporting() { return isTeleporting; }
+	//Set to 2 if a teleport action is performed to prevent crashes with the game's mouse over entity.
 	virtual void setIsTeleporting(int t) { isTeleporting = t; }
 
 	UI* getUI();

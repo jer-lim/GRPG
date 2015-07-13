@@ -166,6 +166,14 @@ bool SaveCrystal::load()
 	thePlayer->setTotalDeaths(playerData["deaths"]);
 
 	ui->addChatText("Game loaded.");
+	//Move player to the save crystal near the doctor
+	VECTOR2 coords = grpg->getMapLoader()->translateIdToCoords(',');
+	thePlayer->setX(coords.x);
+	thePlayer->setY(coords.y);
+	thePlayer->setVictim(0);
+	thePlayer->releaseDestination();
+	grpg->setMouseOverEntity(nullptr);
+	thePlayer->setIsTeleporting(2);
 	return true;
 }
 
