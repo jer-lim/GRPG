@@ -1165,6 +1165,19 @@ void UI::setRightClickMenu(vector<Behavior*> behaviors)
 		completeText += item->displayText() + "\n";
 	}
 	delete textRect;
+	
+	//Check if my width pushes me out of the boundary of the game.
+	//If so, then move my x to the left so that I stay within the boundary of the game
+	if (menuTop.x + maximumWidth > GAME_WIDTH)
+	{
+		menuTop.x = GAME_WIDTH - maximumWidth;
+	}
+
+	//Same thing with the height
+	if (menuTop.y + totalHeight > GAME_HEIGHT)
+	{
+		menuTop.y = GAME_HEIGHT - totalHeight;
+	}
 
 	rightClickBackground.initialize(graphics, menuTop.x, menuTop.y, maximumWidth, totalHeight, uiNS::rightClickBG, completeText);
 	rightClickBackground.setVisible(true);
