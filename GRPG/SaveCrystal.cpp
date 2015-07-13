@@ -1,6 +1,7 @@
 #include "SaveCrystal.h"
 #include "SaveCrystalUseBehavior.h"
 #include "SaveCrystalQuickSaveBehavior.h"
+#include "SaveCrystalLoadBehavior.h"
 #include "Aidil.h"
 #include "grpg.h"
 #include "mapLoader.h"
@@ -25,6 +26,7 @@ SaveCrystal::~SaveCrystal()
 {
 	SAFE_DELETE(saveCrystalTexture);
 	SAFE_DELETE(quickSaveBehavior);
+	SAFE_DELETE(loadBehavior);
 	SAFE_DELETE(useBehavior);
 }
 
@@ -42,9 +44,9 @@ bool SaveCrystal::initialize(Game* gamePtr, Player* p, Destination* location, st
 	bool result = Entity::initialize(gamePtr, saveCrystalNS::imageWidth, saveCrystalNS::imageHeight, saveCrystalNS::frames, saveCrystalTexture);
 	image.setFrameDelay(0.3f);
 	image.setFrames(0, saveCrystalNS::frames - 1);
-	setupBehaviors();
 	setX(location->getX());
 	setY(location->getY());
+	setupBehaviors();
 
 	//Don't display me if this is the first time the player is running the game
 	//and I'm the save crystal at the tutorial zome
@@ -204,6 +206,17 @@ void SaveCrystal::setupBehaviors()
 {
 	viewBehavior = new ViewBehavior("Save Crystal", examineText, ui);
 	useBehavior = new SaveCrystalUseBehavior(thePlayer, this, ui, (Grpg*) theGame);
-	quickSaveBehavior = new SaveCrystalQuickSaveBehavior(thePlayer, this, ui);
+	//Give save or load behavior in right click menu depending on where the crystal is
+	// near the spawn point = load behavior
+	// near the doctor = save behavior
+	VECTOR2 spawnPointLocation = ((Grpg*)theGame)->getMapLoader()->translateIdToCoords('.');
+	if (x == spawnPointLocation.x && y == spawnPointLocation.y)
+	{
+		loadBehavior = new SaveCrystalLoadBehavior(thePlayer, this, ui);
+	}
+	else
+	{
+		quickSaveBehavior = new SaveCrystalQuickSaveBehavior(thePlayer, this, ui);
+	}
 	setupVectorActiveBehaviors();
 }

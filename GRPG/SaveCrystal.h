@@ -24,6 +24,7 @@ private:
 protected:
 	Behavior* useBehavior = nullptr;
 	Behavior* quickSaveBehavior = nullptr;
+	Behavior* loadBehavior = nullptr;
 	string examineText;
 	virtual void setupBehaviors();
 public:
@@ -52,6 +53,8 @@ public:
 			vectorActiveBehaviors.push_back(useBehavior);
 		if (quickSaveBehavior)
 			vectorActiveBehaviors.push_back(quickSaveBehavior);
+		if (loadBehavior)
+			vectorActiveBehaviors.push_back(loadBehavior);
 		if (viewBehavior)
 			vectorActiveBehaviors.push_back(viewBehavior);
 	}

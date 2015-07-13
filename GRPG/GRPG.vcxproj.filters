@@ -90,6 +90,7 @@
     <ClCompile Include="SaveCrystal.cpp" />
     <ClCompile Include="SaveCrystalUseBehavior.cpp" />
     <ClCompile Include="SaveCrystalQuickSaveBehavior.cpp" />
+    <ClCompile Include="SaveCrystalLoadBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="SaveCrystal.h" />
     <ClInclude Include="SaveCrystalUseBehavior.h" />
     <ClInclude Include="SaveCrystalQuickSaveBehavior.h" />
+    <ClInclude Include="SaveCrystalLoadBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Smithing_Material.cpp" />
