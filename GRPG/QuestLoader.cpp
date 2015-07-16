@@ -241,7 +241,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	oneMinorTask->addQuestCondition(getQuest);
 
 	QuestCondition* talkToFisherman = new QuestCondition();
-	GameEvent* fishermanTalked = new GameEvent_EntityAction(personLoader->getNPC(43), "I should talk to the fisherman to get the his net fixed.", "I talked with the fisherman. As expected, he was not willing to just let this quest be short, but instead asked for another favour. This is going to be a long quest.");
+	GameEvent* fishermanTalked = new GameEvent_EntityAction(personLoader->getNPC(44), "I should talk to the fisherman to get the his net fixed.", "I talked with the fisherman. As expected, he was not willing to just let this quest be short, but instead asked for another favour. This is going to be a long quest.");
 	talkToFisherman->addGameEventRequirement(fishermanTalked, 1, nullptr);
 	fishermanTalked->addChangeRequired("minorTaskStatus", 2);
 	oneMinorTask->addQuestCondition(talkToFisherman, getQuest);
@@ -257,7 +257,7 @@ void QuestLoader::loadAllQuests(GameEventManager* gem,PersonLoader* personLoader
 	GameEvent* doctorTalked = new GameEvent_EntityAction(personLoader->getNPC(0), "I should talk with the doctor to see about the fisherman's problems.", "The doctor didn't ask for another favour, but went to see the fisherman immediately.");
 	solveFishermanIllness->addGameEventRequirement(doctorTalked, 1, nullptr);
 	doctorTalked->addChangeRequired("minorTaskStatus", 3);
-	GameEvent* fishermanTalked2 = new GameEvent_EntityAction(personLoader->getNPC(43), "I expect to be asked to do another favour once he figures out he cannot solve the fisherman's problems and needs something.", "This defies all logic. I expected him to ask for another favour, but he didn't! He solved the fisherman's illness and the fisherman was able to fix the net for me!");
+	GameEvent* fishermanTalked2 = new GameEvent_EntityAction(personLoader->getNPC(44), "I expect to be asked to do another favour once he figures out he cannot solve the fisherman's problems and needs something.", "This defies all logic. I expected him to ask for another favour, but he didn't! He solved the fisherman's illness and the fisherman was able to fix the net for me!");
 	solveFishermanIllness->addGameEventRequirement(fishermanTalked2, 1, doctorTalked);
 	fishermanTalked2->addChangeRequired("minorTaskStatus", 4);
 	oneMinorTask->addQuestCondition(solveFishermanIllness, talkToFisherman);
