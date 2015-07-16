@@ -670,9 +670,16 @@ void UI::draw(Viewport* viewport)
 					chatPersonVertex[3].x = textRect->left;
 					chatPersonVertex[3].color = leftColor;
 
-					graphics->createVertexBuffer(chatPersonVertex, sizeof chatPersonVertex, chatPersonVertexBuffer);
-					graphics->drawQuad(chatPersonVertexBuffer, 2);
-					chatPersonVertexBuffer->Release(); //Release for next loop
+					HRESULT createResult = graphics->createVertexBuffer(chatPersonVertex, sizeof chatPersonVertex, chatPersonVertexBuffer);
+					if (FAILED(createResult))
+					{
+						addChatText("DEBUG: Vertex Buffer initialization FAILED");
+					}
+					else
+					{
+						HRESULT drawResult = graphics->drawQuad(chatPersonVertexBuffer, 2);
+						chatPersonVertexBuffer->Release(); //Release for next loop
+					}
 				}
 
 				chatText[i]->draw(textRect, uiText);

@@ -1425,7 +1425,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		if (questData->getValue("minorTaskStatus") == 5) //Complete!
 		{
 			ui->addTalkText(new ChatInformation("Sure. I have never fought the dragon, but I've heard stories from people fighting it.", chatNS::RIGHT));
-			ui->addTalkText(new ChatInformation("I'd just like to warn you that these stories may not be entirely accurate; but may insteadc contain some false or exaggerated information. They are stories, after all.", chatNS::RIGHT));
+			ui->addTalkText(new ChatInformation("I'd just like to warn you that these stories may not be entirely accurate; but may instead contain some false or exaggerated information. They are stories, after all.", chatNS::RIGHT));
 			ui->addTalkText(new ChatInformation("The tales say that Aildiuln has 3 phrases in his fights, as well as the ability to breathe magical dragonfire.", chatNS::RIGHT));
 			ui->addTalkText(new ChatInformation("As Aildiuln's health depletes, he will change to a different phrase.", chatNS::RIGHT));
 			cd->addOption(101, "Tell me more about the first phrase.");
