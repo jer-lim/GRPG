@@ -256,6 +256,16 @@ bool UI::initialize(Game* gamePtr, Player* p, Input *in)
 		}
 	}
 
+	//Initialize the rectangles for person chatting with the relevant values
+	chatPersonVertex[0].z = 0.0f;
+	chatPersonVertex[0].rhw = 1.0f;
+	chatPersonVertex[1].z = 0.0f;
+	chatPersonVertex[1].rhw = 1.0f;
+	chatPersonVertex[2].z = 0.0f;
+	chatPersonVertex[2].rhw = 1.0f;
+	chatPersonVertex[3].z = 0.0f;
+	chatPersonVertex[3].rhw = 1.0f;
+
 	//Initalize the chat screen
 	//Firstly, create the text rectangle that will draw the chat console
 	//onto the screen on the specified locations.
@@ -601,12 +611,69 @@ void UI::draw(Viewport* viewport)
 
 			RECT* textRect = new RECT();
 
+			graphics->spriteEnd();
+			graphics->spriteBegin();
+
 			for (int i = 0; i < chatText.size(); i++)
 			{
 				textRect->top = startTop;
 				textRect->bottom = startTop + chatText[i]->getHeightTaken();
 				textRect->left = startLeft;
 				textRect->right = startRight;
+
+				//Draw the background for that chat phrase
+				//Decide colour scheme based off side
+				bool drawBackground = false;
+				COLOR_ARGB leftColor;
+				COLOR_ARGB rightColor;
+				if (chatText[i]->getType() == chatNS::INFORMATIONTYPE)
+				{
+					if (((ChatInformation*)chatText[i])->getSide() == chatNS::LEFT)
+					{
+						leftColor = uiNS::talkPersonColor;
+						rightColor = SETCOLOR_ARGB(0, 0, 0, 0);
+						drawBackground = true;
+					}
+					else if (((ChatInformation*)chatText[i])->getSide() == chatNS::RIGHT)
+					{
+						rightColor = uiNS::talkPersonColor;
+						leftColor = SETCOLOR_ARGB(0, 0, 0, 0);
+						drawBackground = true;
+					}
+				}
+				else
+				{
+					//Need to do this whenever a decisiontype appears, otherwise all previous vertex
+					//are not drawn
+					graphics->spriteEnd();
+					graphics->spriteBegin();
+				}
+				if (drawBackground)
+				{
+					//Top left
+					chatPersonVertex[0].y = textRect->top;
+					chatPersonVertex[0].x = textRect->left;
+					chatPersonVertex[0].color = leftColor;
+
+					//Top right
+					chatPersonVertex[1].y = textRect->top;
+					chatPersonVertex[1].x = textRect->right;
+					chatPersonVertex[1].color = rightColor;
+
+					//Bottom right
+					chatPersonVertex[2].y = textRect->bottom;
+					chatPersonVertex[2].x = textRect->right;
+					chatPersonVertex[2].color = rightColor;
+
+					//Bottom left
+					chatPersonVertex[3].y = textRect->bottom;
+					chatPersonVertex[3].x = textRect->left;
+					chatPersonVertex[3].color = leftColor;
+
+					graphics->createVertexBuffer(chatPersonVertex, sizeof chatPersonVertex, chatPersonVertexBuffer);
+					graphics->drawQuad(chatPersonVertexBuffer, 2);
+					chatPersonVertexBuffer->Release(); //Release for next loop
+				}
 
 				chatText[i]->draw(textRect, uiText);
 

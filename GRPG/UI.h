@@ -86,6 +86,9 @@ namespace uiNS
 	const int talkMargin = 10;
 	// The delay between which each chat appears
 	const float talkDelay = 1;
+	// During chatting, the background for each chat will appear to show which side is talking
+	// The side will be this colour, and the other will be transparent.
+	const COLOR_ARGB talkPersonColor = SETCOLOR_ARGB(255, 0, 0, 0);
 
 	//Coordindates for shop
 	const int shopColMax = 12;
@@ -147,6 +150,9 @@ private:
 	bool showChatHistory;
 	Image chatHistoryImage;
 	TextureManager* chatHistoryTexture;
+	VertexC chatPersonVertex[4];
+	LP_VERTEXBUFFER chatPersonVertexBuffer;
+
 
 	// HEALTH BAR
 	Button health;				//Vertex data for the entirety of the health bar
