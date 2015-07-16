@@ -4,7 +4,7 @@
             "key": "inventory",
             "value": [
                 {
-                    "key": "{0:8670:,F2:1:0,F2:1:2,F3:1:0,F3:1:2,F5:1:0,F5:1:2,F2:1:0,F2:1:2,F3:1:0,F3:1:2,F5:1:0,F5:1:2,E14:1:7,E15:1:8,E14:1:10,E22:1:10,E21:1:8,E20:1:7,E20:1:10,}",
+                    "key": "{F6:1:0,F6:1:0,F6:1:0,30:1:,F6:1:0,F6:1:0,F6:1:0,30:1:,}",
                     "value": 0
                 }
             ]
@@ -13,8 +13,16 @@
             "key": "player",
             "value": [
                 {
+                    "key": "aidilKillTime",
+                    "value": 40
+                },
+                {
+                    "key": "aidilKills",
+                    "value": 2
+                },
+                {
                     "key": "deaths",
-                    "value": 3
+                    "value": 1
                 }
             ]
         },
@@ -23,7 +31,7 @@
             "value": [
                 {
                     "key": "artifactDisplayStatus",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "artifactStealAdmitted",
@@ -31,7 +39,7 @@
                 },
                 {
                     "key": "artifactStealKey",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "artifactStealMethod",
@@ -39,7 +47,7 @@
                 },
                 {
                     "key": "artifactStealStatus",
-                    "value": 3
+                    "value": 0
                 },
                 {
                     "key": "darkRealmName",
@@ -47,7 +55,7 @@
                 },
                 {
                     "key": "easterBirdNestStatus",
-                    "value": 2
+                    "value": 0
                 },
                 {
                     "key": "easterComplete",
@@ -55,7 +63,7 @@
                 },
                 {
                     "key": "easterEggStatus",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "easterGoodFoodGiven",
@@ -63,7 +71,7 @@
                 },
                 {
                     "key": "easterStatus",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "elliotStatus",
@@ -71,7 +79,7 @@
                 },
                 {
                     "key": "foodGiven",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "geraldStatus",
@@ -135,20 +143,20 @@
             "key": "quests",
             "value": [
                 {
+                    "key": "0:0,0,:0,:0,:0,0,:0,:",
+                    "value": 3
+                },
+                {
+                    "key": "0:0,:0,0,:0,0,:0,:0,:0,:0,:",
+                    "value": 0
+                },
+                {
                     "key": "0:0,:0,0,:0,:0,0,:0,0,:0,:",
                     "value": 2
                 },
                 {
-                    "key": "0:1,0,:0,:0,:0,0,:0,:",
-                    "value": 3
-                },
-                {
-                    "key": "0:1,:0,:1,:1,1,:0,:",
+                    "key": "0:0,:0,:0,:0,0,:0,:",
                     "value": 1
-                },
-                {
-                    "key": "0:1,:1,0,:0,0,:1,:0,:0,:0,:",
-                    "value": 0
                 }
             ]
         },
@@ -157,39 +165,39 @@
             "value": [
                 {
                     "key": "Accuracy",
-                    "value": 36
+                    "value": 15819
                 },
                 {
                     "key": "Cooking",
-                    "value": 0
+                    "value": 6252
                 },
                 {
                     "key": "Evasion",
-                    "value": 36
+                    "value": 113580
                 },
                 {
                     "key": "Fishing",
-                    "value": 0
+                    "value": 7856
                 },
                 {
                     "key": "Mining",
-                    "value": 0
+                    "value": 12757
                 },
                 {
                     "key": "Power",
-                    "value": 36
+                    "value": 21268
                 },
                 {
                     "key": "Rift Sealing",
-                    "value": 0
+                    "value": 6365
                 },
                 {
                     "key": "Thieving",
-                    "value": 0
+                    "value": 7622
                 },
                 {
                     "key": "Toughness",
-                    "value": 1476
+                    "value": 12197
                 }
             ]
         }

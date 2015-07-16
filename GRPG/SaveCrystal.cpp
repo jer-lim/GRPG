@@ -113,6 +113,8 @@ void SaveCrystal::save()
 	saveData["quests"] = questData;
 	map<string, int> playerData;
 	playerData["deaths"] = thePlayer->getTotalDeaths();
+	playerData["aidilKills"] = thePlayer->getAidilKills();
+	playerData["aidilKillTime"] = thePlayer->getAidilKillTime();
 	saveData["player"] = playerData;
 
 	ofstream myfile;
@@ -166,6 +168,8 @@ bool SaveCrystal::load()
 
 	map<string, int> playerData = loadData["player"];
 	thePlayer->setTotalDeaths(playerData["deaths"]);
+	thePlayer->setAidilKills(playerData["aidilKills"]);
+	thePlayer->setAidilKillTime(playerData["aidilKillTime"]);
 
 	ui->addChatText("Game loaded.");
 	//Move player to the save crystal near the doctor

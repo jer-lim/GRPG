@@ -91,6 +91,10 @@ private:
 	Rift* riftPortal;
 
 	int totalDeaths;
+	int aidilKills;
+	//Tracks the player's best time taken to kill Aidil, measured in seconds
+	//if 0, then means no time has been recordded.
+	float aidilKillTime;
 	bool inCombat;
 	//delay before leaving combat
 	float combatLeaveDelay;
@@ -262,11 +266,14 @@ public:
 		sayMessage(hurtPhrases[rand() % hurtPhrases.size()]);
 	}
 
-	virtual int getTotalDeaths()
-	{
-		return totalDeaths;
-	}
+	virtual int getTotalDeaths() { return totalDeaths; }
 	virtual void setTotalDeaths(int t) { totalDeaths = t; }
+
+	virtual int getAidilKills() { return aidilKills; }
+	virtual void setAidilKills(int a) { aidilKills = a; }
+
+	virtual float getAidilKillTime() { return aidilKillTime; }
+	virtual void setAidilKillTime(float ak) { aidilKillTime = ak; }
 
 	virtual void setInCombat(bool i) { inCombat = i; combatLeaveDelay = playerNS::combatLeaveDelay; }
 

@@ -100,6 +100,13 @@ void SaveCrystalUseBehavior::optionSelected(ChatOption co)
 		stringstream ss;
 		ss << "You have died " << player->getTotalDeaths() << " times";
 		ui->addTalkText(new ChatInformation(ss.str(), chatNS::MIDDLE));
+		ss.str("");
+		ss << "You have killed Doombreather Aildiuln " << player->getAidilKills() << " time(s).";
+		if (player->getAidilKillTime() != 0)
+		{
+			ss << " Your best time taken to kill him is " << player->getAidilKillTime() << " seconds.";
+		}
+		ui->addTalkText(new ChatInformation(ss.str(), chatNS::MIDDLE));
 		cd->addOption(3, "Save game");
 		cd->addOption(4, "Load game");
 		cd->addOption(6, "More information...");
@@ -108,7 +115,7 @@ void SaveCrystalUseBehavior::optionSelected(ChatOption co)
 		break;
 	}
 	case 6:
-		ui->addTalkText(new ChatInformation("The save crystal will allow you to save and load your game. There is only 1 save file available. You can also view your stats (Currently only deaths amount) here.", chatNS::MIDDLE));
+		ui->addTalkText(new ChatInformation("The save crystal will allow you to save and load your game. There is only 1 save file available. You can also view your player stats here. (such as deaths, boss kills etc.)", chatNS::MIDDLE));
 		ui->addTalkText(new ChatInformation("Only certain items are saved and loaded.", chatNS::MIDDLE));
 		cd->addOption(7, "Check what is saved");
 		cd->addOption(8, "Check what happens on load");

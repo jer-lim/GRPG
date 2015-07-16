@@ -32,8 +32,18 @@ Aidil::~Aidil()
 	SAFE_DELETE(skyDragonfireArea);
 	for (int i = dragonEggs.size() - 1; i >= 0; i--)
 	{
-		//Deal enough typeless damage to insta kill it.
-		dragonEggs[i]->damage(((Enemy*)dragonEggs[i]->getPerson())->getmaxhealth());
+		stringstream ss;
+		ss << aidilNS::spawnLinkPhrase << i;
+		if (theGame->getSpawnLink(ss.str()) != nullptr)
+		{
+			//Deal enough typeless damage to insta kill it.
+			dragonEggs[i]->damage(((Enemy*)dragonEggs[i]->getPerson())->getmaxhealth());
+		}
+		else
+		{
+			//Already gone, we can safely ignore
+		}
+		ss.str("");
 	}
 	dragonEggs.clear();
 }
@@ -89,6 +99,7 @@ bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 
 	//FIGHT
 	SoundManager::playMusic(soundManagerNS::aidilFightMusicID);
+	totalTimeTaken = 0;
 
 	return true;
 }
@@ -129,6 +140,8 @@ void Aidil::draw(Viewport* viewport)
 
 void Aidil::update(float frameTime, Game* gamePtr)
 {
+	totalTimeTaken += frameTime;
+
 	int playerDeathTemp = Entity::playerLastTotalDeaths;
 	Entity::update(frameTime, gamePtr);
 	if (playerDeathTemp < Entity::playerLastTotalDeaths)

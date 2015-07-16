@@ -8,6 +8,7 @@
 //  Student Number:     s10128677
 
 #include "entity.h"
+#include "Aidil.h"
 #include "game.h"
 #include "mapLoader.h"
 #include <cmath>
@@ -1380,6 +1381,17 @@ void Entity::damage(int dt)
 				theGame->getDrawManager()->addObject(bonusEgg, 2);
 			}
 		}
+		if (((NPC*)person)->getname() == "Doombreather Aildiuln")
+		{
+			thePlayer->setAidilKills(thePlayer->getAidilKills() + 1);
+			float timeTaken = ((Aidil*)this)->getKillTime();
+			//If the player's kill time is better, or there is no listed kill time,
+			if (thePlayer->getAidilKillTime() > timeTaken || thePlayer->getAidilKillTime() == 0)
+			{
+				thePlayer->setAidilKillTime(timeTaken);
+			}
+		}
+
 		if (((NPC*)person)->getname() == "Gardener")
 		{
 			//The gardener should't die on death, he should just...become inactive.

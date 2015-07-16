@@ -24,6 +24,8 @@ Player::Player() : Entity()
     collisionType = entityNS::BOX;
 	health = 10;
 	totalDeaths = 0;
+	aidilKills = 0;
+	aidilKillTime = 0;
 	regenerationDelay = playerNS::startingRegnerationTime;
 
 	//skills
@@ -39,13 +41,13 @@ Player::Player() : Entity()
 
 	//Start off toughness at a good level
 	skills[skillNS::ID_SKILL_TOUGHNESS].gainXP(Skill::calculateXPRequired(10), true);
-	/*
+	
 	skills[skillNS::ID_SKILL_DEFENSE].gainXP(Skill::calculateXPRequired(99), true);
 	skills[skillNS::ID_SKILL_ATTACK].gainXP(Skill::calculateXPRequired(20), true);
 	skills[skillNS::ID_SKILL_STRENGTH].gainXP(Skill::calculateXPRequired(30), true);
 	skills[skillNS::ID_SKILL_MINING].gainXP(Skill::calculateXPRequired(20), true);
 	skills[skillNS::ID_SKILL_THIEVING].gainXP(Skill::calculateXPRequired(10), true);
-	skills[skillNS::ID_SKILL_FISHING].gainXP(Skill::calculateXPRequired(10), true);*/
+	skills[skillNS::ID_SKILL_FISHING].gainXP(Skill::calculateXPRequired(10), true);
 	health = 10;
 
 	nearStove = false;

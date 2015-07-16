@@ -132,6 +132,9 @@ private:
 	
 	//vector of all the dragon eggs so they can 'hatch' on landing
 	vector<Entity*> dragonEggs;
+	
+	//Tracks the time it took for the player to kill aidil since his spawn
+	float totalTimeTaken;
 protected:
 	//Calculate the final location of a specific point,
 	//given that, from the passed in x and y co-ordinates, a person travels a certain
@@ -160,5 +163,7 @@ public:
 
 	//Removes everything aidil has spawned and despawns aidil from the game.
 	virtual void reset();
+
+	virtual float getKillTime() { return totalTimeTaken; }
 };
 #endif
