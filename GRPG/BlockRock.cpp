@@ -29,6 +29,7 @@ bool BlockRock::initialize(Game* gamePtr, Player* p, Destination* location, stri
 	ui = ((Grpg*)gamePtr)->getUI();
 	thePlayer = p;
 	examineText = et;
+	theGame = gamePtr;
 
 	if (!rockTexture->initialize(graphics, blockRockNS::location))
 	{
@@ -38,6 +39,12 @@ bool BlockRock::initialize(Game* gamePtr, Player* p, Destination* location, stri
 	setupBehaviors();
 	setX(location->getX());
 	setY(location->getY());
+
+	//Load firstmine from questdata
+	if (((Grpg*)gamePtr)->getQuestLoader()->getQuestData()->getValue("blockRockMined") != 0)
+	{
+		firstMine = false;
+	}
 
 	return result;
 }
@@ -123,4 +130,10 @@ void BlockRock::setupBehaviors()
 	viewBehavior = new ViewBehavior("A rock", examineText, ui);
 	blockRockMineBehavior = new BlockRockMineBehavior(thePlayer, this, ui);
 	setupVectorActiveBehaviors();
+}
+
+void BlockRock::mined()
+{
+	firstMine = false;
+	((Grpg*)theGame)->getQuestLoader()->getQuestData()->setValue("blockRockMined", 1);
 }

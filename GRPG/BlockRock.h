@@ -80,7 +80,7 @@ public:
 		setupVectorActiveBehaviors();
 	}
 	virtual bool hasMiningBonus() { return firstMine; }
-	virtual void mined() { firstMine = false; }
+	virtual void mined();
 
 	virtual void setupVectorActiveBehaviors()
 	{

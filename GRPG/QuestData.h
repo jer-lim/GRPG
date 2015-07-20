@@ -108,6 +108,9 @@ public:
 		//Represents whether the player has asked the doctor about the save crystal or not, and the result
 		//0 = not yet, 1 = asked, said believe, 2 = asked, said didn't believe
 		storedInformation["saveCrystalDoctorAsked"] = 0;
+		//Represents whether the player has mined the block rock (rock blocking Aidil) or not. This is so it persists across game sessions
+		//0 = nope, 1 = yes
+		storedInformation["blockRockMined"] = 0;
 	}
 
 	virtual map<string, int> getAllValues() { return storedInformation; }

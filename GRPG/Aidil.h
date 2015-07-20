@@ -46,10 +46,10 @@ namespace aidilNS
 	const float skyFireballWidth = 96;
 	const float skyFireballHeight = 96;
 	const float skyFireballWarningTime = 2;
-	const float skyFireballActiveTime = 4;
+	const float skyFireballActiveTime = 5;
 	const float skyFireballActiveDeviation = 2;
 	const float skyFireballInitialDelay = 2;
-	const float skyFireballCooldownDelay = 1.5;
+	const float skyFireballCooldownDelay = 0.5;
 
 	const float fieldWidth = 32 * 12;
 	const float fieldHeight = 32 * 12;
