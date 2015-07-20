@@ -1385,6 +1385,9 @@ void Entity::damage(int dt)
 		{
 			thePlayer->setAidilKills(thePlayer->getAidilKills() + 1);
 			float timeTaken = ((Aidil*)this)->getKillTime();
+			stringstream ss;
+			ss << "You just took " << timeTaken << " seconds to kill Doombreather Aildiuln";
+			((Grpg*)theGame)->getUI()->addChatText(ss.str());
 			//If the player's kill time is better, or there is no listed kill time,
 			if (thePlayer->getAidilKillTime() > timeTaken || thePlayer->getAidilKillTime() == 0)
 			{
