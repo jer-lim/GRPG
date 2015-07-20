@@ -17,6 +17,11 @@ Aidil::Aidil()
 
 Aidil::~Aidil()
 {
+	//If I'm in phase 2, where my movement speed is set to 0, set it back
+	if (currentPhase == 2)
+	{
+		person->setMovementSpeed(oldMovementSpeed);
+	}
 	SAFE_DELETE(aidilFlyingImage);
 	SAFE_DELETE(aidilFlyTexture);
 	//Only delete these if they are not the current behaviors
