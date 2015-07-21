@@ -1,0 +1,11 @@
+5 Goblin 1 1 2 5 - Spawn randomly below the wilderness line - Chunks 8
+3 Skeleton 3 2 3 5 - Spawn 1-low level wildy - Chunks T, Y
+6 Goblin Chief 5 4 5 10 - Spawn at a specific, somewhat hidden location below the wilderness line - Chunks 9
+4 Skeleton King 15 10 5 15 - Spawn 1-high level wildy - Chunks S
+9 Ogre 2 7 15 20 - Spawn 1-High, 2-Low level wildy - Chunks U, R
+7 Undead 15 4 15 15 - Spawn 2 level wildy - Chunks Z, _
+11 Golem 15 6 5 10 - Spawn 3 level wildy - Chunks &, <
+8 Undead Commander 20 4 10 20 - Spawn 2-High level Widly - Chunks ~
+10 Ogre Boss 15 6 15 25 - Spawn 3-High level wildy - Chunks V
+13 Dragon 20 8 15 25 - Spawn 4 level wildy - Chunks W
+12 Earth Guardian 30 15 5 15 - Spawn 3-High level wildy - No free tile character available =(

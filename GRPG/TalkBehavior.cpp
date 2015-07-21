@@ -436,6 +436,12 @@ void TalkBehavior::action(){
 					ui->addTalkText(dt);
 					break;
 				}
+				case 9:
+				{
+					ui->drawWindow("Lawyer");
+					ui->addTalkText(new ChatInformation("Hello, I'm the lawyer. I'm here to credit the relevant people whose images, music and sound are used in this game.", chatNS::RIGHT));
+					break;
+				}
 				default:
 				{
 					ui->addChatText("Developer warning: detail chat was required, but");
