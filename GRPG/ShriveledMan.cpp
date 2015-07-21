@@ -42,6 +42,12 @@ bool ShriveledMan::initialize(Game* gamePtr, Player* p, Destination* location, N
 	setX(location->getX());
 	setY(location->getY());
 
+	//Die if the quest loaded is when he is gone
+	if (((Grpg*)gamePtr)->getQuestLoader()->getQuestData()->getValue("artifactStealStatus") >= 4)
+	{
+		fakeDelete();
+	}
+
 	return result;
 }
 
