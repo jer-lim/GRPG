@@ -41,6 +41,14 @@ bool ArtifactDisplay::initialize(Game* gamePtr, Player* p, Destination* location
 	{
 		setFrame(3);
 	}
+	//If Vangel should appear
+	if (((Grpg*)theGame)->getQuestLoader()->getQuestData()->getValue("mysteriousArtifactStatus") >= 7)
+	{
+		//Spawn him
+		VECTOR2 myLocation = getVector();
+		myLocation.y += tileNS::HEIGHT;
+		NPC::spawn(theGame, 40, myLocation);
+	}
 
 	return result;
 }
