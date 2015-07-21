@@ -31,7 +31,7 @@
             "value": [
                 {
                     "key": "artifactDisplayStatus",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "artifactStealAdmitted",
@@ -39,7 +39,7 @@
                 },
                 {
                     "key": "artifactStealKey",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "artifactStealMethod",
@@ -47,7 +47,7 @@
                 },
                 {
                     "key": "artifactStealStatus",
-                    "value": 0
+                    "value": 4
                 },
                 {
                     "key": "blockRockMined",
@@ -115,7 +115,7 @@
                 },
                 {
                     "key": "mysteriousArtifactGardenerTask",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "mysteriousArtifactOtherTask",
@@ -123,11 +123,11 @@
                 },
                 {
                     "key": "mysteriousArtifactStatus",
-                    "value": 0
+                    "value": 8
                 },
                 {
                     "key": "mysteriousArtifactWaitTime",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "key": "saveCrystalDoctorAsked",
@@ -155,12 +155,12 @@
                     "value": 0
                 },
                 {
-                    "key": "0:0,:0,0,:0,:0,0,:0,0,:0,:",
-                    "value": 2
+                    "key": "1:1,:0,:1,:1,1,:1,:",
+                    "value": 1
                 },
                 {
-                    "key": "0:0,:0,:0,:0,0,:0,:",
-                    "value": 1
+                    "key": "1:1,:1,0,:1,:1,1,:1,1,:1,:",
+                    "value": 2
                 }
             ]
         },
