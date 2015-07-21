@@ -439,7 +439,15 @@ void TalkBehavior::action(){
 				case 9:
 				{
 					ui->drawWindow("Lawyer");
-					ui->addTalkText(new ChatInformation("Hello, I'm the lawyer. I'm here to credit the relevant people whose images, music and sound are used in this game.", chatNS::RIGHT));
+					ui->addTalkText(new ChatInformation("Hello, I'm the lawyer. I'm here to credit the relevant people whose images, music and sound are used in this game, so that the creators don't end up getting sued.", chatNS::RIGHT));
+					ui->addTalkText(new ChatInformation("Is there anything you would like to know?", chatNS::RIGHT));
+					ChatDecision* dt = new ChatDecision(chatNS::VERTICALLY);
+					dt->setCaller(this);
+					dt->addOption(109, "Tell me about the images");
+					dt->addOption(110, "Tell me about the sound");
+					dt->addOption(111, "Tell me about the music");
+					dt->addOption(0, "Nothing else, thanks");
+					ui->addTalkText(dt);
 					break;
 				}
 				default:
@@ -1739,18 +1747,43 @@ void TalkBehavior::optionSelected(ChatOption co)
 		cd->addOption(108, "You're lying");
 		ui->addTalkText(cd);
 		break;
-	case 107:
+	case 107: // I believe you about the save crystal
 		questData->setValue("saveCrystalDoctorAsked", 1);
 		ui->addTalkText(new ChatInformation("Is there something wrong wtih you? Maybe you need some healing. I can do that.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("No thanks, I'm good.", chatNS::LEFT));
 		cd->addOption(0, "Leave");
 		ui->addTalkText(cd);
 		break;
-	case 108:
+	case 108: //I think you're lying about the crystal
 		questData->setValue("saveCrystalDoctorAsked", 2);
 		ui->addTalkText(new ChatInformation("Come on, you have to see the crystal - it's right there!", chatNS::LEFT));
 		ui->addTalkText(new ChatInformation("I've told you, there is no crystal in this house. Now leave me be, joker! I have important work to attend to, and people who need my help.", chatNS::RIGHT));
 		cd->addOption(0, "Leave");
+		ui->addTalkText(cd);
+		break;
+	case 109: // Lawyer - tell me more about the images
+		ui->addTalkText(new ChatInformation("The images for the tabs were found from iconfinder, as well as the up arrow used during a skill level up.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("All other images are either created by the developers themselves, or found early during development and no credit was required, so their source was not recorded.", chatNS::RIGHT));
+		cd->addOption(110, "Tell me about the sound");
+		cd->addOption(111, "Tell me about the music");
+		cd->addOption(0, "Nothing else, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 110: //Tell me more about the sound
+		ui->addTalkText(new ChatInformation("The sword attack used by the player was from http://www.soundsnap.com/tags/sword, 4th item on the list called Sword Schwing", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The skil level up effect sound was from http://opengameart.org/content/level-up-sound-effects, licensed under CC by 3.0", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("And that's all, no other sounds need to be credited. The rest were probably created using bfxr, a sound generating tool for developers.", chatNS::RIGHT));
+		cd->addOption(109, "Tell me about the images");
+		cd->addOption(111, "Tell me about the music");
+		cd->addOption(0, "Nothing else, thanks.");
+		ui->addTalkText(cd);
+		break;
+	case 111: //Tell me more about the music
+		ui->addTalkText(new ChatInformation("The following pieces of music are used in the game. They may have been spliced to fit different parts of the game. All music can be found at incompetech.com, by Kevin MacLeod. They are licensed under Creative Commons: By Attribution 3.0.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The music tracks are: Easy Lemon, Movement Proposition, Volatile Reaction", chatNS::RIGHT));
+		cd->addOption(109, "Tell me about the images");
+		cd->addOption(110, "Tell me about the sound");
+		cd->addOption(0, "Nothing else, thanks.");
 		ui->addTalkText(cd);
 		break;
 	default:
