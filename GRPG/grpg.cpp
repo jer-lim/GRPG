@@ -410,6 +410,30 @@ void Grpg::update()
 			ss.str("");
 		}
 	}
+	else
+	{
+		//No rifts should spawn, check if any rifts are up and despawn them
+		//This will occur if the user completed the quest but then loaded a save from before
+		stringstream ss;
+		if (riftsInGame.size() > 0)
+		{
+			//Check for dead rifts
+			for (int i = 0; i < riftsInGame.size(); i++)
+			{
+				ss << GrpgNS::riftSpawnPhrase << i;
+				if (this->getSpawnLink(ss.str()) == nullptr)
+				{
+					riftsInGame[i] = nullptr;
+				}
+				else
+				{
+					riftsInGame[i]->close();
+				}
+				ss.str("");
+			}
+			riftsInGame.clear();
+		}
+	}
 }
 
 //=============================================================================

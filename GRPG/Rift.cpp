@@ -53,8 +53,11 @@ void Rift::draw(Viewport* viewport)
 {
 	//The rift must always be visible for the player to change between realms,
 	//so it must always be drawn and thus be in the same realm as the player
-	setIsInDarkRealm(thePlayer->inDarkRealm());
-	Entity::draw(viewport);
+	if (!allocatedForDeletion)
+	{
+		setIsInDarkRealm(thePlayer->inDarkRealm());
+		Entity::draw(viewport);
+	}
 }
 
 void Rift::update(float frameTime, Game* gamePtr)
