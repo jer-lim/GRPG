@@ -36,6 +36,12 @@ bool ArtifactDisplay::initialize(Game* gamePtr, Player* p, Destination* location
 	setX(location->getX());
 	setY(location->getY());
 
+	//If artifact has been stolen or otherwise
+	if (((Grpg*)theGame)->getQuestLoader()->getQuestData()->getValue("artifactStealStatus") >= 3)
+	{
+		setFrame(3);
+	}
+
 	return result;
 }
 
