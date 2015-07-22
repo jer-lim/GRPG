@@ -754,15 +754,15 @@ void Grpg::saveAnalyticsData()
 	playerData["deaths"] = player->getTotalDeaths();
 	playerData["aidilKills"] = player->getAidilKills();
 	playerData["aidilKillTime"] = player->getAidilKillTime();
-	saveData["player"] = playerData;
 	if (ui->isNewChatVersion())
 	{
-		saveData["chat"] = true;
+		playerData["chat"] = 1;
 	}
 	else
 	{
-		saveData["chat"] = false;
+		playerData["chat"] = 0;
 	}
+	saveData["player"] = playerData;
 
 	ofstream myfile;
 	myfile.open("analytics.txt");

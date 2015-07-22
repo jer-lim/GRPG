@@ -17,8 +17,8 @@ Aidil::Aidil()
 
 Aidil::~Aidil()
 {
-	//If I'm in phase 2, where my movement speed is set to 0, set it back
-	if (currentPhase == 2)
+	//If I'm in phase 2 or 1, where my movement speed is set to 0, set it back
+	if (currentPhase == 2 || currentPhase == 1)
 	{
 		person->setMovementSpeed(oldMovementSpeed);
 	}
@@ -105,6 +105,10 @@ bool Aidil::initialize(Game* gamePtr, Player* p, NPC* aidilInfo)
 	//FIGHT
 	SoundManager::playMusic(soundManagerNS::aidilFightMusicID);
 	totalTimeTaken = 0;
+
+	//Aidil stays still for phase 1, breathing dragonfire at the player
+	oldMovementSpeed = person->getMovementSpeed();
+	person->setMovementSpeed(0);
 
 	return true;
 }
@@ -335,6 +339,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 						if (sdf->timeLeft <= 0)
 						{
 							skydragonfires.erase(skydragonfires.begin() + i);
+							break;
 						}
 						/*
 						//Spawn a dragonfire at destination
@@ -376,7 +381,8 @@ void Aidil::update(float frameTime, Game* gamePtr)
 			//Set speed relative to how long it will take
 			VECTOR2 direction = destination->getVector() - getVector();
 			float distance = D3DXVec2Length(&direction);
-			oldMovementSpeed = person->getMovementSpeed();
+			//Saved on aidil create
+			//oldMovementSpeed = person->getMovementSpeed();
 			person->setMovementSpeed(distance / aidilNS::flyAnimationTime);
 
 			//Generate and reveal dragon eggs
