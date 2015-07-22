@@ -351,6 +351,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 		if (currentPhase == 1 && health < aidilNS::healthThresholdForPhase2)
 		{
 			currentPhase = 2;
+			SoundManager::playMusic(soundManagerNS::aidilFight2MusicID);
 			normalImage = new Image(image);
 			image = *aidilFlyingImage;
 			dragonfireStatus = aidilNS::DRAGONFIRE_COOLDOWN;
@@ -440,6 +441,7 @@ void Aidil::update(float frameTime, Game* gamePtr)
 					image.setScale(1);
 					image = *normalImage;
 					currentPhase = 3;
+					SoundManager::playMusic(soundManagerNS::aidilFight3MusicID);
 					attackBehavior = oldAttackBehavior;
 					oldAttackBehavior = nullptr;
 					setupVectorActiveBehaviors();

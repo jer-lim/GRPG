@@ -33,6 +33,8 @@ namespace GrpgNS
 	//the spawn links used by Grpg.
 	const string riftSpawnPhrase = "Rifts";
 	const int riftLimit = 10;
+
+	const float startingAnalyticsDelay = 30; //30 seconds between saves
 }
 
 //=============================================================================
@@ -64,6 +66,9 @@ private:
 
 	//Tracks the total number of rifts in game. This GRPG class will handle spawning.
 	vector<Rift*> riftsInGame;
+
+	//Delay until analytics data is written again, in seconds
+	float analyticsDelay;
 
 public:
     // Constructor
@@ -100,6 +105,9 @@ public:
 
 	//Attempt to drop an easter egg for an entity. Generates a new easter egg object and returns it.
 	Entity* dropEasterEgg();
+
+	//Print an analytics text into analytics.txt
+	void saveAnalyticsData();
 };
 
 #endif

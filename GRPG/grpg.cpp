@@ -20,6 +20,16 @@
 #include "NoiseManager.h"
 #include "RiftData.h"
 
+#include <cereal\types\map.hpp>
+#include <cereal\archives\json.hpp>
+#include <cereal\types\complex.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal\cereal.hpp>
+
+#include <iostream>
+#include <fstream>
+
 //=============================================================================
 // Constructor
 //=============================================================================
@@ -203,6 +213,7 @@ void Grpg::initialize(HWND hwnd)
 	//Play music
 	SoundManager::initialize();
 	SoundManager::playMusic(soundManagerNS::generalMusicID);
+	analyticsDelay = GrpgNS::startingAnalyticsDelay;
 
 	return;
 }
@@ -433,6 +444,13 @@ void Grpg::update()
 			}
 			riftsInGame.clear();
 		}
+	}
+
+	analyticsDelay -= frameTime;
+	if (analyticsDelay <= 0)
+	{
+		saveAnalyticsData();
+		analyticsDelay = GrpgNS::startingAnalyticsDelay;
 	}
 }
 
@@ -712,4 +730,42 @@ Entity* Grpg::dropEasterEgg()
 	Entity* e = new Entity();
 	e->initialize(this, newItem, false);
 	return e;
+}
+
+void Grpg::saveAnalyticsData()
+{
+	map<string, map<string, int>> saveData;
+	//ui->addChatText("Game saved.");
+	//ui->drawWindow("Save Crystal");
+	//ui->addTalkText(new ChatInformation("This "))
+	saveData["questData"] = questLoader->getQuestData()->getAllValues();
+	saveData["skillsData"] = player->getSkillsToSave();
+	map<string, int> otherData;
+	otherData[player->getInventory()->getInventoryString()] = 0;
+	saveData["inventory"] = otherData;
+	map<string, int> questData;
+	map<int, Quest*>* questList = questLoader->getMapQuests();
+	for (map<int, Quest*>::iterator i = questList->begin(); i != questList->end(); ++i)
+	{
+		questData[i->second->getQuestString()] = i->first;
+	}
+	saveData["quests"] = questData;
+	map<string, int> playerData;
+	playerData["deaths"] = player->getTotalDeaths();
+	playerData["aidilKills"] = player->getAidilKills();
+	playerData["aidilKillTime"] = player->getAidilKillTime();
+	saveData["player"] = playerData;
+	if (ui->isNewChatVersion())
+	{
+		saveData["chat"] = true;
+	}
+	else
+	{
+		saveData["chat"] = false;
+	}
+
+	ofstream myfile;
+	myfile.open("analytics.txt");
+	cereal::JSONOutputArchive output(myfile);
+	output(cereal::make_nvp("savedata", saveData));
 }

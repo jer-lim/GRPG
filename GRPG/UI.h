@@ -348,5 +348,7 @@ public:
 
 	void newSkillLevelUP(string skillName);
 	void removeLastSkillLevelUp() { lastLevelUpSkill = nullptr; }
+
+	bool isNewChatVersion() { return newChatVersion; }
 };
 #endif

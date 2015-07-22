@@ -1,0 +1,209 @@
+{
+    "savedata": [
+        {
+            "key": "inventory",
+            "value": [
+                {
+                    "key": "{F6:1:3,30:1:,F6:1:3,F6:1:3,F6:1:2,F6:1:2,F6:1:3,F6:1:3,F6:1:2,F6:1:2,F6:1:3,F6:1:2,}",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "key": "player",
+            "value": [
+                {
+                    "key": "aidilKillTime",
+                    "value": 40
+                },
+                {
+                    "key": "aidilKills",
+                    "value": 4
+                },
+                {
+                    "key": "deaths",
+                    "value": 3
+                }
+            ]
+        },
+        {
+            "key": "questData",
+            "value": [
+                {
+                    "key": "artifactDisplayStatus",
+                    "value": 1
+                },
+                {
+                    "key": "artifactStealAdmitted",
+                    "value": 0
+                },
+                {
+                    "key": "artifactStealKey",
+                    "value": 1
+                },
+                {
+                    "key": "artifactStealMethod",
+                    "value": 0
+                },
+                {
+                    "key": "artifactStealStatus",
+                    "value": 4
+                },
+                {
+                    "key": "blockRockMined",
+                    "value": 1
+                },
+                {
+                    "key": "darkRealmName",
+                    "value": 0
+                },
+                {
+                    "key": "easterBirdNestStatus",
+                    "value": 0
+                },
+                {
+                    "key": "easterComplete",
+                    "value": 0
+                },
+                {
+                    "key": "easterEggStatus",
+                    "value": 0
+                },
+                {
+                    "key": "easterGoodFoodGiven",
+                    "value": 0
+                },
+                {
+                    "key": "easterStatus",
+                    "value": 0
+                },
+                {
+                    "key": "elliotStatus",
+                    "value": 0
+                },
+                {
+                    "key": "foodGiven",
+                    "value": 0
+                },
+                {
+                    "key": "geraldStatus",
+                    "value": 0
+                },
+                {
+                    "key": "mattStatus",
+                    "value": 0
+                },
+                {
+                    "key": "minorTaskAskerBringNet",
+                    "value": 0
+                },
+                {
+                    "key": "minorTaskAskerNeedsNet",
+                    "value": 0
+                },
+                {
+                    "key": "minorTaskComplained",
+                    "value": 0
+                },
+                {
+                    "key": "minorTaskStatus",
+                    "value": 0
+                },
+                {
+                    "key": "mysteriousArtifactAlfredReward",
+                    "value": 0
+                },
+                {
+                    "key": "mysteriousArtifactGardenerTask",
+                    "value": 1
+                },
+                {
+                    "key": "mysteriousArtifactOtherTask",
+                    "value": 0
+                },
+                {
+                    "key": "mysteriousArtifactStatus",
+                    "value": 8
+                },
+                {
+                    "key": "mysteriousArtifactWaitTime",
+                    "value": 1
+                },
+                {
+                    "key": "saveCrystalDoctorAsked",
+                    "value": 0
+                },
+                {
+                    "key": "smokeComplete",
+                    "value": 0
+                },
+                {
+                    "key": "smokeStatus",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "key": "quests",
+            "value": [
+                {
+                    "key": "0:0,0,:0,:0,:0,0,:0,:",
+                    "value": 3
+                },
+                {
+                    "key": "0:0,:0,0,:0,0,:0,:0,:0,:0,:",
+                    "value": 0
+                },
+                {
+                    "key": "1:1,:0,:1,:1,1,:1,:",
+                    "value": 1
+                },
+                {
+                    "key": "1:1,:1,0,:1,:1,1,:1,1,:1,:",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "key": "skillsData",
+            "value": [
+                {
+                    "key": "Accuracy",
+                    "value": 24271
+                },
+                {
+                    "key": "Cooking",
+                    "value": 6822
+                },
+                {
+                    "key": "Evasion",
+                    "value": 122032
+                },
+                {
+                    "key": "Fishing",
+                    "value": 7856
+                },
+                {
+                    "key": "Mining",
+                    "value": 14557
+                },
+                {
+                    "key": "Power",
+                    "value": 29720
+                },
+                {
+                    "key": "Rift Sealing",
+                    "value": 6365
+                },
+                {
+                    "key": "Thieving",
+                    "value": 7622
+                },
+                {
+                    "key": "Toughness",
+                    "value": 20649
+                }
+            ]
+        }
+    ]
+}

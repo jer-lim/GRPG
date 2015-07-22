@@ -28,8 +28,8 @@ void SoundManager::initialize()
 	musicList.push_back(aidilPreFight);
 
 	Music aidilFight;
-	aidilFight.fileName = TEXT("assets/sound/aidil_fight.wav");
-	aidilFight.playTime = 126;
+	aidilFight.fileName = TEXT("assets/sound/Aidil_phase_1.wav");
+	aidilFight.playTime = 27;
 	aidilFight.id = soundManagerNS::aidilFightMusicID;
 	musicList.push_back(aidilFight);
 
@@ -62,6 +62,18 @@ void SoundManager::initialize()
 	fifthwave.playTime = 57;
 	fifthwave.id = soundManagerNS::fifthWaveID;
 	musicList.push_back(fifthwave);
+
+	Music aidilPhase2;
+	aidilPhase2.fileName = TEXT("assets/sound/Aidil_phase_2.wav");
+	aidilPhase2.playTime = 38;
+	aidilPhase2.id = soundManagerNS::aidilFight2MusicID;
+	musicList.push_back(aidilPhase2);
+
+	Music aidilPhase3;
+	aidilPhase3.fileName = TEXT("assets/sound/Aidil_phase_3.wav");
+	aidilPhase3.playTime = 25;
+	aidilPhase3.id = soundManagerNS::aidilFight3MusicID;
+	musicList.push_back(aidilPhase3);
 }
 
 void SoundManager::toggleMute()

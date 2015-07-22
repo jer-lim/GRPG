@@ -1393,6 +1393,7 @@ void Entity::damage(int dt)
 			{
 				thePlayer->setAidilKillTime(timeTaken);
 			}
+			SoundManager::playMusic(soundManagerNS::generalMusicID);
 		}
 
 		if (((NPC*)person)->getname() == "Gardener")

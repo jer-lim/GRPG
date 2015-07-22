@@ -72,7 +72,7 @@ z 0 47 0.1 credits.png -1 0 0
 | 2 1 1 woodhouse_floor.png -1 2 0
 ; 5 1 1 copper_rock.png -1 0 0
 ^ 2 1 1 castle_floor.png -1 27 0
-= 0 1 1 castle_floor.png -1 0 0
+= 0 1 1 castle_floor.png 0 0 0
 < 2 1 1 grass.png -1 28 0
 > 2 1 1 woodhouse_floor.png -1 29 0
 / 2 1 1 castle_entrance.png -1 30 0
