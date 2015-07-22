@@ -4,7 +4,7 @@
             "key": "inventory",
             "value": [
                 {
-                    "key": "{F6:1:3,F6:1:2,F6:1:3,30:1:,F6:1:3,F6:1:2,F6:1:3,30:1:,F6:1:3,F6:1:2,F6:1:2,F6:1:2,F6:1:2,F6:1:2,F6:1:3,F6:1:3,F6:1:2,F6:1:2,F6:1:3,F6:1:2,}",
+                    "key": "{F2:1:0,F2:1:0,F2:1:0,F2:1:0,F2:1:0,F2:1:0,F2:1:0,}",
                     "value": 0
                 }
             ]
@@ -14,11 +14,11 @@
             "value": [
                 {
                     "key": "aidilKillTime",
-                    "value": 40
+                    "value": 0
                 },
                 {
                     "key": "aidilKills",
-                    "value": 5
+                    "value": 0
                 },
                 {
                     "key": "chat",
@@ -26,7 +26,7 @@
                 },
                 {
                     "key": "deaths",
-                    "value": 2
+                    "value": 1
                 }
             ]
         },
@@ -35,7 +35,7 @@
             "value": [
                 {
                     "key": "artifactDisplayStatus",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "artifactStealAdmitted",
@@ -43,7 +43,7 @@
                 },
                 {
                     "key": "artifactStealKey",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "artifactStealMethod",
@@ -51,11 +51,11 @@
                 },
                 {
                     "key": "artifactStealStatus",
-                    "value": 4
+                    "value": 0
                 },
                 {
                     "key": "blockRockMined",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "darkRealmName",
@@ -115,11 +115,11 @@
                 },
                 {
                     "key": "mysteriousArtifactAlfredReward",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "mysteriousArtifactGardenerTask",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "mysteriousArtifactOtherTask",
@@ -127,11 +127,11 @@
                 },
                 {
                     "key": "mysteriousArtifactStatus",
-                    "value": 8
+                    "value": 0
                 },
                 {
                     "key": "mysteriousArtifactWaitTime",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "key": "saveCrystalDoctorAsked",
@@ -159,12 +159,12 @@
                     "value": 0
                 },
                 {
-                    "key": "1:1,:0,:1,:1,1,:1,:",
-                    "value": 1
+                    "key": "0:0,:0,0,:0,:0,0,:0,0,:0,:",
+                    "value": 2
                 },
                 {
-                    "key": "1:1,:1,0,:1,:1,1,:1,1,:1,:",
-                    "value": 2
+                    "key": "0:0,:0,:0,:0,0,:0,:",
+                    "value": 1
                 }
             ]
         },
@@ -173,39 +173,39 @@
             "value": [
                 {
                     "key": "Accuracy",
-                    "value": 24247
+                    "value": 400
                 },
                 {
                     "key": "Cooking",
-                    "value": 7002
+                    "value": 0
                 },
                 {
                     "key": "Evasion",
-                    "value": 122008
+                    "value": 400
                 },
                 {
                     "key": "Fishing",
-                    "value": 7856
+                    "value": 0
                 },
                 {
                     "key": "Mining",
-                    "value": 14657
+                    "value": 0
                 },
                 {
                     "key": "Power",
-                    "value": 29696
+                    "value": 400
                 },
                 {
                     "key": "Rift Sealing",
-                    "value": 6365
+                    "value": 0
                 },
                 {
                     "key": "Thieving",
-                    "value": 7622
+                    "value": 0
                 },
                 {
                     "key": "Toughness",
-                    "value": 20625
+                    "value": 1840
                 }
             ]
         }

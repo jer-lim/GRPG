@@ -41,7 +41,7 @@ public:
 		}
 	}
 
-	Enemy(string i, float mov, float atkSpd, float h, float w, float cols, float colHeight, float colWidth, string nama, string desc, int maxhp, int atkLv, int defLv, int strLv, float dmgReduction, int a, int range, vector<InventoryItem*>* drops)
+	Enemy(string i, float mov, float atkSpd, float h, float w, float cols, float colHeight, float colWidth, string nama, string desc, int maxhp, int atkLv, int strLv, int defLv, float dmgReduction, int a, int range, vector<InventoryItem*>* drops)
 		: NPC(i, mov, atkSpd, h, w, cols, colHeight, colWidth, nama, desc, maxhp, true, nullptr, nullptr, 0)
 	{
 		attackLv = atkLv;
