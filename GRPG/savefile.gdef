@@ -4,7 +4,7 @@
             "key": "inventory",
             "value": [
                 {
-                    "key": "{F6:1:3,F6:1:2,F6:1:2,30:1:,F6:1:3,F6:1:2,F6:1:3,F6:1:2,F6:1:2,F6:1:2,F6:1:2,F6:1:2,F6:1:2,F6:1:2,F6:1:3,F6:1:3,F6:1:2,F6:1:2,F6:1:3,F6:1:2,}",
+                    "key": "{F6:1:3,F6:1:2,F6:1:3,30:1:,F6:1:3,F6:1:2,F6:1:3,30:1:,F6:1:3,F6:1:2,F6:1:2,F6:1:2,F6:1:2,F6:1:2,F6:1:3,F6:1:3,F6:1:2,F6:1:2,F6:1:3,F6:1:2,}",
                     "value": 0
                 }
             ]
@@ -18,7 +18,7 @@
                 },
                 {
                     "key": "aidilKills",
-                    "value": 4
+                    "value": 5
                 },
                 {
                     "key": "deaths",
@@ -169,15 +169,15 @@
             "value": [
                 {
                     "key": "Accuracy",
-                    "value": 22099
+                    "value": 24247
                 },
                 {
                     "key": "Cooking",
-                    "value": 6822
+                    "value": 7002
                 },
                 {
                     "key": "Evasion",
-                    "value": 119860
+                    "value": 122008
                 },
                 {
                     "key": "Fishing",
@@ -185,11 +185,11 @@
                 },
                 {
                     "key": "Mining",
-                    "value": 14557
+                    "value": 14657
                 },
                 {
                     "key": "Power",
-                    "value": 27548
+                    "value": 29696
                 },
                 {
                     "key": "Rift Sealing",
@@ -201,7 +201,7 @@
                 },
                 {
                     "key": "Toughness",
-                    "value": 18477
+                    "value": 20625
                 }
             ]
         }

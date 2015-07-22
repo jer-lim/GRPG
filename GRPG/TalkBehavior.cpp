@@ -1349,7 +1349,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		break;
 	case 70: //What should I expect when I enter a rift?
 		ui->addTalkText(new ChatInformation("Plenty. My scouts have entered rifts themselves and report that they all follow a similar structure.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("In essence, you can enter a rift to fight waves of monsters that will come. Once you have completed the rift, you can then leave it for some rift closing xp. Fully completing the rift will also grant you a large chunk of bonus xp.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("In essence, you can enter a rift to fight waves of monsters that will come. Once you have completed the rift, you can then leave it for some rift sealing xp. Fully completing the rift will also grant you a large chunk of bonus xp.", chatNS::RIGHT));
 		cd->addOption(71, "Tell me about the waves in a rift.");
 		cd->addOption(72, "What happens if I want to exit the rift early?");
 		cd->addOption(73, "Tell me about the experience rewards.");
@@ -1375,9 +1375,9 @@ void TalkBehavior::optionSelected(ChatOption co)
 		ui->addTalkText(cd);
 		break;
 	case 73: //Tell me about the experience rewards.
-		ui->addTalkText(new ChatInformation("As you close rifts you will gain experience in rift-closing.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("As you close rifts you will gain experience in rift-sealing.", chatNS::RIGHT));
 		ui->addTalkText(new ChatInformation("If you manage to fully close the rift, clearing all the waves, you will gain a chunk of experience as a bonus.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("If you leave early, you wil still gain experience based on the waves that you have cleared, but only half of the experience you would have gained had you completed the rift.", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("If you leave early, you will still gain experience based on the waves that you have cleared, but only half of the experience you would have gained had you completed the rift.", chatNS::RIGHT));
 		cd->addOption(71, "Tell me about the waves in a rift.");
 		cd->addOption(72, "What happens if I want to exit the rift early?");
 		cd->addOption(74, "Let's focus less on the rift.");
