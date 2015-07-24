@@ -14,6 +14,7 @@
 
 namespace resourceNS
 {
+	const int NOACTION = 0;
 	const int FISHING = 1;
 	const int MINING = 2;
 }

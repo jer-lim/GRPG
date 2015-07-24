@@ -152,7 +152,7 @@ void Player::update(float frameTime, Game* gamePtr)
 	//Stop fishing, mining and cooking if you're doing something else
 	if (destination != nullptr || victim != nullptr)
 	{
-		actionDelay = 0;
+		stopResourceAction();
 		nearStove = false;
 		//NO shopping
 		game->getUI()->removeWindow();
@@ -218,6 +218,10 @@ void Player::update(float frameTime, Game* gamePtr)
 					{
 						restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
 					}
+					else
+					{
+						stopResourceAction();
+					}
 				}
 				else if (currentAction == resourceNS::MINING)
 				{
@@ -265,7 +269,16 @@ void Player::update(float frameTime, Game* gamePtr)
 					{
 						restartCounter(playerNS::miningWaitTime, skills[skillNS::ID_SKILL_MINING].getSkillLevel());
 					}
+					else
+					{
+						stopResourceAction();
+					}
 				}
+			}
+			else
+			{
+				((Grpg*)theGame)->getUI()->addChatText("Your inventory is full!");
+				stopResourceAction();
 			}
 		}
 	}
@@ -330,8 +343,15 @@ void Player::startFishing(bool flip)
 	//Check if activity can continue
 	if (inventory->hasSpaceInInventory())
 	{
-		currentAction = resourceNS::FISHING;
-		restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+		if (currentAction != resourceNS::FISHING)
+		{
+			currentAction = resourceNS::FISHING;
+			restartCounter(playerNS::fishingWaitTime, skills[skillNS::ID_SKILL_FISHING].getSkillLevel());
+		}
+		else
+		{
+			game->getUI()->addChatText("You're already fishing!");
+		}
 	}
 	else
 	{
@@ -351,13 +371,26 @@ void Player::startMining(bool flip)
 	//Check if activity can continue
 	if (inventory->hasSpaceInInventory())
 	{
-		currentAction = resourceNS::MINING;
-		restartCounter(playerNS::miningWaitTime, skills[skillNS::ID_SKILL_MINING].getSkillLevel());
+		if (currentAction != resourceNS::MINING)
+		{
+			currentAction = resourceNS::MINING;
+			restartCounter(playerNS::miningWaitTime, skills[skillNS::ID_SKILL_MINING].getSkillLevel());
+		}
+		else
+		{
+			game->getUI()->addChatText("You're already mining!");
+		}
 	}
 	else
 	{
 		game->getUI()->addChatText("Your inventory is full!");
 	}
+}
+
+void Player::stopResourceAction()
+{
+	actionDelay = 0;
+	currentAction = resourceNS::NOACTION;
 }
 
 //=============================================================================

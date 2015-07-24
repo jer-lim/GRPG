@@ -188,6 +188,12 @@ public:
 	//If true, player is facing left, otherwise facing right
 	virtual void startMining(bool flip);
 
+	//Stops the player from performing any resource action, like fishing or minign
+	//This allows the player to start fishing or mining again
+	//If this is not done, then the player will be unable to fish or mine, the game will say that the player
+	//is already fishing / mining.
+	virtual void stopResourceAction();
+
 	//Starts the thieving cooldown
 	//The player cannot perform any action during this time
 	virtual void failThieving() { thievingCooldown = playerNS::thievinWaitTime; }

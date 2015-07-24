@@ -1,6 +1,6 @@
-0 Doctor doctor.png 60 2 64 64 1 38 38 Heals_you_to_good_health. Hello!_I_can_heal_you! 0 {} {0} 1
-1 Shopkeeper grocer.png 1 0 64 64 1 38 38 Sells_you_good_food. Hello!_Would_you_like_to_trade? 0 {F2:1:0,F2:1:2,F3:1:0,F3:1:2,F5:1:0,F5:1:2} {0,2,3} 5
-2 Blacksmith blacksmith.png 1 0 64 64 1 38 38 Makes_you_weapons_and_armor. Hello!_I_can_smith_items_for_you 0 {E14:1:7,E15:1:8,E14:1:10,E15:1:10,E15:1:12,E16:1:12,E17:1:7,E18:1:8,E19:1:10,E17:1:10,E18:1:12,E19:1:12,E20:1:7,E21:1:8,E22:1:10,E20:1:10,E21:1:12,E22:1:12} {0,14,15} 5
+0 Doctor doctor.png 60 2 64 64 1 38 38 Heals_you_to_good_health. detail8 0 {} {0} 1
+1 Shopkeeper grocer.png 1 0 64 64 1 38 38 Sells_you_good_food. Hello!_Would_you_like_to_trade? 0 {F2:1:0,F2:1:2,F3:1:0,F3:1:2,F5:1:0,F5:1:2} {0,F2:0,F2:2,F3:0} 5
+2 Blacksmith blacksmith.png 1 0 64 64 1 38 38 Makes_you_weapons_and_armor. Hello!_I_can_smith_items_for_you 0 {E14:1:7,E15:1:8,E14:1:10,E15:1:10,E15:1:12,E16:1:12,E17:1:7,E18:1:8,E19:1:10,E17:1:10,E18:1:12,E19:1:12,E20:1:7,E21:1:8,E22:1:10,E20:1:10,E21:1:12,E22:1:12} {0,E14:7,E15:8,7,E14:10,E15:10,E15:12} 5
 16 Captain_Start grocer.png 0 0 64 64 1 38 38 Brings_you_to_start_your_adventure! Ahoy!_Right_click_me_and_select_"Teleport"\nto_start_your_adventure! * {} {} 0
 17 Tue_Torrial grocer.png 0 0 64 64 1 38 38 Instructs_you_on_life. Greetings_adventurer_and_welcome_to_Main_Menu_Island!\nI_am_the_Tue_Torrial._It's_my_title,_not_my_name._It's_been_in_my_family\nfor_ages!_As_we_can_see,_you_know_how_to_talk!_That's_it_for_me,_talk\nto_Hardy_Wijaja_above_me_and_he'll_teach_you_how_to_fight! 0 {} {} 0
 18 Hardy_Wijaja grocer.png 0 0 64 64 1 38 38 He's_a_lover_not_a_fighter. So_you_want_to_fight?_Fighting_is_easy!_Just_click_on\nthe_monster_to_fight,_but_be_careful_not_to_die!_Practice_makes\nperfect._Train_more_and_you'll_get_stronger!_Give_it_a_try_on_the\nchicken_on_the_left. 0 {} {} 0
@@ -8,10 +8,13 @@
 21 Matthew_Lee blacksmith.png 0 0 64 64 1 38 38 A_creator_of_the_game. Hi! 0 {} {} 0
 22 Jeremy_Choo doctor.png 0 0 64 64 1 38 38 A_creator_of_the_game. We_are 0 {} {} 0
 23 Jeremy_Lim grocer.png 0 0 64 64 1 38 38 A_creator_of_the_game. the_creators_of_this_game! 0 {} {} 0
-24 Captain_Point_Of_No_Return grocer.png 0 0 64 64 1 38 38 Probably_the_last_captain_you'll_ever_see. Ahoy!_To_the_south_is_Ideal_Island,\nwhere_a_great_and_powerful_dragon_lives._Make_sure_you're_ready_to\nface_him,_for_there_is_no_turning_back._Are_you_sure_you_want_to_go\nthere? ) {} {} 0
+24 Captain_Point_Of_No_Return grocer.png 0 0 64 64 1 38 38 Probably_the_last_captain_you'll_ever_see. detail7 ) {} {} 0
 25 Captain_Return grocer.png 0 0 64 64 1 38 38 Twin_brother_of_Captain_Point_Of_No_Return. If_you_need_a_ride_back_to_the_mainland,_tell_me! ( {} {} 0
 26 Quest_Board quest_board.png 0 0 64 64 1 38 38 Update_your_quests_here. Why_are_you_trying_to_talk_to_a_board? 0 {} {} 0
 27 The_End grocer.png 0 0 64 64 1 38 38 It's_the_end_of_the_world_as_you_know_it!  Congratulations,_you've_reached_the_end!_Not_the_end_of\nthe_game,_just_the_end!_I'll_bring_you_back_to_the_start_when_you're\ndone_here. ! {} {} 0
 28 Easter_Bunny easter.png 1 0 64 64 1 38 38 Hooray,_Easter_is_here! detail1 0 {F32:1:3,B33:1,34:1,F35:1:3} {} 0
 29 Easter_Bird easter_bird.png 1 0 64 64 1 38 38 The_magical_easter_bird._Still_can't_speak_English. squawk_squawk_squawk 0 {} {} 0
-32 Shriveled_Man shriveled_man.png 1 0 64 64 1 38 38 He_isn't_looking_so_good. detail2 0 {} {} 0
+32 Shriveled_Man shriveled_man.png 400 0 64 64 1 38 38 He_isn't_looking_so_good. detail2 0 {} {} 0
+40 Vangel vangel.png 60 0 64 64 1 38 38 Probably_the_true_owner_of_the_artifact. detail5 0 {} {} 0
+44 Fisherman fisherman.png 60 0 64 64 1 38 38 Fish_is_love,_fish_is_life. detail6 0 {} {} 0
+46 Lawyer vangel.png 60 0 64 64 1 38 38 A_necessary_evil detail9 0 {} {} 0

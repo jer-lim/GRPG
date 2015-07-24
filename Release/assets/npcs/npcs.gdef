@@ -3,12 +3,12 @@
 5 Goblin goblin.png 60 1 64 64 4 38 38 The_lousiest_(and_smelliest)_of_monsters. 1 1 2 5 0.9 5 250 {F2:1:0}
 6 Goblin_Chieftain_Ugu goblin_chieftain.png 80 1 64 64 4 38 38 The_chief_of_goblins._Can_be_smelt_from_miles_away. 5 4 5 10 0.9 20 50 {F2:1:0,E14:1:10}
 7 Undead undead.png 60 1 64 64 4 38 38 Undead_Soldier. 15 4 15 15 0.8 10 250 {F3:1:0,0:10}
-8 Undead_Commander_Qeim undead_commander.png 3 1 64 64 4 38 38 The_leader_of_undead._Has_a_crown. 20 4 10 20 0.8 25 50 {F3:1:0,F3:1:0,F3:1:0,E18:1:10}
+8 Undead_Commander_Qeim undead_commander.png 70 1 64 64 4 38 38 The_leader_of_undead._Has_a_crown. 20 4 10 20 0.8 25 50 {F3:1:0,F3:1:0,F3:1:0,E18:1:10}
 9 Ogre ogre.png 90 0.7 64 64 4 64 64 Big_giant_and_huge_monsters_that_are_strong_but_slow. 2 7 15 20 0.9 15 250 {9:1,F4:1:0,0:30}
 10 Ogre_Ogur ogre_boss.png 100 0.7 64 64 4 64 64 A_cannibalizing_Ogre._Scary,_even_to_other_ogres. 15 6 15 25 0.9 30 50 {9:1,F4:1:0,E16:1:9}
 11 Golem golem.png 90 0.7 64 64 4 64 64 Monster_made_of_mystical_stone. 15 6 5 10 0.25 20 250 {11:1,F1:1:0}
-12 Earth_Guardian_Agroet golem_guardian.png 100 0.7 64 64 4 64 64 Protector_of_the_Earth._He_doesn't_like_competition. 20 5 5 15 0.25 999 50 {11:1,11:1,11:1,F1:1:0}
-13 Dragon dragon.png 140 1 128 128 5 128 128 Dragon! 20 8 10 25 0.7 999 1000 {F6:1:0,F6:1:0,F6:1:0}
+12 Earth_Guardian_Agroet golem_guardian.png 100 0.7 64 64 4 64 64 Protector_of_the_Earth._He_doesn't_like_competition. 30 15 5 15 0.25 999 50 {11:1,11:1,11:1,F1:1:0}
+13 Dragon dragon.png 140 1 128 128 5 128 128 Dragon! 25 10 15 25 0.7 999 1000 {F6:1:0,F6:1:0,F6:1:0}
 14 Doombreather_Aildiuln aidiluin.png 140 1 128 128 5 128 128 Any_resemblance_in_name_to_other_people_is_purely_coincidental. 30 20 20 200 0.7 999 1000 {30:1,F6:1:0,F6:1:0,F6:1:0}
 15 Chicken chicken.png 40 2 64 64 4 20 20 A_Chicken. 1 1 1 3 1 -1 70 {F3:1:0}
 19 Kock chicken.png 40 2 64 64 4 20 20 A_Very_Lazy_Chicken. 0 1 1 3 1 -1 70 {}
@@ -18,3 +18,10 @@
 34 Door door.png 40 2 32 32 1 20 20 A_Door._Entryway_to_a_house._Don't_you_know_what_a_door_is? 0 0 0 1 0 0 0 {}
 35 Artifact_Display_case Artifact_display_case.png 40 2 32 32 1 20 20 The_Quest_Goal 0 0 0 1 0 0 0 {}
 36 A_Lever lever.png 40 2 32 32 1 20 20 I_wonder_what_pulling_this_does? 0 0 0 1 0 0 0 {}
+37 Alfred gardener2.png 40 2 64 64 4 38 38 Slayer_of_pests!_Protector_of_plants!_Purchaser_of_pesticide! 0 0 0 1 1.0 1 70 {}
+38 Plant_Patch patch.png 40 2 32 32 1 20 20 For_growing_things_in 0 0 0 1 0 0 0 {}
+39 RIFT rift.png 40 2 32 32 1 20 20 A_rift_in_the_fabric_of_GRPG 0 0 0 1 0 0 0 {}
+41 Giant_Rat giant_rat.png 80 1 64 64 4 38 38 The_Dark_Realm_must_have_caused_it_to_grow_this_large 2 2 1 3 1.0 0 100 {0:5}
+42 Ghosts ghost.png 40 1 64 64 4 38 38 Nothing_to_see_here 10 8 23 5 1.0 12 100 {E14:1:10,F3:1:0,0:15}
+43 Grizzly_Bear grizzly_bear.png 60 1 64 64 4 38 38 A_bear!_I_recommend_feigning_death! 20 20 5 30 0.8 40 100 {9:1,F4:1:0,0:35,E16:1:9,E18:1:10}
+45 Save_Crystal savecrystal.png 40 2 32 32 1 20 20 Really_shiny._Must_do_something_good. 0 0 0 1 0 0 0 {}
