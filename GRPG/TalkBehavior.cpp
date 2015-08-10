@@ -1780,7 +1780,7 @@ void TalkBehavior::optionSelected(ChatOption co)
 		break;
 	case 111: //Tell me more about the music
 		ui->addTalkText(new ChatInformation("The following pieces of music are used in the game. They may have been spliced to fit different parts of the game. All music can be found at incompetech.com, by Kevin MacLeod. They are licensed under Creative Commons: By Attribution 3.0.", chatNS::RIGHT));
-		ui->addTalkText(new ChatInformation("The music tracks are: Easy Lemon, Movement Proposition, Volatile Reaction", chatNS::RIGHT));
+		ui->addTalkText(new ChatInformation("The music tracks are: Easy Lemon, Movement Proposition, Volatile Reaction and Five Armies", chatNS::RIGHT));
 		cd->addOption(109, "Tell me about the images");
 		cd->addOption(110, "Tell me about the sound");
 		cd->addOption(0, "Nothing else, thanks.");
