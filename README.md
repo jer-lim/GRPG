@@ -7,14 +7,14 @@ GRPG is a top down 2d open world game inspired by RuneScape, allowing players to
 
 # Play the game
 
-[Latest Release](https://github.com/keythkatz/GRPG/releases/tag/v2)  
-[Direct Download](http://jch.ooo/downloads/downloader?filename=grpgv2.zip)
+[Latest Release](https://github.com/keythkatz/GRPG/releases/tag/v2)
+[Direct Download](https://github.com/jer-lim/GRPG/releases/download/v2/grpgv2.zip)
 
 # Authors
 
 GRPG was created by 3 people:  
 [Jeremy Lim](https://github.com/keythkatz) [(Website)](https://jerl.im/)  
-[Jeremy Choo](https://github.com/ChooJeremy) [(Website)](https://jch.ooo/)  
+[Jeremy Choo](https://github.com/ChooJeremy) [(Website)](https://choojeremy.github.io/)  
 [Matthew Lee](https://github.com/crazoter) [(Website)](https://crazoter.github.io/)  
 
 # Contributing
