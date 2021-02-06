@@ -7,7 +7,7 @@ GRPG is a top down 2d open world game inspired by RuneScape, allowing players to
 
 # Play the game
 
-[Latest Release](https://github.com/keythkatz/GRPG/releases/tag/v2)
+[Latest Release](https://github.com/keythkatz/GRPG/releases/tag/v2)     
 [Direct Download](https://github.com/jer-lim/GRPG/releases/download/v2/grpgv2.zip)
 
 # Authors
